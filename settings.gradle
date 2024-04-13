@@ -1,0 +1,10 @@
+rootProject.name = 'find-life'
+
+include 'fl-api'
+include 'fl-batch'
+include 'fl-chatting'
+include 'fl-common'
+include 'fl-core'
+include 'fl-service'
+
+
