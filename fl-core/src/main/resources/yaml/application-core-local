@@ -1,11 +1,3 @@
-spring:
-  profiles:
-    active: core
-  config:
-    import:
-      - 'classpath:/yaml/application-core-dev.yml'
-      - 'classpath:/yaml/application-core-log.yml'
-
 jwt:
   secretKey: Z2ZkZmdkZmxrZ2pkbGZrZ2pzYXNkamtoYXNrZGphaHNka2fahgvfahvduyasdffjkhsgdfjkhasgfjkphaGRhc2Rhc2Rhc2Rhc2Rhc2ZhZmdzZAo
 
