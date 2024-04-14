@@ -12,6 +12,8 @@ dependencies {
     implementation project(':fl-core')
     implementation project(':fl-authority')
     implementation project(':fl-service')
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
