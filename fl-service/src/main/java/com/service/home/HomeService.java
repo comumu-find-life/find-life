@@ -19,28 +19,24 @@ public class HomeService {
 
     private final HomeRepository homeRepository;
 
-    public void save(User user, HomeCreateDto homeCreateDto) {
+    public Long save(User user, HomeCreateDto homeCreateDto) {
         // 코드 구현
         Home home = homeCreateDto.toEntity(user);
+        //이제 여기서 게시글 허용,거부 하는 로직 만들어 추가
 
-        homeRepository.save(home);
+        return homeRepository.save(home).getId();
     }
 
-    public List<SimpleHomeDto> findByCity(CityDto cityDto) {
-        List<Home> byCity = homeRepository.findByCity(cityDto.getCityName());
+    public List<SimpleHomeDto> findByCity(String cityName) {
+        List<Home> byCity = homeRepository.findByCity(cityName);
         return toSimpleDtos(byCity);
     }
 
-//    public HomeDto findById(Long id){
-//        Optional<Home> home = homeRepository.findById(id);
-//        return home.get().toDto();
-//    }
 
+    // 페이징으로 조회
     public List<SimpleHomeDto> findAllByPage(int pageNumber, int pageSize) {
         PageRequest pageable = PageRequest.of(pageNumber, pageSize);
-
         List<Home> all = homeRepository.findAll(pageable).getContent();
-
         return toSimpleDtos(all);
     }
 
