@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/test")
-    public String test(){
-        return "TEST";
-    }
-
     @PostMapping("/sign-up")
     public String signUp(@RequestBody UserSignupRequest dto) throws Exception {
         userService.signUp(dto);
