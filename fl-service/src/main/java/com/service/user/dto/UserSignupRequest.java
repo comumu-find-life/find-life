@@ -11,30 +11,22 @@ import lombok.Getter;
 public class UserSignupRequest {
     private String email;
 
-    private String password;
+    private Role role;
 
     private String nickName;
 
-    private  Integer phoneNumber;
+    private String password;
 
     private  String profileUrl;
 
-    private  Integer age;
+    private  Integer brith;
+
+    private  Integer phoneNumber;
 
     private Gender gender;
 
     private  String nationality;
 
-    private Role role;
 
-    public User toEntity(){
-        return User.builder()
-                .email(email)
-                .password(password)
-                .nickName(nickName)
-                .nationality(nationality)
-                .phoneNumber(phoneNumber)
-                .role(role)
-                .build();
-    }
+
 }
