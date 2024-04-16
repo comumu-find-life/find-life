@@ -7,5 +7,4 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"com.api","com.service","com.authority", "com.core"})
 public class ApiConfig {
 
-
 }

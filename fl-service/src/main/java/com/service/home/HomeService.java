@@ -15,7 +15,7 @@ import java.util.Optional;
 public class HomeService {
 
     private final HomeRepository homeRepository;
-    private HomeMapper homeMapper;
+    private final HomeMapper homeMapper;
 
     public Long save(User user, HomeDto homeCreateDto) {
         // 코드 구현
@@ -29,6 +29,16 @@ public class HomeService {
         Optional<Home> home = homeRepository.findById(updateHome.getId());
         Home updateEntity = homeMapper.toEntity(updateHome);
         home.get().update(updateEntity);
+    }
+
+    public HomeDto findById(Long id) {
+        Optional<Home> entity = homeRepository.findById(id);
+        return homeMapper.toDto(entity.get());
+    }
+
+    public void delete(Long id) {
+        Optional<Home> entity = homeRepository.findById(id);
+        homeRepository.delete(entity.get());
     }
 
 //    public List<SimpleHomeDto> findByCity(String cityName) {

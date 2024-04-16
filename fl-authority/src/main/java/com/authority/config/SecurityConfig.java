@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/v1/api/user/sign-up").permitAll()
+                        .requestMatchers("/v1/api/user").permitAll()
                         .requestMatchers("/v1/home/read/**", "/v1/job/read/**").permitAll()
                         .anyRequest().authenticated()
                 );
