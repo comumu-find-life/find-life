@@ -21,7 +21,6 @@ public class UserService {
     private final UserServiceValidation validation;
     private final PasswordEncoder passwordEncoder;
 
-
     //create
     public void signUp(UserSignupRequest dto) throws Exception {
         //검증
@@ -40,11 +39,6 @@ public class UserService {
     public UserInformationDto findById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return userMapper.toDto(user.get());
-    }
-
-
-    //update
-    public void update() {
     }
 
     //delete

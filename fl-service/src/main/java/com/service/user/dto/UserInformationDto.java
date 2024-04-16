@@ -9,5 +9,5 @@ public class UserInformationDto {
 
     private String nickName;
 
-    private String profileEmail;
+    private String profileUrl;
 }

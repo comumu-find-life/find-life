@@ -7,7 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+/**
+ * (componentMode = 'spring') 을 안하면 빈 등록이 안된다. 꼭 해주자.
+ */
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
@@ -16,6 +19,5 @@ public interface UserMapper {
     @Mapping(target = "refreshToken", ignore = true)
     User toEntity(UserSignupRequest dto);
 
-    @Mapping(target = "password", ignore = true)
     UserInformationDto toDto(User user);
 }
