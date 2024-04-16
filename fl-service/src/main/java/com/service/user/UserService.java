@@ -4,6 +4,7 @@ import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
 import com.service.user.dto.UserInformationDto;
 import com.service.user.dto.UserSignupRequest;
+import com.service.user.mapper.UserMapper;
 import com.service.user.validation.UserServiceValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final UserServiceValidation validation;
     private final PasswordEncoder passwordEncoder;
@@ -22,9 +24,10 @@ public class UserService {
 
     //create
     public void signUp(UserSignupRequest dto) throws Exception {
+        //검증
         validation.validateSignUp(dto.getEmail(), dto.getNickName());
 
-        User user = dto.toEntity();
+        User user = userMapper.toEntity(dto);
 
         // 비밀번호 인코딩
         String encode = passwordEncoder.encode(dto.getPassword());
@@ -36,7 +39,7 @@ public class UserService {
     //read
     public UserInformationDto findById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return toUserInformationDto(user.get());
+        return userMapper.toDto(user.get());
     }
 
 
@@ -50,12 +53,5 @@ public class UserService {
         userRepository.delete(user.get());
     }
 
-    private UserInformationDto toUserInformationDto(User user) {
-        return UserInformationDto.builder()
-                .id(user.getId())
-                .nickName(user.getNickName())
-                .profileEmail(user.getProfileUrl())
-                .build();
-    }
 
 }

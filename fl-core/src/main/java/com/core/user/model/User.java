@@ -23,18 +23,16 @@ public class User  extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
+    private String email;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private String refreshToken; // 리프레시 토큰
-
     private String nickName;
 
-    private String email;
+    private String password;
 
     private String profileUrl;
-
-    private String password;
 
     private Integer brith;
 
@@ -43,6 +41,8 @@ public class User  extends BaseTimeEntity {
     private Gender gender;
 
     private String nationality;
+
+    private String refreshToken; // 리프레시 토큰
 
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
