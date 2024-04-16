@@ -3,14 +3,15 @@ package com.service.home;
 import com.core.home.model.Home;
 import com.core.home.reposiotry.HomeRepository;
 import com.core.user.model.User;
-import com.service.home.dto.CityDto;
-import com.service.home.dto.HomeCreateDto;
+import com.service.home.dto.HomeDto;
 import com.service.home.dto.SimpleHomeDto;
+import com.service.home.mapper.HomeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,13 +19,24 @@ import java.util.stream.Collectors;
 public class HomeService {
 
     private final HomeRepository homeRepository;
+    private HomeMapper homeMapper;
 
-    public Long save(User user, HomeCreateDto homeCreateDto) {
+    public Long save(User user, HomeDto homeCreateDto) {
         // 코드 구현
-        Home home = homeCreateDto.toEntity(user);
+        Home home = homeMapper.toEntity(homeCreateDto);
         //이제 여기서 게시글 허용,거부 하는 로직 만들어 추가
-
         return homeRepository.save(home).getId();
+    }
+
+//    public HomeDto findById(Long homeId){
+//        Home home = homeRepository.findById(homeId).get();
+//
+//    }
+
+    public void update(User user, HomeDto updateHome) {
+        Optional<Home> home = homeRepository.findById(updateHome.getId());
+        Home updateEntity = homeMapper.toEntity(updateHome);
+        home.get().update(updateEntity);
     }
 
     public List<SimpleHomeDto> findByCity(String cityName) {
@@ -39,6 +51,7 @@ public class HomeService {
         List<Home> all = homeRepository.findAll(pageable).getContent();
         return toSimpleDtos(all);
     }
+
 
     private List<SimpleHomeDto> toSimpleDtos(List<Home> homes) {
         return homes.stream()

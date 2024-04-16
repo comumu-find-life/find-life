@@ -23,14 +23,6 @@ public class User  extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Home> homes;
-
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
-//    private List<Job> jobs;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 

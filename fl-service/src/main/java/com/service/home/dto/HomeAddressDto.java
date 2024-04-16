@@ -20,15 +20,4 @@ public class HomeAddressDto {
 
     private String streetNumber;
 
-    public HomeAddress toEntity() {
-        return HomeAddress.builder()
-                .state(state)
-                .city(city)
-                .postCode(postCode)
-                .detailAddress(detailAddress)
-                .streetName(streetName)
-                .streetNumber(streetNumber)
-                .build();
-    }
-
 }
