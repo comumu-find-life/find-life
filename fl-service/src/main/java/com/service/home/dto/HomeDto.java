@@ -22,7 +22,7 @@ public class HomeDto {
 
     private Long userId;
 
-    private HomeAddressDto homeAddressDto;
+    private HomeAddressDto homeAddress;
 
     private List<String> images;
 
