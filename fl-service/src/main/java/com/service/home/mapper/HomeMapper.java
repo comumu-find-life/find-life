@@ -16,9 +16,12 @@ public interface HomeMapper {
 
     HomeMapper INSTANCE = Mappers.getMapper(HomeMapper.class);
 
+    /**
+     * 매핑 메서드
+     */
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "homeAddress", source = "homeAddressDto")
-    @Mapping(target = "images", source = "images", qualifiedByName = "mapHomeImages")
+    @Mapping(target = "homeAddress", source = "homeAddress")
+    @Mapping(target = "images", ignore = true)
     @Mapping(target = "viewCount", ignore = true)
     Home toEntity(HomeDto homeDto);
 
@@ -27,34 +30,39 @@ public interface HomeMapper {
     @Mapping(target = "longitude", ignore = true)
     HomeAddress toAddressEntity(HomeAddressDto homeAddressDto);
 
-
-    @Mapping(target = "homeAddressDto", source = "homeAddress")
+    @Mapping(target = "homeAddress", source = "homeAddress")
     @Mapping(target = "images", source = "images", qualifiedByName = "mapImageUrls")
     HomeDto toDto(Home home);
 
     HomeAddressDto toAddressDto(HomeAddress address);
 
-
-    @AfterMapping
-    default void mapAddress(HomeDto homeDto, @MappingTarget Home home) {
-        HomeAddress address = toAddressEntity(homeDto.getHomeAddressDto());
-        home.setHomeAddress(address);
+    /**
+     * 커스텀 메서드
+     */
+    default Home toHomeEntity(HomeDto homeDto){
+        Home home = toEntity(homeDto);
+        List<HomeImage> homeImages = mapHomeImages(homeDto.getImages(), home);
+        home.setImages(homeImages);
+        return home;
     }
 
-
-    @Named("mapHomeImages")
-    default List<HomeImage> mapHomeImages(List<String> images) {
+    /**
+     * 이미지 매핑 메서드
+     */
+    default List<HomeImage> mapHomeImages(List<String> images, Home home) {
         return images.stream()
                 .map(url -> HomeImage.builder()
-
-                        .imageUrl(url).build())
+                        .home(home) // 연관관계 설정
+                        .imageUrl(url)
+                        .build())
                 .collect(Collectors.toList());
     }
 
     @Named("mapImageUrls")
     default List<String> mapImageUrls(List<HomeImage> images) {
         return images.stream()
-                .map(image -> image.getImageUrl())
+                .map(HomeImage::getImageUrl)
                 .collect(Collectors.toList());
     }
+
 }

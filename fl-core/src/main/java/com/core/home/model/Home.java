@@ -92,4 +92,8 @@ public class Home extends BaseTimeEntity {
         this.homeAddress = address;
     }
 
+    public void setImages(List<HomeImage> images) {
+        this.images = images;
+    }
+
 }
