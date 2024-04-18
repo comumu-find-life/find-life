@@ -20,7 +20,6 @@ public interface HomeMapper {
      * 매핑 메서드
      */
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "homeAddress", source = "homeAddress")
     @Mapping(target = "images", ignore = true)
     @Mapping(target = "viewCount", ignore = true)
     Home toEntity(HomeDto homeDto);

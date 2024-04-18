@@ -43,7 +43,4 @@ public class HomeAddress extends BaseTimeEntity {
     //경도
     private double longitude;
 
-//    public String toAddress() {
-//        return city + ", " + state + "," + "streetName" + "streetNumber";
-//    }
 }

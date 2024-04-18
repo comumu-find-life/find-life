@@ -32,6 +32,7 @@
 ```
 - Spring : 3.2.2
 - Java : 17
-- DataBase : MySql 8.0.27
+- DataBase : MySql 8.0.27, Redis
 ```
 
+----

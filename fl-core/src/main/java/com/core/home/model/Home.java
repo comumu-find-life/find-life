@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-/**
- * 최대한 많은 데이터를 넣는것 보단 최소한의 데이터로 간편하게 볼 수 있게 만드는게 좋을듯
- */
 @Entity
 @Getter
 @Builder
@@ -50,10 +47,6 @@ public class Home extends BaseTimeEntity {
 
     //보증금
     private Integer bond;
-
-    //todo 입주 날짜, 퇴실 날짜가 있어야 하나 ?
-//    private LocalDate dateMoveIn;
-//    private LocalDate dateMoveOut;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
