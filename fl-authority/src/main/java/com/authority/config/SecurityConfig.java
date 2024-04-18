@@ -53,7 +53,6 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/v1/api/user").permitAll()
-                        .requestMatchers("/v1/home/read/**", "/v1/job/read/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
