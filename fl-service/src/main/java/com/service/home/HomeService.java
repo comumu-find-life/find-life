@@ -17,9 +17,9 @@ public class HomeService {
     private final HomeRepository homeRepository;
     private final HomeMapper homeMapper;
 
-    public Long save(User user, HomeDto homeCreateDto) {
+    public Long save(HomeDto homeCreateDto) {
         // 코드 구현
-        Home home = homeMapper.toEntity(homeCreateDto);
+        Home home = homeMapper.toHomeEntity(homeCreateDto);
         //이제 여기서 게시글 허용,거부 하는 로직 만들어 추가
         return homeRepository.save(home).getId();
     }

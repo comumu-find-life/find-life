@@ -25,20 +25,19 @@ public class HomeController {
     //게시글 저장 api
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
-    public Long saveHome(HttpServletRequest request, @RequestBody HomeDto homeCreateDto) {
-        Optional<User> user = jwtAuthenticationFilter.findByAccessToken(request);
-        return homeService.save(user.get(), homeCreateDto);
+    public Long saveHome(@RequestBody HomeDto homeCreateDto) {
+        return homeService.save( homeCreateDto);
     }
 
     //id 로 home 조회
-    @GetMapping("")
-    @PreAuthorize("hasAnyRole('ROLE_PROVIDER', 'ROLE_GETTER)")
-    public ResponseEntity<HomeDto> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(homeService.findById(id));
+    @GetMapping("/{homeId}")
+    @PreAuthorize("hasRole('ROLE_PROVIDER')")
+    public ResponseEntity<HomeDto> findById(@PathVariable("homeId") Long homeId) {
+        return ResponseEntity.ok(homeService.findById(homeId));
     }
 
     //home 수정
-    @PatchMapping()
+    @PatchMapping("")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
     public ResponseEntity<String> update(HttpServletRequest httpServletRequest, @RequestBody HomeDto homeDto) {
         Optional<User> user = jwtAuthenticationFilter.findByAccessToken(httpServletRequest);
