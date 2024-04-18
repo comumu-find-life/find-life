@@ -24,6 +24,7 @@ public class HomeMapperTest {
         HomeDto homeDto = homeMapper.toDto(home);
 
         //then
+        System.out.println(home.getViewCount());
         assertThat(homeDto.getImages().size()).isEqualTo(1);
         assertThat(homeDto.getHomeAddress().getCity()).isEqualTo("city name");
     }
