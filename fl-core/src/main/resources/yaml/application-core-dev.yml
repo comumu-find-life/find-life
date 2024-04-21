@@ -12,4 +12,8 @@ spring:
     level:
       me.selvernine: DEBUG
 
+  redis:
+    host : localhost
+    port : 6380
+
   # JPA Configuration

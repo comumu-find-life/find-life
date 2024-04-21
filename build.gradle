@@ -33,12 +33,10 @@ subprojects {
 	}
 
 	dependencies {
-
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		implementation 'org.springframework.boot:spring-boot-starter'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
-
 	}
 
 	bootJar { enabled = false }
@@ -56,6 +54,7 @@ project(':fl-api') {
 project(':fl-authority') {
 	dependencies {
 		implementation project(':fl-core')
+		implementation project(':fl-service')
 	}
 }
 

@@ -3,6 +3,8 @@ package com.authority.filter;
 import com.authority.service.JwtService;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
+import com.service.redis.RedisService;
+import com.service.user.UserRedisService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String NO_CHECK_URL = "/login";
 
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final UserRedisService userRedisService;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     @Override
@@ -44,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         if (refreshToken != null) {
-            checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
+            checkRefreshTokenAndReIssueAccessToken(refreshToken, request, response);
             return;
         }
 
@@ -53,26 +54,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    public Optional<User> findByAccessToken(HttpServletRequest request) {
-        return jwtService.extractAccessToken(request)
-                .filter(jwtService::isTokenValid)
-                .flatMap(jwtService::extractEmail)
-                .flatMap(userRepository::findByEmail);
+
+    // refreshToken 이 있을때 refreshToken, accessToken 둘다 재발급
+    public void checkRefreshTokenAndReIssueAccessToken(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
+
+        jwtService.extractAccessToken(request)
+                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
+                        .ifPresent(email -> {
+                            // refresh 토큰 검증
+                            try {
+                                userRedisService.validateRefreshToken(email, refreshToken);
+                                // refreshToken 재발급
+                                String reIssuedRefreshToken = reIssueRefreshToken(email);
+
+                                // accessToken, refreshToken 재발급
+                                jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(email), reIssuedRefreshToken);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }));
+
     }
 
-    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-        userRepository.findByRefreshToken(refreshToken)
-                .ifPresent(user -> {
-                    String reIssuedRefreshToken = reIssueRefreshToken(user);
-                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getEmail()),
-                            reIssuedRefreshToken);
-                });
-    }
 
-    private String reIssueRefreshToken(User user) {
+    private String reIssueRefreshToken(String email) {
+
         String reIssuedRefreshToken = jwtService.createRefreshToken();
-        user.updateRefreshToken(reIssuedRefreshToken);
-        userRepository.saveAndFlush(user);
+        userRedisService.saveUserCaching(email, reIssuedRefreshToken);
         return reIssuedRefreshToken;
     }
 
@@ -82,21 +91,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
                 .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> userRepository.findByEmail(email)
+                        .ifPresent(email -> userRedisService.findUserByEmail(email)
                                 .ifPresent(this::saveAuthentication)));
 
         filterChain.doFilter(request, response);
     }
 
-    public void saveAuthentication(User myUser) {
-        String password = myUser.getPassword();
-        if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
-            password = "1233"; //PasswordUtil.generateRandomPassword();
-        }
 
+    public void saveAuthentication(User myUser) {
         UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
                 .username(myUser.getEmail())
-                .password(password)
+                .password(myUser.getPassword())
                 .roles(myUser.getRole().name())
                 .build();
 

@@ -8,6 +8,8 @@ import com.authority.service.JwtService;
 import com.authority.service.LoginService;
 import com.core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.redis.RedisService;
+import com.service.user.UserRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,7 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 public class SecurityConfig {
 
     private final LoginService loginService;
+    private final UserRedisService redisService;
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
@@ -61,49 +64,36 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // CustomLogin (1)
     @Bean
     public CustomLoginAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
-        //CustomJsonUsernamePasswordAuthenticationFilter 에서 인증할 객체(Authentication) 생성
         CustomLoginAuthenticationFilter customJsonUsernamePasswordLoginFilter
                 = new CustomLoginAuthenticationFilter(objectMapper);
 
-        //일반 로그인 인증 로직
         customJsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
         customJsonUsernamePasswordLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
         customJsonUsernamePasswordLoginFilter.setAuthenticationFailureHandler(loginFailureHandler());
         return customJsonUsernamePasswordLoginFilter;
     }
 
-    // CustomLogin (2)
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        //비밀번호 인코딩
         provider.setPasswordEncoder(passwordEncoder());
-        //loginService loadUserByUsername 호출 이때 DaoAuthenticationProvider 가 username 을 꺼내서 loadUserByUsername 을 호출
         provider.setUserDetailsService(loginService);
-        // loadUserByUsername 에서 전달받은 UserDetails 에서 password를 추출해 내부의 PasswordEncoder 에서 password 가 일치하는지 검증을 수행
         return new ProviderManager(provider);
     }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationProcessingFilter() {
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtService, userRepository);
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtService, redisService);
         return jwtAuthenticationFilter;
     }
 
-    /**
-     * 로그인 성공 시 호출되는 LoginSuccessJWTProviderHandler 빈 등록
-     */
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, userRepository);
+        return new LoginSuccessHandler(jwtService, redisService);
     }
 
-    /**
-     * 로그인 실패 시 호출되는 LoginFailureHandler 빈 등록
-     */
     @Bean
     public LoginFailureHandler loginFailureHandler() {
         return new LoginFailureHandler();

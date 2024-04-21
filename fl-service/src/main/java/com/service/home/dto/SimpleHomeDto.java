@@ -5,7 +5,7 @@ import lombok.Builder;
 @Builder
 public class SimpleHomeDto {
     private String address;
-    private String imageUrl;
+    private String mainImage;
     private Integer bond;
     private Integer bill;
 }

@@ -7,6 +7,7 @@ import com.service.user.dto.UserSignupRequest;
 import com.service.user.mapper.UserMapper;
 import com.service.user.validation.UserServiceValidation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,8 @@ public class UserService {
     private final UserServiceValidation validation;
     private final PasswordEncoder passwordEncoder;
 
-    //create
+
+    //회원가입 메서드
     public void signUp(UserSignupRequest dto) throws Exception {
         //검증
         validation.validateSignUp(dto.getEmail(), dto.getNickName());
@@ -35,8 +37,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-    //read
+    //회원 id 로 회원 조회
     public UserInformationDto findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return userMapper.toDto(user.get());
+    }
+
+    public UserInformationDto findById2(Long id) {
         Optional<User> user = userRepository.findById(id);
         return userMapper.toDto(user.get());
     }

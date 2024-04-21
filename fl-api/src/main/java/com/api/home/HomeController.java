@@ -26,7 +26,7 @@ public class HomeController {
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public Long saveHome(@RequestBody HomeDto homeCreateDto) {
-        return homeService.save( homeCreateDto);
+        return homeService.save(homeCreateDto);
     }
 
     //id 로 home 조회
@@ -39,15 +39,14 @@ public class HomeController {
     //home 수정
     @PatchMapping("")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
-    public ResponseEntity<String> update(HttpServletRequest httpServletRequest, @RequestBody HomeDto homeDto) {
-        Optional<User> user = jwtAuthenticationFilter.findByAccessToken(httpServletRequest);
-        homeService.update(user.get(), homeDto);
+    public ResponseEntity<String> update(@RequestBody HomeDto homeDto) {
+        homeService.update(homeDto);
         return ResponseEntity.ok("update!");
     }
 
     @DeleteMapping()
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         homeService.delete(id);
         return ResponseEntity.ok("delete!");
     }
