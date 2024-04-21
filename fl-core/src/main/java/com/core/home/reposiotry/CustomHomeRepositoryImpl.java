@@ -25,6 +25,13 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
         return null;
     }
 
+    @Override
+    public List<Home> findByPostCode(Integer postCode) {
+        return query.selectFrom(qHome)
+                .where(qHome.homeAddress.postCode.like("%" + postCode + "%"))
+                .fetch();
+    }
+
     // city 이름으로 조회
     @Override
     public List<Home> findByCity(String cityName) {

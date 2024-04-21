@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("")
+    @PostMapping()
     public String signUp(@RequestBody UserSignupRequest dto) throws Exception {
         userService.signUp(dto);
         return "success";
     }
 
-    @GetMapping("")
+    @GetMapping()
     public UserInformationDto findById(HttpServletRequest request, @RequestBody Long id){
         return userService.findById(id);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping()
     public String delete(Long id){
         userService.delete(id);
         return "delete!";

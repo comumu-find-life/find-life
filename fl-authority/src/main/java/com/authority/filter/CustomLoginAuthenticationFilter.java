@@ -31,16 +31,10 @@ public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProce
 
     private final ObjectMapper objectMapper;
 
-    /**
-     * 부모 클래스인  AbstractAuthenticationProcessingFilter 의 생성자 파라미터로 위에서 선언한 /login URL 을 설정해
-     * /login 로 요청이 들어왔을때  해당 필터가 동작함
-     */
     public CustomLoginAuthenticationFilter(ObjectMapper objectMapper) {
         super(DEFAULT_LOGIN_PATH_REQUEST_MATCHER);
         this.objectMapper = objectMapper;
     }
-
-
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
@@ -48,7 +42,6 @@ public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProce
         if(request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)  ) {
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
-
 
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
 

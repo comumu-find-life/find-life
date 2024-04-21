@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @DataJpaTest // JPA 컴포넌트들만을 위한 테스트 애노테이션이다. (JPA에 필요한 설정들에 대해서만 Bean을 등록한다.)
@@ -24,18 +27,50 @@ public class CustomHomeRepositoryImplTest {
 
     @BeforeEach
     void setUp(){
-        HomeAddress homeAddress = HomeAddress.builder()
-                .city("cityName")
-                .streetNumber("100")
-                .streetName("streetName")
-                .build();
+//        HomeAddress homeAddress = HomeAddress.builder()
+//                .city("cityName")
+//                .streetNumber("100")
+//                .streetName("streetName")
+//                .build();
+//
+//        Home home = Home.builder()
+//                .peopleCount(5)
+//                .homeAddress(homeAddress)
+//                .build();
+//
+//        homeRepository.save(home);
 
-        Home home = Home.builder()
-                .peopleCount(5)
-                .homeAddress(homeAddress)
-                .build();
+        List<Home> homes = generateHomes();
+        for(Home home : homes) {
+            homeRepository.save(home);
+        }
+    }
 
-        homeRepository.save(home);
+    @Test
+    void 페이징_테스트(){
+        PageRequest pageable = PageRequest.of(0, 3);
+        Page<Home> all = homeRepository.findAll(pageable);
+        System.out.println(all.getSize());
+    }
+
+    private List<Home> generateHomes(){
+        List<Home> homes = new ArrayList<>();
+
+        for(int i=0; i<100; i++){
+            HomeAddress homeAddress = HomeAddress.builder()
+                    .city("cityName" + i)
+                    .streetNumber("100")
+                    .streetName("streetName")
+                    .build();
+
+            Home home = Home.builder()
+                    .introduce("home " + i)
+                    .peopleCount(5)
+                    .homeAddress(homeAddress)
+                    .build();
+            homes.add(home);
+        }
+        return homes;
     }
 
     @Test

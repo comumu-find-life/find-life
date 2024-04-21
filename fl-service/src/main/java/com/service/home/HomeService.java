@@ -4,10 +4,13 @@ import com.core.home.model.Home;
 import com.core.home.reposiotry.HomeRepository;
 import com.core.user.model.User;
 import com.service.home.dto.HomeDto;
+import com.service.home.dto.SimpleHomeDto;
 import com.service.home.mapper.HomeMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,8 +27,12 @@ public class HomeService {
         return homeRepository.save(home).getId();
     }
 
+//    public List<SimpleHomeDto> findByPage(){
+//        homeRepository.findAll()
+//    }
 
-    public void update(User user, HomeDto updateHome) {
+
+    public void update(HomeDto updateHome) {
         Optional<Home> home = homeRepository.findById(updateHome.getId());
         Home updateEntity = homeMapper.toEntity(updateHome);
         home.get().update(updateEntity);

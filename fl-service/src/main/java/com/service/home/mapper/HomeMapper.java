@@ -5,6 +5,7 @@ import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
 import com.service.home.dto.HomeAddressDto;
 import com.service.home.dto.HomeDto;
+import com.service.home.dto.SimpleHomeDto;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -33,6 +34,10 @@ public interface HomeMapper {
     @Mapping(target = "images", source = "images", qualifiedByName = "mapImageUrls")
     HomeDto toDto(Home home);
 
+    @Mapping(target = "address", source = "homeAddress", qualifiedByName = "mapSimpleAddress")
+    @Mapping(target = "mainImage", source = "images", qualifiedByName = "mapMainImage")
+    SimpleHomeDto toSimpleHomeDto(Home home);
+
     HomeAddressDto toAddressDto(HomeAddress address);
 
     /**
@@ -57,11 +62,28 @@ public interface HomeMapper {
                 .collect(Collectors.toList());
     }
 
+
     @Named("mapImageUrls")
     default List<String> mapImageUrls(List<HomeImage> images) {
         return images.stream()
                 .map(HomeImage::getImageUrl)
                 .collect(Collectors.toList());
+    }
+
+    @Named("mapMainImage")
+    default String mapMainImage(List<HomeImage> images) {
+        return images.get(0).getImageUrl();
+    }
+
+    @Named("mapSimpleAddress")
+    default String mapSimpleAddress(HomeAddress homeAddress){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(homeAddress.getCity());
+        sb.append(" ");
+        sb.append(homeAddress.getPostCode());
+
+        return sb.toString();
     }
 
 }
