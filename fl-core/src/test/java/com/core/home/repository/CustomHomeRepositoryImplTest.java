@@ -27,19 +27,6 @@ public class CustomHomeRepositoryImplTest {
 
     @BeforeEach
     void setUp(){
-//        HomeAddress homeAddress = HomeAddress.builder()
-//                .city("cityName")
-//                .streetNumber("100")
-//                .streetName("streetName")
-//                .build();
-//
-//        Home home = Home.builder()
-//                .peopleCount(5)
-//                .homeAddress(homeAddress)
-//                .build();
-//
-//        homeRepository.save(home);
-
         List<Home> homes = generateHomes();
         for(Home home : homes) {
             homeRepository.save(home);
@@ -51,6 +38,17 @@ public class CustomHomeRepositoryImplTest {
         PageRequest pageable = PageRequest.of(0, 3);
         Page<Home> all = homeRepository.findAll(pageable);
         System.out.println(all.getSize());
+    }
+
+    @Test
+    void city_이름으로_home_조회기능_테스트(){
+        //given
+        String cityName = "ci";
+        PageRequest pageable = PageRequest.of(1, 10);
+        //when
+        List<Home> byCity = homeRepository.findByCity(cityName, pageable);
+        //then
+        Assertions.assertThat(byCity.size()).isEqualTo(10);
     }
 
     private List<Home> generateHomes(){
@@ -71,16 +69,6 @@ public class CustomHomeRepositoryImplTest {
             homes.add(home);
         }
         return homes;
-    }
-
-    @Test
-    void city_이름으로_home_조회기능_테스트(){
-        //given
-        String cityName = "ci";
-        //when
-        List<Home> byCity = homeRepository.findByCity(cityName);
-        //then
-        Assertions.assertThat(byCity.get(0).getHomeAddress().getCity()).isEqualTo("cityName");
     }
 
 }

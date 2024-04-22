@@ -8,8 +8,10 @@ import com.service.home.dto.SimpleHomeDto;
 import com.service.home.mapper.HomeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +25,8 @@ public class HomeService {
     public Long save(HomeDto homeCreateDto) {
         // 코드 구현
         Home home = homeMapper.toHomeEntity(homeCreateDto);
-        //이제 여기서 게시글 허용,거부 하는 로직 만들어 추가
+        // 검증 기능 구현
+
         return homeRepository.save(home).getId();
     }
 
@@ -48,19 +51,31 @@ public class HomeService {
         homeRepository.delete(entity.get());
     }
 
-//    public List<SimpleHomeDto> findByCity(String cityName) {
-//        List<Home> byCity = homeRepository.findByCity(cityName);
-//        return toSimpleDtos(byCity);
-//    }
-//
-//
-//    // 페이징으로 조회
-//    public List<SimpleHomeDto> findAllByPage(int pageNumber, int pageSize) {
-//        PageRequest pageable = PageRequest.of(pageNumber, pageSize);
-//        List<Home> all = homeRepository.findAll(pageable).getContent();
-//        return toSimpleDtos(all);
-//    }
+    public List<SimpleHomeDto> findByCity(String cityName, int pageNumber, int pageSize) {
+        List<Home> homes = homeRepository.findByCity(cityName, toPageRequest(pageNumber, pageSize));
+        return toSimpleDtos(homes);
+    }
 
+
+    // 페이징으로 조회
+    public List<SimpleHomeDto> findAllByPage(int pageNumber, int pageSize) {
+        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
+        return toSimpleDtos(homes);
+    }
+
+    private PageRequest toPageRequest(int pageNumber, int pageSize) {
+        return PageRequest.of(pageNumber, pageSize);
+    }
+
+    private List<SimpleHomeDto> toSimpleDtos(List<Home> homes) {
+        List<SimpleHomeDto> simpleHomeDtos = new ArrayList<>();
+        homes.stream()
+                .forEach(home -> {
+                    SimpleHomeDto simpleHomeDto = homeMapper.toSimpleHomeDto(home);
+                    simpleHomeDtos.add(simpleHomeDto);
+                });
+        return simpleHomeDtos;
+    }
 
 
 }
