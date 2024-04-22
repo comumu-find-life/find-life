@@ -2,6 +2,8 @@ package com.core.home.reposiotry;
 
 import com.core.home.model.Home;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CustomHomeRepository {
@@ -15,6 +17,6 @@ public interface CustomHomeRepository {
     List<Home> findByPostCode(Integer postCode);
 
     //시티이름 기반으로 찾기
-    List<Home> findByCity(String cityName);
+    List<Home> findByCity(String cityName, Pageable pageable);
 
 }

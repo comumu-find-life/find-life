@@ -7,7 +7,6 @@ import com.service.user.dto.UserSignupRequest;
 import com.service.user.mapper.UserMapper;
 import com.service.user.validation.UserServiceValidation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,11 +38,6 @@ public class UserService {
 
     //회원 id 로 회원 조회
     public UserInformationDto findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return userMapper.toDto(user.get());
-    }
-
-    public UserInformationDto findById2(Long id) {
         Optional<User> user = userRepository.findById(id);
         return userMapper.toDto(user.get());
     }
