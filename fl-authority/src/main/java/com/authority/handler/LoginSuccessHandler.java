@@ -1,10 +1,7 @@
 package com.authority.handler;
 
 import com.authority.service.JwtService;
-import com.core.user.model.UserPrincple;
-import com.core.user.repository.UserRepository;
-import com.service.redis.RedisService;
-import com.service.user.UserRedisService;
+import com.redis.user.UserRedisService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +20,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtService jwtService;
     private final UserRedisService userRedisService;
-
-    //private final UserRepository userRepository;
 
     @Value("${jwt.access.expiration}")
     private String accessTokenExpiration;

@@ -1,85 +1,92 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.4'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 subprojects {
-	group = 'comumu'
-	version = '0.0.1'
-	sourceCompatibility = '17'
+    group = 'comumu'
+    version = '0.0.1'
+    sourceCompatibility = '17'
 
-	apply plugin: 'java'
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
-	apply plugin: 'java-test-fixtures'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-test-fixtures'
 
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+    }
 
-	ext {
-		set('springCloudVersion', "2023.0.0")
-	}
+    ext {
+        set('springCloudVersion', "2023.0.0")
+    }
 
-	dependencyManagement {
-		imports {
-			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-		}
-	}
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
 
-	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		implementation 'org.springframework.boot:spring-boot-starter'
-		compileOnly 'org.projectlombok:lombok'
-		annotationProcessor 'org.projectlombok:lombok'
-	}
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
 
-	bootJar { enabled = false }
-	jar { enabled = true }
+    bootJar { enabled = false }
+    jar { enabled = true }
 
 }
 
 project(':fl-api') {
-	dependencies {
-		implementation project(':fl-authority')
-		implementation project(':fl-service')
-	}
+    dependencies {
+        implementation project(':fl-authority')
+        implementation project(':fl-service')
+    }
 }
 
 project(':fl-authority') {
-	dependencies {
-		implementation project(':fl-core')
-		implementation project(':fl-service')
-	}
+    dependencies {
+        implementation project(':fl-core')
+        implementation project(':fl-redis')
+        implementation project(':fl-service')
+    }
 }
 
 project(':fl-batch') {
-	dependencies {
-		implementation project(':fl-core')
-	}
+    dependencies {
+        implementation project(':fl-core')
+    }
+}
+
+project(':fl-redis') {
+    dependencies {
+        implementation project(':fl-core')
+    }
 }
 project(':fl-chatting') {
-	dependencies {
-		implementation project(':fl-core')
-	}
+    dependencies {
+        implementation project(':fl-core')
+    }
 }
 project(':fl-common') {
-	dependencies {
+    dependencies {
 
-		implementation project(':fl-core')
-	}
+        implementation project(':fl-core')
+    }
 }
 project(':fl-core') {
-	dependencies {
-	}
+    dependencies {
+    }
 }
 project(':fl-service') {
-	dependencies {
-		implementation project(':fl-core')
-	}
+    dependencies {
+        implementation project(':fl-core')
+    }
 }

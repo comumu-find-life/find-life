@@ -8,8 +8,7 @@ import com.authority.service.JwtService;
 import com.authority.service.LoginService;
 import com.core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.redis.RedisService;
-import com.service.user.UserRedisService;
+import com.redis.user.UserRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +35,6 @@ public class SecurityConfig {
     private final LoginService loginService;
     private final UserRedisService redisService;
     private final JwtService jwtService;
-    private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
 
     @Bean

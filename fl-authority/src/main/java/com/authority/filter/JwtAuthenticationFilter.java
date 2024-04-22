@@ -2,9 +2,7 @@ package com.authority.filter;
 
 import com.authority.service.JwtService;
 import com.core.user.model.User;
-import com.core.user.repository.UserRepository;
-import com.service.redis.RedisService;
-import com.service.user.UserRedisService;
+import com.redis.user.UserRedisService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -111,4 +109,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
+
+
 }

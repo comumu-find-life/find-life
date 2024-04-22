@@ -7,4 +7,5 @@ include 'fl-common'
 include 'fl-core'
 include 'fl-service'
 include 'fl-authority'
+include 'fl-redis'
 
