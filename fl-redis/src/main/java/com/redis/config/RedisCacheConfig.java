@@ -1,5 +1,4 @@
-package com.service.redis;
-
+package com.redis.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
