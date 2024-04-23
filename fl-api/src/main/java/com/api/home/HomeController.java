@@ -22,7 +22,6 @@ import java.util.Optional;
 @RequestMapping("/v1/api")
 public class HomeController {
     private final HomeService homeService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     //게시글 저장 api
     @PostMapping("/home")

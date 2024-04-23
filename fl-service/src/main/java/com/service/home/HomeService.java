@@ -26,14 +26,8 @@ public class HomeService {
         // 코드 구현
         Home home = homeMapper.toHomeEntity(homeCreateDto);
         // 검증 기능 구현
-
         return homeRepository.save(home).getId();
     }
-
-//    public List<SimpleHomeDto> findByPage(){
-//        homeRepository.findAll()
-//    }
-
 
     public void update(HomeDto updateHome) {
         Optional<Home> home = homeRepository.findById(updateHome.getId());
@@ -55,7 +49,6 @@ public class HomeService {
         List<Home> homes = homeRepository.findByCity(cityName, toPageRequest(pageNumber, pageSize));
         return toSimpleDtos(homes);
     }
-
 
     // 페이징으로 조회
     public List<SimpleHomeDto> findAllByPage(int pageNumber, int pageSize) {
