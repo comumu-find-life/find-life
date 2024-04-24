@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,14 @@ public class HomeService {
     public HomeDto findById(Long id) {
         Optional<Home> entity = homeRepository.findById(id);
         return homeMapper.toDto(entity.get());
+    }
+
+    public List<SimpleHomeDto> findFavoriteHomes(List<Long> homeIds) {
+        return homeIds.stream()
+                .map(homeId -> {
+                    Optional<Home> byId = homeRepository.findById(homeId);
+                    return homeMapper.toSimpleHomeDto(byId.get());
+                }).collect(Collectors.toList());
     }
 
     public void delete(Long id) {

@@ -38,7 +38,7 @@ public class HomeController {
     }
 
     //home 수정
-    @PatchMapping("/home")
+    @PatchMapping("/home/{homeId}")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
     public ResponseEntity<String> update(@RequestBody HomeDto homeDto) {
         homeService.update(homeDto);
@@ -57,6 +57,12 @@ public class HomeController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<List<SimpleHomeDto>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(homeService.findAllByPage(page, size));
+    }
+
+    @GetMapping("/homes/favorite")
+    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
+    public ResponseEntity<List<SimpleHomeDto>> findFavoriteHomes(@RequestBody List<Long> homeIds) {
+        return ResponseEntity.ok(homeService.findFavoriteHomes(homeIds));
     }
 
 }
