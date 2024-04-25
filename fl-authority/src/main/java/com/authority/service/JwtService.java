@@ -115,8 +115,8 @@ public class JwtService {
 
     public Optional<String> extractAccessToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(accessHeader))
-                .filter(refreshToken -> refreshToken.startsWith(BEARER))
-                .map(refreshToken -> refreshToken.replace(BEARER, ""));
+                .filter(accessToken -> accessToken.startsWith(BEARER))
+                .map(accessToken -> accessToken.replace(BEARER, ""));
     }
 
 
@@ -143,7 +143,7 @@ public class JwtService {
                 );
     }
 
-    // 토큰 유효성을 검사하는 메서드
+   //  토큰 유효성을 검사하는 메서드
     public boolean isTokenValid(String token) {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
@@ -153,4 +153,12 @@ public class JwtService {
             return false;
         }
     }
+//    public void isTokenValid(String token) {
+//        try {
+//            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+//        } catch (Exception e) {
+//            System.out.println("asffasfasf");
+//            throw new IllegalArgumentException("유효하지 않은 토큰 입니다.");
+//        }
+//    }
 }

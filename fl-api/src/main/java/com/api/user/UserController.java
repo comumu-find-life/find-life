@@ -6,6 +6,8 @@ import com.service.user.dto.UserInformationDto;
 import com.service.user.dto.UserSignupRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,24 +19,16 @@ public class UserController {
     private final UserRedisService userRedisService;
 
     @PostMapping()
-    public String signUp(@RequestBody UserSignupRequest dto) throws Exception {
-        userService.signUp(dto);
-        return "success";
+    public ResponseEntity<Long> signUp(@RequestBody UserSignupRequest dto) throws Exception {
+        Long userId = userService.signUp(dto);
+        return ResponseEntity.ok(userId);
     }
 
     @GetMapping()
-    public UserInformationDto findById(HttpServletRequest request, @RequestBody Long id) {
-        return userService.findById(id);
+    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
+    public ResponseEntity<UserInformationDto> findById(@RequestParam Long id) {
+        return ResponseEntity.ok(userService.findById(id));
     }
 
-    @DeleteMapping()
-    public String delete(Long id) {
-        userService.delete(id);
-        return "delete!";
-    }
-
-//    @PatchMapping("/")
-//    public String update(HttpServletRequest request, @RequestBody ) {
-//
-//    }
+    //todo 탈퇴, 수정 메서드 구현 .requestMatchers("/v1/api/user").permitAll()
 }
