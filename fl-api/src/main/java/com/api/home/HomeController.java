@@ -27,13 +27,13 @@ public class HomeController {
     @PostMapping("/home")
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public Long saveHome(@RequestBody HomeDto homeCreateDto) {
+        System.out.println("ASFASFASF");
         return homeService.save(homeCreateDto);
     }
 
     //id 로 home 조회
-    @GetMapping("/home/{homeId}")
-    @PreAuthorize("hasRole('ROLE_PROVIDER')")
-    public ResponseEntity<HomeDto> findById(@PathVariable("homeId") Long homeId) {
+    @GetMapping("/home")
+    public ResponseEntity<HomeDto> findById(@RequestParam Long homeId) {
         return ResponseEntity.ok(homeService.findById(homeId));
     }
 
@@ -45,6 +45,8 @@ public class HomeController {
         return ResponseEntity.ok("update!");
     }
 
+    //public ResponseEntity<SimpleHomeDto>
+
     @DeleteMapping("/home")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
     public ResponseEntity<String> delete(@PathVariable Long id) {
@@ -54,8 +56,8 @@ public class HomeController {
 
     // ex) /homes?page=1&size=10
     @GetMapping("/homes")
-    @PreAuthorize("permitAll()")
     public ResponseEntity<List<SimpleHomeDto>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+        System.out.println("asd");
         return ResponseEntity.ok(homeService.findAllByPage(page, size));
     }
 

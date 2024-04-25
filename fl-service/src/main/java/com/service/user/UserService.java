@@ -23,7 +23,7 @@ public class UserService {
 
 
     //회원가입 메서드
-    public void signUp(UserSignupRequest dto) throws Exception {
+    public Long signUp(UserSignupRequest dto) throws Exception {
         //검증
         validation.validateSignUp(dto.getEmail(), dto.getNickName());
 
@@ -33,7 +33,7 @@ public class UserService {
         String encode = passwordEncoder.encode(dto.getPassword());
         user.passwordEncode(encode);
 
-        userRepository.save(user);
+        return userRepository.save(user).getId();
     }
 
     //회원 id 로 회원 조회
