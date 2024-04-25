@@ -65,6 +65,8 @@ public class HomeService {
         return toSimpleDtos(homes);
     }
 
+
+
     private PageRequest toPageRequest(int pageNumber, int pageSize) {
         return PageRequest.of(pageNumber, pageSize);
     }

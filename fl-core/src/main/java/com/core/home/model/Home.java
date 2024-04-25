@@ -42,6 +42,9 @@ public class Home extends BaseTimeEntity {
     // 화장실 개수
     private Integer bathRoomCount;
 
+    // 안전 거래 가능 여부
+    private boolean dealSavable;
+
     //사는 사람 수
     private Integer peopleCount;
 
