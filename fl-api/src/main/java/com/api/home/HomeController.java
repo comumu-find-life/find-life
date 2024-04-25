@@ -27,7 +27,6 @@ public class HomeController {
     @PostMapping("/home")
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public Long saveHome(@RequestBody HomeDto homeCreateDto) {
-        System.out.println("ASFASFASF");
         return homeService.save(homeCreateDto);
     }
 
@@ -57,7 +56,6 @@ public class HomeController {
     // ex) /homes?page=1&size=10
     @GetMapping("/homes")
     public ResponseEntity<List<SimpleHomeDto>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
-        System.out.println("asd");
         return ResponseEntity.ok(homeService.findAllByPage(page, size));
     }
 
