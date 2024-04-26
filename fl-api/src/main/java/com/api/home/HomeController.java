@@ -26,8 +26,8 @@ public class HomeController {
     //게시글 저장 api
     @PostMapping("/home")
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
-    public Long saveHome(@RequestBody HomeDto homeCreateDto) {
-        return homeService.save(homeCreateDto);
+    public ResponseEntity<Long> saveHome(@RequestBody HomeDto homeCreateDto) {
+        return ResponseEntity.ok(homeService.save(homeCreateDto));
     }
 
     //id 로 home 조회

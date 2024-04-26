@@ -2,6 +2,7 @@ package com.core.user.model;
 
 import com.core.base.model.BaseTimeEntity;
 import com.core.home.model.Home;
+import com.core.home.model.HomeAddress;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User  extends BaseTimeEntity {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,15 +43,12 @@ public class User  extends BaseTimeEntity {
 
     private String nationality;
 
-    private String refreshToken; // 리프레시 토큰
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_point_id")
+    private UserPoint userPoint;
 
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
-        //this.password = passwordEncoder.encode(this.password);
-    }
-//
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
     }
 
 }

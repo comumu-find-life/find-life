@@ -16,7 +16,7 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "refreshToken", ignore = true)
+    @Mapping(target = "userPoint", ignore = true)
     User toEntity(UserSignupRequest dto);
 
     UserInformationDto toDto(User user);
