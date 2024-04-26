@@ -28,5 +28,9 @@ public class ProtectedDealService {
         return mapper.toDto(entity.get());
     }
 
+    public void deleteById(Long id){
+        repository.deleteById(id);
+    }
+
 
 }

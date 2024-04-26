@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 사용자 Point 관리 클래승
+ */
 @Entity
 @Getter
 @Builder
@@ -20,12 +23,14 @@ public class UserPoint {
 
     private double point;
 
-    public void decreasePoint(double price){
+    public double decreasePoint(double price){
         point -= price;
+        return point;
     }
 
-    public void increasePoint(double price){
+    public double increasePoint(double price){
         point += price;
+        return point;
     }
 
 }
