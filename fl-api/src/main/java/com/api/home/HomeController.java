@@ -65,4 +65,6 @@ public class HomeController {
         return ResponseEntity.ok(homeService.findFavoriteHomes(homeIds));
     }
 
+
+
 }

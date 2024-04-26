@@ -47,6 +47,14 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "user_point_id")
     private UserPoint userPoint;
 
+    public double decreasePoint(double price){
+        return userPoint.decreasePoint(price);
+    }
+
+    public double increasePoint(double price){
+        return userPoint.increasePoint(price);
+    }
+
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
     }
