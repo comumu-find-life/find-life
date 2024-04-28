@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * 애그리거트 루트
+ */
 @Entity
 @Getter
 @Builder

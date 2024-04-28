@@ -25,6 +25,21 @@ public class ProtectedDealController {
         return ResponseEntity.ok(protectedDealService.findById(dealId));
     }
 
+    //안전거래 취소 메서드
+    @PostMapping("/deal/cancel")
+    public ResponseEntity<String> cancelDeal(ProtectedDealResponse dealResponse){
+        protectedDealService.cancelProtectedDeal(dealResponse);
+        return ResponseEntity.ok("deal cancel");
+    }
+
+    //안전거래 성사 메서드
+    @PostMapping("/deal/finish")
+    public ResponseEntity<String> finishDeal(ProtectedDealResponse dealResponse){
+        protectedDealService.finishProtectedDeal(dealResponse);
+        return ResponseEntity.ok("deal finish");
+    }
+
+
 
 
 }

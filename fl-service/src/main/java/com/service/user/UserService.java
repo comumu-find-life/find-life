@@ -52,7 +52,7 @@ public class UserService {
     }
 
     //결제 기능 (포인트 구입)
-    public void buyPoint(){
+    public void buyPoint() {
 
     }
 
