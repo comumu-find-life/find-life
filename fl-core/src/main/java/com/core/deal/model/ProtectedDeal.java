@@ -33,6 +33,10 @@ public class ProtectedDeal extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private DealState dealState;
 
+    public void setDealState(DealState state){
+        this.dealState = state;
+    }
+
     // 최종 결제 금액 계산 메서드
     public double calculateFinalPayPrice(){
         return bond - calculateCharge();
