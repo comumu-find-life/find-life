@@ -27,8 +27,10 @@ public class ProtectedDealService {
     public Long createDeal(CreateProtectedDealDto createProtectedDealDto) {
         ProtectedDeal deal = mapper.toEntity(createProtectedDealDto);
         // 세입자의 포인트 차감
+
         User getter = userRepository.findById(createProtectedDealDto.getGetterId()).get();
         getter.decreasePoint(deal.calculateFinalPayPrice());
+
         return protectedDealRepository.save(deal).getId();
     }
 
