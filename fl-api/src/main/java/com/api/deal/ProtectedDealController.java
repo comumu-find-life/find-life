@@ -38,8 +38,4 @@ public class ProtectedDealController {
         protectedDealService.finishProtectedDeal(dealResponse);
         return ResponseEntity.ok("deal finish");
     }
-
-
-
-
 }
