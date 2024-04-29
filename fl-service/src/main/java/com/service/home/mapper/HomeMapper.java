@@ -43,7 +43,7 @@ public interface HomeMapper {
     /**
      * 커스텀 메서드
      */
-    default Home toHomeEntity(HomeDto homeDto){
+    default Home toHomeEntity(HomeDto homeDto) {
         Home home = toEntity(homeDto);
         List<HomeImage> homeImages = mapHomeImages(homeDto.getImages(), home);
         home.setImages(homeImages);
@@ -76,7 +76,7 @@ public interface HomeMapper {
     }
 
     @Named("mapSimpleAddress")
-    default String mapSimpleAddress(HomeAddress homeAddress){
+    default String mapSimpleAddress(HomeAddress homeAddress) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(homeAddress.getCity());

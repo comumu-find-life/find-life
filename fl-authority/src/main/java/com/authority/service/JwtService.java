@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ public class JwtService {
 
     /**
      * AccessToken(Jwt) 생성 메소드
-     *
+     * <p>
      * AccessToken 에는 날짜와 이메일을 페이로드에 담습니다.
      * 사용할 알고리즘은 HMA512 알고리즘이고 application-core-dev.yml 에서 지정한 secret 키로 암호화
      */
@@ -61,7 +62,7 @@ public class JwtService {
 
     /**
      * RefreshToken 생성
-     *
+     * <p>
      * RefreshToken 은 클레임에 이메일을 넣지 않음
      */
     public String createRefreshToken() {
@@ -87,10 +88,21 @@ public class JwtService {
      */
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
         response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json"); // 응답의 컨텐츠 타입을 JSON으로 설정합니다.
 
-        setAccessTokenHeader(response, accessToken);
-        setRefreshTokenHeader(response, refreshToken);
-        log.info("Access Token, Refresh Token 헤더 설정 완료");
+        // JSON 형식의 응답 본문을 구성합니다.
+        String responseBody = "{\"accessToken\": \"" + accessToken + "\", \"refreshToken\": \"" + refreshToken + "\"}";
+
+        try {
+            // JSON 응답 본문을 응답에 작성합니다.
+            response.getWriter().write(responseBody);
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (IOException e) {
+            log.error("토큰을 응답 본문에 작성하는 동안 오류 발생: {}", e.getMessage());
+        }
+
+        log.info("Access Token, Refresh Token을 응답 본문에 설정 완료");
     }
 
 
@@ -103,8 +115,8 @@ public class JwtService {
 
     public Optional<String> extractAccessToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(accessHeader))
-                .filter(refreshToken -> refreshToken.startsWith(BEARER))
-                .map(refreshToken -> refreshToken.replace(BEARER, ""));
+                .filter(accessToken -> accessToken.startsWith(BEARER))
+                .map(accessToken -> accessToken.replace(BEARER, ""));
     }
 
 
@@ -123,25 +135,9 @@ public class JwtService {
     }
 
 
-    public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
-        response.setHeader(accessHeader, accessToken);
-    }
 
 
-    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
-        response.setHeader(refreshHeader, refreshToken);
-    }
-
-
-    public void updateRefreshToken(String email, String refreshToken) {
-        userRepository.findByEmail(email)
-                .ifPresentOrElse(
-                        user -> user.updateRefreshToken(refreshToken),
-                        () -> new Exception("일치하는 회원이 없습니다.")
-                );
-    }
-
-    // 토큰 유효성을 검사하는 메서드
+   //  토큰 유효성을 검사하는 메서드
     public boolean isTokenValid(String token) {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
@@ -151,4 +147,12 @@ public class JwtService {
             return false;
         }
     }
+//    public void isTokenValid(String token) {
+//        try {
+//            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+//        } catch (Exception e) {
+//            System.out.println("asffasfasf");
+//            throw new IllegalArgumentException("유효하지 않은 토큰 입니다.");
+//        }
+//    }
 }
