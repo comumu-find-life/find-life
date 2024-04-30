@@ -21,6 +21,12 @@ public class UserPoint {
     @Column(name = "user_point_id")
     private Long id;
 
+    //계좌
+    private Integer account;
+
+    //은행
+    private String bank;
+
     private double point;
 
     public double decreasePoint(double price){
@@ -33,4 +39,11 @@ public class UserPoint {
         return point;
     }
 
+    public void setAccount(Integer account) {
+        this.account = account;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
 }
