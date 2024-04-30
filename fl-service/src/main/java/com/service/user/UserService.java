@@ -2,6 +2,7 @@ package com.service.user;
 
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
+import com.service.user.dto.UserAccountRequest;
 import com.service.user.dto.UserInformationDto;
 import com.service.user.dto.UserSignupRequest;
 import com.service.user.dto.UserUpdatePointRequest;
@@ -37,6 +38,12 @@ public class UserService {
         user.passwordEncode(encode);
 
         return userRepository.save(user).getId();
+    }
+
+    //계좌 정보 등록 메서드
+    public void registerAccountInformation(UserAccountRequest userAccountRequest){
+        User user = userRepository.findById(userAccountRequest.getUserId()).get();
+        user.setUserAccount(userAccountRequest.getAccount(), userAccountRequest.getBank());
     }
 
     //회원 id 로 회원 조회
