@@ -23,6 +23,9 @@ public interface UserMapper {
     UserInformationDto toDto(User user);
 
     default UserPoint createUserPoint() {
-        return UserPoint.builder().point(0.0).build();
+        return UserPoint.builder()
+                .account(null)
+                .bank(null)
+                .point(0.0).build();
     }
 }
