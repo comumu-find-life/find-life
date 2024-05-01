@@ -1,7 +1,7 @@
 package com.service.job;
 
 
-import com.core.job.repotiory.JobRepository;
+import com.core.job.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
