@@ -19,6 +19,10 @@ public class QUserPoint extends EntityPathBase<UserPoint> {
 
     public static final QUserPoint userPoint = new QUserPoint("userPoint");
 
+    public final NumberPath<Integer> account = createNumber("account", Integer.class);
+
+    public final StringPath bank = createString("bank");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final NumberPath<Double> point = createNumber("point", Double.class);

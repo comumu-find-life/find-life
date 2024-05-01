@@ -1,4 +1,4 @@
-package com.core.job.repotiory.querydsl;
+package com.core.job.repository.querydsl;
 
 
 import com.core.job.model.Job;
