@@ -40,6 +40,7 @@ public class SecurityConfig {
 
     private static final String[] POST_AUTH_WHITELIST = {
             "/v1/api/user",
+            "/v1/api/user/sign-up",
     };
     private final LoginService loginService;
     private final UserRedisService redisService;

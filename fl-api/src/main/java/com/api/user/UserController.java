@@ -19,7 +19,7 @@ public class UserController {
     private final UserService userService;
     private final UserRedisService userRedisService;
 
-    @PostMapping()
+    @PostMapping("/sign-up")
     public ResponseEntity<Long> signUp(@RequestBody UserSignupRequest dto) throws Exception {
         Long userId = userService.signUp(dto);
         return ResponseEntity.ok(userId);

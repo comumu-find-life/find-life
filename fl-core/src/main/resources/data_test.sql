@@ -1,5 +1,8 @@
-insert into user (user_id,role, nick_name, email, profile_url, password, brith, phone_number,  nationality)
-VALUES ('1','GETTER', 'nickname', 'test@email.com', 'profileUrl', '$2a$10$jtkeHmjS4QBwiHFloIk31uvcYGBhCZ7madgWWbb8d2X8jUGmI.PAi', '001031', '01012341234', 'Korean');
+insert into user (role, nick_name, email, profile_url, password, brith, phone_number,  nationality)
+VALUES ('GETTER', 'nickname', 'test@email.com', 'profileUrl', '$2a$10$jtkeHmjS4QBwiHFloIk31uvcYGBhCZ7madgWWbb8d2X8jUGmI.PAi', '001031', '01012341234', 'Korean'),
+    ('GETTER', 'Jason', 'Jason@email.com', 'profileUrl', '{bcrypt}$2a$10$pouEYC8pSdHrJuxRInPS/.F4G4HVFcAm0CouviPhcX0zDnHyPYvze', '001031', '01012341234', 'Korean'),
+    ('GETTER', 'Nick', 'nick@email.com', 'profileUrl', '{bcrypt}$2a$10$pouEYC8pSdHrJuxRInPS/.F4G4HVFcAm0CouviPhcX0zDnHyPYvze', '001031', '01012341234', 'Korean');
+
 
 --insert into home_address(home_address_id, state, city, post_code, detail_address,street_name, street_number, latitude, longitude)
 --values  ('3', 'VAC', '멜버른', 13234, '401호', '거리이름', '123fa', 20.13, 502.13);
