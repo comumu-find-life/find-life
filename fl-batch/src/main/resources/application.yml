@@ -4,3 +4,6 @@ server:
 spring:
   profiles:
     include: shared
+
+domain:
+  api: http://localhost:8080/api
