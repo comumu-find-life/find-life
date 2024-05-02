@@ -1,8 +1,13 @@
 package com.service.home;
 
 import com.core.home.model.Home;
+import com.core.home.model.HomeAddress;
 import com.core.home.reposiotry.HomeRepository;
+import com.service.home.dto.HomeAddressDto;
+import com.service.home.dto.HomeDto;
 import com.service.home.dto.SimpleHomeDto;
+import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +29,16 @@ public class HomeServiceTest {
     @Mock
     private HomeRepository homeRepository;
 
+    @Before
+    void setUp() {
+        HomeAddressDto melbourne = HomeAddressDto.builder().city("Melbourne").build();
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
+    }
+
     @Test
     void home_찜목록_조회_기능_테스트() {
         // Mock 데이터 설정
@@ -36,4 +51,12 @@ public class HomeServiceTest {
         // 테스트 검증
         // 적절한 검증 코드 추가
     }
+
+//    @Test
+//    void findByCity() {
+//        List<SimpleHomeDto> melbourne = homeService.findByCity("Melbourne", 1, 10);
+//
+//        Assertions.assertThat(1).isEqualTo(1);
+//
+//    }
 }

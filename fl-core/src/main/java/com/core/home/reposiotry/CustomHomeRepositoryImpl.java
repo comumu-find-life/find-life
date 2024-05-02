@@ -38,8 +38,8 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
     public List<Home> findByCity(String cityName, Pageable pageable) {
         return query.selectFrom(qHome)
                 .where(qHome.homeAddress.city.like("%" + cityName +"%"))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
                 .fetch();
     }
 
