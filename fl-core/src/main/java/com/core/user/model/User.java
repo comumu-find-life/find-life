@@ -37,7 +37,6 @@ public class User extends BaseTimeEntity {
     private String password;
 
     private String profileUrl;
-
     private Integer brith;
 
     private Integer phoneNumber;
