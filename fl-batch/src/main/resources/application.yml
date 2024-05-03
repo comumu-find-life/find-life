@@ -6,4 +6,4 @@ spring:
     include: shared
 
 domain:
-  api: http://localhost:8080/api
+  api: http://localhost:8080/v1/api

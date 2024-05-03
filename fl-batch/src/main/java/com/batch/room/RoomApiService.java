@@ -16,13 +16,11 @@ public class RoomApiService {
 
     public List<HomeDto> findRoomByCity(String city) {
 
-
         RestTemplate restTemplate = new RestTemplate();
         String url = baseUrl + "/homes";
 
         HomeDto[] homeDtos = restTemplate.getForObject(url, HomeDto[].class);
 
         return Arrays.asList(homeDtos);
-
     }
 }
