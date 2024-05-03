@@ -1,6 +1,7 @@
 package com.batch.room;
 
 import com.service.home.dto.HomeDto;
+import com.service.home.dto.SimpleHomeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,27 +18,11 @@ public class RoomApiController {
 
     private final RoomApiService roomApiService;
 
-    @GetMapping("/rooms/Melbourne")
-    public List<HomeDto> roomsMelbourne() {
-        String city = "Melbourne";
-        List<HomeDto> homeDtos = roomApiService.findRoomByCity(city);
-
-        return homeDtos;
-    }
-
-
-    @GetMapping("/hhome")
-    public String roomsMelbourned() {
-
-        return "homeDtos";
-    }
-
-
     @GetMapping("/rooms/{city}")
-    public List<HomeDto> rooms(@PathVariable String city) {
-        System.out.println("asdd");
-        List<HomeDto> homeDtos = roomApiService.findRoomByCity(city);
+    public List<SimpleHomeDto> rooms(@PathVariable String city) {
+        List<SimpleHomeDto> homeDtos = roomApiService.findRoomByCity(city);
 
         return homeDtos;
     }
+
 }

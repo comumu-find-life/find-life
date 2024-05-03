@@ -56,7 +56,6 @@ public class HomeController {
     // ex) /homes?page=1&size=10
     @GetMapping("/homes")
     public ResponseEntity<List<SimpleHomeDto>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
-        System.out.println(page);
         return ResponseEntity.ok(homeService.findAllByPage(page, size));
     }
 
