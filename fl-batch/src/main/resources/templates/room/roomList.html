@@ -5,9 +5,13 @@
     <title>Rooms</title>
 </head>
 <body>
+<form action="/search-posts" method="get">
+    <input type="text" name="city" id="input-city">
+    <input type="submit">
+</form>
 <div id="data"></div>
     <script>
-        fetch('/api/rooms/melbourne')
+        fetch('/api/rooms/Melbourne')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('data').innerText = data;
