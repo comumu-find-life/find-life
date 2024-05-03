@@ -3,18 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Rooms</title>
+    <style>
+        .card {
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
+        }
+        .img {
+            height: 20rem;
+        }
+        .section {
+            width: 50rem;
+        }
+    </style>
 </head>
 <body>
 <form action="/search-posts" method="get">
     <input type="text" name="city" id="input-city">
     <input type="submit">
 </form>
-<div id="data"></div>
+<div id="data">
+    <div class="section">
+        <div class="card">
+            <div class="img">
+            <div>
+
+            </div>
+            </div>
+            <div>
+                ${room.address}
+            </div>
+            <p>주소: </p>
+            <p>주요 이미지: ${room.mainImage}</p>
+            <p>임대료: ${room.rentFee}</p>
+            <p>보증금: ${room.bond}</p>
+            <p>청구: ${room.bill}</p>
+            <p>임대료: ${room.rent}</p>
+            <p>침실 수: ${room.bedroomCount}</p>
+            <p>화장실 수: ${room.bathRoomCount}</p>
+            <p>유형: ${room.type}</p>
+        </div>
+    </div>
+</div>
     <script>
-        fetch('/api/rooms/Melbourne')
-            .then(response => response.text())
+        fetch('/api/rooms/[[${city}]]')
+            .then(response => response.json())
             .then(data => {
-                document.getElementById('data').innerText = data;
+                const dataList = data.map(room => {
+                    return `
+                        <div>
+                            <p>주소: ${room.address}</p>
+                            <p>주요 이미지: ${room.mainImage}</p>
+                            <p>임대료: ${room.rentFee}</p>
+                            <p>보증금: ${room.bond}</p>
+                            <p>청구: ${room.bill}</p>
+                            <p>임대료: ${room.rent}</p>
+                            <p>침실 수: ${room.bedroomCount}</p>
+                            <p>화장실 수: ${room.bathRoomCount}</p>
+                            <p>유형: ${room.type}</p>
+                        </div>
+                    `;
+                }).join('');
+
+                document.getElementById('data').innerHTML = dataList;
             })
             .catch(error => console.error('Error:', error));
     </script>

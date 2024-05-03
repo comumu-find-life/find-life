@@ -42,6 +42,9 @@ public class Home extends BaseTimeEntity {
     // 화장실 개수
     private Integer bathRoomCount;
 
+    // Bedroom / 침실 개수
+    private Integer bedroomCount;
+
     // 안전 거래 가능 여부
     private boolean dealSavable;
 
@@ -63,8 +66,11 @@ public class Home extends BaseTimeEntity {
     //집 소개 내용
     private String introduce;
 
-    // 주세 / perWeek
+    // 관리비(물, 전기, 가스, 인터넷 등) / bill
     private Integer bill;
+
+    // 주세 or 월세 / Rent fee
+    private Integer rent;
 
     //조회수
     private Integer viewCount;
@@ -78,6 +84,7 @@ public class Home extends BaseTimeEntity {
         this.shortIntroduce = home.shortIntroduce;
         this.introduce = home.introduce;
         this.bill = home.bill;
+        this.rent = home.rent;
     }
 
     /**
