@@ -35,7 +35,7 @@ public class RoomApiController {
 
     @GetMapping("/rooms/{city}")
     public List<HomeDto> rooms(@PathVariable String city) {
-        System.out.println("asd");
+        System.out.println("asdd");
         List<HomeDto> homeDtos = roomApiService.findRoomByCity(city);
 
         return homeDtos;
