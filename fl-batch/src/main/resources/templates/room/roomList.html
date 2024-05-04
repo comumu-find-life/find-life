@@ -7,11 +7,23 @@
         .card {
             box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
         }
+        .card-body {
+            padding: 1rem;
+        }
         .img {
             height: 20rem;
         }
         .section {
-            width: 50rem;
+            width: 42.5rem;
+        }
+        .card-title {
+            font-size:1.35rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .card-contents {
+            color: rgba(67, 67, 67, 1);
+            font-size:1.25rem;
         }
     </style>
 </head>
@@ -24,13 +36,30 @@
     <div class="section">
         <div class="card">
             <div class="img">
-            <div>
+                <p>주요 이미지: ${room.mainImage}</p>
+            </div>
 
+            <div class="card-body">
+                <div class="card-title">
+                    $450 / Week + $900 bond (Not inc. bills)
+                </div>
+                <div class="card-contents">
+                    <div class="card-contents-text">Richmond, Melbourne</div>
+                    <div class="card-contents-text">2B2B - 1 Room in Share house - 1 or 2 people</div>
+                </div>
             </div>
+        </div>
+
+        <div class="card">
+            <div class="img">
             </div>
+
             <div>
-                ${room.address}
+                <div class="card-title">
+                    ${room.address}
+                </div>
             </div>
+
             <p>주소: </p>
             <p>주요 이미지: ${room.mainImage}</p>
             <p>임대료: ${room.rentFee}</p>
