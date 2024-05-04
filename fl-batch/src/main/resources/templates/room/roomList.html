@@ -33,43 +33,7 @@
     <input type="submit">
 </form>
 <div id="data">
-    <div class="section">
-        <div class="card">
-            <div class="img">
-                <p>주요 이미지: ${room.mainImage}</p>
-            </div>
-
-            <div class="card-body">
-                <div class="card-title">
-                    $450 / Week + $900 bond (Not inc. bills)
-                </div>
-                <div class="card-contents">
-                    <div class="card-contents-text">Richmond, Melbourne</div>
-                    <div class="card-contents-text">2B2B - 1 Room in Share house - 1 or 2 people</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="img">
-            </div>
-
-            <div>
-                <div class="card-title">
-                    ${room.address}
-                </div>
-            </div>
-
-            <p>주소: </p>
-            <p>주요 이미지: ${room.mainImage}</p>
-            <p>임대료: ${room.rentFee}</p>
-            <p>보증금: ${room.bond}</p>
-            <p>청구: ${room.bill}</p>
-            <p>임대료: ${room.rent}</p>
-            <p>침실 수: ${room.bedroomCount}</p>
-            <p>화장실 수: ${room.bathRoomCount}</p>
-            <p>유형: ${room.type}</p>
-        </div>
+    <div id="home-list" class="section">
     </div>
 </div>
     <script>
@@ -78,21 +42,25 @@
             .then(data => {
                 const dataList = data.map(room => {
                     return `
-                        <div>
-                            <p>주소: ${room.address}</p>
-                            <p>주요 이미지: ${room.mainImage}</p>
-                            <p>임대료: ${room.rentFee}</p>
-                            <p>보증금: ${room.bond}</p>
-                            <p>청구: ${room.bill}</p>
-                            <p>임대료: ${room.rent}</p>
-                            <p>침실 수: ${room.bedroomCount}</p>
-                            <p>화장실 수: ${room.bathRoomCount}</p>
-                            <p>유형: ${room.type}</p>
+                        <div class="card">
+                            <div class="img">
+                                <p>주요 이미지: ${room.mainImage}</p>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="card-title">
+                                    $${room.rent} / Week + $${room.bond} bond (${room.bill})
+                                </div>
+                                <div class="card-contents">
+                                    <div class="card-contents-text">${room.address}</div>
+                                    <div class="card-contents-text">${room.bedroomCount}B${room.bathRoomCount}B - 1 Room in ${room.type} - 1 or 2 people</div>
+                                </div>
+                            </div>
                         </div>
                     `;
                 }).join('');
 
-                document.getElementById('data').innerHTML = dataList;
+                document.getElementById('home-list').innerHTML = dataList;
             })
             .catch(error => console.error('Error:', error));
     </script>
