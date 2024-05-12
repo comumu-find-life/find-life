@@ -72,10 +72,32 @@
                 }).join('');
 
                 document.getElementById('home-list').innerHTML = dataList;
+
+                var roomCards = document.getElementsByClassName('card');
+
+                Array.from(roomCards).forEach(function(room) {
+
+                    room.addEventListener('click', function() {
+
+                        window.location.href = "/room/" + room.id;
+                    });
+                });
+
             })
             .catch(error => console.error('Error:', error));
 
+        /* document.getElementById('home-list').addEventListener('click', function(event) {
+            console.log("b");
+            if (event.target.classList.contains('card')) {
+                console.log("c");
+                var roomId = event.target.id;
+                window.location.href = "/room/" + roomId;
+            }
+        }); */
+
+
         document.getElementById('sort-rent').addEventListener('click', e => {
+            console.log("b");
             fetch('/api/rooms/[[${city}]]')
                 .then(response => response.json())
                 .then(data => {
@@ -100,9 +122,25 @@
                     }).join('');
 
                     document.getElementById('home-list').innerHTML = dataList;
+
+                    var roomCards = document.getElementsByClassName('card');
+
+                    Array.from(roomCards).forEach(function(room) {
+
+                        room.addEventListener('click', function() {
+
+                            window.location.href = "/room/" + room.id;
+                        });
+                    });
                 })
                 .catch(error => console.error('Error:', error));
         });
+
+        //document.addEventListener('DOMContentLoaded', function() {
+
+        //});
+
+
     </script>
 </body>
 </html>

@@ -34,6 +34,7 @@
 .card {
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
     margin-bottom: 1.75rem;
+    cursor: pointer;
 }
 .card-body {
     padding: 1rem;
