@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,14 +27,8 @@ public class HomeService {
         // 코드 구현
         Home home = homeMapper.toHomeEntity(homeCreateDto);
         // 검증 기능 구현
-
         return homeRepository.save(home).getId();
     }
-
-//    public List<SimpleHomeDto> findByPage(){
-//        homeRepository.findAll()
-//    }
-
 
     public void update(HomeDto updateHome) {
         Optional<Home> home = homeRepository.findById(updateHome.getId());
@@ -46,6 +41,14 @@ public class HomeService {
         return homeMapper.toDto(entity.get());
     }
 
+    public List<SimpleHomeDto> findFavoriteHomes(List<Long> homeIds) {
+        return homeIds.stream()
+                .map(homeId -> {
+                    Optional<Home> byId = homeRepository.findById(homeId);
+                    return homeMapper.toSimpleHomeDto(byId.get());
+                }).collect(Collectors.toList());
+    }
+
     public void delete(Long id) {
         Optional<Home> entity = homeRepository.findById(id);
         homeRepository.delete(entity.get());
@@ -56,12 +59,13 @@ public class HomeService {
         return toSimpleDtos(homes);
     }
 
-
     // 페이징으로 조회
     public List<SimpleHomeDto> findAllByPage(int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
         return toSimpleDtos(homes);
     }
+
+
 
     private PageRequest toPageRequest(int pageNumber, int pageSize) {
         return PageRequest.of(pageNumber, pageSize);

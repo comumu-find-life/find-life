@@ -12,6 +12,7 @@ import com.redis.user.UserRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -32,6 +33,15 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private static final String[] GET_AUTH_WHITELIST = {
+            "/v1/api/home",
+            "/v1/api/homes",
+    };
+
+    private static final String[] POST_AUTH_WHITELIST = {
+            "/v1/api/user",
+            "/v1/api/user/sign-up",
+    };
     private final LoginService loginService;
     private final UserRedisService redisService;
     private final JwtService jwtService;
@@ -53,8 +63,9 @@ public class SecurityConfig {
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/v1/api/user").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET, GET_AUTH_WHITELIST).permitAll()
+                        .requestMatchers(HttpMethod.POST, POST_AUTH_WHITELIST).permitAll()
+                        .anyRequest().permitAll()
                 );
 
         http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);

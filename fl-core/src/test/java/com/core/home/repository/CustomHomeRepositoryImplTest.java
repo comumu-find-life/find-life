@@ -34,10 +34,14 @@ public class CustomHomeRepositoryImplTest {
     }
 
     @Test
-    void 페이징_테스트(){
+    void home_페이징_조회_테스트(){
+        //given
         PageRequest pageable = PageRequest.of(0, 3);
+        //when
         Page<Home> all = homeRepository.findAll(pageable);
-        System.out.println(all.getSize());
+        //then
+        Assertions.assertThat(all.getSize()).isEqualTo(3);
+
     }
 
     @Test
