@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <form action="/rooms" method="get">
-        <input type="text" name="city" id="input-city">
-        <input type="submit" id="btn-search">
-    </form>
+    <th:block th:replace="fragments/navBar :: navBar"></th:block>
 </body>
 </html>
