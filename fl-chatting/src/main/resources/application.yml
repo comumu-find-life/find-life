@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: core
+  config:
+    import:
+      - 'classpath:/yaml/application-core-dev.yml'
+      - 'classpath:/yaml/application-core-log.yml'
+  port:
+    8085
+
+domain:
+  base: http://localhost:8085
+  chat:
+    directMessage: /dm
+    publish: /pub
+    subscribe: /sub
