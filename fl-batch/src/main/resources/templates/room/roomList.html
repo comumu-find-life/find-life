@@ -53,7 +53,7 @@
             .then(data => {
                 const dataList = data.map(room => {
                     return `
-                        <div class="card">
+                        <div class="card" id="${room.id}">
                             <div class="div-frame">
                                 <img src="/img/${room.mainImage}">
                             </div>
@@ -103,7 +103,7 @@
                 .then(data => {
                     const dataList = data.map(room => {
                         return `
-                            <div class="card">
+                            <div class="card" id="${room.id}">
                                 <div class="div-frame">
                                     <img src="/img/${room.mainImage}">
                                 </div>
