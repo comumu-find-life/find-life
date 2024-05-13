@@ -1,50 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Rooms</title>
+    <link rel="stylesheet" href="/css/main.css">
     <style>
-        .card {
-            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
+        .div-sort {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            border: 1px solid grey;
+            border-radius: 0.5rem;
         }
-        .card-body {
-            padding: 1rem;
+        .sort-item {
+            vertical-align: middle;
+            text-align: center;
+            font-size: 1rem;
+            flex-grow: 1;
+            padding: 0.75rem;
+            cursor: pointer;
         }
-        .img {
-            height: 20rem;
-        }
-        .section {
-            width: 42.5rem;
-        }
-        .card-title {
-            font-size:1.35rem;
+        .sort-active {
+            background-color: skyblue;
+            color: white;
             font-weight: bold;
-            margin-bottom: 0.5rem;
         }
-        .card-contents {
-            color: rgba(67, 67, 67, 1);
-            font-size:1.25rem;
+        .sort-divider {
+            background-color:grey;
+            width:1px;
+            height:1.75rem;
+            margin-top: 0.5rem;
+            z-index:-1;
         }
     </style>
 </head>
 <body>
-<form action="/search-posts" method="get">
-    <input type="text" name="city" id="input-city">
-    <input type="submit">
-</form>
-<div id="data">
-    <div id="home-list" class="section">
+    <th:block th:replace="fragments/navBar :: navBar"></th:block>
+    <div class="container" id="data">
+        <div class="div-sort">
+            <div class="sort-item sort-active">Basic sort</div>
+            <div class="sort-divider"></div>
+            <div class="sort-item">Newest First</div>
+            <div class="sort-divider"></div>
+            <div class="sort-item" id="sort-rent">Rent</div>
+        </div>
+        <div id="home-list" class="section">
+        </div>
     </div>
-</div>
     <script>
         fetch('/api/rooms/[[${city}]]')
             .then(response => response.json())
             .then(data => {
                 const dataList = data.map(room => {
                     return `
-                        <div class="card">
-                            <div class="img">
-                                <p>주요 이미지: ${room.mainImage}</p>
+                        <div class="card" id="${room.id}">
+                            <div class="div-frame">
+                                <img src="/img/${room.mainImage}">
                             </div>
 
                             <div class="card-body">
@@ -61,8 +72,75 @@
                 }).join('');
 
                 document.getElementById('home-list').innerHTML = dataList;
+
+                var roomCards = document.getElementsByClassName('card');
+
+                Array.from(roomCards).forEach(function(room) {
+
+                    room.addEventListener('click', function() {
+
+                        window.location.href = "/room/" + room.id;
+                    });
+                });
+
             })
             .catch(error => console.error('Error:', error));
+
+        /* document.getElementById('home-list').addEventListener('click', function(event) {
+            console.log("b");
+            if (event.target.classList.contains('card')) {
+                console.log("c");
+                var roomId = event.target.id;
+                window.location.href = "/room/" + roomId;
+            }
+        }); */
+
+
+        document.getElementById('sort-rent').addEventListener('click', e => {
+            console.log("b");
+            fetch('/api/rooms/[[${city}]]')
+                .then(response => response.json())
+                .then(data => {
+                    const dataList = data.map(room => {
+                        return `
+                            <div class="card" id="${room.id}">
+                                <div class="div-frame">
+                                    <img src="/img/${room.mainImage}">
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        $${room.rent} / Week + $${room.bond} bond (${room.bill})
+                                    </div>
+                                    <div class="card-contents">
+                                        <div class="card-contents-text">${room.address}</div>
+                                        <div class="card-contents-text">${room.bedroomCount}B${room.bathRoomCount}B - 1 Room in ${room.type} - 1 or 2 people</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    document.getElementById('home-list').innerHTML = dataList;
+
+                    var roomCards = document.getElementsByClassName('card');
+
+                    Array.from(roomCards).forEach(function(room) {
+
+                        room.addEventListener('click', function() {
+
+                            window.location.href = "/room/" + room.id;
+                        });
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        //document.addEventListener('DOMContentLoaded', function() {
+
+        //});
+
+
     </script>
 </body>
 </html>

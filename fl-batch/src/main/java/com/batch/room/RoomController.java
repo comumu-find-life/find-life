@@ -20,4 +20,10 @@ public class RoomController {
         model.addAttribute("city", city);
         return "room/roomList";
     }
+
+    @GetMapping("/room/{id}")
+    public String roomPage(@PathVariable Long id, Model model) {
+        model.addAttribute("roomId", id);
+        return "room/room";
+    }
 }
