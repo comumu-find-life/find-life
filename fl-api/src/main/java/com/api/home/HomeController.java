@@ -22,29 +22,29 @@ import java.util.Optional;
 @RequestMapping("/v1/api")
 public class HomeController {
     private final HomeService homeService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     //게시글 저장 api
     @PostMapping("/home")
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
-    public Long saveHome(@RequestBody HomeDto homeCreateDto) {
-        return homeService.save(homeCreateDto);
+    public ResponseEntity<Long> saveHome(@RequestBody HomeDto homeCreateDto) {
+        return ResponseEntity.ok(homeService.save(homeCreateDto));
     }
 
     //id 로 home 조회
-    @GetMapping("/home/{homeId}")
-    @PreAuthorize("hasRole('ROLE_PROVIDER')")
-    public ResponseEntity<HomeDto> findById(@PathVariable("homeId") Long homeId) {
+    @GetMapping("/home")
+    public ResponseEntity<HomeDto> findById(@RequestParam Long homeId) {
         return ResponseEntity.ok(homeService.findById(homeId));
     }
 
     //home 수정
-    @PatchMapping("/home")
+    @PatchMapping("/home/{homeId}")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
     public ResponseEntity<String> update(@RequestBody HomeDto homeDto) {
         homeService.update(homeDto);
         return ResponseEntity.ok("update!");
     }
+
+    //public ResponseEntity<SimpleHomeDto>
 
     @DeleteMapping("/home")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
@@ -55,9 +55,21 @@ public class HomeController {
 
     // ex) /homes?page=1&size=10
     @GetMapping("/homes")
-    @PreAuthorize("permitAll()")
     public ResponseEntity<List<SimpleHomeDto>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(homeService.findAllByPage(page, size));
     }
+
+    // ex) /homes?page=1&size=10
+    @GetMapping("/homes/{city}")
+    public ResponseEntity<List<SimpleHomeDto>> findByCity(@PathVariable String city, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(homeService.findByCity(city, page, size));
+    }
+
+    @GetMapping("/homes/favorite")
+    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
+    public ResponseEntity<List<SimpleHomeDto>> findFavoriteHomes(@RequestBody List<Long> homeIds) {
+        return ResponseEntity.ok(homeService.findFavoriteHomes(homeIds));
+    }
+
 
 }

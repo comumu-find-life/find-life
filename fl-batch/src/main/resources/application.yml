@@ -1,7 +1,9 @@
+server:
+  port: 8081
+
 spring:
   profiles:
-    active: core
-  config:
-    import:
-      - 'classpath:/yaml/application-core-dev.yml'
-      - 'classpath:/yaml/application-core-log.yml'
+    include: shared
+
+domain:
+  api: http://localhost:8080/v1/api
