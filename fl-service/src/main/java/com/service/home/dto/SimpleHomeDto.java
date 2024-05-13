@@ -6,6 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class SimpleHomeDto {
+    private Long id;
     private String address;
     private String mainImage;
     private Integer rent;

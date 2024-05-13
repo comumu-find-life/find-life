@@ -55,9 +55,17 @@
     max-width: 60rem;
     margin: 0 auto;
 }
+
 .div-frame {
     width:100%;
-    height: 24rem;
+    height: 40rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.div-frame {
+    width:100%;
+    height: rem;
     overflow: hidden;
     position: relative;
 }
