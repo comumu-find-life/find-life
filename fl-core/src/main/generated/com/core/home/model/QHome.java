@@ -26,6 +26,8 @@ public class QHome extends EntityPathBase<Home> {
 
     public final NumberPath<Integer> bathRoomCount = createNumber("bathRoomCount", Integer.class);
 
+    public final NumberPath<Integer> bedroomCount = createNumber("bedroomCount", Integer.class);
+
     public final NumberPath<Integer> bill = createNumber("bill", Integer.class);
 
     public final NumberPath<Integer> bond = createNumber("bond", Integer.class);
@@ -49,6 +51,8 @@ public class QHome extends EntityPathBase<Home> {
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final NumberPath<Integer> peopleCount = createNumber("peopleCount", Integer.class);
+
+    public final NumberPath<Integer> rent = createNumber("rent", Integer.class);
 
     public final StringPath shortIntroduce = createString("shortIntroduce");
 

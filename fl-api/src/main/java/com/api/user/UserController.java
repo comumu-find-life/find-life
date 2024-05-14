@@ -31,20 +31,5 @@ public class UserController {
         return ResponseEntity.ok(userService.findById(id));
     }
 
-    // 사용자 포인트 증가 요청
-    @PatchMapping("/point/increase")
-    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_PROVIDER)")
-    public ResponseEntity<Double> increasePoint(@RequestBody UserUpdatePointRequest userUpdatePointRequest) {
-        return ResponseEntity.ok(userService.increasePoint(userUpdatePointRequest));
-    }
-
-    // 사용자 포인트 차감 요청
-    @PatchMapping("/point/decrease")
-    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_PROVIDER)")
-    public ResponseEntity<Double> decreasePoint(@RequestBody UserUpdatePointRequest userUpdatePointRequest) throws Exception {
-
-        return ResponseEntity.ok(userService.decreasePoint(userUpdatePointRequest));
-    }
-
     //todo 탈퇴, 수정 메서드 구현 .requestMatchers("/v1/api/user").permitAll()
 }

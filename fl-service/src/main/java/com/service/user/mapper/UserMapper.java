@@ -1,7 +1,6 @@
 package com.service.user.mapper;
 
 import com.core.user.model.User;
-import com.core.user.model.UserPoint;
 import com.service.user.dto.UserInformationDto;
 import com.service.user.dto.UserSignupRequest;
 import org.mapstruct.Mapper;
@@ -17,15 +16,9 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "userPoint", expression = "java(createUserPoint())")
     User toEntity(UserSignupRequest dto);
 
     UserInformationDto toDto(User user);
 
-    default UserPoint createUserPoint() {
-        return UserPoint.builder()
-                .account(null)
-                .bank(null)
-                .point(0.0).build();
-    }
+
 }

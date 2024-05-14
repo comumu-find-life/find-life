@@ -43,7 +43,6 @@ public class UserService {
     //계좌 정보 등록 메서드
     public void registerAccountInformation(UserAccountRequest userAccountRequest){
         User user = userRepository.findById(userAccountRequest.getUserId()).get();
-        user.setUserAccount(userAccountRequest.getAccount(), userAccountRequest.getBank());
     }
 
     //회원 id 로 회원 조회
@@ -63,21 +62,6 @@ public class UserService {
 
     }
 
-
-    //포인트 차감 메서드
-    public double decreasePoint(UserUpdatePointRequest userUpdatePointRequest) throws Exception {
-        //todo 검증 메서드 구현
-        User user = userRepository.findById(userUpdatePointRequest.getUserId()).get();
-        validation.validateDecreasePoint(user.getUserPoint(), userUpdatePointRequest.getPoint());
-        return user.decreasePoint(userUpdatePointRequest.getPoint());
-    }
-
-    //포인트 증가 메서드
-    public double increasePoint(UserUpdatePointRequest userUpdatePointRequest) {
-        //todo 검증 메서드 구현
-        User user = userRepository.findById(userUpdatePointRequest.getUserId()).get();
-        return user.increasePoint(userUpdatePointRequest.getPoint());
-    }
 
 
 }
