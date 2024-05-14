@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,8 +16,6 @@ import com.querydsl.core.types.dsl.PathInits;
 public class QUser extends EntityPathBase<User> {
 
     private static final long serialVersionUID = 431381393L;
-
-    private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QUser user = new QUser("user");
 
@@ -35,6 +32,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath job = createString("job");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
@@ -50,27 +49,16 @@ public class QUser extends EntityPathBase<User> {
 
     public final EnumPath<Role> role = createEnum("role", Role.class);
 
-    public final QUserPoint userPoint;
-
     public QUser(String variable) {
-        this(User.class, forVariable(variable), INITS);
+        super(User.class, forVariable(variable));
     }
 
     public QUser(Path<? extends User> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QUser(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QUser(PathMetadata metadata, PathInits inits) {
-        this(User.class, metadata, inits);
-    }
-
-    public QUser(Class<? extends User> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.userPoint = inits.isInitialized("userPoint") ? new QUserPoint(forProperty("userPoint")) : null;
+        super(User.class, metadata);
     }
 
 }
