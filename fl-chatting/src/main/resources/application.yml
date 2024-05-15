@@ -1,15 +1,28 @@
 spring:
-  profiles:
-    active: core
+  sql:
+    init:
+      mode: always
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/fl_chat?serverTimezone=Asia/Seoul
+    username: root
+    password: dhsdk1977!D
+  logging:
+    level:
+      me.selvernine: DEBUG
+
+  redis:
+    host : localhost
+    port : 6380
   config:
     import:
       - 'classpath:/yaml/application-core-dev.yml'
       - 'classpath:/yaml/application-core-log.yml'
-  port:
-    8085
+server:
+  port: 8082
 
 domain:
-  base: http://localhost:8085
+  base: http://localhost:8081
   chat:
     directMessage: /dm
     publish: /pub
