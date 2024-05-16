@@ -23,9 +23,9 @@ public class LocationService {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public LocationService(RestTemplate restTemplateBuilder, ObjectMapper objectMapper) {
-        this.restTemplate = restTemplateBuilder;
-        this.objectMapper = objectMapper;
+    public LocationService( ) {
+        this.restTemplate = new RestTemplateBuilder().build();;
+        this.objectMapper = new ObjectMapper();;
     }
 
     /**

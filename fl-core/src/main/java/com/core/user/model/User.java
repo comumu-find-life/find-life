@@ -48,7 +48,6 @@ public class User extends BaseTimeEntity {
 
     private String nationality;
 
-
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
     }
