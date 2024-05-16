@@ -3,6 +3,7 @@ package com.service.home;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.service.home.dto.HomeAddressDto;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.geocoding.GeocodingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,28 @@ public class LocationService {
      * NSW : 주
      * 2015 : 우편번호
      */
-    public LatLng getLatLngFromAddress(String address) throws IOException {
-        String url = String.format("%s?address=%s&key=%s", GEOCODING_API_URL, address, API_KEY);
+//    public LatLng getLatLngFromAddress(String address) throws IOException {
+//        String url = String.format("%s?address=%s&key=%s", GEOCODING_API_URL, address, API_KEY);
+//        URI uri = URI.create(url);
+//
+//        // Google Geocoding API 호출
+//        String response = restTemplate.getForObject(uri, String.class);
+//
+//        // JSON 파싱
+//        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+//        JsonObject location = jsonObject.getAsJsonArray("results").get(0)
+//                .getAsJsonObject().getAsJsonObject("geometry")
+//                .getAsJsonObject("location");
+//
+//        double lat = location.get("lat").getAsDouble();
+//        double lng = location.get("lng").getAsDouble();
+//
+//        // LatLng 객체 생성 후 반환
+//        return new LatLng(lat, lng);
+//    }
+
+    public LatLng getLatLngFromAddress(HomeAddressDto homeAddressDto) throws IOException {
+        String url = String.format("%s?address=%s&key=%s", GEOCODING_API_URL, toStringAddress(homeAddressDto), API_KEY);
         URI uri = URI.create(url);
 
         // Google Geocoding API 호출
@@ -57,5 +78,18 @@ public class LocationService {
 
         // LatLng 객체 생성 후 반환
         return new LatLng(lat, lng);
+    }
+
+    private String toStringAddress(HomeAddressDto addressDto){
+        StringBuilder sb = new StringBuilder();
+        sb.append(addressDto.getStreetNumber());
+        sb.append(addressDto.getStreetName());
+        sb.append("St");
+        sb.append(addressDto.getCity());
+        sb.append(addressDto.getState());
+        sb.append(addressDto.getPostCode());
+        sb.append("Australia");
+
+        return sb.toString();
     }
 }

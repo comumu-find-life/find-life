@@ -35,12 +35,17 @@ public class HomeAddress extends BaseTimeEntity {
     private String streetName;
 
     //거리 번호
-    private String streetNumber;
+    private String streetCode;
 
     //위도
     private double latitude;
 
     //경도
     private double longitude;
+
+    protected void setLatLnd(double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
 }

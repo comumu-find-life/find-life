@@ -5,6 +5,7 @@ import com.core.home.model.HomeAddress;
 import com.core.home.reposiotry.HomeRepository;
 import com.service.home.dto.HomeAddressDto;
 import com.service.home.dto.HomeDto;
+import com.service.home.dto.LatLng;
 import com.service.home.dto.SimpleHomeDto;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -32,11 +33,11 @@ public class HomeServiceTest {
     @Before
     void setUp() {
         HomeAddressDto melbourne = HomeAddressDto.builder().city("Melbourne").build();
-        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
-        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
-        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
-        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
-        homeService.save(HomeDto.builder().homeAddress(melbourne).build());
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
+        homeService.save(HomeDto.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
     }
 
     @Test

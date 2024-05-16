@@ -86,6 +86,9 @@ public class Home extends BaseTimeEntity {
     /**
      * 연관관계 등록 메서드
      */
+    public void setLatLng(double lat, double lng){
+        homeAddress.setLatLnd(lat, lng);
+    }
 
     public void setHomeAddress(HomeAddress address) {
         this.homeAddress = address;
