@@ -4,6 +4,7 @@ import com.core.home.model.Home;
 import com.core.home.reposiotry.HomeRepository;
 import com.core.user.model.User;
 import com.service.home.dto.HomeDto;
+import com.service.home.dto.LatLng;
 import com.service.home.dto.SimpleHomeDto;
 import com.service.home.mapper.HomeMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,11 @@ public class HomeService {
     private final HomeRepository homeRepository;
     private final HomeMapper homeMapper;
 
-    public Long save(HomeDto homeCreateDto) {
+    public Long save(HomeDto homeCreateDto, LatLng latLng) {
         // 코드 구현
         Home home = homeMapper.toHomeEntity(homeCreateDto);
         // 검증 기능 구현
+        home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
 
@@ -66,15 +68,14 @@ public class HomeService {
     }
 
 
-
     private PageRequest toPageRequest(int pageNumber, int pageSize) {
         return PageRequest.of(pageNumber, pageSize);
     }
 
     private List<SimpleHomeDto> toSimpleDtos(List<Home> homes) {
-        System.out.println( homes.get(0).getHomeAddress().getCity());
-        System.out.println( homes.get(0).getHomeAddress().getCity());
-        System.out.println( homes.get(0).getHomeAddress().getCity());
+        System.out.println(homes.get(0).getHomeAddress().getCity());
+        System.out.println(homes.get(0).getHomeAddress().getCity());
+        System.out.println(homes.get(0).getHomeAddress().getCity());
         System.out.println("----------------------------------------------------------");
         List<SimpleHomeDto> simpleHomeDtos = new ArrayList<>();
         homes.stream()
