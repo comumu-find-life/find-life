@@ -1,12 +1,11 @@
-package com.authority.config;
+package com.api.config;
 
-import com.authority.filter.CustomLoginAuthenticationFilter;
-import com.authority.filter.JwtAuthenticationFilter;
-import com.authority.handler.LoginFailureHandler;
-import com.authority.handler.LoginSuccessHandler;
-import com.authority.service.JwtService;
-import com.authority.service.LoginService;
-import com.core.user.repository.UserRepository;
+import com.api.security.filter.CustomLoginAuthenticationFilter;
+import com.api.security.filter.JwtAuthenticationFilter;
+import com.api.security.handler.LoginFailureHandler;
+import com.api.security.handler.LoginSuccessHandler;
+import com.api.security.service.JwtService;
+import com.api.security.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redis.user.UserRedisService;
 import lombok.RequiredArgsConstructor;

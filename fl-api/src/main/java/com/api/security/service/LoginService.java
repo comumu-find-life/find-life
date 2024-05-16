@@ -1,4 +1,4 @@
-package com.authority.service;
+package com.api.security.service;
 
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;

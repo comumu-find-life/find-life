@@ -1,4 +1,4 @@
-package com.authority.filter;
+package com.api.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
