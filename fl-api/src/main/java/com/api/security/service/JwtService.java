@@ -1,4 +1,4 @@
-package com.authority.service;
+package com.api.security.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -137,7 +137,7 @@ public class JwtService {
 
 
 
-   //  토큰 유효성을 검사하는 메서드
+    //  토큰 유효성을 검사하는 메서드
     public boolean isTokenValid(String token) {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);

@@ -1,6 +1,6 @@
-package com.authority.filter;
+package com.api.security.filter;
 
-import com.authority.service.JwtService;
+import com.api.security.service.JwtService;
 import com.core.user.model.User;
 import com.redis.user.UserRedisService;
 import jakarta.servlet.FilterChain;

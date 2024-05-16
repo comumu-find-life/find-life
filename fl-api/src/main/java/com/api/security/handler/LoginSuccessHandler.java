@@ -1,6 +1,6 @@
-package com.authority.handler;
+package com.api.security.handler;
 
-import com.authority.service.JwtService;
+import com.api.security.service.JwtService;
 import com.redis.user.UserRedisService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
