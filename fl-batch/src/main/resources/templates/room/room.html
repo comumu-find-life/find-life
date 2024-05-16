@@ -129,11 +129,25 @@
         <div>3B2B Room for Apartment</div>
         <div class="contact">
             <textarea name="contents" id="chat-contents"></textarea>
-            <input type="button" value="send" id="btn-send-chat">
+            <input type="button" value="send" id="btn-send-dm">
         </div>
     </div>
 </div>
 <script>
+
+    document.getElementById('btn-send-dm').addEventListener('click', e => {
+        console.log("send clicked");
+
+        // 로그인 체크 로직
+
+
+
+    })
+
+
+
+
+
     fetch('/api/rooms/[[${city}]]')
         .then(response => response.json())
         .then(data => {
