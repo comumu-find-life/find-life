@@ -42,5 +42,4 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
 //                .limit(pageable.getPageSize())
                 .fetch();
     }
-
 }

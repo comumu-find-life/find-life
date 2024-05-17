@@ -73,20 +73,13 @@ public class HomeService {
     }
 
     private List<SimpleHomeDto> toSimpleDtos(List<Home> homes) {
-        System.out.println(homes.get(0).getHomeAddress().getCity());
-        System.out.println(homes.get(0).getHomeAddress().getCity());
-        System.out.println(homes.get(0).getHomeAddress().getCity());
-        System.out.println("----------------------------------------------------------");
+
         List<SimpleHomeDto> simpleHomeDtos = new ArrayList<>();
         homes.stream()
                 .forEach(home -> {
                     SimpleHomeDto simpleHomeDto = homeMapper.toSimpleHomeDto(home);
                     simpleHomeDtos.add(simpleHomeDto);
                 });
-        homes.get(0).getHomeAddress().getCity();
-        System.out.println(simpleHomeDtos.get(0).getAddress());
-        System.out.println(simpleHomeDtos.get(0).getAddress());
-        System.out.println(simpleHomeDtos.get(0).getAddress());
         return simpleHomeDtos;
     }
 
