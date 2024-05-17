@@ -1,3 +1,6 @@
+body  {
+    margin: 0px;
+}
 .nav-bar {
     display: flex;
     height: 5rem;
@@ -58,7 +61,7 @@
 
 .div-frame {
     width:100%;
-    height: 40rem;
+    height: 24rem;
     overflow: hidden;
     position: relative;
 }
