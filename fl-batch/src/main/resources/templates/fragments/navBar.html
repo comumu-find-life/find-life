@@ -36,13 +36,19 @@
         .nav-bar-options {
             display: flex;
         }
+        #a-logo {
+            color: white;
+            font-weight: bold;
+            font-size: 2.5rem;
+            text-decoration: none;
+        }
     </style>
     <title>Title</title>
 </head>
 <body>
     <th:block th:fragment="navBar">
         <div class="nav-bar">
-            <div class="logo">Find life</div>
+            <div class="logo"><a id="a-logo"href="/">Find life</a></div>
             <div class="search-bar">
                 <form action="/rooms" method="get">
                     <input type="text" name="city" id="input-city" placeholder="Search by City or Postcode">
