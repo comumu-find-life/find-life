@@ -8,6 +8,7 @@ import lombok.Getter;
 @Builder
 public class HomeAddressDto {
 
+    // ex) NSW
     private String state;
 
     private String city;
