@@ -97,7 +97,6 @@
 
 
         document.getElementById('sort-rent').addEventListener('click', e => {
-            console.log("b");
             fetch('/api/rooms/[[${city}]]')
                 .then(response => response.json())
                 .then(data => {
