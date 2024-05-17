@@ -27,6 +27,8 @@ public class HomeDto {
 
     private List<String> images;
 
+    private Integer bedroomCount;
+
     private Integer bathRoomCount;
 
     private Integer bond;
