@@ -28,9 +28,6 @@ public class ProtectedDealService {
         ProtectedDeal deal = mapper.toEntity(createProtectedDealDto);
         // 세입자의 포인트 차감
 
-        User getter = userRepository.findById(createProtectedDealDto.getGetterId()).get();
-        getter.decreasePoint(deal.calculateFinalPayPrice());
-
         return protectedDealRepository.save(deal).getId();
     }
 
@@ -47,7 +44,6 @@ public class ProtectedDealService {
 
         //집주인의 포인트 증가
         User provider = userRepository.findById(protectedDealRequest.getProviderId()).get();
-        provider.increasePoint(protectedDealRequest.getTotalPrice());
     }
 
     //안전 거래 취소 메서드 (포인트 세입자에게 전달)
@@ -57,7 +53,6 @@ public class ProtectedDealService {
 
         //세입자의 포인트 증가
         User getter = userRepository.findById(protectedDealRequest.getGetterId()).get();
-        getter.increasePoint(protectedDealRequest.getTotalPrice());
     }
 
     public void deleteById(Long id) {

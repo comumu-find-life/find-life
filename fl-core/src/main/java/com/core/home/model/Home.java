@@ -60,16 +60,13 @@ public class Home extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private HomeType type;
 
-    //집 한줄 소개
-    private String shortIntroduce;
-
     //집 소개 내용
     private String introduce;
 
     // 관리비(물, 전기, 가스, 인터넷 등) / bill
     private Integer bill;
 
-    // 주세 or 월세 / Rent fee
+    // 주세 or 월세 / Rent
     private Integer rent;
 
     //조회수
@@ -81,7 +78,6 @@ public class Home extends BaseTimeEntity {
         this.peopleCount = home.peopleCount;
         this.bond = home.bond;
         this.gender = home.gender;
-        this.shortIntroduce = home.shortIntroduce;
         this.introduce = home.introduce;
         this.bill = home.bill;
         this.rent = home.rent;
@@ -90,6 +86,9 @@ public class Home extends BaseTimeEntity {
     /**
      * 연관관계 등록 메서드
      */
+    public void setLatLng(double lat, double lng){
+        homeAddress.setLatLnd(lat, lng);
+    }
 
     public void setHomeAddress(HomeAddress address) {
         this.homeAddress = address;
