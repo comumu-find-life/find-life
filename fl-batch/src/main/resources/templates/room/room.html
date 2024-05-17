@@ -127,46 +127,69 @@
         <div class="room-contents-subtitle">139 Lord St, Richmond VIC 3121</div>
         <div><span style="font-size:1.75rem;">$250</span>/wk</div>
         <div>3B2B Room for Apartment</div>
+        <div class="contact">
+            <textarea name="contents" id="chat-contents"></textarea>
+            <input type="button" value="send" id="btn-send-dm">
+        </div>
     </div>
 </div>
 <script>
-        fetch('/api/rooms/[[${city}]]')
-            .then(response => response.json())
-            .then(data => {
-                const dataList = data.map(room => {
-                    return `
-                        <div class="card" id="${room.id}">
-                            <div class="div-frame">
-                                <img src="/img/${room.mainImage}">
-                            </div>
 
-                            <div class="card-body">
-                                <div class="card-title">
-                                    $${room.rent} / Week + $${room.bond} bond (${room.bill})
-                                </div>
-                                <div class="card-contents">
-                                    <div class="card-contents-text">${room.address}</div>
-                                    <div class="card-contents-text">${room.bedroomCount}B${room.bathRoomCount}B - 1 Room in ${room.type} - 1 or 2 people</div>
-                                </div>
+    document.getElementById('btn-send-dm').addEventListener('click', e => {
+        console.log("send clicked");
+
+        // 로그인 체크 로직
+
+
+
+    })
+
+
+
+
+
+    fetch('/api/rooms/[[${city}]]')
+        .then(response => response.json())
+        .then(data => {
+            const dataList = data.map(room => {
+                return `
+                    <div class="card" id="${room.id}">
+                        <div class="div-frame">
+                            <img src="/img/${room.mainImage}">
+                        </div>
+
+                        <div class="card-body">
+                            <div class="card-title">
+                                $${room.rent} / Week + $${room.bond} bond (${room.bill})
+                            </div>
+                            <div class="card-contents">
+                                <div class="card-contents-text">${room.address}</div>
+                                <div class="card-contents-text">${room.bedroomCount}B${room.bathRoomCount}B - 1 Room in ${room.type} - 1 or 2 people</div>
                             </div>
                         </div>
-                    `;
-                }).join('');
+                    </div>
+                `;
+            }).join('');
 
-                document.getElementById('home-list').innerHTML = dataList;
+            document.getElementById('home-list').innerHTML = dataList;
 
-                var roomCards = document.getElementsByClassName('card');
+            var roomCards = document.getElementsByClassName('card');
 
-                Array.from(roomCards).forEach(function(room) {
+            Array.from(roomCards).forEach(function(room) {
 
-                    room.addEventListener('click', function() {
+                room.addEventListener('click', function() {
 
-                        window.location.href = "/room/" + room.id;
-                    });
+                    window.location.href = "/room/" + room.id;
                 });
+            });
 
-            })
-            .catch(error => console.error('Error:', error));
-    </script>
+        })
+        .catch(error => console.error('Error:', error));
+
+    document.getElementById("btn-send-chat").addEventListener('click', e => {
+        var contents = document.getElementById("chat-contents").value;
+        console.log(contents);
+    })
+</script>
 </body>
 </html>
