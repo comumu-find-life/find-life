@@ -27,6 +27,7 @@ public class HomeController {
     @PostMapping("/home")
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public ResponseEntity<Long> saveHome(@RequestBody HomeDto homeCreateDto) throws IOException {
+        //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
         return ResponseEntity.ok(homeService.save(homeCreateDto, location));
     }
