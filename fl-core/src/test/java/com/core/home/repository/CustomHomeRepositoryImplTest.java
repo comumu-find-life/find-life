@@ -61,7 +61,7 @@ public class CustomHomeRepositoryImplTest {
         for(int i=0; i<100; i++){
             HomeAddress homeAddress = HomeAddress.builder()
                     .city("cityName" + i)
-                    .streetNumber("100")
+                    .streetCode("100")
                     .streetName("streetName")
                     .build();
 

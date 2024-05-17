@@ -41,9 +41,9 @@ public class QHomeAddress extends EntityPathBase<HomeAddress> {
 
     public final StringPath state = createString("state");
 
-    public final StringPath streetName = createString("streetName");
+    public final StringPath streetCode = createString("streetCode");
 
-    public final StringPath streetNumber = createString("streetNumber");
+    public final StringPath streetName = createString("streetName");
 
     public QHomeAddress(String variable) {
         super(HomeAddress.class, forVariable(variable));
