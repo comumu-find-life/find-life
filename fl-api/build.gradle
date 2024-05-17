@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
     implementation project(':fl-core')
-    implementation project(':fl-authority')
+    //implementation project(':fl-authority')
     implementation project(':fl-service')
 
 
@@ -23,6 +23,20 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.h2database:h2'
+
+    //security 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    //jwt 라이브러리
+    implementation group: 'com.auth0', name: 'java-jwt', version: '3.16.0'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+
 }
 
 test {

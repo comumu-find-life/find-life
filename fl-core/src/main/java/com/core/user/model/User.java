@@ -42,26 +42,11 @@ public class User extends BaseTimeEntity {
 
     private Integer phoneNumber;
 
+    private String job;
+
     private Gender gender;
 
     private String nationality;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_point_id")
-    private UserPoint userPoint;
-
-    public void setUserAccount(Integer account, String bank){
-        userPoint.setAccount(account);
-        userPoint.setBank(bank);
-    }
-
-    public double decreasePoint(double price){
-        return userPoint.decreasePoint(price);
-    }
-
-    public double increasePoint(double price){
-        return userPoint.increasePoint(price);
-    }
 
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;

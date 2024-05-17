@@ -12,6 +12,7 @@ public class CreateProtectedDealDto {
 
     private Long providerId;
 
-    // 계약금
+
+    // 계약금/보증금
     private double bond;
 }

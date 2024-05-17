@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/comumu?serverTimezone=Asia/Seoul
     username: root
-    password: dhsdk1977!D
+    password: sin981023@
   logging:
     level:
       me.selvernine: DEBUG
