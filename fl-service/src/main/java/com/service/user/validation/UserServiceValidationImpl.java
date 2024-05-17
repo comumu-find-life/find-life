@@ -1,6 +1,5 @@
 package com.service.user.validation;
 
-import com.core.user.model.UserPoint;
 import com.core.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,10 +25,4 @@ public class UserServiceValidationImpl implements UserServiceValidation {
         }
     }
 
-    @Override
-    public void validateDecreasePoint(UserPoint userPoint, double price) throws Exception {
-        if(userPoint.getPoint() - price < 0) {
-            throw new IllegalArgumentException(LACK_POINT_ERROR);
-        }
-    }
 }

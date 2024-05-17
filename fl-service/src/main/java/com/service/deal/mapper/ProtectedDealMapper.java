@@ -20,7 +20,6 @@ public interface ProtectedDealMapper {
     @Mapping(target = "totalPrice", expression = "java(protectedDeal.calculateFinalPayPrice())")
     ProtectedDealResponse toDto(ProtectedDeal protectedDeal);
 
-    //todo DealState symbol 에러 해결해야댐
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "dealState", expression = "java(com.core.deal.model.DealState.DURING)")
     ProtectedDeal toEntity(CreateProtectedDealDto dto);
