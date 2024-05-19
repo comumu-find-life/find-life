@@ -35,10 +35,12 @@ public class SecurityConfig {
     private static final String[] GET_AUTH_WHITELIST = {
             "/v1/api/home",
             "/v1/api/homes",
+            "/v1/api/user/profile"
     };
 
     private static final String[] POST_AUTH_WHITELIST = {
             "/v1/api/user",
+
             "/v1/api/user/sign-up",
     };
     private final LoginService loginService;
@@ -64,7 +66,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, GET_AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, POST_AUTH_WHITELIST).permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 );
 
         http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);

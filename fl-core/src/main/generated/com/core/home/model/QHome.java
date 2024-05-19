@@ -50,8 +50,6 @@ public class QHome extends EntityPathBase<Home> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
-    public final NumberPath<Integer> peopleCount = createNumber("peopleCount", Integer.class);
-
     public final NumberPath<Integer> rent = createNumber("rent", Integer.class);
 
     public final EnumPath<HomeType> type = createEnum("type", HomeType.class);

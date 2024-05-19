@@ -48,6 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if (refreshToken == null) {
+
             checkAccessTokenAndAuthentication(request, response, filterChain);
         }
     }
@@ -86,6 +87,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
         log.info("checkAccessTokenAndAuthentication() 호출");
+
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
                 .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
@@ -106,7 +108,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(userDetailsUser, null,
                         authoritiesMapper.mapAuthorities(userDetailsUser.getAuthorities()));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
