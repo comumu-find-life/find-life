@@ -3,16 +3,14 @@ package com.service.home;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.service.home.dto.HomeAddressDto;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.LatLng;
-import com.service.home.dto.geocoding.GeocodingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Objects;
 
 @Service
 public class LocationService {
@@ -54,7 +52,7 @@ public class LocationService {
      * 2015 : 우편번호
      */
 
-    public LatLng getLatLngFromAddress(HomeAddressDto homeAddressDto) throws IOException {
+    public LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto) throws IOException {
         String url = String.format("%s?address=%s&key=%s", GEOCODING_API_URL, toStringAddress(homeAddressDto), API_KEY);
         URI uri = URI.create(url);
 
@@ -75,7 +73,7 @@ public class LocationService {
         return new LatLng(lat, lng);
     }
 
-    private String toStringAddress(HomeAddressDto addressDto){
+    private String toStringAddress(HomeAddressGeneratorRequest addressDto){
         StringBuilder sb = new StringBuilder();
 
         // 거리번호

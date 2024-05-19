@@ -2,7 +2,7 @@ package com.api.home;
 
 import com.service.home.HomeService;
 import com.service.home.LocationService;
-import com.service.home.dto.HomeDto;
+import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.SimpleHomeDto;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class HomeController {
     //게시글 저장 api
     @PostMapping("/home")
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
-    public ResponseEntity<Long> saveHome(@RequestBody HomeDto homeCreateDto) throws IOException {
+    public ResponseEntity<Long> saveHome(@RequestBody HomeGeneratorRequest homeCreateDto) throws IOException {
         //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
         return ResponseEntity.ok(homeService.save(homeCreateDto, location));
@@ -34,17 +33,10 @@ public class HomeController {
 
     //id 로 home 조회
     @GetMapping("/home")
-    public ResponseEntity<HomeDto> findById(@RequestParam Long homeId) {
+    public ResponseEntity<HomeGeneratorRequest> findById(@RequestParam Long homeId) {
         return ResponseEntity.ok(homeService.findById(homeId));
     }
 
-    //home 수정
-    @PatchMapping("/home/{homeId}")
-    @PreAuthorize("hasRole(ROLE_PROVIDER)")
-    public ResponseEntity<String> update(@RequestBody HomeDto homeDto) {
-        homeService.update(homeDto);
-        return ResponseEntity.ok("update!");
-    }
 
     //public ResponseEntity<SimpleHomeDto>
 

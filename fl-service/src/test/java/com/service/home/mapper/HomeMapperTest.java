@@ -3,8 +3,8 @@ package com.service.home.mapper;
 import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
-import com.service.home.dto.HomeAddressDto;
-import com.service.home.dto.HomeDto;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
+import com.service.home.dto.request.HomeGeneratorRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -21,10 +21,9 @@ public class HomeMapperTest {
         //given
         Home home = generateHomeEntity();
         //when
-        HomeDto homeDto = homeMapper.toDto(home);
+        HomeGeneratorRequest homeDto = homeMapper.toDto(home);
 
         //then
-        System.out.println(home.getViewCount());
         assertThat(homeDto.getImages().size()).isEqualTo(1);
         assertThat(homeDto.getHomeAddress().getCity()).isEqualTo("city name");
     }
@@ -33,7 +32,7 @@ public class HomeMapperTest {
     @Test
     void HomeDto_to_Home_변경_테스트() {
         //given
-        HomeDto homeDto = generateHomeDto();
+        HomeGeneratorRequest homeDto = generateHomeDto();
 
         //when
         Home entity = homeMapper.toHomeEntity(homeDto);
@@ -44,8 +43,8 @@ public class HomeMapperTest {
         assertThat(entity.getUserId()).isEqualTo(1L);
     }
 
-    private HomeDto generateHomeDto() {
-        HomeAddressDto addressDto = HomeAddressDto.builder()
+    private HomeGeneratorRequest generateHomeDto() {
+        HomeAddressGeneratorRequest addressDto = HomeAddressGeneratorRequest.builder()
                 .city("test city")
                 .postCode(1234)
                 .build();
@@ -56,7 +55,7 @@ public class HomeMapperTest {
         images.add("url2");
         images.add("url3");
 
-        HomeDto homeDto = HomeDto.builder()
+        HomeGeneratorRequest homeDto = HomeGeneratorRequest.builder()
                 .homeAddress(addressDto)
                 .userId(1L)
                 .images(images)

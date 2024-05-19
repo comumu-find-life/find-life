@@ -5,10 +5,7 @@ import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -27,13 +24,16 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
+    //이메일 회원가입
     private String email;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @NonNull
     private String nickName;
 
+    @NonNull
     private String password;
 
     private String profileUrl;
@@ -44,8 +44,10 @@ public class User extends BaseTimeEntity {
 
     private String job;
 
+    @NonNull
     private Gender gender;
 
+    @NonNull
     private String nationality;
 
     public void passwordEncode(String encodePassword) {

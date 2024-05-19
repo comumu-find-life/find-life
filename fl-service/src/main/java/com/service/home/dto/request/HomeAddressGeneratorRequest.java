@@ -1,12 +1,11 @@
-package com.service.home.dto;
+package com.service.home.dto.request;
 
-import com.core.home.model.HomeAddress;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class HomeAddressDto {
+public class HomeAddressGeneratorRequest {
 
     // ex) NSW
     private String state;

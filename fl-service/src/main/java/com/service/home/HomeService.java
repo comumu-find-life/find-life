@@ -2,13 +2,11 @@ package com.service.home;
 
 import com.core.home.model.Home;
 import com.core.home.reposiotry.HomeRepository;
-import com.core.user.model.User;
-import com.service.home.dto.HomeDto;
+import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.SimpleHomeDto;
 import com.service.home.mapper.HomeMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,7 @@ public class HomeService {
     private final HomeRepository homeRepository;
     private final HomeMapper homeMapper;
 
-    public Long save(HomeDto homeCreateDto, LatLng latLng) {
+    public Long save(HomeGeneratorRequest homeCreateDto, LatLng latLng) {
         // 코드 구현
         Home home = homeMapper.toHomeEntity(homeCreateDto);
         // 검증 기능 구현
@@ -32,13 +30,9 @@ public class HomeService {
         return homeRepository.save(home).getId();
     }
 
-    public void update(HomeDto updateHome) {
-        Optional<Home> home = homeRepository.findById(updateHome.getId());
-        Home updateEntity = homeMapper.toEntity(updateHome);
-        home.get().update(updateEntity);
-    }
 
-    public HomeDto findById(Long id) {
+
+    public HomeGeneratorRequest findById(Long id) {
         Optional<Home> entity = homeRepository.findById(id);
         return homeMapper.toDto(entity.get());
     }
