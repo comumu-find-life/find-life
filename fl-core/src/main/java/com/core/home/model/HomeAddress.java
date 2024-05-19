@@ -19,6 +19,7 @@ public class HomeAddress extends BaseTimeEntity {
     @Column(name = "home_address_id")
     private Long id;
 
+
     // 주
     private String state;
 
