@@ -1,13 +1,16 @@
 package com.api.home;
 
+import com.api.dto.SuccessResponse;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.SimpleHomeDto;
+import com.service.home.dto.response.HomeInformationResponse;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,22 +27,22 @@ public class HomeController {
 
     //게시글 저장 api
     @PostMapping("/home")
-    @PreAuthorize("hasRole('ROLE_PROVIDER')")
-    public ResponseEntity<Long> saveHome(@RequestBody HomeGeneratorRequest homeCreateDto) throws IOException {
+
+    public ResponseEntity<?> saveHome(@RequestBody HomeGeneratorRequest homeCreateDto) throws IOException {
         //주소 -> 위도, 경도 변환
+        System.out.printf("STARTT");
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
-        return ResponseEntity.ok(homeService.save(homeCreateDto, location));
+        Long homeId = homeService.save(homeCreateDto, location);
+        SuccessResponse response = new SuccessResponse(true, "집 게시글 등록 성공", homeId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //id 로 home 조회
-    @GetMapping("/home")
-    public ResponseEntity<HomeGeneratorRequest> findById(@RequestParam Long homeId) {
-        return ResponseEntity.ok(homeService.findById(homeId));
-    }
-
+    //id 로 home 게시글 조회
+//    @GetMapping("/home")
+//    public ResponseEntity<HomeInformationResponse> findById(@RequestParam Long homeId) {
+//    }
 
     //public ResponseEntity<SimpleHomeDto>
-
     @DeleteMapping("/home")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
     public ResponseEntity<String> delete(@PathVariable Long id) {
