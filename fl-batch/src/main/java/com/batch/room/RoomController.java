@@ -26,4 +26,9 @@ public class RoomController {
         model.addAttribute("roomId", id);
         return "room/room";
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "main/mainPage";
+    }
 }

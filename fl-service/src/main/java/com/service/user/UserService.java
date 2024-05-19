@@ -51,6 +51,12 @@ public class UserService {
         return userMapper.toDto(user.get());
     }
 
+    //회원 email로 회원 조회
+    public UserInformationDto findByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return userMapper.toDto(user.get());
+    }
+
     //delete
     public void delete(Long id) {
         Optional<User> user = userRepository.findById(id);

@@ -31,7 +31,6 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(LoginFormDto loginFormDto, HttpServletResponse response) {
-        System.out.println("login-start");
         String url ="http://localhost:8080/login";
 
         HttpHeaders headers = new HttpHeaders();
