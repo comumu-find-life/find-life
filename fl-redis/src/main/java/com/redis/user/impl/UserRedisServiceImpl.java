@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserRedisServiceImpl implements UserRedisService {
 
-
     private static final String REFRESH_TOKEN_KEY = "RefreshToken::";
 
     private final UserRepository userRepository;

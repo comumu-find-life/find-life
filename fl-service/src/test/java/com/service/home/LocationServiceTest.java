@@ -1,13 +1,9 @@
 package com.service.home;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.home.dto.HomeAddressDto;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.LatLng;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
@@ -33,7 +29,7 @@ public class LocationServiceTest {
     @Test
     void 주소_위도_경도_변환_테스트() throws IOException {
         //given
-        HomeAddressDto address = HomeAddressDto.builder()
+        HomeAddressGeneratorRequest address = HomeAddressGeneratorRequest.builder()
                 .state("VIC")
                 .city("Melbourne")
                 .postCode(3000)

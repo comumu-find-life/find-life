@@ -1,6 +1,5 @@
 package com.batch.room;
 
-import com.service.home.dto.HomeDto;
 import com.service.home.dto.SimpleHomeDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

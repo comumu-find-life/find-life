@@ -12,4 +12,5 @@ public class UserInformationDto {
     private String nickName;
 
     private String profileUrl;
+
 }

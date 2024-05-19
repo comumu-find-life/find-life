@@ -3,8 +3,8 @@ package com.service.home.mapper;
 import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
-import com.service.home.dto.HomeAddressDto;
-import com.service.home.dto.HomeDto;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
+import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.SimpleHomeDto;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -23,27 +23,27 @@ public interface HomeMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "images", ignore = true)
     @Mapping(target = "viewCount", ignore = true)
-    Home toEntity(HomeDto homeDto);
+    Home toEntity(HomeGeneratorRequest homeDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "latitude", ignore = true)
     @Mapping(target = "longitude", ignore = true)
-    HomeAddress toAddressEntity(HomeAddressDto homeAddressDto);
+    HomeAddress toAddressEntity(HomeAddressGeneratorRequest homeAddressDto);
 
     @Mapping(target = "homeAddress", source = "homeAddress")
     @Mapping(target = "images", source = "images", qualifiedByName = "mapImageUrls")
-    HomeDto toDto(Home home);
+    HomeGeneratorRequest toDto(Home home);
 
     @Mapping(target = "address", source = "homeAddress", qualifiedByName = "mapSimpleAddress")
     @Mapping(target = "mainImage", source = "images", qualifiedByName = "mapMainImage")
     SimpleHomeDto toSimpleHomeDto(Home home);
 
-    HomeAddressDto toAddressDto(HomeAddress address);
+    HomeAddressGeneratorRequest toAddressDto(HomeAddress address);
 
     /**
      * 커스텀 메서드
      */
-    default Home toHomeEntity(HomeDto homeDto) {
+    default Home toHomeEntity(HomeGeneratorRequest homeDto) {
         Home home = toEntity(homeDto);
         List<HomeImage> homeImages = mapHomeImages(homeDto.getImages(), home);
         home.setImages(homeImages);
