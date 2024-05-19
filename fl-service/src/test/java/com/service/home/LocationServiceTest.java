@@ -1,15 +1,14 @@
 package com.service.home;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.home.dto.HomeAddressDto;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.LatLng;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class LocationServiceTest {
 
@@ -33,20 +32,19 @@ public class LocationServiceTest {
     @Test
     void 주소_위도_경도_변환_테스트() throws IOException {
         //given
-        HomeAddressDto address = HomeAddressDto.builder()
-                .state("VIC")
-                .city("Melbourne")
-                .postCode(3000)
-                .streetNumber("121")
+        HomeAddressGeneratorRequest address = HomeAddressGeneratorRequest.builder()
+                .state("NSW")
+                .city("Sydney")
+                .postCode(2000)
+                .streetNumber("10")
+                .streetName("BridgeStreet")
                 .build();
         //when
         LatLng latLngFromAddress = locationService.getLatLngFromAddress(address);
 
-        System.out.println(latLngFromAddress.getLat());
-        System.out.println(latLngFromAddress.getLng());
         //then
-        //Assertions.assertThat(latLngFromAddress.getLat()).isEqualTo(-33.8093134);
-        //Assertions.assertThat(latLngFromAddress.getLng()).isEqualTo(150.9566326);
+        assertThat(latLngFromAddress.getLat()).isEqualTo(-33.8633957);
+        assertThat(latLngFromAddress.getLng()).isEqualTo(151.2081836);
     }
 
 

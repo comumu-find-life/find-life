@@ -48,8 +48,10 @@ public class Home extends BaseTimeEntity {
     // 안전 거래 가능 여부
     private boolean dealSavable;
 
-    //사는 사람 수
-    private Integer peopleCount;
+    //options
+    // 옵션들
+    @OneToMany(mappedBy = "home", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HomeOption> options;
 
     //보증금
     private Integer bond;
@@ -75,7 +77,6 @@ public class Home extends BaseTimeEntity {
     public void update(Home home){
         this.homeAddress = home.homeAddress;
         this.bathRoomCount = home.bathRoomCount;
-        this.peopleCount = home.peopleCount;
         this.bond = home.bond;
         this.gender = home.gender;
         this.introduce = home.introduce;
@@ -90,9 +91,6 @@ public class Home extends BaseTimeEntity {
         homeAddress.setLatLnd(lat, lng);
     }
 
-    public void setHomeAddress(HomeAddress address) {
-        this.homeAddress = address;
-    }
 
     public void setImages(List<HomeImage> images) {
         this.images = images;

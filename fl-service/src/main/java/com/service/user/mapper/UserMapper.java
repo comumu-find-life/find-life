@@ -2,6 +2,7 @@ package com.service.user.mapper;
 
 import com.core.user.model.User;
 import com.service.user.dto.UserInformationDto;
+import com.service.user.dto.UserProfileRequest;
 import com.service.user.dto.UserSignupRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,6 +20,8 @@ public interface UserMapper {
     User toEntity(UserSignupRequest dto);
 
     UserInformationDto toDto(User user);
+
+    UserProfileRequest toProfile(User user);
 
 
 }

@@ -2,10 +2,7 @@ package com.service.user;
 
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
-import com.service.user.dto.UserAccountRequest;
-import com.service.user.dto.UserInformationDto;
-import com.service.user.dto.UserSignupRequest;
-import com.service.user.dto.UserUpdatePointRequest;
+import com.service.user.dto.*;
 import com.service.user.mapper.UserMapper;
 import com.service.user.validation.UserServiceValidation;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +47,13 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
         return userMapper.toDto(user.get());
     }
+
+    // 다른 사용자 프로필 조회 기능
+    public UserProfileRequest getUserProfile(Long id){
+        Optional<User> user = userRepository.findById(id);
+        return userMapper.toProfile(user.get());
+    }
+
 
     //delete
     public void delete(Long id) {

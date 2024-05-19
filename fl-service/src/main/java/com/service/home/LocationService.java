@@ -3,16 +3,14 @@ package com.service.home;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.service.home.dto.HomeAddressDto;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.LatLng;
-import com.service.home.dto.geocoding.GeocodingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Objects;
 
 @Service
 public class LocationService {
@@ -33,12 +31,8 @@ public class LocationService {
     public String searchPlaceInAustralia(String placeName) {
         String url = String.format("%s?input=%s&inputtype=textquery&fields=name,geometry&key=%s&region=au",
                 PLACES_API_URL, placeName, API_KEY);
-
         // Google Places API 호출
         String response = restTemplate.getForObject(url, String.class);
-
-
-        // 응답 처리
         return response;
     }
 
@@ -54,7 +48,7 @@ public class LocationService {
      * 2015 : 우편번호
      */
 
-    public LatLng getLatLngFromAddress(HomeAddressDto homeAddressDto) throws IOException {
+    public LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto) throws IOException {
         String url = String.format("%s?address=%s&key=%s", GEOCODING_API_URL, toStringAddress(homeAddressDto), API_KEY);
         URI uri = URI.create(url);
 
@@ -75,7 +69,7 @@ public class LocationService {
         return new LatLng(lat, lng);
     }
 
-    private String toStringAddress(HomeAddressDto addressDto){
+    private String toStringAddress(HomeAddressGeneratorRequest addressDto){
         StringBuilder sb = new StringBuilder();
 
         // 거리번호
@@ -83,10 +77,11 @@ public class LocationService {
         //거리 이름
         sb.append(addressDto.getStreetName());
         // todo 항상 street?
-        sb.append("St,");
+        sb.append(",");
         //city 이름
         //sb.append(addressDto.getCity()+",");
         // 주
+        sb.append(addressDto.getCity());
         sb.append(addressDto.getState()+",");
         //우편주소
         sb.append(addressDto.getPostCode());
