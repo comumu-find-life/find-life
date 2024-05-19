@@ -31,12 +31,8 @@ public class LocationService {
     public String searchPlaceInAustralia(String placeName) {
         String url = String.format("%s?input=%s&inputtype=textquery&fields=name,geometry&key=%s&region=au",
                 PLACES_API_URL, placeName, API_KEY);
-
         // Google Places API 호출
         String response = restTemplate.getForObject(url, String.class);
-
-
-        // 응답 처리
         return response;
     }
 
@@ -81,10 +77,11 @@ public class LocationService {
         //거리 이름
         sb.append(addressDto.getStreetName());
         // todo 항상 street?
-        sb.append("St,");
+        sb.append(",");
         //city 이름
         //sb.append(addressDto.getCity()+",");
         // 주
+        sb.append(addressDto.getCity());
         sb.append(addressDto.getState()+",");
         //우편주소
         sb.append(addressDto.getPostCode());

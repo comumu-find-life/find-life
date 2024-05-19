@@ -2,10 +2,13 @@ package com.service.home;
 
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.LatLng;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class LocationServiceTest {
 
@@ -30,19 +33,18 @@ public class LocationServiceTest {
     void 주소_위도_경도_변환_테스트() throws IOException {
         //given
         HomeAddressGeneratorRequest address = HomeAddressGeneratorRequest.builder()
-                .state("VIC")
-                .city("Melbourne")
-                .postCode(3000)
-                .streetNumber("121")
+                .state("NSW")
+                .city("Sydney")
+                .postCode(2000)
+                .streetNumber("10")
+                .streetName("BridgeStreet")
                 .build();
         //when
         LatLng latLngFromAddress = locationService.getLatLngFromAddress(address);
 
-        System.out.println(latLngFromAddress.getLat());
-        System.out.println(latLngFromAddress.getLng());
         //then
-        //Assertions.assertThat(latLngFromAddress.getLat()).isEqualTo(-33.8093134);
-        //Assertions.assertThat(latLngFromAddress.getLng()).isEqualTo(150.9566326);
+        assertThat(latLngFromAddress.getLat()).isEqualTo(-33.8633957);
+        assertThat(latLngFromAddress.getLng()).isEqualTo(151.2081836);
     }
 
 
