@@ -43,6 +43,11 @@ public class HomeService {
         return homeMapper.toDto(entity.get());
     }
 
+    public SimpleHomeDto findByIdWithUser(Long id) {
+        Optional<Home> entity = homeRepository.findByIdWithUser(id);
+        return homeMapper.toSimpleHomeDto(entity.get());
+    }
+
     public List<SimpleHomeDto> findFavoriteHomes(List<Long> homeIds) {
         return homeIds.stream()
                 .map(homeId -> {

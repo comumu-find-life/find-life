@@ -48,6 +48,9 @@ public class User extends BaseTimeEntity {
 
     private String nationality;
 
+//    @OneToMany(mappedBy = "user")
+//    private List<Home> homes;
+
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
     }

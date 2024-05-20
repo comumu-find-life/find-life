@@ -3,6 +3,7 @@ package com.service.home.mapper;
 import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
+import com.core.user.model.User;
 import com.service.home.dto.HomeAddressDto;
 import com.service.home.dto.HomeDto;
 import com.service.home.dto.SimpleHomeDto;
@@ -35,6 +36,8 @@ public interface HomeMapper {
     HomeDto toDto(Home home);
 
     @Mapping(target = "address", source = "homeAddress", qualifiedByName = "mapSimpleAddress")
+    @Mapping(target = "userId", source = "user", qualifiedByName = "mapUserId")
+    @Mapping(target = "userName", source = "user", qualifiedByName = "mapUserName")
     @Mapping(target = "mainImage", source = "images", qualifiedByName = "mapMainImage")
     SimpleHomeDto toSimpleHomeDto(Home home);
 
@@ -86,4 +89,13 @@ public interface HomeMapper {
         return sb.toString();
     }
 
+    @Named("mapUserId")
+    default Long mapUserId(User user) {
+        return user.getId();
+    }
+
+    @Named("mapUserName")
+    default String mapUserName(User user) {
+        return user.getNickName();
+    }
 }

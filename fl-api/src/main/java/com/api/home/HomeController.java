@@ -8,6 +8,7 @@ import com.service.home.dto.SimpleHomeDto;
 import lombok.RequiredArgsConstructor;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api")
@@ -36,6 +38,12 @@ public class HomeController {
     @GetMapping("/home")
     public ResponseEntity<HomeDto> findById(@RequestParam Long homeId) {
         return ResponseEntity.ok(homeService.findById(homeId));
+    }
+
+    //id 로 home 조회 With User
+    @GetMapping("/home/{homeId}")
+    public ResponseEntity<SimpleHomeDto> findByIdWithProviderInfo(@PathVariable Long homeId) {
+        return ResponseEntity.ok(homeService.findByIdWithUser(homeId));
     }
 
     //home 수정
@@ -64,6 +72,7 @@ public class HomeController {
     // ex) /homes?page=1&size=10
     @GetMapping("/homes/{city}")
     public ResponseEntity<List<SimpleHomeDto>> findByCity(@PathVariable String city, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+        log.info("/home/" + city);
         return ResponseEntity.ok(homeService.findByCity(city, page, size));
     }
 
