@@ -18,8 +18,6 @@ public class HomeGeneratorRequest {
 
     private List<String> images;
 
-    private List<Option> options;
-
     private HomeAddressGeneratorRequest homeAddress;
 
     private Integer bathRoomCount;
@@ -39,5 +37,7 @@ public class HomeGeneratorRequest {
     private Integer bill;
 
     private Integer rent;
+
+    private String options;
 
 }
