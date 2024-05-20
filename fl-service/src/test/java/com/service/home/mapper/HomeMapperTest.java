@@ -3,8 +3,13 @@ package com.service.home.mapper;
 import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
+import com.core.user.model.Gender;
+import com.core.user.model.User;
+import com.service.home.dto.SimpleHomeDto;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
+import com.service.home.dto.response.HomeInformationResponse;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,21 +21,22 @@ public class HomeMapperTest {
 
     private HomeMapper homeMapper = HomeMapper.INSTANCE;
 
+
     @Test
-    void Home_to_HomeDto_변경_테스트() {
+    void HomeInformationResponse_변경_테스트(){
         //given
         Home home = generateHomeEntity();
+        User user = generateUserEntity();
         //when
-        HomeGeneratorRequest homeDto = homeMapper.toDto(home);
-
+        HomeInformationResponse homeInformationResponse = homeMapper.toHomeInformation(home, user);
         //then
-        assertThat(homeDto.getImages().size()).isEqualTo(1);
-        assertThat(homeDto.getHomeAddress().getCity()).isEqualTo("city name");
+        Assertions.assertThat(homeInformationResponse.getAddress()).isEqualTo("10 BridgeStreet , Sydney NSW 2000");
+        Assertions.assertThat(homeInformationResponse.getProviderName()).isEqualTo("이름");
+        Assertions.assertThat(homeInformationResponse.getImages().size()).isEqualTo(3);
     }
 
-
     @Test
-    void HomeDto_to_Home_변경_테스트() {
+    void HomeDto_변경_테스트() {
         //given
         HomeGeneratorRequest homeDto = generateHomeDto();
 
@@ -41,6 +47,19 @@ public class HomeMapperTest {
         assertThat(entity.getImages().get(0).getHome()).isEqualTo(entity);
         assertThat(entity.getHomeAddress().getCity()).isEqualTo("test city");
         assertThat(entity.getUserId()).isEqualTo(1L);
+    }
+
+    @Test
+    void SimpleHomeDto_변경_테스트(){
+        //given
+        Home home = generateHomeEntity();
+
+        //when
+        SimpleHomeDto simpleHomeDto = homeMapper.toSimpleHomeDto(home);
+
+        //then
+        Assertions.assertThat(simpleHomeDto.getLatitude()).isEqualTo(-33.33);
+        Assertions.assertThat(simpleHomeDto.getLongitude()).isEqualTo(150.11);
     }
 
     private HomeGeneratorRequest generateHomeDto() {
@@ -66,12 +85,25 @@ public class HomeMapperTest {
         return homeDto;
     }
 
+    private User generateUserEntity(){
+        return User.builder()
+                .nickName("이름")
+                .password("12345")
+                .profileUrl("profuleURL")
+                .id(1L)
+                .build();
+    }
+
     private Home generateHomeEntity() {
         HomeAddress homeAddress = HomeAddress.builder()
                 .id(1L)
-                .state("WBC")
-                .city("city name")
-                .postCode(1234)
+                .latitude(-33.33)
+                .longitude(150.11)
+                .state("NSW")
+                .city("Sydney")
+                .postCode(2000)
+                .streetCode("10")
+                .streetName("BridgeStreet")
                 .build();
 
         Home home = Home.builder()
@@ -81,11 +113,13 @@ public class HomeMapperTest {
                 .build();
 
         List<HomeImage> images = new ArrayList<>();
-        images.add(HomeImage.builder()
-                .id(1L)
-                .imageUrl("url1")
-                .home(home)
-                .build());
+        for (int i=0; i<3; i++){
+            images.add(HomeImage.builder()
+                    .id((long) i)
+                    .imageUrl("url" +i)
+                    .home(home)
+                    .build());
+        }
 
 
         home.setImages(images);

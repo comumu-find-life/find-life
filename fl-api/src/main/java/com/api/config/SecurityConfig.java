@@ -35,6 +35,7 @@ public class SecurityConfig {
     private static final String[] GET_AUTH_WHITELIST = {
             "/v1/api/home",
             "/v1/api/homes",
+            "/v1/api/homes/overview",
             "/v1/api/user/profile"
     };
 
