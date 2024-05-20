@@ -4,12 +4,13 @@ import com.core.home.model.Home;
 import com.core.home.reposiotry.HomeRepository;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
+import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
-import com.service.home.dto.SimpleHomeDto;
 import com.service.home.dto.response.HomeInformationResponse;
 import com.service.home.mapper.HomeMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.service.home.utils.HomeUtil.*;
 
 @Service
 @RequiredArgsConstructor
@@ -47,8 +50,8 @@ public class HomeService {
     /**
      * 모든 집 게시글 조회 (맵 화면에서 사용)
      */
-    public List<SimpleHomeDto> findAllHomes() {
-        List<SimpleHomeDto> response = new ArrayList<>();
+    public List<HomeOverviewResponse> findAllHomes() {
+        List<HomeOverviewResponse> response = new ArrayList<>();
         List<Home> homes = homeRepository.findAll();
         homes.stream().forEach(home -> {
             response.add(homeMapper.toSimpleHomeDto(home));
@@ -57,7 +60,7 @@ public class HomeService {
     }
 
 
-    public List<SimpleHomeDto> findFavoriteHomes(List<Long> homeIds) {
+    public List<HomeOverviewResponse> findFavoriteHomes(List<Long> homeIds) {
         return homeIds.stream()
                 .map(homeId -> {
                     Optional<Home> byId = homeRepository.findById(homeId);
@@ -70,31 +73,23 @@ public class HomeService {
         homeRepository.delete(entity.get());
     }
 
-    public List<SimpleHomeDto> findByCity(String cityName, int pageNumber, int pageSize) {
-        List<Home> homes = homeRepository.findByCity(cityName, toPageRequest(pageNumber, pageSize));
-        return toSimpleDtos(homes);
+    /**
+     * city 이름으로 page 사이즈 만큼 조회
+     */
+    public List<HomeOverviewResponse> findByCity(String cityName, int pageNumber, int pageSize) {
+        List<Home> homes = homeRepository.findByCity(cityName);
+        System.out.println("dd");
+        return toListOverview(homes, homeMapper);
     }
 
     // 페이징으로 조회
-    public List<SimpleHomeDto> findAllByPage(int pageNumber, int pageSize) {
+    public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
-        return toSimpleDtos(homes);
+        return toListOverview(homes, homeMapper);
     }
 
-    private PageRequest toPageRequest(int pageNumber, int pageSize) {
-        return PageRequest.of(pageNumber, pageSize);
-    }
 
-    private List<SimpleHomeDto> toSimpleDtos(List<Home> homes) {
 
-        List<SimpleHomeDto> simpleHomeDtos = new ArrayList<>();
-        homes.stream()
-                .forEach(home -> {
-                    SimpleHomeDto simpleHomeDto = homeMapper.toSimpleHomeDto(home);
-                    simpleHomeDtos.add(simpleHomeDto);
-                });
-        return simpleHomeDtos;
-    }
 
 
 }

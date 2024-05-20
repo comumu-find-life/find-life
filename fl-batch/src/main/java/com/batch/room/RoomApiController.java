@@ -1,6 +1,6 @@
 package com.batch.room;
 
-import com.service.home.dto.SimpleHomeDto;
+import com.service.home.dto.HomeOverviewResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +17,8 @@ public class RoomApiController {
     private final RoomApiService roomApiService;
 
     @GetMapping("/rooms/{city}")
-    public List<SimpleHomeDto> rooms(@PathVariable String city) {
-        List<SimpleHomeDto> homeDtos = roomApiService.findRoomByCity(city);
+    public List<HomeOverviewResponse> rooms(@PathVariable String city) {
+        List<HomeOverviewResponse> homeDtos = roomApiService.findRoomByCity(city);
 
         return homeDtos;
     }

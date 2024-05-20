@@ -6,6 +6,7 @@ import com.core.home.model.QHome;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -35,11 +36,11 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
     }
 
     @Override
-    public List<Home> findByCity(String cityName, Pageable pageable) {
-        return query.selectFrom(qHome)
+    public List<Home> findByCity(String cityName) {
+        List<Home> homes = query.selectFrom(qHome)
                 .where(qHome.homeAddress.city.like("%" + cityName +"%"))
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
                 .fetch();
+
+        return homes;
     }
 }

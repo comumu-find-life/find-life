@@ -1,7 +1,6 @@
 package com.service.home.dto.request;
 
 import com.core.home.model.HomeType;
-import com.core.home.model.Option;
 import com.core.user.model.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

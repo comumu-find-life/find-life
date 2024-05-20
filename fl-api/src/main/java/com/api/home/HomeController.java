@@ -3,13 +3,14 @@ package com.api.home;
 import com.api.dto.SuccessResponse;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
+import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
-import com.service.home.dto.SimpleHomeDto;
 import com.service.home.dto.response.HomeInformationResponse;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,13 +45,13 @@ public class HomeController {
 
     @GetMapping("/homes/overview")
     public ResponseEntity<?> findAll(){
-        List<SimpleHomeDto> allHomes = homeService.findAllHomes();
+        List<HomeOverviewResponse> allHomes = homeService.findAllHomes();
         SuccessResponse response = new SuccessResponse(true, "모든 집 정보 조회 성공", allHomes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
-    //public ResponseEntity<SimpleHomeDto>
+    //public ResponseEntity<HomeOverviewResponse>
     @DeleteMapping("/home")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
     public ResponseEntity<String> delete(@PathVariable Long id) {
@@ -60,19 +61,21 @@ public class HomeController {
 
     // ex) /homes?page=1&size=10
     @GetMapping("/homes")
-    public ResponseEntity<List<SimpleHomeDto>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<List<HomeOverviewResponse>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(homeService.findAllByPage(page, size));
     }
 
     // ex) /homes?page=1&size=10
     @GetMapping("/homes/{city}")
-    public ResponseEntity<List<SimpleHomeDto>> findByCity(@PathVariable String city, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(homeService.findByCity(city, page, size));
+    public ResponseEntity<?> findByCity(@PathVariable String city, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+        List<HomeOverviewResponse> homes = homeService.findByCity(city, page, size);
+        SuccessResponse<Object> response = new SuccessResponse<>(true, "city 이름으로 조회 성공", homes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/homes/favorite")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
-    public ResponseEntity<List<SimpleHomeDto>> findFavoriteHomes(@RequestBody List<Long> homeIds) {
+    public ResponseEntity<List<HomeOverviewResponse>> findFavoriteHomes(@RequestBody List<Long> homeIds) {
         return ResponseEntity.ok(homeService.findFavoriteHomes(homeIds));
     }
 

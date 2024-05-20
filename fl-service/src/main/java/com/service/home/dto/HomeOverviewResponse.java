@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class SimpleHomeDto {
+public class HomeOverviewResponse {
     private Long id;
     private String address;
     private double latitude;
