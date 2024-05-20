@@ -1,6 +1,6 @@
 package com.batch.room;
 
-import com.service.home.dto.SimpleHomeDto;
+import com.service.home.dto.HomeOverviewResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,12 +14,12 @@ public class RoomApiService {
     @Value("${domain.api}")
     private String baseUrl;
 
-    public List<SimpleHomeDto> findRoomByCity(String city) {
+    public List<HomeOverviewResponse> findRoomByCity(String city) {
 
         RestTemplate restTemplate = new RestTemplate();
         String url = baseUrl + "/homes/" + city;
 
-        SimpleHomeDto[] homeDtos = restTemplate.getForObject(url, SimpleHomeDto[].class);
+        HomeOverviewResponse[] homeDtos = restTemplate.getForObject(url, HomeOverviewResponse[].class);
 
         return Arrays.asList(homeDtos);
     }

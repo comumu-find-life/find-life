@@ -35,13 +35,13 @@ public class SecurityConfig {
     private static final String[] GET_AUTH_WHITELIST = {
             "/v1/api/home",
             "/v1/api/homes",
+            "/v1/api/homes/{city}",
             "/v1/api/homes/overview",
-            "/v1/api/user/profile"
+            "/v1/api/user/profile",
     };
 
     private static final String[] POST_AUTH_WHITELIST = {
             "/v1/api/user",
-
             "/v1/api/user/sign-up",
     };
     private final LoginService loginService;

@@ -3,9 +3,8 @@ package com.service.home.mapper;
 import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
-import com.core.user.model.Gender;
 import com.core.user.model.User;
-import com.service.home.dto.SimpleHomeDto;
+import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.response.HomeInformationResponse;
@@ -55,7 +54,7 @@ public class HomeMapperTest {
         Home home = generateHomeEntity();
 
         //when
-        SimpleHomeDto simpleHomeDto = homeMapper.toSimpleHomeDto(home);
+        HomeOverviewResponse simpleHomeDto = homeMapper.toSimpleHomeDto(home);
 
         //then
         Assertions.assertThat(simpleHomeDto.getLatitude()).isEqualTo(-33.33);

@@ -4,9 +4,9 @@ import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
 import com.core.user.model.User;
+import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
-import com.service.home.dto.SimpleHomeDto;
 import com.service.home.dto.response.HomeInformationResponse;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -57,7 +57,7 @@ public interface HomeMapper {
     @Mapping(target = "latitude", source = "homeAddress.latitude")
     @Mapping(target = "longitude", source = "homeAddress.longitude")
     @Mapping(target = "mainImage", source = "images", qualifiedByName = "mapMainImage")
-    SimpleHomeDto toSimpleHomeDto(Home home);
+    HomeOverviewResponse toSimpleHomeDto(Home home);
 
     HomeAddressGeneratorRequest toAddressDto(HomeAddress address);
 
