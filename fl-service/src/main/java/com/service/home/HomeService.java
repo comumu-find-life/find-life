@@ -5,6 +5,7 @@ import com.core.home.reposiotry.HomeRepository;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.SimpleHomeDto;
+import com.service.home.dto.response.HomeInformationResponse;
 import com.service.home.mapper.HomeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -32,10 +33,10 @@ public class HomeService {
 
 
 
-    public HomeGeneratorRequest findById(Long id) {
-        Optional<Home> entity = homeRepository.findById(id);
-        return homeMapper.toDto(entity.get());
-    }
+//    public HomeInformationResponse findById(Long id) {
+//        Optional<Home> entity = homeRepository.findById(id);
+//
+//    }
 
     public List<SimpleHomeDto> findFavoriteHomes(List<Long> homeIds) {
         return homeIds.stream()

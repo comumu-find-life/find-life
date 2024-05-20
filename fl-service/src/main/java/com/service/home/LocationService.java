@@ -73,7 +73,7 @@ public class LocationService {
         StringBuilder sb = new StringBuilder();
 
         // 거리번호
-        sb.append(addressDto.getStreetNumber());
+        sb.append(addressDto.getStreetCode());
         //거리 이름
         sb.append(addressDto.getStreetName());
         // todo 항상 street?

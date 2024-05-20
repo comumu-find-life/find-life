@@ -27,20 +27,19 @@ public class HomeController {
 
     //게시글 저장 api
     @PostMapping("/home")
-
     public ResponseEntity<?> saveHome(@RequestBody HomeGeneratorRequest homeCreateDto) throws IOException {
         //주소 -> 위도, 경도 변환
-        System.out.printf("STARTT");
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
         Long homeId = homeService.save(homeCreateDto, location);
         SuccessResponse response = new SuccessResponse(true, "집 게시글 등록 성공", homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //id 로 home 게시글 조회
 //    @GetMapping("/home")
-//    public ResponseEntity<HomeInformationResponse> findById(@RequestParam Long homeId) {
+//    public ResponseEntity<?> findById(@PathVariable Long homeId){
+//
 //    }
+
 
     //public ResponseEntity<SimpleHomeDto>
     @DeleteMapping("/home")
