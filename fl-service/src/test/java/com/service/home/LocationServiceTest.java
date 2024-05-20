@@ -36,7 +36,7 @@ public class LocationServiceTest {
                 .state("NSW")
                 .city("Sydney")
                 .postCode(2000)
-                .streetNumber("10")
+                .streetCode("10")
                 .streetName("BridgeStreet")
                 .build();
         //when

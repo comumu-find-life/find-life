@@ -51,6 +51,8 @@ public class HomeServiceTest {
         // 적절한 검증 코드 추가
     }
 
+
+
 //    @Test
 //    void findByCity() {
 //        List<SimpleHomeDto> melbourne = homeService.findByCity("Melbourne", 1, 10);

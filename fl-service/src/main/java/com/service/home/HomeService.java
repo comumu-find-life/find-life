@@ -2,6 +2,8 @@ package com.service.home;
 
 import com.core.home.model.Home;
 import com.core.home.reposiotry.HomeRepository;
+import com.core.user.model.User;
+import com.core.user.repository.UserRepository;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.SimpleHomeDto;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class HomeService {
 
     private final HomeRepository homeRepository;
+    private final UserRepository userRepository;
     private final HomeMapper homeMapper;
 
     public Long save(HomeGeneratorRequest homeCreateDto, LatLng latLng) {
@@ -31,12 +34,28 @@ public class HomeService {
         return homeRepository.save(home).getId();
     }
 
+    /**
+     * 집 게시글 단일 조회(집 정보 + 작성자 정보) 로직
+     */
+    public HomeInformationResponse findById(Long id) {
+        Home entity = homeRepository.findById(id).get();
+        User user = userRepository.findById(entity.getUserId()).get();
 
+        return homeMapper.toHomeInformation(entity, user);
+    }
 
-//    public HomeInformationResponse findById(Long id) {
-//        Optional<Home> entity = homeRepository.findById(id);
-//
-//    }
+    /**
+     * 모든 집 게시글 조회 (맵 화면에서 사용)
+     */
+    public List<SimpleHomeDto> findAllHomes() {
+        List<SimpleHomeDto> response = new ArrayList<>();
+        List<Home> homes = homeRepository.findAll();
+        homes.stream().forEach(home -> {
+            response.add(homeMapper.toSimpleHomeDto(home));
+        });
+        return response;
+    }
+
 
     public List<SimpleHomeDto> findFavoriteHomes(List<Long> homeIds) {
         return homeIds.stream()
@@ -61,7 +80,6 @@ public class HomeService {
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
         return toSimpleDtos(homes);
     }
-
 
     private PageRequest toPageRequest(int pageNumber, int pageSize) {
         return PageRequest.of(pageNumber, pageSize);

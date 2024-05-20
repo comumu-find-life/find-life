@@ -35,10 +35,19 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @GetMapping("/home")
-//    public ResponseEntity<?> findById(@PathVariable Long homeId){
-//
-//    }
+    @GetMapping("/home")
+    public ResponseEntity<?> findById(@RequestParam Long homeId){
+        HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
+        SuccessResponse response = new SuccessResponse(true, "집 게시글 조회 성공", homeInformationResponse);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/homes/overview")
+    public ResponseEntity<?> findAll(){
+        List<SimpleHomeDto> allHomes = homeService.findAllHomes();
+        SuccessResponse response = new SuccessResponse(true, "모든 집 정보 조회 성공", allHomes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 
     //public ResponseEntity<SimpleHomeDto>
