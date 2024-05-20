@@ -34,7 +34,11 @@ public class SecurityConfig {
 
     private static final String[] GET_AUTH_WHITELIST = {
             "/v1/api/home",
+            "/v1/api/home/**",
             "/v1/api/homes",
+            "/v1/api/homes/**",
+            "/v1/api/dm",
+            "/v1/api/dm/**"
     };
 
     private static final String[] POST_AUTH_WHITELIST = {
@@ -62,9 +66,10 @@ public class SecurityConfig {
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, GET_AUTH_WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.POST, POST_AUTH_WHITELIST).permitAll()
-                        .anyRequest().authenticated()
+                .requestMatchers(HttpMethod.GET, GET_AUTH_WHITELIST).permitAll()
+                .requestMatchers(HttpMethod.POST, POST_AUTH_WHITELIST).permitAll()
+//                        .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 );
 
         http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .chat-room-item {
+            height: 10rem;
+            border: 1px solid grey;
+            cursor: pointer;
+            display:flex;
+        }
+        .chat-room-item:hover {
+            background-color: #EDEDED;
+        }
+    </style>
+</head>
+<body>
+    <th:block th:replace="~{fragments/navBar :: navBar}"></th:block>
+<div class="container">
+    <div class="chat-room-list">
+        <div class="chat-room-item">
+            <div class="chat-room-user-img">
+                <img src="">
+            </div>
+            <div class="chat-room-user-name">
+                John jonson
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

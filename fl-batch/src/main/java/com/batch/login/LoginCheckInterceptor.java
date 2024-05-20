@@ -36,14 +36,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             // Authorization 쿠키가 있는지 확인
             System.out.println(authCookie == null);
             if (authCookie == null) {
-                System.out.println(authCookie == null);
                 response.sendRedirect("/login?redirectURL=" + requestURI);
-                System.out.println(authCookie == null);
                 return false;
             }
             String jwtToken = authCookie.getValue();
-            System.out.println(authCookie);
-            System.out.println(jwtToken);
             RestTemplate restTemplate = new RestTemplate();
 
             // HttpHeaders 객체 생성

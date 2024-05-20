@@ -19,9 +19,7 @@ public class HomeDto {
 
     private Long id;
 
-    private Long userId;
-
-
+    private User user;
 
     private HomeAddressDto homeAddress;
 

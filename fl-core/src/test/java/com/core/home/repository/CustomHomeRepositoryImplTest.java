@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @DataJpaTest // JPA 컴포넌트들만을 위한 테스트 애노테이션이다. (JPA에 필요한 설정들에 대해서만 Bean을 등록한다.)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // 테스트용 DB 설정 애노테이션
@@ -25,7 +26,7 @@ public class CustomHomeRepositoryImplTest {
     @Autowired
     private HomeRepository homeRepository;
 
-    @BeforeEach
+//    @BeforeEach
     void setUp(){
         List<Home> homes = generateHomes();
         for(Home home : homes) {
@@ -53,6 +54,16 @@ public class CustomHomeRepositoryImplTest {
         List<Home> byCity = homeRepository.findByCity(cityName, pageable);
         //then
         Assertions.assertThat(byCity.size()).isEqualTo(10);
+    }
+
+    @Test
+    void id_값으로_home_조인_User_조회기능_테스트(){
+        //given
+        Long homeId = 1L;
+        //when
+        Optional<Home> home = homeRepository.findByIdWithUser(homeId);
+        //then
+        Assertions.assertThat(home.orElse(null).getUser().getEmail()).isEqualTo("user3@gmail.com");
     }
 
     private List<Home> generateHomes(){

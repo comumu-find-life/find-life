@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -41,5 +42,10 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
 //                .offset(pageable.getOffset())
 //                .limit(pageable.getPageSize())
                 .fetch();
+    }
+
+    @Override
+    public Optional<Home> findByIdWithUser(Long id) {
+        return null;
     }
 }
