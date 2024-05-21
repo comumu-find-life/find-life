@@ -8,6 +8,6 @@ public class ChatController {
 
     @GetMapping("/dms")
     public String chatroom() {
-        return "chat/dmRoom";
+        return "chat/dmRoomList";
     }
 }

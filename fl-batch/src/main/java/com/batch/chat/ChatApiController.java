@@ -1,5 +1,7 @@
 package com.batch.chat;
 
+import com.core.chat.model.DirectMessageRoom;
+import com.service.chat.dto.DirectMessageRoomDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,11 +21,19 @@ public class ChatApiController {
 
     @PostMapping("/dm")
     public void applicationDm(HttpServletRequest request, @ModelAttribute ApplicationDmFormDto applicationDmFormDto) {
-        String token;
+        String token = getTokenFromCookie(request);
+        chatApiService.applicationDm(applicationDmFormDto, token);
+    }
+
+    @GetMapping("/dm-rooms")
+    public DirectMessageRoomDto getDmRooms(HttpServletRequest request) {
+        String token = getTokenFromCookie(request);
+        chatApiService.findDmRoomsByUserId(token);
+    }
+
+    private String getTokenFromCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        log.info(cookies.length + "");
         if (cookies != null) {
-            log.info("Cookie is not null");
             Cookie authCookie = Arrays.stream(cookies)
                     .filter(cookie -> "Authorization".equals(cookie.getName()))
                     .findFirst()
@@ -31,16 +41,9 @@ public class ChatApiController {
 
             // Authorization 쿠키가 있는지 확인
             if (authCookie != null) {
-                log.info("token=" + authCookie.getValue());
-                token = authCookie.getValue();
-            } else {
-                return;
+                return authCookie.getValue();
             }
-
-        } else {
-            return;
         }
-
-        chatApiService.applicationDm(applicationDmFormDto, token);
+        return null;
     }
 }
