@@ -1,10 +1,13 @@
 package com.core.chat.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DirectMessageRoom {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

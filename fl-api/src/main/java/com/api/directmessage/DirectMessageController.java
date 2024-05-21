@@ -19,4 +19,9 @@ public class DirectMessageController {
 
         dmService.applicationDm(dmDto);
     }
+
+    @GetMapping("/dm-room")
+    public void findDmRooms() {
+        dmService.findDmRoomByLoginUserId();
+    }
 }
