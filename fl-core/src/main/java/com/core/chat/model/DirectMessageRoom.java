@@ -1,5 +1,6 @@
 package com.core.chat.model;
 
+import com.core.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,10 +15,12 @@ public class DirectMessageRoom {
     @Column(name = "direct_message_room_id")
     private Long id;
 
-    @Column(name = "user_1_id")
-    private Long user1Id;
+    @JoinColumn(name = "user_1_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user1;
 
-    @Column(name = "user_2_id")
-    private Long user2Id;
+    @JoinColumn(name = "user_2_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user2;
 
 }

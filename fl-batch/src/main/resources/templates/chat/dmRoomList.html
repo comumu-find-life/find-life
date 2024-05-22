@@ -27,14 +27,14 @@
     fetch('/api/dm-rooms')
         .then(response => response.json())
         .then(dmRoom => {
-            const dataList = data.map(room => {
+            const dataList = dmRoom.map(room => {
                 return `
-                        <div class="chat-room-item" id="${dmRoom.user1Id}">
+                        <div class="chat-room-item" id="${room.id}">
                             <div class="chat-room-user-img">
                                 <img src="">
                             </div>
                             <div class="chat-room-user-name">
-                                ${dmRoom.user1Id}
+                                ${room.userName}
                             </div>
                         </div>
                     </div>
@@ -43,13 +43,13 @@
 
             document.getElementById('chat-room-list').innerHTML = dataList;
 
-            var dmRooms = document.getElementsByClassName('chat-room-item');
+            var dmRoomClasses = document.getElementsByClassName('chat-room-item');
 
-            Array.from(dmRooms).forEach(function(dmRoom) {
+            Array.from(dmRoomClasses).forEach(function(dmRoomClass) {
 
-                room.addEventListener('click', function() {
+                dmRoomClass.addEventListener('click', function() {
 
-                    window.location.href = "/dm/" + dmRoom.id;
+                    window.location.href = "/dm/" + dmRoomClass.id;
                 });
             });
 

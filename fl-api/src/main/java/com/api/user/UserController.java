@@ -39,8 +39,6 @@ public class UserController {
 //        return ResponseEntity.ok(userService.findById(id));
         // 현재 인증된 사용자 정보 가져오기
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(email);
-
         UserInformationDto userInfo = userService.findByEmail(email);
 
         return ResponseEntity.ok(userInfo);
