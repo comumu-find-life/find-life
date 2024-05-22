@@ -1,11 +1,15 @@
 package com.batch.chat;
 
 import com.service.chat.dto.DirectMessageRoomDto;
+import com.service.chat.dto.DirectMessageRoomListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -34,7 +38,7 @@ public class ChatApiService {
 
     }
 
-    public void findDmRoomsByUserId(String token) {
+    public List<DirectMessageRoomListDto> findDmRoomsByUserId(String token) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders(); // HttpHeaders 객체 생성
@@ -44,12 +48,17 @@ public class ChatApiService {
         HttpEntity requestEntity = new HttpEntity<>(headers); // HttpEntity 객체 생성 (요청 본문 및 헤더 설정)
 
         String url = baseUrl + "/dm/dm-rooms";
+
+        // 반환 타입 설정
+        ParameterizedTypeReference<List<DirectMessageRoomListDto>> responseType = new ParameterizedTypeReference<List<DirectMessageRoomListDto>>() {};
+
         // 요청 보내기
-        ResponseEntity<String> dmRooms = restTemplate.exchange(
+        ResponseEntity<List<DirectMessageRoomListDto>> dmRooms = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 requestEntity,
-                DirectMessageRoomDto[].class);
-        dmRooms.getBody().
+                responseType);
+
+        return dmRooms.getBody();
     }
 }

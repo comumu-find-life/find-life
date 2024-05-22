@@ -1,5 +1,6 @@
 package com.batch.login;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.user.dto.UserInformationDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                     .orElse(null);
 
             // Authorization 쿠키가 있는지 확인
-            System.out.println(authCookie == null);
             if (authCookie == null) {
                 response.sendRedirect("/login?redirectURL=" + requestURI);
                 return false;
@@ -53,19 +53,22 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             HttpEntity<String> requestEntity = new HttpEntity<>(headers);
 
             // 요청 보내기
-            ResponseEntity<String> responseEntity = restTemplate.exchange(
+            ResponseEntity<UserInformationDto> responseEntity = restTemplate.exchange(
                     "http://localhost:8080/v1/api/user/user-info",
-                    HttpMethod.GET,  // 예시로 GET 메소드를 사용하였으며 필요에 따라 변경 가능합니다.
+                    HttpMethod.GET,
                     requestEntity,
-                    String.class);
+                    UserInformationDto.class);
 
             // 응답 확인
             HttpStatus statusCode = (HttpStatus) responseEntity.getStatusCode();
 
             System.out.println(statusCode == HttpStatus.OK);
             if (statusCode == HttpStatus.OK) {
-                String responseBody = responseEntity.getBody();
+                UserInformationDto responseBody = responseEntity.getBody();
                 System.out.println("Response Body: " + responseBody);
+
+                request.setAttribute("userId", responseBody.getId());
+                request.setAttribute("accessToken", jwtToken);
                 return true;
             } else {
                 System.err.println("Request failed with status code: " + statusCode);

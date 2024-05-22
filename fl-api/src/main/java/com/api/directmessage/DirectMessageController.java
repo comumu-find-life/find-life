@@ -1,8 +1,10 @@
 package com.api.directmessage;
 
 import com.core.chat.dto.DirectMessageApplicationDto;
+import com.core.chat.dto.DirectMessageRoomInfoDto;
 import com.service.chat.DirectMessageService;
 import com.service.chat.dto.DirectMessageRoomDto;
+import com.service.chat.dto.DirectMessageRoomListDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,13 @@ public class DirectMessageController {
     }
 
     @GetMapping("/dm-rooms")
-    public ResponseEntity<List<DirectMessageRoomDto>> findDmRooms() {
+    public ResponseEntity<List<DirectMessageRoomListDto>> findDmRooms() {
         return ResponseEntity.ok(dmService.findDmRoomsByLoginUserId());
+    }
+
+    // 접근성 - Authenticated();
+    @GetMapping("/dm-rooms/{dmRoomId}")
+    public ResponseEntity<DirectMessageRoomInfoDto> findDmRoomInfo(@PathVariable Long dmRoomId) {
+        return ResponseEntity.ok(dmService.findDmRoomById(dmRoomId));
     }
 }
