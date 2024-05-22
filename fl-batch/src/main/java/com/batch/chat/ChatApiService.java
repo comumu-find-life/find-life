@@ -1,5 +1,6 @@
 package com.batch.chat;
 
+import com.service.chat.dto.DirectMessageRoomDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -23,7 +24,7 @@ public class ChatApiService {
 
         HttpEntity<ApplicationDmFormDto> requestEntity = new HttpEntity<>(applicationDmFormDto, headers); // HttpEntity 객체 생성 (요청 본문 및 헤더 설정)
 
-        String url = baseUrl + "/dm/dm";
+        String url = baseUrl + "/dm";
         // 요청 보내기
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 url,
@@ -42,12 +43,13 @@ public class ChatApiService {
 
         HttpEntity requestEntity = new HttpEntity<>(headers); // HttpEntity 객체 생성 (요청 본문 및 헤더 설정)
 
-        String url = baseUrl + "/dm-room";
+        String url = baseUrl + "/dm/dm-rooms";
         // 요청 보내기
-        ResponseEntity<String> responseEntity = restTemplate.exchange(
+        ResponseEntity<String> dmRooms = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 requestEntity,
-                String.class);
+                DirectMessageRoomDto[].class);
+        dmRooms.getBody().
     }
 }

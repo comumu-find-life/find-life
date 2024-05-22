@@ -26,7 +26,7 @@ public class ChatApiController {
     }
 
     @GetMapping("/dm-rooms")
-    public DirectMessageRoomDto getDmRooms(HttpServletRequest request) {
+    public void getDmRooms(HttpServletRequest request) {
         String token = getTokenFromCookie(request);
         chatApiService.findDmRoomsByUserId(token);
     }

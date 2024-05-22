@@ -39,7 +39,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath nationality = createString("nationality");
 
-    public final StringPath nickName = createString("nickName");
+    public final StringPath nickname = createString("nickname");
 
     public final StringPath password = createString("password");
 

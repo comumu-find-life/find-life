@@ -29,7 +29,7 @@ public class UserService {
     //회원가입 메서드
     public Long signUp(UserSignupRequest dto) throws Exception {
         //검증
-        validation.validateSignUp(dto.getEmail(), dto.getNickName());
+        validation.validateSignUp(dto.getEmail(), dto.getNickname());
 
         User user = userMapper.toEntity(dto);
 
