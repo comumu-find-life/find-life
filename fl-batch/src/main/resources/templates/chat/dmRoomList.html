@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/main.css">
     <style>
         .chat-room-item {
             height: 6rem;
@@ -16,19 +17,45 @@
     </style>
 </head>
 <body>
-    <th:block th:replace="~{fragments/navBar :: navBar}"></th:block>
+<th:block th:replace="~{fragments/navBar :: navBar}"></th:block>
 <div class="container">
-    <div class="chat-room-list">
-        <div class="chat-room-item">
-            <div class="chat-room-user-img">
-                <img src="">
-            </div>
-            <div class="chat-room-user-name">
-                John jonson
-            </div>
-        </div>
+    <div class="chat-room-list" id="chat-room-list">
+
     </div>
 </div>
+<script>
+    fetch('/api/dm-rooms')
+        .then(response => response.json())
+        .then(dmRoom => {
+            const dataList = data.map(room => {
+                return `
+                        <div class="chat-room-item" id="${dmRoom.user1Id}">
+                            <div class="chat-room-user-img">
+                                <img src="">
+                            </div>
+                            <div class="chat-room-user-name">
+                                ${dmRoom.user1Id}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
 
+            document.getElementById('chat-room-list').innerHTML = dataList;
+
+            var dmRooms = document.getElementsByClassName('chat-room-item');
+
+            Array.from(dmRooms).forEach(function(dmRoom) {
+
+                room.addEventListener('click', function() {
+
+                    window.location.href = "/dm/" + dmRoom.id;
+                });
+            });
+
+        })
+        .catch(error => console.error('Error:', error));
+
+</script>
 </body>
 </html>

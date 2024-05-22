@@ -3,8 +3,11 @@ package com.service.chat;
 import com.core.chat.dto.DirectMessageApplicationDto;
 import com.core.chat.model.DirectMessageRoom;
 import com.core.chat.repository.DirectMessageRoomRepository;
+import com.core.home.model.Home;
 import com.service.chat.dto.DirectMessageDto;
 import com.service.chat.dto.DirectMessageRoomDto;
+import com.service.chat.mapper.DirectMessageRoomMapper;
+import com.service.home.dto.SimpleHomeDto;
 import com.service.user.UserService;
 import com.service.user.dto.UserInformationDto;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +28,8 @@ public class DirectMessageService {
 
     private final UserService userService;
     private final DirectMessageRoomRepository dmRoomRepository;
+    private final DirectMessageRoomMapper dmRoomMapper;
+
 
     @Value("${domain.chat}")
     private String chatUrl;
@@ -53,18 +59,28 @@ public class DirectMessageService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserInformationDto user = userService.findByEmail(email);
 
-        return dmRoomRepository.findByUser1IdOrUser2Id(user.getId());
+        return toDmRoomDtos(dmRoomRepository.findByUser1IdOrUser2Id(user.getId()));
     }
 
 
     // User1, User2 간의 채팅방이 이미 존재하지 않다면 생성
     private void saveDmRoom(Long user1Id, Long user2Id) {
-        log.info(!dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id).isPresent() + "");
-        log.info(dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id).get().getUser1Id() + "");
+        log.info("user1=" + user1Id);
+        log.info("user2=" + user2Id);
 
         if (!dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id).isPresent()) {
             DirectMessageRoom newDmRoom = DirectMessageRoom.builder().user1Id(user1Id).user2Id(user2Id).build();
             dmRoomRepository.save(newDmRoom);
         }
+    }
+
+    private List<DirectMessageRoomDto> toDmRoomDtos(List<DirectMessageRoom> dmRooms) {
+
+        List<DirectMessageRoomDto> dmRoomDtos = new ArrayList<>();
+        dmRooms.stream()
+                .forEach(room -> {
+                    dmRoomDtos.add(dmRoomMapper.toDto(room));
+                });
+        return dmRoomDtos;
     }
 }

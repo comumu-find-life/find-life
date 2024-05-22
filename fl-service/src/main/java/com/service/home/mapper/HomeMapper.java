@@ -96,6 +96,6 @@ public interface HomeMapper {
 
     @Named("mapUserName")
     default String mapUserName(User user) {
-        return user.getNickName();
+        return user.getNickname();
     }
 }

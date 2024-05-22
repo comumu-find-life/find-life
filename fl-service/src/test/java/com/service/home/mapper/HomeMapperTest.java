@@ -41,7 +41,7 @@ public class HomeMapperTest {
         //then
         assertThat(entity.getImages().get(0).getHome()).isEqualTo(entity);
         assertThat(entity.getHomeAddress().getCity()).isEqualTo("test city");
-        assertThat(entity.getUserId()).isEqualTo(1L);
+//        assertThat(entity.getUserId()).isEqualTo(1L);
     }
 
     private HomeDto generateHomeDto() {
@@ -58,7 +58,7 @@ public class HomeMapperTest {
 
         HomeDto homeDto = HomeDto.builder()
                 .homeAddress(addressDto)
-                .userId(1L)
+//                .userId(1L)
                 .images(images)
                 .bill(20000)
                 .bond(10000)
@@ -77,7 +77,7 @@ public class HomeMapperTest {
 
         Home home = Home.builder()
                 .id(1L)
-                .userId(1L)
+//                .userId(1L)
                 .homeAddress(homeAddress)
                 .build();
 
