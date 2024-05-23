@@ -6,7 +6,7 @@ body  {
 
 .nav-bar {
     display: flex;
-    height: 5rem;
+    height: 6rem;
     background-color: white;
     align-items: center;
     justify-content: space-between;
@@ -96,7 +96,7 @@ body  {
     font-size:1.25rem;
 }
 .container {
-    max-width: 60rem;
+    max-width: 78rem;
     margin: 0 auto;
 }
 
@@ -125,3 +125,59 @@ body  {
     object-fit: cover;
     // transform: translate(-50%, -50%);
 }
+
+
+
+
+
+
+.box {
+    border-radius: 1rem;
+    padding-left: 8rem;
+    padding-right: 3rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    margin-top: 1.5rem;
+}
+.bg-primary {
+    background-color: #ff6600;
+    color: white;
+}
+.box-title {
+    font-size: 2rem;
+    font-weight: 700;
+}
+.box-sub-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+.box-buttons {
+    display: flex;
+    margin-top:2rem;
+}
+
+.box-left-button {
+    border-radius: 0.5rem;
+    background-color: #FFFFFF;
+    color: #39A4AA;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-weight: 800;
+    width: 17rem;
+    text-align: center;
+    cursor: pointer;
+}
+.box-right-button {
+    border-radius: 0.5rem;
+    background-color: #39A4AA;
+    color: #FFFFFF;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-weight: 800;
+    width: 17rem;
+    text-align: center;
+    margin-left: 0.75rem;
+    cursor: pointer;
+}
+

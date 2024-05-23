@@ -5,7 +5,7 @@
     <style>
         .nav-bar {
             display: flex;
-            height: 5rem;
+            height: 6rem;
             background-color: white;
             align-items: center;
             justify-content: space-between;
@@ -76,23 +76,28 @@
     <title>Title</title>
 </head>
 <body>
-    <th:block th:fragment="navBar">
-        <div class="nav-bar">
-            <div class="logo"><a id="a-logo"href="/"><img src="/assets/FL-logo.png" id="img-logo"></a></div>
-            <form action="/rooms" method="get">
-            <div class="search-bar">
-                    <input type="text" name="city" id="input-city" placeholder="Search by City or Postcode">
-                    <span id="btn-search" value="Search">Search</span>
-            </div>
-            </form>
-            <div class="nav-bar-options">
-                <div class="profile">Messages</div>
-                <div class="profile">Sign in</div>
-            </div>
+<th:block th:fragment="navBar">
+    <div class="nav-bar">
+        <div class="logo"><a id="a-logo"href="/"><img src="/assets/FL-logo.png" id="img-logo"></a></div>
+        <form action="/rooms" method="get" id="room-search">
+        <div class="search-bar">
+                <input type="text" name="city" id="input-city" placeholder="Search by City or Postcode">
+                <span id="btn-search" value="Search">Search</span>
         </div>
-    </th:block>
-<script>
+        </form>
+        <div class="nav-bar-options">
+            <div class="profile">Messages</div>
+            <div class="profile">Sign in</div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("btn-search").addEventListener("click", function() {
+           console.log("aa");
 
-</script>
+           document.getElementById("room-search").submit();
+        });
+    </script>
+</th:block>
+
 </body>
 </html>
