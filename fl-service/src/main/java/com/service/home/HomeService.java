@@ -29,10 +29,11 @@ public class HomeService {
     private final UserRepository userRepository;
     private final HomeMapper homeMapper;
 
+    /**
+     * 집 게시글 등록
+     */
     public Long save(HomeGeneratorRequest homeCreateDto, LatLng latLng) {
-        // 코드 구현
         Home home = homeMapper.toHomeEntity(homeCreateDto);
-        // 검증 기능 구현
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
@@ -43,7 +44,6 @@ public class HomeService {
     public HomeInformationResponse findById(Long id) {
         Home entity = homeRepository.findById(id).get();
         User user = userRepository.findById(entity.getUserId()).get();
-
         return homeMapper.toHomeInformation(entity, user);
     }
 
@@ -60,6 +60,9 @@ public class HomeService {
     }
 
 
+    /**
+     * 찜 목록 게시글 조회
+     */
     public List<HomeOverviewResponse> findFavoriteHomes(List<Long> homeIds) {
         return homeIds.stream()
                 .map(homeId -> {
@@ -68,13 +71,16 @@ public class HomeService {
                 }).collect(Collectors.toList());
     }
 
+    /**
+     * 집 게시글 삭제
+     */
     public void delete(Long id) {
         Optional<Home> entity = homeRepository.findById(id);
         homeRepository.delete(entity.get());
     }
 
     /**
-     * city 이름으로 page 사이즈 만큼 조회
+     * city 이름으로 모든 집 조회
      */
     public List<HomeOverviewResponse> findByCity(String cityName, int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findByCity(cityName);
@@ -87,9 +93,5 @@ public class HomeService {
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
         return toListOverview(homes, homeMapper);
     }
-
-
-
-
 
 }

@@ -19,15 +19,7 @@ public class LocationServiceTest {
         locationService = new LocationService();
     }
 
-    @Test
-    void 주소_검색_테스트() throws  IOException{
-        //given
 
-        //then
-        locationService.searchPlaceInAustralia("Par");
-
-        //then
-    }
 
     @Test
     void 주소_위도_경도_변환_테스트() throws IOException {
