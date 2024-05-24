@@ -1,13 +1,10 @@
 package com.api.user;
 
 import com.api.dto.SuccessResponse;
-import com.redis.user.UserRedisService;
 import com.service.user.UserService;
 import com.service.user.dto.UserInformationDto;
 import com.service.user.dto.UserProfileRequest;
 import com.service.user.dto.UserSignupRequest;
-import com.service.user.dto.UserUpdatePointRequest;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final UserRedisService userRedisService;
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody UserSignupRequest dto) throws Exception {
@@ -28,6 +24,7 @@ public class UserController {
         SuccessResponse response = new SuccessResponse(true, "회원가입 성공", userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     @GetMapping()
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")

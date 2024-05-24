@@ -75,8 +75,11 @@ public class HomeController {
 
     @GetMapping("/homes/favorite")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
-    public ResponseEntity<List<HomeOverviewResponse>> findFavoriteHomes(@RequestBody List<Long> homeIds) {
-        return ResponseEntity.ok(homeService.findFavoriteHomes(homeIds));
+    public ResponseEntity<?> findFavoriteHomes(@RequestBody List<Long> homeIds) {
+        List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
+
+        SuccessResponse<Object> response = new SuccessResponse<>(true, "찜 목록 집 조회 성공", favoriteHomes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

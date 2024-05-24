@@ -37,10 +37,6 @@ public class UserService {
         return userRepository.save(user).getId();
     }
 
-    //계좌 정보 등록 메서드
-    public void registerAccountInformation(UserAccountRequest userAccountRequest){
-        User user = userRepository.findById(userAccountRequest.getUserId()).get();
-    }
 
     //회원 id 로 회원 조회
     public UserInformationDto findById(Long id) {
@@ -59,11 +55,6 @@ public class UserService {
     public void delete(Long id) {
         Optional<User> user = userRepository.findById(id);
         userRepository.delete(user.get());
-    }
-
-    //결제 기능 (포인트 구입)
-    public void buyPoint() {
-
     }
 
 
