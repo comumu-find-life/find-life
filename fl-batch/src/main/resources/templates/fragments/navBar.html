@@ -86,15 +86,19 @@
         </div>
         </form>
         <div class="nav-bar-options">
-            <div class="profile">Messages</div>
-            <div class="profile">Sign in</div>
+            <div class="profile" id="btn-messages">Messages</div>
+            <div class="profile" id="btn-sign-in">Sign in</div>
         </div>
     </div>
     <script>
         document.getElementById("btn-search").addEventListener("click", function() {
-           console.log("aa");
-
            document.getElementById("room-search").submit();
+        });
+        document.getElementById("btn-sign-in").addEventListener("click", function() {
+           location.href="/login";
+        });
+        document.getElementById("btn-messages").addEventListener("click", function() {
+           location.href="/dms";
         });
     </script>
 </th:block>

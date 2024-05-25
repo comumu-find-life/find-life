@@ -5,6 +5,7 @@ body  {
 
 
 .nav-bar {
+    position: fixed;
     display: flex;
     height: 6rem;
     background-color: white;
