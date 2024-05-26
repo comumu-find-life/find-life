@@ -93,6 +93,9 @@ public class Home extends BaseTimeEntity {
         homeAddress.setLatLnd(lat, lng);
     }
 
+    public void setStatus(HomeStatus status){
+        this.status = status;
+    }
 
     public void setImages(List<HomeImage> images) {
         this.images = images;

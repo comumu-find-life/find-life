@@ -43,13 +43,13 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @PostMapping("/home/sell")
-//    public ResponseEntity<?> sellHome(@RequestParam Long homeId) {
-//        homeService.statusChange(homeId);
-//
-//        SuccessResponse response = new SuccessResponse(true, "집 판매 완료", null);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+    @PostMapping("/home/sell")
+    public ResponseEntity<?> sellHome(@RequestParam Long homeId) {
+        homeService.changeStatus(homeId);
+
+        SuccessResponse response = new SuccessResponse(true, "집 판매 완료", null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @GetMapping("/homes/overview")
     public ResponseEntity<?> findAll(){

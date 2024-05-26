@@ -27,13 +27,10 @@ public class UserService {
     public Long signUp(UserSignupRequest dto) throws Exception {
         //검증
         validation.validateSignUp(dto.getEmail(), dto.getNickName());
-
         User user = userMapper.toEntity(dto);
-
         // 비밀번호 인코딩
         String encode = passwordEncoder.encode(dto.getPassword());
         user.passwordEncode(encode);
-
         return userRepository.save(user).getId();
     }
 
