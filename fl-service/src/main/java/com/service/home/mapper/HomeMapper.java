@@ -24,6 +24,7 @@ public interface HomeMapper {
      */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "images", ignore = true)
+    @Mapping(target = "status", expression = "java(com.core.home.model.HomeStatus.FOR_SALE)")
     @Mapping(target = "viewCount", ignore = true)
     Home toEntity(HomeGeneratorRequest homeDto);
 

@@ -94,4 +94,11 @@ public class HomeService {
         return toListOverview(homes, homeMapper);
     }
 
+    /**
+     * 집 게시글 상태 변경 (판매완료, 재판매)
+     */
+    public void changeStatus() {
+
+    }
+
 }

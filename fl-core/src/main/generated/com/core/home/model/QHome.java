@@ -54,6 +54,8 @@ public class QHome extends EntityPathBase<Home> {
 
     public final NumberPath<Integer> rent = createNumber("rent", Integer.class);
 
+    public final EnumPath<HomeStatus> status = createEnum("status", HomeStatus.class);
+
     public final EnumPath<HomeType> type = createEnum("type", HomeType.class);
 
     public final NumberPath<Long> userId = createNumber("userId", Long.class);

@@ -54,6 +54,10 @@ public class Home extends BaseTimeEntity {
     //보증금
     private Integer bond;
 
+    // 판매중 or 판매 완료
+    @Enumerated(EnumType.STRING)
+    private HomeStatus status;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
