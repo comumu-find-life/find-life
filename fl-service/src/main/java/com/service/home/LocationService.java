@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.URI;
 
+import static com.service.home.utils.LocationUtil.toStringAddress;
+
 @Service
 public class LocationService {
 
@@ -20,20 +22,10 @@ public class LocationService {
     private static final String API_KEY = "AIzaSyDiCJBIUrDSpEKeGIWFKC01_7-fWQhM1bg";
 
     private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
 
     @Autowired
     public LocationService( ) {
         this.restTemplate = new RestTemplateBuilder().build();;
-        this.objectMapper = new ObjectMapper();;
-    }
-
-    public String searchPlaceInAustralia(String placeName) {
-        String url = String.format("%s?input=%s&inputtype=textquery&fields=name,geometry&key=%s&region=au",
-                PLACES_API_URL, placeName, API_KEY);
-        // Google Places API 호출
-        String response = restTemplate.getForObject(url, String.class);
-        return response;
     }
 
     /**
@@ -47,7 +39,6 @@ public class LocationService {
      * NSW : 주
      * 2015 : 우편번호
      */
-
     public LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto) throws IOException {
         String url = String.format("%s?address=%s&key=%s", GEOCODING_API_URL, toStringAddress(homeAddressDto), API_KEY);
         URI uri = URI.create(url);
@@ -69,25 +60,5 @@ public class LocationService {
         return new LatLng(lat, lng);
     }
 
-    private String toStringAddress(HomeAddressGeneratorRequest addressDto){
-        StringBuilder sb = new StringBuilder();
 
-        // 거리번호
-        sb.append(addressDto.getStreetNumber());
-        //거리 이름
-        sb.append(addressDto.getStreetName());
-        // todo 항상 street?
-        sb.append(",");
-        //city 이름
-        //sb.append(addressDto.getCity()+",");
-        // 주
-        sb.append(addressDto.getCity());
-        sb.append(addressDto.getState()+",");
-        //우편주소
-        sb.append(addressDto.getPostCode());
-        sb.append("Australia");
-
-        System.out.println(sb.toString());
-        return sb.toString();
-    }
 }

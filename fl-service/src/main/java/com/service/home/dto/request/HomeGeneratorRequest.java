@@ -1,7 +1,6 @@
 package com.service.home.dto.request;
 
 import com.core.home.model.HomeType;
-import com.core.home.model.Option;
 import com.core.user.model.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +16,6 @@ public class HomeGeneratorRequest {
     private Long userId;
 
     private List<String> images;
-
-    private List<Option> options;
 
     private HomeAddressGeneratorRequest homeAddress;
 
@@ -39,5 +36,7 @@ public class HomeGeneratorRequest {
     private Integer bill;
 
     private Integer rent;
+
+    private String options;
 
 }

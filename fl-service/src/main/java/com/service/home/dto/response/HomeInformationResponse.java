@@ -41,5 +41,4 @@ public class HomeInformationResponse {
     // Bedroom / 침실 개수
     private Integer bedroomCount;
 
-
 }

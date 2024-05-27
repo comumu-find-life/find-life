@@ -44,10 +44,8 @@ public class User extends BaseTimeEntity {
 
     private String job;
 
-    @NonNull
     private Gender gender;
 
-    @NonNull
     private String nationality;
 
     public void passwordEncode(String encodePassword) {

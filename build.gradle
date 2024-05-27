@@ -46,18 +46,11 @@ subprojects {
 
 project(':fl-api') {
     dependencies {
-        //implementation project(':fl-authority')
         implementation project(':fl-redis')
         implementation project(':fl-service')
     }
 }
 
-project(':fl-authority') {
-    dependencies {
-        implementation project(':fl-core')
-        implementation project(':fl-redis')
-    }
-}
 
 project(':fl-batch') {
     dependencies {
