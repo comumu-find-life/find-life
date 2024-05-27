@@ -48,13 +48,15 @@ public class Home extends BaseTimeEntity {
     // 안전 거래 가능 여부
     private boolean dealSavable;
 
-    //options
-    // 옵션들
-    @OneToMany(mappedBy = "home", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HomeOption> options;
+    // ex) A_S,DESK,CHAIR , 로 옵션 분리
+    private String options;
 
     //보증금
     private Integer bond;
+
+    // 판매중 or 판매 완료
+    @Enumerated(EnumType.STRING)
+    private HomeStatus status;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -91,6 +93,9 @@ public class Home extends BaseTimeEntity {
         homeAddress.setLatLnd(lat, lng);
     }
 
+    public void setStatus(HomeStatus status){
+        this.status = status;
+    }
 
     public void setImages(List<HomeImage> images) {
         this.images = images;

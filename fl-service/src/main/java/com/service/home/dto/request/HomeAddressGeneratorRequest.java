@@ -23,6 +23,6 @@ public class HomeAddressGeneratorRequest {
     private String streetName;
 
     // ex) 건물 번호 10
-    private String streetNumber;
+    private String streetCode;
 
 }
