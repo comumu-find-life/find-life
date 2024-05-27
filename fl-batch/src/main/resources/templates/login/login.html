@@ -51,17 +51,39 @@
           cursor: pointer;
         }
         .login-container button:hover {
-          background-color: #e76a16
+            background-color: #e76a16
+        }
+        .account-options {
+            margin-top:0.5rem;
+            display:flex;
+            justify-content: space-between;
+        }
+        .account-options a {
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .account-options a {
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        #img-logo {
+            width: 10rem;
+            margin-bottom:1rem;
         }
     </style>
 </head>
 <body>
 <div class="login-container">
+    <div class="logo-login-page"><a id="a-logo"href="/"><img src="/assets/FL-logo.png" id="img-logo"></a></div>
     <h1>Login to your account</h1>
     <form action="" method="post">
         <input type="email" placeholder="Email" name="email" class="input-login" required>
         <input type="password" placeholder="Password" name="password" class="input-login" required>
         <button type="submit">Login</button>
+        <div class="account-options">
+            <a href="/register">Create account</a>
+            <a href="/find-password">Forgot password?</a>
+        </div>
     </form>
 </div>
 </body>
