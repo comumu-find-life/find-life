@@ -87,7 +87,8 @@
         </form>
         <div class="nav-bar-options">
             <div class="profile" id="btn-messages">Messages</div>
-            <div class="profile" id="btn-sign-in">Sign in</div>
+            <div th:if=${isLogged} class="profile" id="btn-logout">Logout</div>
+            <div th:unless=${isLogged} class="profile" id="btn-sign-in">Sign in</div>
         </div>
     </div>
     <script>
