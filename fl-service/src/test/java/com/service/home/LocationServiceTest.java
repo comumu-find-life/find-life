@@ -2,7 +2,7 @@ package com.service.home;
 
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.LatLng;
-import org.assertj.core.api.Assertions;
+import com.service.home.impl.LocationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,11 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class LocationServiceTest {
 
-    private LocationService locationService;
+    private LocationServiceImpl locationService;
 
     @BeforeEach
     void setUp() throws NoSuchFieldException, IllegalAccessException {
-        locationService = new LocationService();
+        locationService = new LocationServiceImpl();
     }
 
 

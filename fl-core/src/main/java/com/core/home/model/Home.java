@@ -4,20 +4,17 @@ import com.core.base.model.BaseTimeEntity;
 import com.core.user.model.Gender;
 import com.core.user.model.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 
 @Entity
 @Getter
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Home extends BaseTimeEntity {
@@ -86,6 +83,8 @@ public class Home extends BaseTimeEntity {
         this.rent = home.rent;
     }
 
+
+
     /**
      * 연관관계 등록 메서드
      */
@@ -100,5 +99,6 @@ public class Home extends BaseTimeEntity {
     public void setImages(List<HomeImage> images) {
         this.images = images;
     }
+
 
 }
