@@ -87,6 +87,7 @@
         </form>
         <div class="nav-bar-options">
             <div class="profile" id="btn-messages">Messages</div>
+            <div th:if=${isLogged} class="profile" id="btn-profile">profile</div>
             <div th:if=${isLogged} class="profile" id="btn-logout">Logout</div>
             <div th:unless=${isLogged} class="profile" id="btn-sign-in">Sign in</div>
         </div>
@@ -95,9 +96,18 @@
         document.getElementById("btn-search").addEventListener("click", function() {
            document.getElementById("room-search").submit();
         });
-        document.getElementById("btn-sign-in").addEventListener("click", function() {
-           location.href="/login";
-        });
+        if(![[${isLogged}]]) {
+            document.getElementById("btn-sign-in").addEventListener("click", function() {
+               location.href="/login";
+            });
+        } else {
+            document.getElementById("btn-profile").addEventListener("click", function() {
+               location.href="/profile";
+            });
+            document.getElementById("btn-logout").addEventListener("click", function() {
+               location.href="/logout";
+            });
+        }
         document.getElementById("btn-messages").addEventListener("click", function() {
            location.href="/dms";
         });
