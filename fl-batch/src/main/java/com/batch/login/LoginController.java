@@ -52,4 +52,20 @@ public class LoginController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response){
+        Cookie cookie = new Cookie("Authorization", null);
+
+        // 쿠키 경로 설정 (필요에 따라 변경 가능)
+        cookie.setPath("/");
+
+        // 쿠키 유효 시간 설정 (0으로 설정하여 즉시 만료)
+        cookie.setMaxAge(0);
+
+        // 응답에 쿠키 추가하여 클라이언트로 전송
+        response.addCookie(cookie);
+
+        return "redirect:/";
+    }
 }
