@@ -8,9 +8,12 @@ import com.core.user.repository.UserRepository;
 import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
+import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
 import com.service.home.mapper.HomeMapper;
+import com.service.utils.UpdateUtil;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,6 +42,21 @@ public class HomeService {
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
+
+    /**
+     * 집 게시글 수정
+     */
+    @Transactional
+    public Long update(HomeUpdateRequest homeUpdateDto){
+        Home home = homeRepository.findById(homeUpdateDto.getHomeId())
+                .orElseThrow(() -> new EntityNotFoundException("Home not found"));
+        homeMapper.updateHomeFromDto(homeUpdateDto, home);
+
+        homeRepository.save(home);
+        return home.getId();
+    }
+
+
 
     /**
      * 집 게시글 단일 조회(집 정보 + 작성자 정보) 로직

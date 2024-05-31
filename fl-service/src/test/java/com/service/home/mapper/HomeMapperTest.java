@@ -7,6 +7,7 @@ import com.core.user.model.User;
 import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
+import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class HomeMapperTest {
 
 
     @Test
-    void HomeInformationResponse_변경_테스트(){
+    void HomeInformationResponse_변경_테스트() {
         //given
         Home home = generateHomeEntity();
         User user = generateUserEntity();
@@ -33,6 +34,18 @@ public class HomeMapperTest {
         Assertions.assertThat(homeInformationResponse.getProviderName()).isEqualTo("이름");
         Assertions.assertThat(homeInformationResponse.getImages().size()).isEqualTo(3);
     }
+
+    @Test
+    void 집_게시글_수정_테스트() {
+        Home home = generateHomeEntity();
+
+        HomeUpdateRequest homeUpdateRequest = generateHomeUpdateRequest();
+
+        homeMapper.updateHomeFromDto(homeUpdateRequest, home);
+
+        Assertions.assertThat(home.getHomeAddress().getCity()).isEqualTo("Change");
+    }
+
 
     @Test
     void HomeDto_변경_테스트() {
@@ -49,7 +62,7 @@ public class HomeMapperTest {
     }
 
     @Test
-    void SimpleHomeDto_변경_테스트(){
+    void SimpleHomeDto_변경_테스트() {
         //given
         Home home = generateHomeEntity();
 
@@ -84,7 +97,7 @@ public class HomeMapperTest {
         return homeDto;
     }
 
-    private User generateUserEntity(){
+    private User generateUserEntity() {
         return User.builder()
                 .nickName("이름")
                 .password("12345")
@@ -92,6 +105,25 @@ public class HomeMapperTest {
                 .id(1L)
                 .build();
     }
+
+    private HomeUpdateRequest generateHomeUpdateRequest() {
+
+        HomeAddressGeneratorRequest homeAddress = HomeAddressGeneratorRequest.builder()
+                .state("NSW")
+                .city("Change")
+                .postCode(2000)
+                .streetCode("20")
+                .streetName("BridgeStreet")
+                .build();
+
+        return HomeUpdateRequest.builder()
+                .homeId(1L)
+                .homeAddress(homeAddress)
+                .bathRoomCount(3)
+                .bedroomCount(10)
+                .build();
+    }
+
 
     private Home generateHomeEntity() {
         HomeAddress homeAddress = HomeAddress.builder()
@@ -108,14 +140,16 @@ public class HomeMapperTest {
         Home home = Home.builder()
                 .id(1L)
                 .userId(1L)
+                .bathRoomCount(1)
+                .bedroomCount(1)
                 .homeAddress(homeAddress)
                 .build();
 
         List<HomeImage> images = new ArrayList<>();
-        for (int i=0; i<3; i++){
+        for (int i = 0; i < 3; i++) {
             images.add(HomeImage.builder()
                     .id((long) i)
-                    .imageUrl("url" +i)
+                    .imageUrl("url" + i)
                     .home(home)
                     .build());
         }

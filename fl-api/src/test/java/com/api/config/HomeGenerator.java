@@ -4,6 +4,7 @@ import com.core.home.model.*;
 import com.core.user.model.Gender;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
+import com.service.home.dto.request.HomeUpdateRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class HomeGenerator {
                 .id(1L)
                 .userId(1L)
                 .images(generateHomeImages())
-                .bathRoomCount(1)
+                .bathRoomCount(10)
                 .bedroomCount(1)
                 .dealSavable(true)
                 .options("TABLE,DESK,CHAIR")
@@ -60,7 +61,7 @@ public class HomeGenerator {
                 .userId(1L)
                 .images(generateHomeImageUrls())
                 .homeAddress(generateHomeAddressRequest())
-                .bathRoomCount(1)
+                .bathRoomCount(5)
                 .bedroomCount(1)
                 .dealSavable(true)
                 .bond(3000)
@@ -70,6 +71,23 @@ public class HomeGenerator {
                 .bill(10)
                 .rent(300)
                 .options("TABLE,DESK,CHAIR")
+                .build();
+    }
+
+    public static HomeUpdateRequest generateHomeUpdateRequest() {
+        return HomeUpdateRequest.builder()
+                .homeId(1L)
+                .homeAddress(generateHomeAddressRequest())
+                .bathRoomCount(100)
+                .dealSavable(false)
+                .bedroomCount(2)
+                .bond(2000)
+                .gender(Gender.FEMALE)
+                .type(HomeType.RENT)
+                .introduce("INTRODUCEE")
+                .bill(3000)
+                .rent(500)
+                .options("asdasdasd")
                 .build();
     }
 

@@ -7,6 +7,7 @@ import com.core.user.model.User;
 import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
+import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -36,10 +37,13 @@ public interface HomeMapper {
     @Mapping(target = "longitude", ignore = true)
     HomeAddress toAddressEntity(HomeAddressGeneratorRequest homeAddressDto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "images", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "viewCount", ignore = true)
+    void updateHomeFromDto(HomeUpdateRequest dto, @MappingTarget Home entity);
 
-    /**
-     * Home 게시글을 보여줄 DTO 변환
-     */
+
     /**
      * Home 게시글을 보여줄 DTO 변환
      */
