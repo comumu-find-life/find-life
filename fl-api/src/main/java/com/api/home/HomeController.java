@@ -30,23 +30,26 @@ public class HomeController {
 
     //게시글 저장 api
     @PostMapping("/home")
-    public ResponseEntity<?> saveHome(@RequestBody HomeGeneratorRequest homeCreateDto) throws IOException {
+    public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeCreateDto,
+                                      @RequestPart("images") List<MultipartFile> images) throws IOException {
         //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
-        Long homeId = homeService.save(homeCreateDto, location);
+
+        Long homeId = homeService.save(homeCreateDto, images, location);
         SuccessResponse response = new SuccessResponse(true, "집 게시글 등록 성공", homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @GetMapping("/home")
-    public ResponseEntity<?> findById(@RequestParam Long homeId){
+    public ResponseEntity<?> findById(@RequestParam Long homeId) {
         HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
         SuccessResponse response = new SuccessResponse(true, "집 게시글 조회 성공", homeInformationResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PatchMapping("/home")
-    public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto){
+    public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto) {
         homeService.update(homeDto);
         SuccessResponse response = new SuccessResponse(true, "집 게시글 수정 성공", null);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -66,13 +69,12 @@ public class HomeController {
     @PostMapping("/home/sell")
     public ResponseEntity<?> sellHome(@RequestParam Long homeId) {
         homeService.changeStatus(homeId);
-
         SuccessResponse response = new SuccessResponse(true, "집 판매 완료", null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/homes/overview")
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAll() {
         List<HomeOverviewResponse> allHomes = homeService.findAllHomes();
         SuccessResponse response = new SuccessResponse(true, "모든 집 정보 조회 성공", allHomes);
         return new ResponseEntity<>(response, HttpStatus.OK);

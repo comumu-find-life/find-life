@@ -71,8 +71,8 @@ public interface HomeMapper {
      */
     default Home toHomeEntity(HomeGeneratorRequest homeDto) {
         Home home = toEntity(homeDto);
-        List<HomeImage> homeImages = mapHomeImages(homeDto.getImages(), home);
-        home.setImages(homeImages);
+//        List<HomeImage> homeImages = mapHomeImages(homeDto.getImages(), home);
+//        home.setImages(homeImages);
         return home;
     }
 
