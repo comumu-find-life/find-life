@@ -1,10 +1,12 @@
 package com.service.home;
 
 import com.core.home.model.Home;
+import com.core.home.model.HomeImage;
 import com.core.home.model.HomeStatus;
 import com.core.home.reposiotry.HomeRepository;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
+import com.service.file.FileService;
 import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
@@ -18,10 +20,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.service.home.utils.HomeUtil.*;
@@ -30,6 +37,7 @@ import static com.service.home.utils.HomeUtil.*;
 @RequiredArgsConstructor
 public class HomeService {
 
+    private final FileService fileService;
     private final HomeRepository homeRepository;
     private final UserRepository userRepository;
     private final HomeMapper homeMapper;
@@ -37,17 +45,20 @@ public class HomeService {
     /**
      * 집 게시글 등록
      */
-    public Long save(HomeGeneratorRequest homeCreateDto, LatLng latLng) {
+    public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
         Home home = homeMapper.toHomeEntity(homeCreateDto);
+        //집 이미지 저장
+        home.setImages(generateHomeImages(home, files));
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
+
 
     /**
      * 집 게시글 수정
      */
     @Transactional
-    public Long update(HomeUpdateRequest homeUpdateDto){
+    public Long update(HomeUpdateRequest homeUpdateDto) {
         Home home = homeRepository.findById(homeUpdateDto.getHomeId())
                 .orElseThrow(() -> new EntityNotFoundException("Home not found"));
         homeMapper.updateHomeFromDto(homeUpdateDto, home);
@@ -55,7 +66,6 @@ public class HomeService {
         homeRepository.save(home);
         return home.getId();
     }
-
 
 
     /**
@@ -104,7 +114,6 @@ public class HomeService {
      */
     public List<HomeOverviewResponse> findByCity(String cityName, int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findByCity(cityName);
-        System.out.println("dd");
         return toListOverview(homes, homeMapper);
     }
 
@@ -118,12 +127,23 @@ public class HomeService {
      * 집 게시글 상태 변경 (판매완료, 재판매)
      */
     public void changeStatus(Long homeId) {
-        System.out.println("ASDASDASD");
         Home home = homeRepository.findById(homeId)
                 .orElseThrow(() -> new EntityNotFoundException("Home not found with id " + homeId));
-        System.out.println("ASDASDASD22");
         home.setStatus(HomeStatus.SOLD_OUT);
-        homeRepository.save(home); // 변경 사항을 저장합니다.
+        homeRepository.save(home);
+    }
+
+    private List<HomeImage> generateHomeImages(Home home, List<MultipartFile> files) {
+        List<HomeImage> response = new ArrayList<>();
+        for (MultipartFile file : files) {
+            String url = fileService.toUrls(file);
+            response.add(HomeImage.builder()
+                    .home(home)
+                    .imageUrl(url)
+                    .build());
+            fileService.fileUpload(file, url);
+        }
+        return response;
     }
 
 }

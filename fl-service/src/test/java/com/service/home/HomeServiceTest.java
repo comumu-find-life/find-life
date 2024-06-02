@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.BufferedReader;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +24,8 @@ import static org.mockito.Mockito.when;
 
 public class HomeServiceTest {
 
+    @Test
+    void test(){
+
+    }
 }
