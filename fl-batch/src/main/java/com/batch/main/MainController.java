@@ -10,13 +10,6 @@ public class MainController {
 
     @GetMapping("/")
     public String mainPage() {
-        log.info("get : /");
-        return "main/mainPage";
-    }
-
-    @GetMapping("/main")
-    public String mainPage2() {
-        log.info("get : /main");
         return "main/mainPage";
     }
 }

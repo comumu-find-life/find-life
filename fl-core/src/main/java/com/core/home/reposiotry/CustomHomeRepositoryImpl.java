@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -42,5 +43,10 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
                 .fetch();
 
         return homes;
+    }
+
+    @Override
+    public Optional<Home> findByIdWithUser(Long id) {
+        return null;
     }
 }

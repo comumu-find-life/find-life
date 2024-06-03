@@ -7,3 +7,4 @@ spring:
 
 domain:
   api: http://localhost:8080/v1/api
+  api-user: http://localhost:8080/v1/api/user/user-info

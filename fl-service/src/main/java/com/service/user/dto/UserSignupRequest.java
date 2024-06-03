@@ -13,7 +13,7 @@ public class UserSignupRequest {
 
     private Role role;
 
-    private String nickName;
+    private String nickname;
 
     private String password;
 

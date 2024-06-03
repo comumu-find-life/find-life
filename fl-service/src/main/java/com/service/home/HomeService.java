@@ -12,6 +12,7 @@ import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
+import com.service.home.dto.SimpleHomeDto;
 import com.service.home.mapper.HomeMapper;
 import com.service.utils.UpdateUtil;
 import jakarta.persistence.EntityNotFoundException;
@@ -89,7 +90,10 @@ public class HomeService {
         return response;
     }
 
-
+    public SimpleHomeDto findByIdWithUser(Long id) {
+        Optional<Home> entity = homeRepository.findByIdWithUser(id);
+        return homeMapper.toSimpleHomeDto(entity.get());
+    }
     /**
      * 찜 목록 게시글 조회
      */
@@ -145,5 +149,6 @@ public class HomeService {
         }
         return response;
     }
+
 
 }

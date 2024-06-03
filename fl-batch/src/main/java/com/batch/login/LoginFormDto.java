@@ -1,9 +1,12 @@
 package com.batch.login;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Builder
 public class LoginFormDto {
-    public String username;
-    public String password;
+    private String email;
+    private String password;
 }
