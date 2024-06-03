@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -60,12 +62,18 @@ public class HomeControllerIntegrationTest {
     public void 집_게시글_생성_테스트() throws Exception {
         // given
         HomeGeneratorRequest homeGeneratorRequest = generateHomeGeneratorRequest();
+        MockMultipartFile jsonFile = new MockMultipartFile("homeCreateDto", "", "application/json",
+                objectMapper.writeValueAsBytes(homeGeneratorRequest));
+        MockMultipartFile image1 = new MockMultipartFile("images", "image1.jpg", "image/jpeg", "image1".getBytes());
+        MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
 
         // when
-        mockMvc.perform(post("/v1/api/home")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/v1/api/home")
+                        .file(jsonFile)
+                        .file(image1)
+                        .file(image2)
                         .header(HttpHeaders.AUTHORIZATION, token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(homeGeneratorRequest)))
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 2L))));
