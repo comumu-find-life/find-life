@@ -52,4 +52,9 @@ public class User extends BaseTimeEntity {
         this.password = encodePassword;
     }
 
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+
+    }
+
 }
