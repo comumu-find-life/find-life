@@ -20,7 +20,7 @@ public class UserServiceValidationImpl implements UserServiceValidation {
             throw new Exception(ALREADY_EXIST_EMAIL_ERROR);
         }
 
-        if(userRepository.findByNickName(nickName).isPresent()){
+        if(userRepository.findByNickname(nickName).isPresent()){
             throw new Exception(ALREADY_EXIST_NICKNAME_ERROR);
         }
     }

@@ -10,7 +10,7 @@
 
     <div class="container">
         <div class="col-6">
-            <h1>Room</h1>
+            <h1>[[${dmRoomInfo.receiverName}]]</h1>
         </div>
         <div>
             <div id="msgArea" class="col"></div>
@@ -34,18 +34,13 @@
 <script th:inline="javascript">
             $(document).ready(function(){
 
-                // var roomName = [${room.name}]];
                 /* var roomId = [${roomInfo.roomId}]];
-                var senderId = [${roomInfo.senderId}]];
-                var senderName = [${roomInfo.senderName}]];
-                var receiverId = [${roomInfo.receiverId}]];
                 */
 
-                var roomId = 1;
-                var senderId = 1;
-                var senderName = 22;
-                var receiverId = 2;
-                var roomName = roomName;
+                var roomId = [[${roomId}]];
+                var senderId = [[${dmRoomInfo.senderId}]];
+                var senderName = [[${dmRoomInfo.senderName}]];
+                var receiverId = [[${dmRoomInfo.receiverId}]];
 
                 var sockJs = new SockJS("http://localhost:8082/dm");
                 //1. SockJS를 내부에 들고있는 stomp를 내어줌

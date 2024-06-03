@@ -58,7 +58,7 @@ public class QHome extends EntityPathBase<Home> {
 
     public final EnumPath<HomeType> type = createEnum("type", HomeType.class);
 
-    public final NumberPath<Long> userId = createNumber("userId", Long.class);
+    public final com.core.user.model.QUser user;
 
     public final NumberPath<Integer> viewCount = createNumber("viewCount", Integer.class);
 
@@ -81,6 +81,7 @@ public class QHome extends EntityPathBase<Home> {
     public QHome(Class<? extends Home> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.homeAddress = inits.isInitialized("homeAddress") ? new QHomeAddress(forProperty("homeAddress")) : null;
+        this.user = inits.isInitialized("user") ? new com.core.user.model.QUser(forProperty("user")) : null;
     }
 
 }

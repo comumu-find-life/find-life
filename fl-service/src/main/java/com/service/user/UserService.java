@@ -26,7 +26,8 @@ public class UserService {
     //회원가입 메서드
     public Long signUp(UserSignupRequest dto) throws Exception {
         //검증
-        validation.validateSignUp(dto.getEmail(), dto.getNickName());
+        validation.validateSignUp(dto.getEmail(), dto.getNickname());
+
         User user = userMapper.toEntity(dto);
         // 비밀번호 인코딩
         String encode = passwordEncoder.encode(dto.getPassword());
@@ -38,6 +39,12 @@ public class UserService {
     //회원 id 로 회원 조회
     public UserInformationDto findById(Long id) {
         Optional<User> user = userRepository.findById(id);
+        return userMapper.toDto(user.get());
+    }
+
+    //회원 email로 회원 조회
+    public UserInformationDto findByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
         return userMapper.toDto(user.get());
     }
 

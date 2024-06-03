@@ -30,13 +30,13 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @NonNull
-    private String nickName;
+    private String nickname;
 
     @NonNull
     private String password;
 
     private String profileUrl;
+
     private Integer brith;
 
     private Integer phoneNumber;
@@ -46,6 +46,9 @@ public class User extends BaseTimeEntity {
     private Gender gender;
 
     private String nationality;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<Home> homes;
 
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
