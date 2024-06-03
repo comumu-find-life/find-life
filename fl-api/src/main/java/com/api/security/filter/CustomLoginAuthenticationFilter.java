@@ -40,7 +40,7 @@ public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProce
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
         // application/json 형식이 아니면 예외 발생
-        if(request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)  ) {
+        if (request.getContentType() == null || (!request.getContentType().equals(CONTENT_TYPE) && !request.getContentType().startsWith(CONTENT_TYPE))) {
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
 
@@ -58,4 +58,5 @@ public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProce
         // attemptAuthentication 메서드에서 인증 처리 객체를 반환하면 LoginService 의 loadUserByUsername 이 동작한다.
         return this.getAuthenticationManager().authenticate(authRequest);
     }
+
 }

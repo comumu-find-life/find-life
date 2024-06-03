@@ -27,6 +27,4 @@ public class UserSignupRequest {
 
     private  String nationality;
 
-
-
 }
