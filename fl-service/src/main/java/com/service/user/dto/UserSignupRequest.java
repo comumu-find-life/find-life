@@ -19,8 +19,6 @@ public class UserSignupRequest {
 
     private String job;
 
-    private  String profileUrl;
-
     private  Integer brith;
 
     private  Integer phoneNumber;
