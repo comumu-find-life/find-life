@@ -6,58 +6,26 @@ import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.HomeOverviewResponse;
+import com.service.home.mapper.HomeMapper;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.BufferedReader;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 public class HomeServiceTest {
 
-    @InjectMocks
-    private HomeService homeService;
-
-    @Mock
-    private HomeRepository homeRepository;
-
-    @Before
-    void setUp() {
-        HomeAddressGeneratorRequest melbourne = HomeAddressGeneratorRequest.builder().city("Melbourne").build();
-        homeService.save(HomeGeneratorRequest.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
-        homeService.save(HomeGeneratorRequest.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
-        homeService.save(HomeGeneratorRequest.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
-        homeService.save(HomeGeneratorRequest.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
-        homeService.save(HomeGeneratorRequest.builder().homeAddress(melbourne).build(), new LatLng(35, 35));
-    }
-
     @Test
-    void home_찜목록_조회_기능_테스트() {
-        // Mock 데이터 설정
-        List<Long> homeIds = Collections.singletonList(1L);
-        when(homeRepository.findById(1L)).thenReturn(Optional.of(new Home())); // 예시에 따라서 Home 객체를 적절히 생성하여 반환하도록 수정해주세요.
+    void test(){
 
-        // 테스트 실행
-        List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
-
-        // 테스트 검증
-        // 적절한 검증 코드 추가
     }
-
-
-
-//    @Test
-//    void findByCity() {
-//        List<HomeOverviewResponse> melbourne = homeService.findByCity("Melbourne", 1, 10);
-//
-//        Assertions.assertThat(1).isEqualTo(1);
-//
-//    }
 }

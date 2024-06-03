@@ -89,13 +89,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("checkAccessTokenAndAuthentication() 호출");
 
         jwtService.extractAccessToken(request)
-                .filter(jwtService::isTokenValid)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> userRedisService.findUserByEmail(email)
-                                .ifPresent(this::saveAuthentication)));
+                .ifPresentOrElse(
+                        accessToken -> {
+                            log.info("Extracted Access Token: {}", accessToken);
+                            if (jwtService.isTokenValid(accessToken)) {
+                                log.info("Access Token is valid");
+                                jwtService.extractEmail(accessToken)
+                                        .ifPresentOrElse(
+                                                email -> {
+                                                    log.info("Extracted email from token: {}", email);
+                                                    userRedisService.findUserByEmail(email)
+                                                            .ifPresentOrElse(
+                                                                    this::saveAuthentication,
+                                                                    () -> log.warn("No user found for email: {}", email)
+                                                            );
+                                                },
+                                                () -> log.warn("Failed to extract email from token")
+                                        );
+                            } else {
+                                log.warn("Access Token is invalid");
+                            }
+                        },
+                        () -> log.warn("Failed to extract Access Token")
+                );
 
         filterChain.doFilter(request, response);
     }
+
 
 
     public void saveAuthentication(User myUser) {
