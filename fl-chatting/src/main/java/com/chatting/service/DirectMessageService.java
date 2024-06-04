@@ -25,6 +25,7 @@ public class DirectMessageService {
                             .message(dmDto.getMessage())
                             .build()
             );
+            System.out.println(save.getId());
             return save.getId().toString();
         } catch (Exception e) {
             return e.getMessage();

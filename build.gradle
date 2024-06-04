@@ -66,9 +66,6 @@ project(':fl-redis') {
 }
 project(':fl-chatting') {
     dependencies {
-        implementation project(':fl-core')
-        implementation project(':fl-authority')
-
     }
 }
 project(':fl-common') {

@@ -5,10 +5,11 @@
     <style>
         .nav-bar {
             display: flex;
-            height: 5rem;
-            background-color: skyblue;
+            height: 6rem;
+            background-color: white;
             align-items: center;
             justify-content: space-between;
+            border: 1px solid #E1E9EF;
         }
         .logo {
             color: white;
@@ -17,42 +18,101 @@
             padding-left: 2rem;
             padding-right: 2rem;
         }
-        .search-bar {
-
-        }
         #input-city {
-            height: 3.5rem;
+            height: 2.75rem;
             width: 25rem;
             border-radius: 0.75rem;
             border: 1px solid grey;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             padding-left: 1rem;
             padding-right: 1rem;
         }
         #btn-search {
-            padding: 1rem;
-            height: 3.5rem;
+            display: inline-block;
+            height: 2.75rem;
+            background-color: #ff6600;
+            border: 1px solid grey;
+            border-radius: 0.75rem;
+            color: white;
+            font-weight: 800;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            margin-left: 0.25rem;
+            cursor: pointer;
+        }
+        #btn-search:hover {
+            background-color: #e65500;
+            color: #E0E0E0;
         }
         .nav-bar-options {
             display: flex;
+            padding-right: 2rem;
         }
+        #img-logo {
+            width: 16rem;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+        .profile {
+            color: black;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            cursor: pointer;
+        }
+        .profile:hover {
+            color: black;
+            background-color: #F2F2F2;
+            text-decoration-line: underline
+        }
+
     </style>
     <title>Title</title>
 </head>
 <body>
-    <th:block th:fragment="navBar">
-        <div class="nav-bar">
-            <div class="logo">Find life</div>
-            <div class="search-bar">
-                <form action="/rooms" method="get">
-                    <input type="text" name="city" id="input-city" placeholder="Search by City or Postcode">
-                    <input type="submit" id="btn-search" value="Search">
-                </form>
-            </div>
-            <div class="nav-bar-options">
-                <div class="profile"><a href="/login">Sign in / Sign up</a></div>
-            </div>
+<th:block th:fragment="navBar">
+    <div class="nav-bar">
+        <div class="logo"><a id="a-logo"href="/"><img src="/assets/FL-logo.png" id="img-logo"></a></div>
+        <form action="/rooms" method="get" id="room-search">
+        <div class="search-bar">
+                <input type="text" name="city" id="input-city" placeholder="Search by City or Postcode">
+                <span id="btn-search" value="Search">Search</span>
         </div>
-    </th:block>
+        </form>
+        <div class="nav-bar-options">
+            <div class="profile" id="btn-messages">Messages</div>
+            <div th:if=${isLogged} class="profile" id="btn-profile">profile</div>
+            <div th:if=${isLogged} class="profile" id="btn-logout">Logout</div>
+            <div th:unless=${isLogged} class="profile" id="btn-sign-in">Sign in</div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("btn-search").addEventListener("click", function() {
+           document.getElementById("room-search").submit();
+        });
+        if(![[${isLogged}]]) {
+            document.getElementById("btn-sign-in").addEventListener("click", function() {
+               location.href="/login";
+            });
+        } else {
+            document.getElementById("btn-profile").addEventListener("click", function() {
+               location.href="/profile";
+            });
+            document.getElementById("btn-logout").addEventListener("click", function() {
+               location.href="/logout";
+            });
+        }
+        document.getElementById("btn-messages").addEventListener("click", function() {
+           location.href="/dms";
+        });
+    </script>
+</th:block>
+
 </body>
 </html>

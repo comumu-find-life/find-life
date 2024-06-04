@@ -9,7 +9,9 @@ public class UserInformationDto {
 
     private Long id;
 
-    private String nickName;
+    private String email;
+
+    private String nickname;
 
     private String profileUrl;
 

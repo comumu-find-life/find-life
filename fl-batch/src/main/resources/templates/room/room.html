@@ -113,60 +113,59 @@
     font-weight: bold;
     color:grey;
 }
-
+.contact {
+    border: 1px solid grey;
+}
     </style>
 </head>
 <body>
-<th:block th:replace="fragments/navBar :: navBar"></th:block>
+<th:block th:replace="~{fragments/navBar :: navBar}"></th:block>
 <div class="container" id="data">
-    <div class="div-frame-lg">
-        <img src="https://t4.ftcdn.net/jpg/02/79/95/39/360_F_279953994_TmVqT7CQhWQJRLXev4oFmv8GIZTgJF1d.jpg">
-    </div>
-    <div class="room-contents">
-        <div class="room-contents-title">Richmond, Melbourne</div>
-        <div class="room-contents-subtitle">139 Lord St, Richmond VIC 3121</div>
-        <div><span style="font-size:1.75rem;">$250</span>/wk</div>
-        <div>3B2B Room for Apartment</div>
-    </div>
 </div>
 <script>
-        fetch('/api/rooms/[[${city}]]')
-            .then(response => response.json())
-            .then(data => {
-                const dataList = data.map(room => {
-                    return `
-                        <div class="card" id="${room.id}">
-                            <div class="div-frame">
-                                <img src="/img/${room.mainImage}">
-                            </div>
+    /*
+    document.getElementById('btn-send-dm').addEventListener('click', e => {
+        console.log("send clicked");
 
-                            <div class="card-body">
-                                <div class="card-title">
-                                    $${room.rent} / Week + $${room.bond} bond (${room.bill})
-                                </div>
-                                <div class="card-contents">
-                                    <div class="card-contents-text">${room.address}</div>
-                                    <div class="card-contents-text">${room.bedroomCount}B${room.bathRoomCount}B - 1 Room in ${room.type} - 1 or 2 people</div>
-                                </div>
-                            </div>
+        // 로그인 체크 로직
+
+    })*/
+
+    fetch('/api/room/[[${roomId}]]')
+        .then(response => response.json())
+        .then(room => {
+            const htmlData = `
+                <div class="div-frame-lg">
+                    <img src="https://t4.ftcdn.net/jpg/02/79/95/39/360_F_279953994_TmVqT7CQhWQJRLXev4oFmv8GIZTgJF1d.jpg">
+                </div>
+                <div class="room-contents">
+                    <div class="room-contents-title">${room.address}</div>
+                    <div class="room-contents-subtitle">${room.address}</div>
+                    <div><span style="font-size:1.75rem;">${room.rent}</span>/wk</div>
+                    <div>${room.bedroomCount}B${room.bathRoomCount}B ${room.type}</div>
+                    <div class="contact">
+                        <div class="provider">
+                            <div class="provider-pic"></div>
+                            <div class="provider-name">${room.userName}</div>
                         </div>
-                    `;
-                }).join('');
+                        <form action="/api/dm" method="post">
+                            <textarea name="message" id="chat-contents"></textarea>
+                            <input type="hidden" name="roomId" value="[[${roomId}]]">
+                            <input type="hidden" name="receiverId" value="${room.userId}">
+                            <input type="submit" value="send" id="btn-send-dm">
+                        </form>
+                    </div>
+                </div>
+            `;
 
-                document.getElementById('home-list').innerHTML = dataList;
+        document.getElementById('data').innerHTML = htmlData;
+    })
 
-                var roomCards = document.getElementsByClassName('card');
-
-                Array.from(roomCards).forEach(function(room) {
-
-                    room.addEventListener('click', function() {
-
-                        window.location.href = "/room/" + room.id;
-                    });
-                });
-
-            })
-            .catch(error => console.error('Error:', error));
-    </script>
+    /*
+    document.getElementById("btn-send-chat").addEventListener('click', e => {
+        var contents = document.getElementById("chat-contents").value;
+        console.log(contents);
+    });*/
+</script>
 </body>
 </html>

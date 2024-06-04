@@ -1,7 +1,12 @@
 package com.service.home.dto.request;
 
+import com.core.home.model.Home;
+import com.core.home.model.HomeAddress;
+import com.core.home.model.HomeImage;
 import com.core.home.model.HomeType;
 import com.core.user.model.Gender;
+import com.core.user.model.User;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HomeGeneratorRequest {
 
-    private Long userId;
+    private User user;
 
     private List<String> images;
 

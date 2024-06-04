@@ -19,6 +19,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,7 +74,7 @@ public class HomeService {
      */
     public HomeInformationResponse findById(Long id) {
         Home entity = homeRepository.findById(id).get();
-        User user = userRepository.findById(entity.getUserId()).get();
+        User user = userRepository.findById(entity.getUser().getId()).get();
         return homeMapper.toHomeInformation(entity, user);
     }
 
@@ -89,7 +90,10 @@ public class HomeService {
         return response;
     }
 
-
+    public HomeOverviewResponse findByIdWithUser(Long id) {
+        Optional<Home> entity = homeRepository.findByIdWithUser(id);
+        return homeMapper.toSimpleHomeDto(entity.get());
+    }
     /**
      * 찜 목록 게시글 조회
      */
@@ -145,5 +149,6 @@ public class HomeService {
         }
         return response;
     }
+
 
 }
