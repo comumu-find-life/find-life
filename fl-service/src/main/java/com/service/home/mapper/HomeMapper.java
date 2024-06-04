@@ -47,7 +47,9 @@ public interface HomeMapper {
     /**
      * Home 게시글을 보여줄 DTO 변환
      */
+
     @Mapping(target = "gender", ignore = true)
+    @Mapping(target = "homeId", source = "home.id")
     @Mapping(target = "providerId", source = "user.id")
     @Mapping(target = "providerProfileUrl", source = "user.profileUrl")
     @Mapping(target = "providerName", source = "user.nickName")
