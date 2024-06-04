@@ -1,16 +1,14 @@
 package com.api.home;
 
-import com.api.dto.SuccessResponse;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.impl.LocationServiceImpl;
 import com.service.home.dto.HomeOverviewResponse;
 import com.service.home.dto.request.HomeGeneratorRequest;
-import com.service.home.dto.HomeDto;
 import com.service.home.dto.LatLng;
-import com.service.home.dto.SimpleHomeDto;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
+import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 
 
@@ -41,6 +39,7 @@ public class HomeController {
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
 
         Long homeId = homeService.save(homeCreateDto, images, location);
+
         SuccessResponse response = new SuccessResponse(true, "집 게시글 등록 성공", homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -55,7 +54,7 @@ public class HomeController {
 
     //id 로 home 조회 With User
     @GetMapping("/home/{homeId}")
-    public ResponseEntity<SimpleHomeDto> findByIdWithProviderInfo(@PathVariable Long homeId) {
+    public ResponseEntity<HomeOverviewResponse> findByIdWithProviderInfo(@PathVariable Long homeId) {
         return ResponseEntity.ok(homeService.findByIdWithUser(homeId));
     }
 

@@ -2,7 +2,6 @@ package com.service.user.dto;
 
 import com.core.user.model.Gender;
 import com.core.user.model.Role;
-import com.core.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
 

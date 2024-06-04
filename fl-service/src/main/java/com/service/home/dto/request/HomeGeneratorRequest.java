@@ -1,4 +1,4 @@
-package com.service.home.dto;
+package com.service.home.dto.request;
 
 import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
@@ -6,6 +6,7 @@ import com.core.home.model.HomeImage;
 import com.core.home.model.HomeType;
 import com.core.user.model.Gender;
 import com.core.user.model.User;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +19,6 @@ import java.util.List;
 public class HomeGeneratorRequest {
 
     private User user;
-
-    private HomeAddressDto homeAddress;
 
     private List<String> images;
 

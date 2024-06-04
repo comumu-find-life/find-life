@@ -21,7 +21,7 @@ public interface CustomHomeRepository {
     List<Home> findByPostCode(Integer postCode);
 
     //시티이름 기반으로 찾기
-    List<Home> findByCity(String cityName, Pageable pageable);
+    List<Home> findByCity(String cityName);
 
     // Id로 찾기. 유저정보와 같이
     @Query("SELECT h FROM Home h JOIN FETCH h.user WHERE h.id = :id")

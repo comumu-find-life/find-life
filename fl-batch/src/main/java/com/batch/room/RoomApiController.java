@@ -27,8 +27,8 @@ public class RoomApiController {
     }
 
     @GetMapping("/room/{roomId}")
-    public SimpleHomeDto roomDetail(@PathVariable Long roomId) {
-        SimpleHomeDto homeDto = roomApiService.findRoomByRoomId(roomId);
+    public HomeOverviewResponse roomDetail(@PathVariable Long roomId) {
+        HomeOverviewResponse homeDto = roomApiService.findRoomByRoomId(roomId);
 
         return homeDto;
     }

@@ -1,15 +1,12 @@
 package com.api.user;
 
-import com.api.dto.SuccessResponse;
 import com.service.user.UserService;
 import com.service.user.dto.UserInformationDto;
 import com.service.user.dto.UserProfileRequest;
 import com.service.user.dto.UserSignupRequest;
-import com.service.user.dto.UserUpdatePointRequest;
-import jakarta.servlet.http.HttpServletRequest;
+import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;

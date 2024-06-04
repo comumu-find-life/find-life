@@ -3,9 +3,12 @@ package com.service.home.mapper;
 import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
-import com.service.home.dto.HomeAddressDto;
-import com.service.home.dto.HomeDto;
-import com.service.home.dto.SimpleHomeDto;
+import com.core.user.model.User;
+import com.service.home.dto.HomeOverviewResponse;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
+import com.service.home.dto.request.HomeGeneratorRequest;
+import com.service.home.dto.request.HomeUpdateRequest;
+import com.service.home.dto.response.HomeInformationResponse;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -47,7 +50,7 @@ public interface HomeMapper {
     @Mapping(target = "gender", ignore = true)
     @Mapping(target = "providerId", source = "user.id")
     @Mapping(target = "providerProfileUrl", source = "user.profileUrl")
-    @Mapping(target = "providerName", source = "user.nickName")
+    @Mapping(target = "providerName", source = "user.nickname")
     @Mapping(target = "address", source = "home.homeAddress", qualifiedByName = "mapSimpleAddress")
     @Mapping(target = "images", source = "home.images", qualifiedByName = "mapImageUrls")
     HomeInformationResponse toHomeInformation(Home home, User user);
@@ -115,6 +118,7 @@ public interface HomeMapper {
 
         return sb.toString();
     }
+    //  --- 삭제대기
 
     @Named("mapUserId")
     default Long mapUserId(User user) {
