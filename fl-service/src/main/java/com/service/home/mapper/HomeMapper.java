@@ -52,7 +52,7 @@ public interface HomeMapper {
     @Mapping(target = "homeId", source = "home.id")
     @Mapping(target = "providerId", source = "user.id")
     @Mapping(target = "providerProfileUrl", source = "user.profileUrl")
-    @Mapping(target = "providerName", source = "user.nickName")
+    @Mapping(target = "providerName", source = "user.nickname")
     @Mapping(target = "address", source = "home.homeAddress", qualifiedByName = "mapSimpleAddress")
     @Mapping(target = "images", source = "home.images", qualifiedByName = "mapImageUrls")
     HomeInformationResponse toHomeInformation(Home home, User user);
@@ -63,6 +63,8 @@ public interface HomeMapper {
     @Mapping(target = "address", source = "homeAddress", qualifiedByName = "mapSimpleAddress")
     @Mapping(target = "latitude", source = "homeAddress.latitude")
     @Mapping(target = "longitude", source = "homeAddress.longitude")
+    @Mapping(target = "userId", source = "user", qualifiedByName = "mapUserId")
+    @Mapping(target = "userName", source = "user", qualifiedByName = "mapUserName")
     @Mapping(target = "mainImage", source = "images", qualifiedByName = "mapMainImage")
     HomeOverviewResponse toSimpleHomeDto(Home home);
 
@@ -118,5 +120,15 @@ public interface HomeMapper {
 
         return sb.toString();
     }
+    //  --- 삭제대기
 
+    @Named("mapUserId")
+    default Long mapUserId(User user) {
+        return user.getId();
+    }
+
+    @Named("mapUserName")
+    default String mapUserName(User user) {
+        return user.getNickname();
+    }
 }

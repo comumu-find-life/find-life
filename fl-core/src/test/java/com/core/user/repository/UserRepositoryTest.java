@@ -23,7 +23,7 @@ public class UserRepositoryTest {
         // Given
         User user = User.builder()
                 .email("testemail@example.com")
-                .nickName("testNickname")
+                .nickname("testNickname")
                 .build();
         userRepository.save(user);
 
@@ -34,7 +34,7 @@ public class UserRepositoryTest {
         assertTrue(foundUserOptional.isPresent());
         User foundUser = foundUserOptional.get();
         assertEquals("testemail@example.com", foundUser.getEmail());
-        assertEquals("testNickname", foundUser.getNickName());
+        assertEquals("testNickname", foundUser.getNickname());
     }
 
     // Add more test cases for other methods if needed

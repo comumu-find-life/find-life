@@ -1,6 +1,5 @@
 package com.api.home;
 
-import com.api.dto.SuccessResponse;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.impl.LocationServiceImpl;
@@ -9,9 +8,11 @@ import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
+import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api")
@@ -36,6 +39,7 @@ public class HomeController {
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
 
         Long homeId = homeService.save(homeCreateDto, images, location);
+
         SuccessResponse response = new SuccessResponse(true, "집 게시글 등록 성공", homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -46,6 +50,12 @@ public class HomeController {
         HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
         SuccessResponse response = new SuccessResponse(true, "집 게시글 조회 성공", homeInformationResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    //id 로 home 조회 With User
+    @GetMapping("/home/{homeId}")
+    public ResponseEntity<HomeOverviewResponse> findByIdWithProviderInfo(@PathVariable Long homeId) {
+        return ResponseEntity.ok(homeService.findByIdWithUser(homeId));
     }
 
     @PatchMapping("/home")

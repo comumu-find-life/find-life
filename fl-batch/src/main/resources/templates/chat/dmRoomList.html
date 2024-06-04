@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .chat-room-item {
+            height: 6rem;
+            border: 1px solid grey;
+            cursor: pointer;
+            display:flex;
+        }
+        .chat-room-item:hover {
+            background-color: #EDEDED;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="~{fragments/navBar :: navBar}"></th:block>
+<div class="container">
+    <div class="chat-room-list" id="chat-room-list">
+
+    </div>
+</div>
+<script>
+    fetch('/api/dm-rooms')
+        .then(response => response.json())
+        .then(dmRoom => {
+            const dataList = dmRoom.map(room => {
+                return `
+                        <div class="chat-room-item" id="${room.id}">
+                            <div class="chat-room-user-img">
+                                <img src="">
+                            </div>
+                            <div class="chat-room-user-name">
+                                ${room.userName}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('chat-room-list').innerHTML = dataList;
+
+            var dmRoomClasses = document.getElementsByClassName('chat-room-item');
+
+            Array.from(dmRoomClasses).forEach(function(dmRoomClass) {
+
+                dmRoomClass.addEventListener('click', function() {
+
+                    window.location.href = "/dm/" + dmRoomClass.id;
+                });
+            });
+
+        })
+        .catch(error => console.error('Error:', error));
+
+</script>
+</body>
+</html>

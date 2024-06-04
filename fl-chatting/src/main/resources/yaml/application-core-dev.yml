@@ -1,0 +1,19 @@
+# Spring Datasource Configuration
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/fl_chat?serverTimezone=Asia/Seoul
+    username: root
+    password: [password]
+  logging:
+    level:
+      me.selvernine: DEBUG
+
+  redis:
+    host : localhost
+    port : 6380
+
+  # JPA Configuration

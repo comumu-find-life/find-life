@@ -8,6 +8,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import java.sql.SQLOutput;
+
 @Controller
 @RequiredArgsConstructor
 public class DirectMessageController {
@@ -27,6 +29,10 @@ public class DirectMessageController {
 
     @MessageMapping(value = "/chat/message")
     public void message(DirectMessageDto dmDto){
+        System.out.println(dmDto.getMessage());
+        System.out.println(dmDto.getSenderId());
+        System.out.println(dmDto.getReceiverId());
+        System.out.println(dmDto.getRoomId());
         dmService.sendDM(dmDto);
         template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), dmDto);
     }
@@ -34,6 +40,6 @@ public class DirectMessageController {
     @MessageMapping(value = "/dm/message")
     public void directMessage(DirectMessageDto dmDto){
         template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), dmDto.getMessage());
-//        dmService.sendDM(dmDto);
+        dmService.sendDM(dmDto);
     }
 }
