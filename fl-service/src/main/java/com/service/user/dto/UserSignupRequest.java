@@ -18,8 +18,6 @@ public class UserSignupRequest {
 
     private String job;
 
-    private  String profileUrl;
-
     private  Integer brith;
 
     private  Integer phoneNumber;
@@ -27,7 +25,5 @@ public class UserSignupRequest {
     private Gender gender;
 
     private  String nationality;
-
-
 
 }
