@@ -12,7 +12,6 @@ import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.LatLng;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
-import com.service.home.dto.SimpleHomeDto;
 import com.service.home.mapper.HomeMapper;
 import com.service.utils.UpdateUtil;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,6 +19,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,7 +74,7 @@ public class HomeService {
      */
     public HomeInformationResponse findById(Long id) {
         Home entity = homeRepository.findById(id).get();
-        User user = userRepository.findById(entity.getUserId()).get();
+        User user = userRepository.findById(entity.getUser().getId()).get();
         return homeMapper.toHomeInformation(entity, user);
     }
 
@@ -90,7 +90,7 @@ public class HomeService {
         return response;
     }
 
-    public SimpleHomeDto findByIdWithUser(Long id) {
+    public HomeOverviewResponse findByIdWithUser(Long id) {
         Optional<Home> entity = homeRepository.findByIdWithUser(id);
         return homeMapper.toSimpleHomeDto(entity.get());
     }
