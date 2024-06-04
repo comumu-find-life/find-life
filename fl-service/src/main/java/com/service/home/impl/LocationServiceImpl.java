@@ -28,6 +28,8 @@ public class LocationServiceImpl implements LocationService {
         this.restTemplate = new RestTemplateBuilder().build();;
     }
 
+
+
     /**
      * 주소를 기반으로 위도, 경도를 찾는 메서드
      *

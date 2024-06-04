@@ -20,8 +20,10 @@ public class HomeInformationResponse {
 
     private String providerName;
 
+    private Long homeId;
     // 주소
     private String address;
+
 
     private List<String> images;
 
