@@ -1,4 +1,4 @@
-package com.service.home.dto;
+package com.service.home.dto.geocoding;
 
 import lombok.Getter;
 

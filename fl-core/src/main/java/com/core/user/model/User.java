@@ -48,6 +48,9 @@ public class User extends BaseTimeEntity {
 
     private String nationality;
 
+    //자기 소개글
+    private String introduce;
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Home> homes;
 

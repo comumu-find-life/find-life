@@ -32,6 +32,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath introduce = createString("introduce");
+
     public final StringPath job = createString("job");
 
     //inherited

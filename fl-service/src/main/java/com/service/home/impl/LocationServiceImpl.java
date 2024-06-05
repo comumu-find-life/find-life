@@ -4,12 +4,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.service.home.LocationService;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
-import com.service.home.dto.LatLng;
+import com.service.home.dto.geocoding.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.io.IOException;
+
 import java.net.URI;
 
 import static com.service.home.utils.LocationUtil.toStringAddress;

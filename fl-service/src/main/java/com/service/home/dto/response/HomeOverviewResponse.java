@@ -1,4 +1,4 @@
-package com.service.home.dto;
+package com.service.home.dto.response;
 
 import com.core.user.model.User;
 import lombok.Builder;

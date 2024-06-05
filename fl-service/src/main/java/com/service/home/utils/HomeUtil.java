@@ -1,7 +1,7 @@
 package com.service.home.utils;
 
 import com.core.home.model.Home;
-import com.service.home.dto.HomeOverviewResponse;
+import com.service.home.dto.response.HomeOverviewResponse;
 import com.service.home.mapper.HomeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

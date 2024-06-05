@@ -4,7 +4,7 @@
 //import com.core.home.model.HomeAddress;
 //import com.core.home.model.HomeImage;
 //import com.core.user.model.User;
-//import com.service.home.dto.HomeOverviewResponse;
+//import com.service.home.dto.response.HomeOverviewResponse;
 //import com.service.home.dto.request.HomeAddressGeneratorRequest;
 //import com.service.home.dto.request.HomeGeneratorRequest;
 //import com.service.home.dto.request.HomeUpdateRequest;

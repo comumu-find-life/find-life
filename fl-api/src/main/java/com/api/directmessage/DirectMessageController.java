@@ -22,7 +22,6 @@ public class DirectMessageController {
 
     @PostMapping()
     public void sendDm(@RequestBody DirectMessageApplicationDto dmDto) {
-
         dmService.applicationDm(dmDto);
     }
 

@@ -1,31 +1,24 @@
 package com.service.user.dto;
 
 import com.core.user.model.Gender;
-import com.core.user.model.Role;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class UserSignupRequest {
-    private String email;
+public class UserProfileResponse {
 
-    private Role role;
+    private Long id;
 
     private String nickname;
 
-    private String password;
+    private String profileUrl;
 
     private String job;
 
-    private  Integer brith;
-
-    private  Integer phoneNumber;
-
     private Gender gender;
 
-    private  String nationality;
+    private String nationality;
 
     private String introduce;
-
 }

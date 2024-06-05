@@ -57,7 +57,7 @@ public class UserService {
     }
 
     // 다른 사용자 프로필 조회 기능
-    public UserProfileRequest getUserProfile(Long id){
+    public UserProfileResponse getUserProfile(Long id){
         Optional<User> user = userRepository.findById(id);
         return userMapper.toProfile(user.get());
     }

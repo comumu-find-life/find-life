@@ -4,7 +4,7 @@ import com.core.home.model.Home;
 import com.core.home.model.HomeAddress;
 import com.core.home.model.HomeImage;
 import com.core.user.model.User;
-import com.service.home.dto.HomeOverviewResponse;
+import com.service.home.dto.response.HomeOverviewResponse;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.request.HomeUpdateRequest;
@@ -50,7 +50,10 @@ public interface HomeMapper {
 
     @Mapping(target = "gender", ignore = true)
     @Mapping(target = "homeId", source = "home.id")
+    @Mapping(target = "latitude", source = "home.homeAddress.latitude")
+    @Mapping(target = "longitude", source = "home.homeAddress.longitude")
     @Mapping(target = "providerId", source = "user.id")
+    @Mapping(target = "introduce", source = "home.introduce")
     @Mapping(target = "providerProfileUrl", source = "user.profileUrl")
     @Mapping(target = "providerName", source = "user.nickname")
     @Mapping(target = "address", source = "home.homeAddress", qualifiedByName = "mapSimpleAddress")

@@ -24,8 +24,9 @@ public class HomeInformationResponse {
     // 주소
     private String address;
 
-
     private List<String> images;
+
+    private Integer bond;
 
     private Integer bill;
 
@@ -37,10 +38,16 @@ public class HomeInformationResponse {
 
     private String introduce;
 
+    private String options;
+
     // 화장실 개수
     private Integer bathRoomCount;
 
     // Bedroom / 침실 개수
     private Integer bedroomCount;
+
+    private double latitude;
+
+    private double longitude;
 
 }
