@@ -2,10 +2,9 @@ package com.api.home;
 
 import com.service.home.HomeService;
 import com.service.home.LocationService;
-import com.service.home.impl.LocationServiceImpl;
-import com.service.home.dto.HomeOverviewResponse;
+import com.service.home.dto.response.HomeOverviewResponse;
 import com.service.home.dto.request.HomeGeneratorRequest;
-import com.service.home.dto.LatLng;
+import com.service.home.dto.geocoding.LatLng;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
 import com.service.utils.SuccessResponse;
@@ -21,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController

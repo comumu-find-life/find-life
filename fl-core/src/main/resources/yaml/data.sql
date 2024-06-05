@@ -1,5 +1,5 @@
 -- User 데이터 삽입 쿼리
-INSERT INTO user (email, role, nick_name, password, profile_url, brith, phone_number, job, gender, nationality) VALUES
+INSERT INTO user (email, role, nickname, password, profile_url, brith, phone_number, job, gender, nationality) VALUES
 ('user1@example.com', 'PROVIDER', 'user1', 'password1', NULL, 1990, '01012345678', 'Engineer', 'MALE', 'Korean'),
 ('user2@example.com', 'GETTER', 'user2', 'password2', NULL, 1985, '01023456789', 'Teacher', 'FEMALE', 'Korean');
 
@@ -17,44 +17,44 @@ INSERT INTO home_address (home_address_id, state, city, post_code, detail_addres
 
 
 -- Home 1
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 1, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글1', 300000, 1000000, 0);
-
+-- Home 1
+INSERT INTO home (rent,  user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (8989, 1, 1, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글1', 300000, 0);
 -- Home 2
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 2, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글2', 300000, 1000000, 0);
+INSERT INTO home (rent, user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (3000, 1, 2, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글2', 300000, 0);
 
 -- Home 3
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 3, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글3', 300000, 1000000, 0);
+INSERT INTO home ( rent,user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (4000, 1, 3, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글3', 300000, 0);
 
 -- Home 4
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 4, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글4', 300000, 1000000, 0);
+INSERT INTO home ( rent, user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (2000,1, 4, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글4', 300000, 0);
 
 -- Home 5
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 5, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글5', 300000, 1000000, 0);
+INSERT INTO home (rent, user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (1000, 1, 5, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글5', 300000, 0);
 
 -- Home 6
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 6, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글6', 300000, 1000000, 0);
+INSERT INTO home (rent, user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (3000, 1, 6, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글6', 300000, 0);
 
 -- Home 7
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 7, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글7', 300000, 1000000, 0);
+INSERT INTO home (rent, user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (2000, 1, 7, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글7', 300000, 0);
 
 -- Home 8
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 8, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글8', 300000, 1000000, 0);
+INSERT INTO home (rent, user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (2500, 1, 8, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글8', 300000, 0);
 
 -- Home 9
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 9, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글9', 300000, 1000000, 0);
+INSERT INTO home (rent, user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (1500, 1, 9, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글9', 300000, 0);
 
 -- Home 10
-INSERT INTO home (user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, rent, view_count)
-VALUES (1, 10, 2, 3, TRUE, 'A_S,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글10', 300000, 1000000, 0);
+INSERT INTO home (rent, user_id, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, status, gender, type, introduce, bill, view_count)
+VALUES (2000, 1, 10, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'RENT', '소개글10', 300000, 0);
 
 
 -- HomeImage

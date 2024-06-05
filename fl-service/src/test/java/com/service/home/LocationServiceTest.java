@@ -1,7 +1,7 @@
 package com.service.home;
 
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
-import com.service.home.dto.LatLng;
+import com.service.home.dto.geocoding.LatLng;
 import com.service.home.impl.LocationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
