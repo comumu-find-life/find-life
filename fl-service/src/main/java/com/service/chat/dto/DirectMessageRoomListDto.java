@@ -8,6 +8,7 @@ import lombok.Getter;
 public class DirectMessageRoomListDto {
 
     private Long id;
+
     private Long userId;
     private String userName;
 }

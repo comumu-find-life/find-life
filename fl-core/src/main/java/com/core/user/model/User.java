@@ -51,9 +51,6 @@ public class User extends BaseTimeEntity {
     //자기 소개글
     private String introduce;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Home> homes;
-
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
     }

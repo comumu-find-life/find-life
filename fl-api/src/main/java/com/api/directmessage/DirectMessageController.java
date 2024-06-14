@@ -25,11 +25,20 @@ public class DirectMessageController {
         dmService.applicationDm(dmDto);
     }
 
+    /**
+     * 채팅방 목록
+     * todo
+     */
     @GetMapping("/dm-rooms")
     public ResponseEntity<List<DirectMessageRoomListDto>> findDmRooms() {
         return ResponseEntity.ok(dmService.findDmRoomsByLoginUserId());
     }
 
+    /**
+     * 채팅 정보 조회
+     * @param dmRoomId
+     * @return
+     */
     // 접근성 - Authenticated();
     @GetMapping("/dm-rooms/{dmRoomId}")
     public ResponseEntity<DirectMessageRoomInfoDto> findDmRoomInfo(@PathVariable Long dmRoomId) {

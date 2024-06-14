@@ -18,9 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HomeGeneratorRequest {
 
-    private User user;
-
-    private List<String> images;
+    private Long userIdx;
 
     private HomeAddressGeneratorRequest homeAddress;
 

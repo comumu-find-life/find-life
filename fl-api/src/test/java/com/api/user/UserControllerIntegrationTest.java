@@ -1,6 +1,5 @@
 package com.api.user;
 
-import com.api.dto.SuccessResponse;
 import com.core.user.model.Gender;
 import com.core.user.model.Role;
 import com.core.user.model.User;
@@ -8,6 +7,7 @@ import com.core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.user.dto.UserProfileRequest;
 import com.service.user.dto.UserSignupRequest;
+import com.service.utils.SuccessResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,7 +58,7 @@ public class UserControllerIntegrationTest {
 
         //then
         Assertions.assertThat(user).isNotNull();
-        Assertions.assertThat(user.getNickName()).isEqualTo("민석");
+        Assertions.assertThat(user.getNickname()).isEqualTo("민석");
     }
 
     @Test
@@ -108,18 +108,17 @@ public class UserControllerIntegrationTest {
 
         // 프로필 정보 검증
         Assertions.assertThat(response.isSuccess()).isTrue();
-        Assertions.assertThat(userProfile.getNickName()).isEqualTo(user.getNickName());
+        Assertions.assertThat(userProfile.getNickName()).isEqualTo(user.getNickname());
         Assertions.assertThat(userProfile.getProfileUrl()).isEqualTo(user.getProfileUrl());
     }
 
     private UserSignupRequest generateSignupDto(String email){
         return UserSignupRequest.builder()
                 .email(email)
-                .nickName("민석")
+                .nickname("민석")
                 .password("sin981023@")
                 .job("student")
                 .role(Role.GETTER)
-                .profileUrl("url")
                 .brith(25)
                 .phoneNumber(01012341234)
                 .gender(Gender.MALE)
@@ -131,7 +130,7 @@ public class UserControllerIntegrationTest {
         return User.builder()
                 .id(1L)
                 .email("sin1768@naver.com")
-                .nickName("minseok")
+                .nickname("minseok")
                 .role(Role.GETTER)
                 .password(passwordEncoder.encode("sin981023@"))// Note: Password should be encoded
                 .job("student")

@@ -110,6 +110,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     private void handleException(HttpServletResponse response, InvalidTokenException ex) throws IOException {
+        // 401
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
         response.getWriter().write(new ObjectMapper().writeValueAsString(new SuccessResponse(false, "유효하지 않은 토큰: " + ex.getMessage(), null)));

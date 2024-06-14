@@ -39,8 +39,11 @@ public class HomeService {
      * 집 게시글 등록
      */
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
-        Home home = homeMapper.toHomeEntity(homeCreateDto);
-        //집 이미지 저장
+        User user = userRepository.findById(homeCreateDto.getUserIdx()).get();
+        Home home = homeMapper.toEntity(homeCreateDto);
+
+        //연관관계 저장
+        //home.setUser(user);
         home.setImages(generateHomeImages(home, files));
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
@@ -66,7 +69,7 @@ public class HomeService {
      */
     public HomeInformationResponse findById(Long id) {
         Home entity = homeRepository.findById(id).get();
-        User user = userRepository.findById(entity.getUser().getId()).get();
+        User user = userRepository.findById(entity.getUserIdx()).get();
         return homeMapper.toHomeInformation(entity, user);
     }
 
@@ -77,24 +80,30 @@ public class HomeService {
         List<HomeOverviewResponse> response = new ArrayList<>();
         List<Home> homes = homeRepository.findAll();
         homes.stream().forEach(home -> {
-            response.add(homeMapper.toSimpleHomeDto(home));
+            User user  = userRepository.findById(home.getUserIdx()).get();
+            response.add(homeMapper.toSimpleHomeDto(home, user));
         });
         return response;
     }
 
     public HomeOverviewResponse findByIdWithUser(Long id) {
-        Optional<Home> entity = homeRepository.findByIdWithUser(id);
-        return homeMapper.toSimpleHomeDto(entity.get());
+        Home entity = homeRepository.findByIdWithUser(id).get();
+        User user = userRepository.findById(entity.getUserIdx()).get();
+        return homeMapper.toSimpleHomeDto(entity, user);
     }
     /**
      * 찜 목록 게시글 조회
      */
     public List<HomeOverviewResponse> findFavoriteHomes(List<Long> homeIds) {
         return homeIds.stream()
-                .map(homeId -> {
-                    Optional<Home> byId = homeRepository.findById(homeId);
-                    return homeMapper.toSimpleHomeDto(byId.get());
-                }).collect(Collectors.toList());
+                .map(homeRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(home -> {
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    return homeMapper.toSimpleHomeDto(home, user);
+                })
+                .collect(Collectors.toList());
     }
 
     /**
@@ -110,13 +119,27 @@ public class HomeService {
      */
     public List<HomeOverviewResponse> findByCity(String cityName, int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findByCity(cityName);
-        return toListOverview(homes, homeMapper);
+
+        List<HomeOverviewResponse> listResponse = homes.stream()
+                .map(home -> {
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    return homeMapper.toSimpleHomeDto(home, user);
+                })
+                .collect(Collectors.toList());
+        return listResponse;
+        // toListOverview(homes, homeMapper);
     }
 
     // 페이징으로 조회
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
-        return toListOverview(homes, homeMapper);
+        List<HomeOverviewResponse> listResponse = homes.stream()
+                .map(home -> {
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    return homeMapper.toSimpleHomeDto(home, user);
+                })
+                .collect(Collectors.toList());
+        return listResponse;
     }
 
     /**

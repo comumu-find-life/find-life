@@ -1,5 +1,4 @@
 package com.api.home;
-import com.api.dto.SuccessResponse;
 import com.api.security.service.JwtService;
 import com.core.home.model.*;
 import com.core.home.reposiotry.HomeRepository;
@@ -7,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.impl.LocationServiceImpl;
 import com.service.home.dto.request.HomeGeneratorRequest;
+import com.service.utils.SuccessResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,7 +80,7 @@ public class HomeControllerIntegrationTest {
 
         // then
         Home home = repository.findById(2L).get();
-        Assertions.assertThat(home.getUserId()).isEqualTo(homeGeneratorRequest.getUserId());
+        Assertions.assertThat(home.getId()).isEqualTo(homeGeneratorRequest.getUserIdx());
     }
 
     @Test

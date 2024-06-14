@@ -14,7 +14,6 @@ public class HomeGenerator {
     public static Home generateHomeEntity(){
         return Home.builder()
                 .id(1L)
-                .userId(1L)
                 .images(generateHomeImages())
                 .bathRoomCount(10)
                 .bedroomCount(1)
@@ -58,8 +57,7 @@ public class HomeGenerator {
 
     public static HomeGeneratorRequest generateHomeGeneratorRequest() {
         return HomeGeneratorRequest.builder()
-                .userId(1L)
-                .images(generateHomeImageUrls())
+                .userIdx(1L)
                 .homeAddress(generateHomeAddressRequest())
                 .bathRoomCount(5)
                 .bedroomCount(1)

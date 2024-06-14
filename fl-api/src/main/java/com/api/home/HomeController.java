@@ -2,6 +2,7 @@ package com.api.home;
 
 import com.service.home.HomeService;
 import com.service.home.LocationService;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.response.HomeOverviewResponse;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.geocoding.LatLng;
@@ -39,6 +40,16 @@ public class HomeController {
         Long homeId = homeService.save(homeCreateDto, images, location);
 
         SuccessResponse response = new SuccessResponse(true, "집 게시글 등록 성공", homeId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 주소 유효성 검사를 위한 LatLng 반환
+    @PostMapping("/home/address/validate")
+    public ResponseEntity<?> validateAddress(@RequestBody HomeAddressGeneratorRequest homeAddressGeneratorRequest){
+        LatLng location = locationService.getLatLngFromAddress(homeAddressGeneratorRequest);
+
+        SuccessResponse response = new SuccessResponse(true, "주소 반환 성공", location);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -112,12 +123,11 @@ public class HomeController {
 
     @GetMapping("/homes/favorite")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
-    public ResponseEntity<?> findFavoriteHomes(@RequestBody List<Long> homeIds) {
+    public ResponseEntity<?> findFavoriteHomes(@RequestParam List<Long> homeIds) {
         List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
 
         SuccessResponse<Object> response = new SuccessResponse<>(true, "찜 목록 집 조회 성공", favoriteHomes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
 }
