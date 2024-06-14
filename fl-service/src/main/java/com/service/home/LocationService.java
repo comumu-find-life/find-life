@@ -5,4 +5,5 @@ import com.service.home.dto.request.HomeAddressGeneratorRequest;
 
 public interface LocationService {
     LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto) ;
+
 }

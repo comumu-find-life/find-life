@@ -24,7 +24,9 @@ public class DirectMessageController {
     @MessageMapping(value = "/chat/enter")
     public void enter(DirectMessageDto message){
 //        message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
-//        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//        template.convertAndSend("/sub
+//
+//        /chat/room/" + message.getRoomId(), message);
     }
 
     @MessageMapping(value = "/chat/message")

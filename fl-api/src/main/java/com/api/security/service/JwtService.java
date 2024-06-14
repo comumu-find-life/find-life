@@ -135,9 +135,6 @@ public class JwtService {
         }
     }
 
-
-
-
     //  토큰 유효성을 검사하는 메서드
     public boolean isTokenValid(String token) {
         try {
@@ -148,12 +145,4 @@ public class JwtService {
             return false;
         }
     }
-//    public void isTokenValid(String token) {
-//        try {
-//            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
-//        } catch (Exception e) {
-//            System.out.println("asffasfasf");
-//            throw new IllegalArgumentException("유효하지 않은 토큰 입니다.");
-//        }
-//    }
 }

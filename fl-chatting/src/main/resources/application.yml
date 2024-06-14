@@ -4,9 +4,9 @@ spring:
       mode: always
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fl_chat?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/_?serverTimezone=Asia/Seoul
     username: root
-    password: [password]
+    password: sin981023@
   logging:
     level:
       me.selvernine: DEBUG

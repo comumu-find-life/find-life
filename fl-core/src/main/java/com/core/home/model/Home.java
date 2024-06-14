@@ -25,9 +25,10 @@ public class Home extends BaseTimeEntity {
     private Long id;
 
     //UserId 와 연관관계 매핑
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
+    private Long userIdx;
 
     //집 사진
     @JsonIgnore
@@ -84,8 +85,6 @@ public class Home extends BaseTimeEntity {
         this.bill = home.bill;
         this.rent = home.rent;
     }
-
-
 
     /**
      * 연관관계 등록 메서드
