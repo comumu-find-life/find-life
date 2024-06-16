@@ -37,6 +37,15 @@
 ```
 
 ----
+## 논의 방안
+
+- 예외 처리 관련 Exception 을 어디서 관리할건가 ?
+- DTO 는 common 모듈에서 관리?
+- DTO 네이밍 (요청은 xxxRequest, 응답은 xxxResponse)
+- 테스트코드 작업
+- Entity 필드 제한 걸기
+
+----
 
 ## 기능 명세서
 

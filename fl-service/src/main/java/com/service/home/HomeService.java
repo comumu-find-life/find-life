@@ -13,6 +13,7 @@ import com.service.home.dto.geocoding.LatLng;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
 import com.service.home.mapper.HomeMapper;
+import com.service.utils.OptionalUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -39,11 +40,9 @@ public class HomeService {
      * 집 게시글 등록
      */
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
-        User user = userRepository.findById(homeCreateDto.getUserIdx()).get();
         Home home = homeMapper.toEntity(homeCreateDto);
 
-        //연관관계 저장
-        //home.setUser(user);
+        //이미지, 위치 정보 저장
         home.setImages(generateHomeImages(home, files));
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
@@ -68,8 +67,8 @@ public class HomeService {
      * 집 게시글 단일 조회(집 정보 + 작성자 정보) 로직
      */
     public HomeInformationResponse findById(Long id) {
-        Home entity = homeRepository.findById(id).get();
-        User user = userRepository.findById(entity.getUserIdx()).get();
+        Home entity = OptionalUtil.getOrElseThrow(homeRepository.findById(id), "Home not found with id");
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(entity.getUserIdx()), "User not found with id");
         return homeMapper.toHomeInformation(entity, user);
     }
 
@@ -80,17 +79,17 @@ public class HomeService {
         List<HomeOverviewResponse> response = new ArrayList<>();
         List<Home> homes = homeRepository.findAll();
         homes.stream().forEach(home -> {
-            User user  = userRepository.findById(home.getUserIdx()).get();
+            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), "User not found with id");
             response.add(homeMapper.toSimpleHomeDto(home, user));
         });
         return response;
     }
 
-    public HomeOverviewResponse findByIdWithUser(Long id) {
-        Home entity = homeRepository.findByIdWithUser(id).get();
-        User user = userRepository.findById(entity.getUserIdx()).get();
-        return homeMapper.toSimpleHomeDto(entity, user);
-    }
+//    public HomeOverviewResponse findByIdWithUser(Long id) {
+//        Home entity = homeRepository.findByIdWithUser(id).get();
+//        User user = userRepository.findById(entity.getUserIdx()).get();
+//        return homeMapper.toSimpleHomeDto(entity, user);
+//    }
     /**
      * 찜 목록 게시글 조회
      */
