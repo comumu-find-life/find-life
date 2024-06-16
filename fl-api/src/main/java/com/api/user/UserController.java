@@ -1,9 +1,7 @@
 package com.api.user;
 
-import com.service.file.FileService;
 import com.service.user.UserService;
 import com.service.user.dto.UserInformationDto;
-import com.service.user.dto.UserProfileRequest;
 import com.service.user.dto.UserProfileResponse;
 import com.service.user.dto.UserSignupRequest;
 import com.service.utils.SuccessResponse;
@@ -15,14 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.LinkedList;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/user")
 public class UserController {
 
-    private final FileService fileService;
     private final UserService userService;
 
     @PostMapping("/sign-up")

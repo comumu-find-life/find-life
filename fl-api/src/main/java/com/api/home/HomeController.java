@@ -45,7 +45,7 @@ public class HomeController {
 
     // 주소 유효성 검사를 위한 LatLng 반환
     @PostMapping("/home/address/validate")
-    public ResponseEntity<?> validateAddress(@RequestBody HomeAddressGeneratorRequest homeAddressGeneratorRequest){
+    public ResponseEntity<?> validateAddress(@RequestBody HomeAddressGeneratorRequest homeAddressGeneratorRequest) {
         LatLng location = locationService.getLatLngFromAddress(homeAddressGeneratorRequest);
 
         SuccessResponse response = new SuccessResponse(true, "주소 반환 성공", location);
@@ -62,10 +62,10 @@ public class HomeController {
     }
 
     //id 로 home 조회 With User
-    @GetMapping("/home/{homeId}")
-    public ResponseEntity<HomeOverviewResponse> findByIdWithProviderInfo(@PathVariable Long homeId) {
-        return ResponseEntity.ok(homeService.findByIdWithUser(homeId));
-    }
+//    @GetMapping("/home/{homeId}")
+//    public ResponseEntity<HomeOverviewResponse> findByIdWithProviderInfo(@PathVariable Long homeId) {
+//        return ResponseEntity.ok(homeService.findByIdWithUser(homeId));
+//    }
 
     @PatchMapping("/home")
     public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto) {

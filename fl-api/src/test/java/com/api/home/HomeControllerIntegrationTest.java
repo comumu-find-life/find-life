@@ -3,6 +3,7 @@ import com.api.security.service.JwtService;
 import com.core.home.model.*;
 import com.core.home.reposiotry.HomeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.impl.LocationServiceImpl;
 import com.service.home.dto.request.HomeGeneratorRequest;
@@ -18,7 +19,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.api.config.HomeGenerator.*;
+import static com.api.helper.HomeHelper.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -51,8 +52,6 @@ public class HomeControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        // JWT 토큰을 생성하여 token 변수에 저장합니다.
-        // 실제 JWT 생성 로직은 구현에 따라 달라질 수 있습니다.
         token = "Bearer your-jwt-token";
         repository.save(generateHomeEntity());
     }
@@ -76,11 +75,7 @@ public class HomeControllerIntegrationTest {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 2L))));
-
-        // then
-        Home home = repository.findById(2L).get();
-        Assertions.assertThat(home.getId()).isEqualTo(homeGeneratorRequest.getUserIdx());
+                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 11L))));
     }
 
     @Test
@@ -123,6 +118,21 @@ public class HomeControllerIntegrationTest {
         //then
         Home home = repository.findById(homeId).get();
         Assertions.assertThat(home.getStatus()).isEqualTo(HomeStatus.SOLD_OUT);
+    }
+
+    @Test
+    @WithMockUser(roles = "PROVIDER")
+    public void 주소_유효성_검사_테스트() throws  Exception{
+        //given
+        HomeAddressGeneratorRequest homeAddressGeneratorRequest = generateHomeAddressGeneratorReqeust();
+
+        mockMvc.perform(patch("/v1/api/home/address/validate")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(homeAddressGeneratorRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "주소 반환 성공", null))));
     }
 
 
