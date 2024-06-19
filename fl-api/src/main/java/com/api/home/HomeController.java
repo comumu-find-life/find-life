@@ -36,9 +36,7 @@ public class HomeController {
                                       @RequestPart("images") List<MultipartFile> images) throws IOException {
         //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
-
         Long homeId = homeService.save(homeCreateDto, images, location);
-
         SuccessResponse response = new SuccessResponse(true, "집 게시글 등록 성공", homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -53,6 +51,15 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/home")
+    public ResponseEntity<?> findByUserIdx(@RequestParam Long userIdx){
+        List<HomeOverviewResponse> homes = homeService.findByUserIdx(userIdx);
+
+        SuccessResponse response = new SuccessResponse(true, "내 게시글 조회 성공", homes);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
     @GetMapping("/home")
     public ResponseEntity<?> findById(@RequestParam Long homeId) {
@@ -61,11 +68,6 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //id 로 home 조회 With User
-//    @GetMapping("/home/{homeId}")
-//    public ResponseEntity<HomeOverviewResponse> findByIdWithProviderInfo(@PathVariable Long homeId) {
-//        return ResponseEntity.ok(homeService.findByIdWithUser(homeId));
-//    }
 
     @PatchMapping("/home")
     public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto) {
