@@ -23,13 +23,11 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestPart UserSignupRequest userSignupRequest,
-                                    @RequestPart("image") MultipartFile image
-    ) throws Exception {
+                                    @RequestPart("image") MultipartFile image) throws Exception {
         Long userId = userService.signUp(userSignupRequest, image);
-        SuccessResponse response = new SuccessResponse(true, "회원가입 성공", userId);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
     @GetMapping()
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
@@ -37,11 +35,11 @@ public class UserController {
         return ResponseEntity.ok(userService.findById(id));
     }
 
-    // 사용자가 다른 사용자 프로필 정보를 조회할때 사용 하는 api
+    // 사용자가 다른 사용자 프로필 정보를 조회할 때 사용하는 API
     @GetMapping("/profile")
     public ResponseEntity<?> getUserProfile(@RequestParam Long id) {
         UserProfileResponse userProfile = userService.getUserProfile(id);
-        SuccessResponse response = new SuccessResponse(true, "사용자 프로필 조회 성공", userProfile);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.PROFILE_RETRIEVE_SUCCESS, userProfile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -55,5 +53,5 @@ public class UserController {
         return ResponseEntity.ok(userInfo);
     }
 
-    //todo 탈퇴, 수정 메서드 구현 .requestMatchers("/v1/api/user").permitAll()
+    // TODO: 탈퇴, 수정 메서드 구현 .requestMatchers("/v1/api/user").permitAll()
 }
