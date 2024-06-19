@@ -85,11 +85,15 @@ public class HomeService {
         return response;
     }
 
-//    public HomeOverviewResponse findByIdWithUser(Long id) {
-//        Home entity = homeRepository.findByIdWithUser(id).get();
-//        User user = userRepository.findById(entity.getUserIdx()).get();
-//        return homeMapper.toSimpleHomeDto(entity, user);
-//    }
+    public List<HomeOverviewResponse> findByUserIdx(Long userIdx) {
+        List<HomeOverviewResponse> response = new ArrayList<>();
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), "User not found with id");
+        List<Home> homes = homeRepository.findByUserIdx(userIdx);
+        homes.stream().forEach(home -> {
+            response.add(homeMapper.toSimpleHomeDto(home, user));
+        });
+        return response;
+    }
     /**
      * 찜 목록 게시글 조회
      */

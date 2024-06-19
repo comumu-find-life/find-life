@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 public class HomeGeneratorRequest {
 
-
     private Long userIdx;
 
     private HomeAddressGeneratorRequest homeAddress;
