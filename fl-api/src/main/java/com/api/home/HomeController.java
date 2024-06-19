@@ -10,8 +10,6 @@ import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
 import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
-
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +35,7 @@ public class HomeController {
         //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
         Long homeId = homeService.save(homeCreateDto, images, location);
-        SuccessResponse response = new SuccessResponse(true, "집 게시글 등록 성공", homeId);
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -45,34 +43,28 @@ public class HomeController {
     @PostMapping("/home/address/validate")
     public ResponseEntity<?> validateAddress(@RequestBody HomeAddressGeneratorRequest homeAddressGeneratorRequest) {
         LatLng location = locationService.getLatLngFromAddress(homeAddressGeneratorRequest);
-
-        SuccessResponse response = new SuccessResponse(true, "주소 반환 성공", location);
-
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.ADDRESS_VALIDATION_SUCCESS, location);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/home")
-    public ResponseEntity<?> findByUserIdx(@RequestParam Long userIdx){
+    public ResponseEntity<?> findByUserIdx(@RequestParam Long userIdx) {
         List<HomeOverviewResponse> homes = homeService.findByUserIdx(userIdx);
-
-        SuccessResponse response = new SuccessResponse(true, "내 게시글 조회 성공", homes);
-
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
     @GetMapping("/home")
     public ResponseEntity<?> findById(@RequestParam Long homeId) {
         HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
-        SuccessResponse response = new SuccessResponse(true, "집 게시글 조회 성공", homeInformationResponse);
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_RETRIEVE_SUCCESS, homeInformationResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
     @PatchMapping("/home")
     public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto) {
         homeService.update(homeDto);
-        SuccessResponse response = new SuccessResponse(true, "집 게시글 수정 성공", null);
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_UPDATE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -83,30 +75,29 @@ public class HomeController {
             // 예: 이미지를 저장하거나 검증하는 코드 추가
             System.out.println("Received image: " + image.getOriginalFilename());
         }
-        SuccessResponse response = new SuccessResponse(true, "집 게시글 사진 수정 성공", null);
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_IMAGE_UPDATE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/home/sell")
     public ResponseEntity<?> sellHome(@RequestParam Long homeId) {
         homeService.changeStatus(homeId);
-        SuccessResponse response = new SuccessResponse(true, "집 판매 완료", null);
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_SELL_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/homes/overview")
     public ResponseEntity<?> findAll() {
         List<HomeOverviewResponse> allHomes = homeService.findAllHomes();
-        SuccessResponse response = new SuccessResponse(true, "모든 집 정보 조회 성공", allHomes);
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.ALL_HOMES_RETRIEVE_SUCCESS, allHomes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
     @DeleteMapping("/home")
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         homeService.delete(id);
-        return ResponseEntity.ok("delete!");
+        return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);
     }
 
     // ex) /homes?page=1&size=10
@@ -119,7 +110,7 @@ public class HomeController {
     @GetMapping("/homes/{city}")
     public ResponseEntity<?> findByCity(@PathVariable String city, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         List<HomeOverviewResponse> homes = homeService.findByCity(city, page, size);
-        SuccessResponse<Object> response = new SuccessResponse<>(true, "city 이름으로 조회 성공", homes);
+        SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -127,9 +118,7 @@ public class HomeController {
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> findFavoriteHomes(@RequestParam List<Long> homeIds) {
         List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
-
-        SuccessResponse<Object> response = new SuccessResponse<>(true, "찜 목록 집 조회 성공", favoriteHomes);
+        SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.FAVORITE_HOMES_RETRIEVE_SUCCESS, favoriteHomes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 }
