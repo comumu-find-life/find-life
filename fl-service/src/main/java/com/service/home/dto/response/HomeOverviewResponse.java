@@ -1,6 +1,5 @@
 package com.service.home.dto.response;
 
-import com.core.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,6 +17,6 @@ public class HomeOverviewResponse {
     private Integer bedroomCount;
     private Integer bathRoomCount;
     private String type;
-    private Long userId;
+    private Long userIdx;
     private String userName;
 }

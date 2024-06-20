@@ -25,13 +25,14 @@ public class Home extends BaseTimeEntity {
     private Long id;
 
     //UserId 와 연관관계 매핑
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
+    private Long userIdx;
 
     //집 사진
     @JsonIgnore
-    @OneToMany(mappedBy = "home" , cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "home", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<HomeImage> images;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -75,7 +76,7 @@ public class Home extends BaseTimeEntity {
     //조회수
     private Integer viewCount;
 
-    public void update(Home home){
+    public void update(Home home) {
         this.homeAddress = home.homeAddress;
         this.bathRoomCount = home.bathRoomCount;
         this.bond = home.bond;
@@ -85,16 +86,14 @@ public class Home extends BaseTimeEntity {
         this.rent = home.rent;
     }
 
-
-
     /**
      * 연관관계 등록 메서드
      */
-    public void setLatLng(double lat, double lng){
+    public void setLatLng(double lat, double lng) {
         homeAddress.setLatLnd(lat, lng);
     }
 
-    public void setStatus(HomeStatus status){
+    public void setStatus(HomeStatus status) {
         this.status = status;
     }
 

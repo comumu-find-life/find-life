@@ -13,6 +13,7 @@ import com.service.home.dto.geocoding.LatLng;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.dto.response.HomeInformationResponse;
 import com.service.home.mapper.HomeMapper;
+import com.service.utils.OptionalUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,9 @@ public class HomeService {
      * 집 게시글 등록
      */
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
-        Home home = homeMapper.toHomeEntity(homeCreateDto);
-        //집 이미지 저장
+        Home home = homeMapper.toEntity(homeCreateDto);
+
+        //이미지, 위치 정보 저장
         home.setImages(generateHomeImages(home, files));
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
@@ -65,8 +67,8 @@ public class HomeService {
      * 집 게시글 단일 조회(집 정보 + 작성자 정보) 로직
      */
     public HomeInformationResponse findById(Long id) {
-        Home entity = homeRepository.findById(id).get();
-        User user = userRepository.findById(entity.getUser().getId()).get();
+        Home entity = OptionalUtil.getOrElseThrow(homeRepository.findById(id), "Home not found with id");
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(entity.getUserIdx()), "User not found with id");
         return homeMapper.toHomeInformation(entity, user);
     }
 
@@ -77,24 +79,34 @@ public class HomeService {
         List<HomeOverviewResponse> response = new ArrayList<>();
         List<Home> homes = homeRepository.findAll();
         homes.stream().forEach(home -> {
-            response.add(homeMapper.toSimpleHomeDto(home));
+            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), "User not found with id");
+            response.add(homeMapper.toSimpleHomeDto(home, user));
         });
         return response;
     }
 
-    public HomeOverviewResponse findByIdWithUser(Long id) {
-        Optional<Home> entity = homeRepository.findByIdWithUser(id);
-        return homeMapper.toSimpleHomeDto(entity.get());
+    public List<HomeOverviewResponse> findByUserIdx(Long userIdx) {
+        List<HomeOverviewResponse> response = new ArrayList<>();
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), "User not found with id");
+        List<Home> homes = homeRepository.findByUserIdx(userIdx);
+        homes.stream().forEach(home -> {
+            response.add(homeMapper.toSimpleHomeDto(home, user));
+        });
+        return response;
     }
     /**
      * 찜 목록 게시글 조회
      */
     public List<HomeOverviewResponse> findFavoriteHomes(List<Long> homeIds) {
         return homeIds.stream()
-                .map(homeId -> {
-                    Optional<Home> byId = homeRepository.findById(homeId);
-                    return homeMapper.toSimpleHomeDto(byId.get());
-                }).collect(Collectors.toList());
+                .map(homeRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(home -> {
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    return homeMapper.toSimpleHomeDto(home, user);
+                })
+                .collect(Collectors.toList());
     }
 
     /**
@@ -110,13 +122,27 @@ public class HomeService {
      */
     public List<HomeOverviewResponse> findByCity(String cityName, int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findByCity(cityName);
-        return toListOverview(homes, homeMapper);
+
+        List<HomeOverviewResponse> listResponse = homes.stream()
+                .map(home -> {
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    return homeMapper.toSimpleHomeDto(home, user);
+                })
+                .collect(Collectors.toList());
+        return listResponse;
+        // toListOverview(homes, homeMapper);
     }
 
     // 페이징으로 조회
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
-        return toListOverview(homes, homeMapper);
+        List<HomeOverviewResponse> listResponse = homes.stream()
+                .map(home -> {
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    return homeMapper.toSimpleHomeDto(home, user);
+                })
+                .collect(Collectors.toList());
+        return listResponse;
     }
 
     /**

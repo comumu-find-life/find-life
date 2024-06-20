@@ -27,6 +27,7 @@ public interface HomeMapper {
     @Mapping(target = "images", ignore = true)
     @Mapping(target = "status", expression = "java(com.core.home.model.HomeStatus.FOR_SALE)")
     @Mapping(target = "viewCount", ignore = true)
+    //todo userIdx
     Home toEntity(HomeGeneratorRequest homeDto);
 
     /**
@@ -40,6 +41,7 @@ public interface HomeMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "images", ignore = true)
     @Mapping(target = "status", ignore = true)
+
     @Mapping(target = "viewCount", ignore = true)
     void updateHomeFromDto(HomeUpdateRequest dto, @MappingTarget Home entity);
 
@@ -63,25 +65,27 @@ public interface HomeMapper {
     /**
      * Home 을 리스트로 보여줄 DTO 변환
      */
-    @Mapping(target = "address", source = "homeAddress", qualifiedByName = "mapSimpleAddress")
-    @Mapping(target = "latitude", source = "homeAddress.latitude")
-    @Mapping(target = "longitude", source = "homeAddress.longitude")
-    @Mapping(target = "userId", source = "user", qualifiedByName = "mapUserId")
-    @Mapping(target = "userName", source = "user", qualifiedByName = "mapUserName")
-    @Mapping(target = "mainImage", source = "images", qualifiedByName = "mapMainImage")
-    HomeOverviewResponse toSimpleHomeDto(Home home);
+    /**
+     * Home 을 리스트로 보여줄 DTO 변환
+     */
+    @Mapping(target = "id", source = "home.id")
+    @Mapping(target = "address", source = "home.homeAddress", qualifiedByName = "mapSimpleAddress")
+    @Mapping(target = "latitude", source = "home.homeAddress.latitude")
+    @Mapping(target = "longitude", source = "home.homeAddress.longitude")
+    @Mapping(target = "userIdx", source = "user.id")
+    @Mapping(target = "userName", source = "user.nickname")
+    @Mapping(target = "mainImage", source = "home.images", qualifiedByName = "mapMainImage")
+    HomeOverviewResponse toSimpleHomeDto(Home home, User user);
 
     HomeAddressGeneratorRequest toAddressDto(HomeAddress address);
 
     /**
      * 커스텀 메서드
      */
-    default Home toHomeEntity(HomeGeneratorRequest homeDto) {
-        Home home = toEntity(homeDto);
-//        List<HomeImage> homeImages = mapHomeImages(homeDto.getImages(), home);
-//        home.setImages(homeImages);
-        return home;
-    }
+//    default Home toHomeEntity(HomeGeneratorRequest homeDto) {
+//        Home home = toEntity(homeDto);
+//        return home;
+//    }
 
 
     /**
@@ -123,7 +127,6 @@ public interface HomeMapper {
 
         return sb.toString();
     }
-    //  --- 삭제대기
 
     @Named("mapUserId")
     default Long mapUserId(User user) {

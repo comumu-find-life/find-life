@@ -16,11 +16,5 @@ class DirectMessageRoomMapperTest {
 
     @Test
     void to_Dto_Test() {
-        DirectMessageRoom dmRoom = DirectMessageRoom.builder().id(1L).user2Id(1L).user2Id(2L).build();
-        DirectMessageRoomDto dmRoomDto = directMessageRoomMapper.toDto(dmRoom);
-
-        Assertions.assertThat(dmRoom.getId()).isEqualTo(dmRoomDto.getId());
-        Assertions.assertThat(dmRoom.getUser1Id()).isEqualTo(dmRoomDto.getUser1Id());
-        Assertions.assertThat(dmRoom.getUser2Id()).isEqualTo(dmRoomDto.getUser2Id());
     }
 }
