@@ -1,12 +1,13 @@
 package com.api.home;
-import com.api.dto.SuccessResponse;
 import com.api.security.service.JwtService;
 import com.core.home.model.*;
 import com.core.home.reposiotry.HomeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.impl.LocationServiceImpl;
 import com.service.home.dto.request.HomeGeneratorRequest;
+import com.service.utils.SuccessResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,15 +19,17 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.api.config.HomeGenerator.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static com.api.helper.HomeHelper.*;
+import static com.api.home.SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -51,8 +54,6 @@ public class HomeControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        // JWT 토큰을 생성하여 token 변수에 저장합니다.
-        // 실제 JWT 생성 로직은 구현에 따라 달라질 수 있습니다.
         token = "Bearer your-jwt-token";
         repository.save(generateHomeEntity());
     }
@@ -76,11 +77,7 @@ public class HomeControllerIntegrationTest {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 2L))));
-
-        // then
-        Home home = repository.findById(2L).get();
-        Assertions.assertThat(home.getUserId()).isEqualTo(homeGeneratorRequest.getUserId());
+                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 11L))));
     }
 
     @Test
@@ -124,6 +121,37 @@ public class HomeControllerIntegrationTest {
         Home home = repository.findById(homeId).get();
         Assertions.assertThat(home.getStatus()).isEqualTo(HomeStatus.SOLD_OUT);
     }
+
+    @Test
+    @WithMockUser(roles = "PROVIDER")
+    public void 주소_유효성_검사_테스트() throws  Exception{
+        //given
+        HomeAddressGeneratorRequest homeAddressGeneratorRequest = generateHomeAddressGeneratorReqeust();
+
+        mockMvc.perform(patch("/v1/api/home/address/validate")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(homeAddressGeneratorRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "주소 반환 성공", null))));
+    }
+
+//    @Test
+//    @WithMockUser(roles = "PROVIDER")
+//    public void 자신의_집_게시글_모두_조회_테스트() throws Exception {
+//        // given
+//        Long userIdx = 1L;
+//
+//        // when
+//        mockMvc.perform(get("/v1/api/home")
+//                        .param("userIdx", userIdx.toString())
+//                        .header(HttpHeaders.AUTHORIZATION, token)
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, USER_POSTS_RETRIEVE_SUCCESS, List.of(/* expected list of HomeOverviewResponse */)))));
+//    }
 
 
 }

@@ -5,6 +5,7 @@ import com.core.chat.dto.DirectMessageRoomInfoDto;
 import com.core.chat.model.DirectMessageRoom;
 import com.core.chat.repository.DirectMessageRoomRepository;
 import com.core.user.model.User;
+import com.core.user.repository.UserRepository;
 import com.service.chat.dto.DirectMessageDto;
 import com.service.chat.dto.DirectMessageRoomDto;
 import com.service.chat.dto.DirectMessageRoomListDto;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class DirectMessageService {
 
     private final UserService userService;
+    private final UserRepository userRepository;
     private final DirectMessageRoomRepository dmRoomRepository;
     private final DirectMessageRoomMapper dmRoomMapper;
 
@@ -36,7 +38,6 @@ public class DirectMessageService {
     private String chatUrl;
 
     public void applicationDm(DirectMessageApplicationDto dmApplicationDto) {
-
         // 로그인 유저 정보 받아오기
         Long userId = getLoginUserId();
 
@@ -109,8 +110,20 @@ public class DirectMessageService {
         log.info("user1=" + user1Id);
         log.info("user2=" + user2Id);
 
+
+        /**
+         * todo
+         * 왜 User Builder 로 객체 생성? db에서 조회해서 넣어야 하는거 아닌감
+         */
         if (!dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id).isPresent()) {
-            DirectMessageRoom newDmRoom = DirectMessageRoom.builder().user1(User.builder().id(user1Id).build()).user2(User.builder().id(user2Id).build()).build();
+            User user1 = userRepository.findById(user1Id).get();
+            User user2 = userRepository.findById(user2Id).get();
+
+            DirectMessageRoom newDmRoom = DirectMessageRoom.builder()
+                    .user1(user1)
+                    .user2(user2)
+                    .build();
+
             dmRoomRepository.save(newDmRoom);
         }
     }

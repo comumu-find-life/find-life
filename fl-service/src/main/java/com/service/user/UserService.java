@@ -6,6 +6,7 @@ import com.service.file.FileService;
 import com.service.user.dto.*;
 import com.service.user.mapper.UserMapper;
 import com.service.user.validation.UserServiceValidation;
+import com.service.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -58,8 +59,8 @@ public class UserService {
 
     // 다른 사용자 프로필 조회 기능
     public UserProfileResponse getUserProfile(Long id){
-        Optional<User> user = userRepository.findById(id);
-        return userMapper.toProfile(user.get());
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), "존재하지 않는 user ID 입니다.");
+        return userMapper.toProfile(user);
     }
 
 
@@ -68,7 +69,6 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
         userRepository.delete(user.get());
     }
-
 
 
 }

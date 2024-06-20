@@ -1,4 +1,4 @@
-package com.api.config;
+package com.api.helper;
 
 import com.core.home.model.*;
 import com.core.user.model.Gender;
@@ -9,12 +9,22 @@ import com.service.home.dto.request.HomeUpdateRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeGenerator {
+public class HomeHelper {
+
+    public static HomeAddressGeneratorRequest generateHomeAddressGeneratorReqeust() {
+        return  HomeAddressGeneratorRequest.builder()
+                .state("WAC")
+                .city("Sydney")
+                .postCode(3000)
+                .detailAddress("401호")
+                .streetCode("500")
+                .streetName("Street Name")
+                .build();
+    }
 
     public static Home generateHomeEntity(){
         return Home.builder()
                 .id(1L)
-                .userId(1L)
                 .images(generateHomeImages())
                 .bathRoomCount(10)
                 .bedroomCount(1)
@@ -58,8 +68,7 @@ public class HomeGenerator {
 
     public static HomeGeneratorRequest generateHomeGeneratorRequest() {
         return HomeGeneratorRequest.builder()
-                .userId(1L)
-                .images(generateHomeImageUrls())
+                .userIdx(1L)
                 .homeAddress(generateHomeAddressRequest())
                 .bathRoomCount(5)
                 .bedroomCount(1)
@@ -102,11 +111,4 @@ public class HomeGenerator {
                 .build();
     }
 
-    private static List<String> generateHomeImageUrls() {
-        List<String> imageUrls = new ArrayList<>();
-        for (int i = 1; i < 5; i++) {
-            imageUrls.add("URL" + i);
-        }
-        return imageUrls;
-    }
 }

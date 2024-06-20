@@ -20,6 +20,7 @@ public class LocationServiceImpl implements LocationService {
     private static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
     private static final String GEOCODING_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
     private static final String API_KEY = "AIzaSyDiCJBIUrDSpEKeGIWFKC01_7-fWQhM1bg";
+    private static final String ADDRESS_PATTERN = "%s?address=%s&key=%s";
 
     private final RestTemplate restTemplate;
 
@@ -27,8 +28,6 @@ public class LocationServiceImpl implements LocationService {
     public LocationServiceImpl( ) {
         this.restTemplate = new RestTemplateBuilder().build();;
     }
-
-
 
     /**
      * 주소를 기반으로 위도, 경도를 찾는 메서드
@@ -43,7 +42,7 @@ public class LocationServiceImpl implements LocationService {
      */
     @Override
     public LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto)  {
-        String url = String.format("%s?address=%s&key=%s", GEOCODING_API_URL, toStringAddress(homeAddressDto), API_KEY);
+        String url = String.format(ADDRESS_PATTERN, GEOCODING_API_URL, toStringAddress(homeAddressDto), API_KEY);
         URI uri = URI.create(url);
 
         // Google Geocoding API 호출
@@ -62,6 +61,7 @@ public class LocationServiceImpl implements LocationService {
         // LatLng 객체 생성 후 반환
         return new LatLng(lat, lng);
     }
+
 
 
 }
