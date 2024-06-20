@@ -47,7 +47,7 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/home")
+    @GetMapping("/home/user")
     public ResponseEntity<?> findByUserIdx(@RequestParam Long userIdx) {
         List<HomeOverviewResponse> homes = homeService.findByUserIdx(userIdx);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS, homes);

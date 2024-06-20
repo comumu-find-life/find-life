@@ -20,14 +20,16 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.helper.HomeHelper.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static com.api.home.SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -134,6 +136,22 @@ public class HomeControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "주소 반환 성공", null))));
     }
+
+//    @Test
+//    @WithMockUser(roles = "PROVIDER")
+//    public void 자신의_집_게시글_모두_조회_테스트() throws Exception {
+//        // given
+//        Long userIdx = 1L;
+//
+//        // when
+//        mockMvc.perform(get("/v1/api/home")
+//                        .param("userIdx", userIdx.toString())
+//                        .header(HttpHeaders.AUTHORIZATION, token)
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, USER_POSTS_RETRIEVE_SUCCESS, List.of(/* expected list of HomeOverviewResponse */)))));
+//    }
 
 
 }
