@@ -44,6 +44,8 @@
 - DTO 네이밍 (요청은 xxxRequest, 응답은 xxxResponse)
 - 테스트코드 작업
 - Entity 필드 제한 걸기
+- api 도메인 설계 원칙 정하기.
+- jwt 토큰에 담을 정보 정하기 (현재 email 만 사용, userIdx 값 추가 고려)
 
 ----
 
