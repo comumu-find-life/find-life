@@ -287,6 +287,10 @@
 }
 
 
+.card-sm {
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
@@ -300,99 +304,7 @@
                 <div class="box-right-button">Find a home</div>
             </div>
         </div>
-        <div class="card-section">
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-
-
+        <div class="card-section" id="home-list">
         </div>
     </div>
     <footer style="background-color: #f8f9fa; padding: 20px 0; text-align: center; border-top: 1px solid #dee2e6;">
@@ -456,5 +368,46 @@
             </div>
         </div>
     </footer>
+
+    <script>
+    fetch('/api/homes')
+        .then(response => response.json())
+        .then(data => {
+            const dataList = data.map(home => {
+                return `
+                    <div class="card-sm" id="${home.id}">
+                        <div class="div-frame" style="background-color: green;">
+                            <img src="/img/${home.mainImage}">
+                        </div>
+
+                        <div class="card-body">
+                            <div class="card-title">
+                                $${home.rent} / Week + $${home.bond} bond (bill not Inc)
+                            </div>
+                            <div class="card-contents">
+                                <div class="card-contents-texts">${home.address}</div>
+                                <div class="card-contents-texts">${home.bedroomCount}B${home.bathRoomCount}B - 1 Room in House - 1 or 2 people</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('home-list').innerHTML = dataList;
+
+            var homeCards = document.getElementsByClassName('card-sm');
+
+            Array.from(homeCards).forEach(function(home) {
+
+                home.addEventListener('click', function() {
+
+                    window.location.href = "/home/" + home.id;
+                });
+            });
+
+        })
+        .catch(error => console.error('Error:', error));
+
+</script>
 </body>
 </html>
