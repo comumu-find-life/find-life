@@ -9,14 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/user")
+@RequestMapping("/v1/api/users")
 public class UserController {
 
     private final UserService userService;
@@ -29,29 +28,28 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/{userId}")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
-    public ResponseEntity<UserInformationDto> findById(@RequestParam Long id) {
-        return ResponseEntity.ok(userService.findById(id));
+    public ResponseEntity<UserInformationDto> findById(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.findById(userId));
     }
 
     // 사용자가 다른 사용자 프로필 정보를 조회할 때 사용하는 API
-    @GetMapping("/profile")
-    public ResponseEntity<?> getUserProfile(@RequestParam Long id) {
-        UserProfileResponse userProfile = userService.getUserProfile(id);
+    @GetMapping("/profile/{userId}")
+    public ResponseEntity<?> getUserProfile(@PathVariable Long userId) {
+        UserProfileResponse userProfile = userService.getUserProfile(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.PROFILE_RETRIEVE_SUCCESS, userProfile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/user-info")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<UserInformationDto> findLoginUser() {
-        // 현재 인증된 사용자 정보 가져오기
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserInformationDto userInfo = userService.findByEmail(email);
+//    @GetMapping("/user-info")
+//    @PreAuthorize("isAuthenticated()")
+//    public ResponseEntity<UserInformationDto> findLoginUser() {
+//        // 현재 인증된 사용자 정보 가져오기
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserInformationDto userInfo = userService.findByEmail(email);
+//
+//        return ResponseEntity.ok(userInfo);
+//    }
 
-        return ResponseEntity.ok(userInfo);
-    }
-
-    // TODO: 탈퇴, 수정 메서드 구현 .requestMatchers("/v1/api/user").permitAll()
 }
