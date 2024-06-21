@@ -85,7 +85,7 @@ public class HomeService {
         return response;
     }
 
-    public List<HomeOverviewResponse> findByUserIdx(Long userIdx) {
+    public List<HomeOverviewResponse> findByUserId(Long userIdx) {
         List<HomeOverviewResponse> response = new ArrayList<>();
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), "User not found with id");
         List<Home> homes = homeRepository.findByUserIdx(userIdx);
@@ -120,7 +120,7 @@ public class HomeService {
     /**
      * city 이름으로 모든 집 조회
      */
-    public List<HomeOverviewResponse> findByCity(String cityName, int pageNumber, int pageSize) {
+    public List<HomeOverviewResponse> findByCity(String cityName) {
         List<Home> homes = homeRepository.findByCity(cityName);
 
         List<HomeOverviewResponse> listResponse = homes.stream()

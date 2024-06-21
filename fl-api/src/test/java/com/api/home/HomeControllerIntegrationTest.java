@@ -21,9 +21,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.helper.HomeHelper.*;
 import static com.api.home.SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -75,6 +75,7 @@ public class HomeControllerIntegrationTest {
                         .file(image2)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
+                //then
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 11L))));
@@ -137,21 +138,21 @@ public class HomeControllerIntegrationTest {
                 .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "주소 반환 성공", null))));
     }
 
-//    @Test
-//    @WithMockUser(roles = "PROVIDER")
-//    public void 자신의_집_게시글_모두_조회_테스트() throws Exception {
-//        // given
-//        Long userIdx = 1L;
-//
-//        // when
-//        mockMvc.perform(get("/v1/api/home")
-//                        .param("userIdx", userIdx.toString())
-//                        .header(HttpHeaders.AUTHORIZATION, token)
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, USER_POSTS_RETRIEVE_SUCCESS, List.of(/* expected list of HomeOverviewResponse */)))));
-//    }
+    @Test
+    @WithMockUser(roles = "PROVIDER")
+    public void 자신의_집_게시글_모두_조회_테스트() throws Exception {
+        // given
+        Long userIdx = 1L;
+
+        // when
+        mockMvc.perform(get("/v1/api/home/user")
+                        .param("userIdx", userIdx.toString())
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value(USER_POSTS_RETRIEVE_SUCCESS));
+    }
 
 
 }

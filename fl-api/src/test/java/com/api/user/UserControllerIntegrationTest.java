@@ -131,6 +131,4 @@ public class UserControllerIntegrationTest {
         //Assertions.assertThat(userProfile.getEmail()).isEqualTo(user.getEmail());
     }
 
-
-
 }
