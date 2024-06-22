@@ -3,14 +3,13 @@ package com.service.home.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 
-/**
- * 제거 예정 HomeListOvervireResponse로 대체
- */
 @Builder
 @Getter
-public class HomeOverviewResponse {
+public class HomeListOverviewResponse {
         private Long id;
-        private String address;
+        private String postcode;
+        private String city;
+        private String detailAddress;
         private double latitude;
         private double longitude;
         private String mainImage;
