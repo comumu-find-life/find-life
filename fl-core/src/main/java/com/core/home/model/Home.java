@@ -28,6 +28,7 @@ public class Home extends BaseTimeEntity {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_id")
 //    private User user;
+
     private Long userIdx;
 
     //집 사진

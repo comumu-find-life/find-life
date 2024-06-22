@@ -54,8 +54,9 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/home")
-    public ResponseEntity<?> findById(@RequestParam Long homeId) {
+    // home 아이디로 조회
+    @GetMapping("/home/{homeId}")
+    public ResponseEntity<?> findById(@PathVariable Long homeId) {
         HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_RETRIEVE_SUCCESS, homeInformationResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -102,13 +103,15 @@ public class HomeController {
 
     // ex) /homes?page=1&size=10
     @GetMapping("/homes")
-    public ResponseEntity<List<HomeOverviewResponse>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(homeService.findAllByPage(page, size));
+    public ResponseEntity<?> findAllByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        List<HomeOverviewResponse> homes = homeService.findAllByPage(page, size);
+        SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.ALL_HOMES_RETRIEVE_SUCCESS, homes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // ex) /homes?page=1&size=10
-    @GetMapping("/homes/{city}")
-    public ResponseEntity<?> findByCity(@PathVariable String city, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+    @GetMapping("/homes/city/{city}")
+    public ResponseEntity<?> findByCity(@PathVariable String city, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         List<HomeOverviewResponse> homes = homeService.findByCity(city, page, size);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
