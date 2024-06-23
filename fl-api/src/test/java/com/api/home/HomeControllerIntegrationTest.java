@@ -3,6 +3,7 @@ import com.api.security.service.JwtService;
 import com.core.home.model.*;
 import com.core.home.reposiotry.HomeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.home.dto.geocoding.LatLng;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.impl.LocationServiceImpl;
@@ -69,7 +70,7 @@ public class HomeControllerIntegrationTest {
         MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
 
         // when
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/v1/api/home")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/v1/api/homes")
                         .file(jsonFile)
                         .file(image1)
                         .file(image2)
@@ -88,7 +89,7 @@ public class HomeControllerIntegrationTest {
         HomeUpdateRequest homeGeneratorRequest = generateHomeUpdateRequest();
 
         // when
-        mockMvc.perform(patch("/v1/api/home")
+        mockMvc.perform(patch("/v1/api/homes")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(homeGeneratorRequest)))
@@ -110,7 +111,7 @@ public class HomeControllerIntegrationTest {
         Long homeId = 1L;
 
         //when
-        mockMvc.perform(post("/v1/api/home/sell")
+        mockMvc.perform(post("/v1/api/homes/sell")
                         .param("homeId", homeId.toString())
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -125,17 +126,20 @@ public class HomeControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = "PROVIDER")
-    public void 주소_유효성_검사_테스트() throws  Exception{
-        //given
+    public void 주소_유효성_검사_테스트() throws Exception {
+        // given
         HomeAddressGeneratorRequest homeAddressGeneratorRequest = generateHomeAddressGeneratorReqeust();
 
-        mockMvc.perform(patch("/v1/api/home/address/validate")
+        LatLng expectedLatLng = new LatLng(-33.8689919, 151.2080409);  // 예상되는 위도와 경도
+        SuccessResponse expectedResponse = new SuccessResponse(true, "주소 반환 성공", expectedLatLng);
+
+        mockMvc.perform(post("/v1/api/homes/address/validate")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(homeAddressGeneratorRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "주소 반환 성공", null))));
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse)));
     }
 
     @Test
@@ -145,8 +149,7 @@ public class HomeControllerIntegrationTest {
         Long userIdx = 1L;
 
         // when
-        mockMvc.perform(get("/v1/api/home/user")
-                        .param("userIdx", userIdx.toString())
+        mockMvc.perform(get("/v1/api/homes/users/" + userIdx)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

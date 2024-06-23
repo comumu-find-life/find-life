@@ -31,7 +31,7 @@ public class HomeController {
     //게시글 저장 api
     @PostMapping
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeCreateDto,
-                                      @RequestPart("images") List<MultipartFile> images) throws IOException {
+                                      @RequestPart("images") List<MultipartFile> images) throws IOException, IllegalAccessException {
         //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
         Long homeId = homeService.save(homeCreateDto, images, location);
@@ -41,7 +41,7 @@ public class HomeController {
 
     // 주소 유효성 검사를 위한 LatLng 반환
     @PostMapping("/address/validate")
-    public ResponseEntity<?> validateAddress(@RequestBody HomeAddressGeneratorRequest homeAddressGeneratorRequest) {
+    public ResponseEntity<?> validateAddress(@RequestBody HomeAddressGeneratorRequest homeAddressGeneratorRequest) throws IllegalAccessException {
         LatLng location = locationService.getLatLngFromAddress(homeAddressGeneratorRequest);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.ADDRESS_VALIDATION_SUCCESS, location);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -113,7 +113,7 @@ public class HomeController {
     /**
      * city 이름으로 검색
      */
-    @GetMapping()
+    @GetMapping("/city")
     public ResponseEntity<?> findByCity(@RequestParam String city) {
         List<HomeOverviewResponse> homes = homeService.findByCity(city);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);

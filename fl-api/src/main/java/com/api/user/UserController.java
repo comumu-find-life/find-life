@@ -30,8 +30,10 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
-    public ResponseEntity<UserInformationDto> findById(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.findById(userId));
+    public ResponseEntity<?> findById(@PathVariable Long userId) {
+        UserInformationDto byId = userService.findById(userId);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_RETRIEVE_SUCCESS, byId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 사용자가 다른 사용자 프로필 정보를 조회할 때 사용하는 API
@@ -42,14 +44,5 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @GetMapping("/user-info")
-//    @PreAuthorize("isAuthenticated()")
-//    public ResponseEntity<UserInformationDto> findLoginUser() {
-//        // 현재 인증된 사용자 정보 가져오기
-//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-//        UserInformationDto userInfo = userService.findByEmail(email);
-//
-//        return ResponseEntity.ok(userInfo);
-//    }
 
 }

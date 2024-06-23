@@ -21,7 +21,7 @@ public class LocationServiceTest {
 
 
     @Test
-    void 주소_위도_경도_변환_테스트() throws IOException {
+    void 주소_위도_경도_변환_테스트() throws IOException, IllegalAccessException {
         //given
         HomeAddressGeneratorRequest address = HomeAddressGeneratorRequest.builder()
                 .state("NSW")

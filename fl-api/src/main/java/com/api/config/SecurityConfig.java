@@ -25,6 +25,9 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static com.api.config.AuthUrlPatterns.GET_AUTH_WHITELIST;
+import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;
+
 /**
  * 인증은 CustomJsonUsernamePasswordAuthenticationFilter 에서 authenticate()로 인증된 사용자로 처리
  * JwtAuthenticationProcessingFilter 는 AccessToken, RefreshToken 재발급
@@ -34,22 +37,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] GET_AUTH_WHITELIST = {
-            "/v1/api/homes",
-            "/v1/api/homes/**",
-            "/v1/api/homes",
-            "/v1/api/homes/{city}",
-            "/v1/api/homes/**",
-            "/v1/api/dm",
-            "/v1/api/dm/**",
-            "/v1/api/homes/overview",
-            "/v1/api/users/profile",
-    };
-
-    private static final String[] POST_AUTH_WHITELIST = {
-            "/v1/api/users",
-            "/v1/api/users/sign-up",
-    };
 
     private final LoginService loginService;
     private final UserRedisService redisService;
