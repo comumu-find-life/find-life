@@ -16,12 +16,12 @@ public class HomeHelper {
      */
     public static HomeAddressGeneratorRequest generateHomeAddressGeneratorReqeust() {
         return  HomeAddressGeneratorRequest.builder()
-                .state("WAC")
+                .state("NSW")
                 .city("Sydney")
-                .postCode(3000)
+                .postCode(2000)
                 .detailAddress("401호")
-                .streetCode("500")
-                .streetName("Street Name")
+                .streetCode("123")
+                .streetName("King Street")
                 .build();
     }
 

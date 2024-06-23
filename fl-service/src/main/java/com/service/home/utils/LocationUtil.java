@@ -21,7 +21,6 @@ public class LocationUtil {
         sb.append(addressDto.getPostCode());
         sb.append("Australia");
 
-
         return sb.toString();
     }
 }

@@ -3,7 +3,9 @@ package com.api.user;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.home.LocationService;
 import com.service.user.dto.UserProfileRequest;
+import com.service.user.dto.UserProfileResponse;
 import com.service.user.dto.UserSignupRequest;
 import com.service.utils.SuccessResponse;
 import org.assertj.core.api.Assertions;
@@ -14,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -39,6 +42,9 @@ public class UserControllerIntegrationTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private LocationService locationService;
 
     @BeforeEach
     void setInit(){
@@ -67,7 +73,7 @@ public class UserControllerIntegrationTest {
         );
 
         //when
-        mockMvc.perform(multipart("/v1/api/user/sign-up")
+        mockMvc.perform(multipart("/v1/api/users/sign-up")
                         .file(mockFile)
                         .file(jsonFile)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
@@ -92,7 +98,7 @@ public class UserControllerIntegrationTest {
         ));
 
         // when
-        MvcResult result = mockMvc.perform(post("/login")
+        MvcResult result = mockMvc.perform(post("/v1/api/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginRequestJson))
                 .andExpect(status().isOk())
@@ -106,29 +112,25 @@ public class UserControllerIntegrationTest {
         Assertions.assertThat(responseMap.get("refreshToken")).isNotBlank();
     }
 
-    //todo 테스트 코드 통과안됨 이유 모르겠음
     @Test
-    void 사용자_프로필_조회_테스트() throws Exception {
+    void 상대방_프로필_조회_테스트() throws Exception {
         // given
         User user = generateUser(passwordEncoder);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         // when
-        MvcResult result = mockMvc.perform(get("/v1/api/user/profile")
-                        .param("id", String.valueOf(user.getId()))
+        MvcResult result = mockMvc.perform(get("/v1/api/users/profile/" + savedUser.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        // then
         String responseBody = result.getResponse().getContentAsString();
         SuccessResponse response = objectMapper.readValue(responseBody, SuccessResponse.class);
-        UserProfileRequest userProfile = objectMapper.convertValue(response.getData(), UserProfileRequest.class);
+        UserProfileResponse userProfileResponse = objectMapper.convertValue(response.getData(), UserProfileResponse.class);
 
-        // 프로필 정보 검증
+        // then
         Assertions.assertThat(response.isSuccess()).isTrue();
-        //Assertions.assertThat(userProfile.getId()).isEqualTo(user.getId());
-        //Assertions.assertThat(userProfile.getEmail()).isEqualTo(user.getEmail());
+        Assertions.assertThat(userProfileResponse.getId()).isEqualTo(savedUser.getId());
+        Assertions.assertThat(userProfileResponse.getNickname()).isEqualTo(savedUser.getNickname());
     }
-
 }
