@@ -21,8 +21,8 @@ public class DirectMessageController {
     private final DirectMessageService dmService;
 
     @PostMapping()
-    public void sendDm(@RequestBody DirectMessageApplicationDto dmDto) {
-        dmService.applicationDm(dmDto);
+    public ResponseEntity<Boolean> sendDm(@RequestBody DirectMessageApplicationDto dmDto) {
+        return ResponseEntity.ok(dmService.applicationDm(dmDto));
     }
 
     /**

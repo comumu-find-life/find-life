@@ -1,13 +1,11 @@
 package com.batch.chat;
 
-import com.core.chat.model.DirectMessageRoom;
-import com.service.chat.dto.DirectMessageRoomDto;
 import com.service.chat.dto.DirectMessageRoomListDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -22,9 +20,14 @@ public class ChatApiController {
     private final ChatApiService chatApiService;
 
     @PostMapping("/dm")
-    public void applicationDm(HttpServletRequest request, @ModelAttribute ApplicationDmFormDto applicationDmFormDto) {
+    public ResponseEntity<String> applicationDm(HttpServletRequest request, @RequestBody ApplicationDmFormRequest applicationDmFormRequest) {
+
+        log.info(applicationDmFormRequest.getMessage());
+        log.info(applicationDmFormRequest.getReceiverId() + "");
+        log.info(applicationDmFormRequest.getRoomId() + "");
         String token = getTokenFromCookie(request);
-        chatApiService.applicationDm(applicationDmFormDto, token);
+        chatApiService.applicationDm(applicationDmFormRequest, token);
+        return ResponseEntity.ok("Success");
     }
 
     @GetMapping("/dm-rooms")
