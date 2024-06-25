@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Room</title>
     <link rel="stylesheet" href="/css/main.css">
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1vqgptIQgYusty2ot4ofOabWD6Zpfnf0&callback=console.debug&libraries=maps,marker&v=beta">
+    </script>
     <style>
         .slider {
             position: relative;
@@ -182,19 +184,135 @@
             text-align: center
         }
 
+        .img-icon {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .room-count {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        .room-count-number {
+            margin-left: 0.8rem;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .home-count-type {
+            display: flex;
+            align-items: end;
+            margin-top: 0.5rem;
+        }
+
+        .home-type {
+            margin-left: 1rem;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 0.05rem 1rem 0.25rem 1rem;
+            color: #737373;
+            border: 1px solid black;
+            border-radius: 1rem;
+        }
+
+        .bill-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .img-icon-chx {
+            width: 1.5rem;
+        }
+
+        .home {
+            display: flex;
+        }
+
+        .home-contents {
+            flex-grow: 1;
+        }
+
+        gmp-map {
+            height: 25rem;
+        }
+
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+            border-radius: 25px;
+            padding: 1.5rem 1rem 1.5rem 1rem;
+            border: 1px solid #6d6d6d40;
+            margin: 1rem
+        }
+        .image {
+          position: relative;
+          height: 5rem;
+          width: 5rem;
+        }
+        .image .profile-pic {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+        .data {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .data h2 {
+          font-size: 33px;
+          font-weight: 600;
+        }
+
+        #chat-contents {
+            width: 100%;
+            resize: none;
+            height: 7.5rem;
+            padding: 0.5rem;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+        }
+
+        #btn-send-dm {
+            width: 100%;
+            background-color: #ff6600;
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            px solid #737373;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .side-menu {
+            width: 40rem;
+        }
     </style>
 </head>
 <body>
 <th:block th:replace="~{fragments/navBar :: navBar}"></th:block>
 <div class="container" id="data">
 </div>
+<th:block th:replace="~{fragments/footer :: footer}"></th:block>
 <script>
-    /*
-    document.getElementById('btn-send-dm').addEventListener('click', e => {
-        console.log("send clicked");
 
-        // 로그인 체크 로직
-    })*/
+    const ROOM_TYPE = { "WHOLE_PROPERTY_RENT" : "Rent for whole property",
+        "SHARED_ROOM" : "Share room",
+        "PRIVATE_ROOM" : "Private room",
+        "HOME_STAY" : "Home stay",
+        "STUDIO" : "Studio",
+        "STUDENT_ACCOMMODATION" : "Student accommodation",
+        "ONE_BED_FLAT" : "One bedroom flat"
+    };
+
+
+    const billType = [];
 
     fetch('/api/home/[[${homeId}]]')
         .then(response => response.json())
@@ -212,40 +330,87 @@
                         <button class="next" onclick="moveSlide(1)">&#10095;</button>
                     </div>
                 </div>
-                <div class="room-contents">
-                    <div class="home-title-section">
-                        <div class="home-contents-title">${home.address}</div>
-                        <div class="home-contents-subtitle">${home.address}</div>
-
-                        <div>${home.bedroomCount}B${home.bathRoomCount}B ${home.type}</div>
-                    </div>
-                    <div class="divider"></div>
-
-                    <div class="home-main-contents-section">
-                        <div class="price-section">
-                            <div class="price-child">
-                                <div class="rent"><span class="rent-option">$${home.rent}</span><br/>Per Week</div>
-                            </div>
-                            <div class="price-child">
-                                <div class="rent"><span class="rent-option">$${home.bond}</span><br/>Bond</div>
-                            </div>
-                            <div class="price-child">
-                                <div class="rent"><span class="rent-option">$${home.bill}</span><br/></div>
+                <div class="home">
+                    <div class="home-contents">
+                        <div class="home-title-section">
+                            <div class="home-contents-title">${home.address}</div>
+                            <div class="home-contents-subtitle">${home.address}</div>
+                            <div class="home-count-type">
+                                <div class="room-count">
+                                    <img class="img-icon" src="/assets/icons/bed-icon.svg"> <span class="room-count-number">${home.bedroomCount}</span>
+                                    <img class="img-icon" src="/assets/icons/bathroom-icon.svg"> <span class="room-count-number">${home.bathRoomCount}</span>
+                                    <img class="img-icon" src="/assets/icons/people-icon.svg"> <span class="room-count-number">${home.residentCount}</span>
+                                </div>
+                                <div class="home-type">
+                                    ${ROOM_TYPE[home.type]}
+                                </div>
                             </div>
                         </div>
+                        <div class="divider"></div>
 
-                        <div class="contact">
-                            <div class="provider">
-                                <div class="provider-pic"></div>
-                                <div class="provider-name">${home.providerName}</div>
+                        <div class="home-main-contents-section">
+                            <div class="price-section">
+                                <div class="price-child">
+                                    <div class="rent"><span class="rent-option">$${home.rent}</span><br/>Per Week</div>
+                                </div>
+                                <div class="price-child">
+                                    <div class="rent"><span class="rent-option">$${home.bond}</span><br/>Bond</div>
+                                </div>
+                                <div class="price-child">
+                                    <div class="rent">
+                                        <span class="bill-item">Electricity <img class="img-icon-chx" src="/assets/icons/checkbox-${Math.trunc(home.bill % 2)}.svg"></span>
+                                        <span class="bill-item">Gas <img class="img-icon-chx" src="/assets/icons/checkbox-${Math.trunc(home.bill % 4 / 2)}.svg"></span>
+                                        <span class="bill-item">Water <img class="img-icon-chx" src="/assets/icons/checkbox-${Math.trunc(home.bill % 8 / 4)}.svg"></span>
+                                        <span class="bill-item">Internet <img class="img-icon-chx" src="/assets/icons/checkbox-${Math.trunc(home.bill / 8)}.svg"></span>
+                                    </div>
+                                </div>
                             </div>
-                            <form action="/api/dm" method="post">
-                                <textarea name="message" id="chat-contents"></textarea>
-                                <input type="hidden" name="roomId" value="[[${homeId}]]">
-                                <input type="hidden" name="receiverId" value="${home.providerId}">
-                                <input type="submit" value="send" id="btn-send-dm">
+
+                            <div class="divider"></div>
+
+                            <div class="home-contents-section">
+                                <h2>About the property</h2>
+                                <div>
+                                    ${home.introduce}
+                                </div>
+                            </div>
+
+                            <div class="home-contents-section">
+                                <h2>About the Share mates</h2>
+                                <div>
+                                    ${home.introduce}
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <div class="">
+                                <h2>Location</h2>
+                                <gmp-map center="${home.latitude}, ${home.longitude}" zoom="16.5" map-id="DEMO_MAP_ID">
+                                    <gmp-advanced-marker position="${home.latitude}, ${home.longitude}"></gmp-advanced-marker>
+                                </gmp-map>
+                            </div>
+
+                            <div class="divider"></div>
+
+
+                        </div>
+                    </div>
+                    <div class="side-menu">
+                        <div class="profile-card">
+                            <div class="image">
+                                <img src="/img/">
+                            </div>
+                            <div class="data">
+                                <h3>${home.providerName}</h3>
+                            </div>
+                            <form id="form-message" action="/api/dm" method="post">
+                                <textarea id="chat-contents" placeholder="Type your message"></textarea>
+                                <input type="hidden" id="provider-id" value=${home.providerId}></textarea>
+                                <input type="button" value="Send message" id="btn-send-dm">
                             </form>
                         </div>
+
                     </div>
                 </div>
 
@@ -261,8 +426,6 @@
 
         document.getElementById('data').innerHTML = htmlData;
 
-        document.getElementById('home-list').innerHTML = dataList;
-
         var imgs = document.getElementsByClassName('home-img');
 
         Array.from(imgs).forEach(function(img) {
@@ -272,6 +435,42 @@
 
             });
         });
+
+        // Send Message
+        document.getElementById('btn-send-dm').addEventListener('click', e => {
+
+            // Login Check
+            if(![[${isLogged}]]) {
+                return;
+            } else {
+                var httpRequest;
+                var reqJson = new Object();
+                reqJson.message = document.getElementById("chat-contents").value;
+                reqJson.roomId =[[${homeId}]];
+                reqJson.receiverId = document.getElementById("provider-id").value;
+                console.log(reqJson.receiverId);
+
+                httpRequest = new XMLHttpRequest();
+
+                /* httpRequest의 readyState가 변화했을때 함수 실행 (callBack)*/
+                httpRequest.onreadystatechange = () => {
+                    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                          if (httpRequest.status === 200) {
+                            var result = httpRequest.response;
+                            alert('Message has been sent successfully');
+                          } else {
+                            alert("Something was wrong. Message hasn't been sent.");
+                          }
+                    }
+                };
+
+                httpRequest.open('POST', '/api/dm', true);
+                httpRequest.responseType = "json";
+                httpRequest.setRequestHeader('Content-Type', 'application/json');
+                httpRequest.send(JSON.stringify(reqJson));
+            }
+
+        })
     })
 
     let currentIndex = 0;

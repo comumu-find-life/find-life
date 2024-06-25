@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="footer">
+    <footer style="background-color: #f8f9fa; padding: 20px 0; text-align: center; border-top: 1px solid #dee2e6;">
+        <div style="max-width: 1200px; margin: auto; padding: 20px;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+
+                <!-- Quick Links -->
+                <div style="flex: 1; min-width: 200px; margin: 10px;">
+                    <h3>Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Locations</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Information -->
+                <div style="flex: 1; min-width: 200px; margin: 10px;">
+                    <h3>Contact Information</h3>
+                    <p>Email: <a href="mailto:support@findlife.com">support@findlife.com</a></p>
+                    <p>Phone: +1 (800) 123-4567</p>
+                    <p>Address: 123 Co-living Street,<br> Apartment City, CA 90210, USA</p>
+                </div>
+
+                <!-- Social Media -->
+                <div style="flex: 1; min-width: 200px; margin: 10px;">
+                    <h3>Social Media</h3>
+                    <p><a href="#">Facebook</a></p>
+                    <p><a href="#">Twitter</a></p>
+                    <p><a href="#">Instagram</a></p>
+                    <p><a href="#">LinkedIn</a></p>
+                </div>
+
+                <!-- Legal -->
+                <div style="flex: 1; min-width: 200px; margin: 10px;">
+                    <h3>Legal</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Subscription -->
+                <div style="flex: 1; min-width: 200px; margin: 10px;">
+                    <h3>Newsletter Subscription</h3>
+                    <form>
+                        <input type="email" placeholder="Your email address" style="padding: 8px; width: 80%; max-width: 300px;">
+                        <button type="submit" style="padding: 8px 16px;">Subscribe</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 20px;">
+                <p>&copy; 2024 Find Life. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</th:block>
+</body>
+</html>
