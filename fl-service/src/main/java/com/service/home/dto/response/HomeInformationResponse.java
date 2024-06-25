@@ -46,6 +46,9 @@ public class HomeInformationResponse {
     // Bedroom / 침실 개수
     private Integer bedroomCount;
 
+    // Resident 입주자 수
+    private Integer residentCount;
+
     private double latitude;
 
     private double longitude;
