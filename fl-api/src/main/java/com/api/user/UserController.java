@@ -20,14 +20,20 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * 회원가입 api
+     */
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestPart UserSignupRequest userSignupRequest,
-                                    @RequestPart("image") MultipartFile image) throws Exception {
+                                    @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
         Long userId = userService.signUp(userSignupRequest, image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 본인 프로필 조회 api
+     */
     @GetMapping("/{userId}")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> findById(@PathVariable Long userId) {
@@ -36,7 +42,9 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // 사용자가 다른 사용자 프로필 정보를 조회할 때 사용하는 API
+    /**
+     * 다른 사용자가 프로필을 조회하는 api
+     */
     @GetMapping("/profile/{userId}")
     public ResponseEntity<?> getUserProfile(@PathVariable Long userId) {
         UserProfileResponse userProfile = userService.getUserProfile(userId);

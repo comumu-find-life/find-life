@@ -73,7 +73,7 @@ public class HomeService {
     }
 
     /**
-     * 모든 집 게시글 조회 (맵 화면에서 사용)
+     * 모든 집 게시글 조회
      */
     public List<HomeOverviewResponse> findAllHomes() {
         List<HomeOverviewResponse> response = new ArrayList<>();
@@ -84,6 +84,7 @@ public class HomeService {
         });
         return response;
     }
+
 
     public List<HomeOverviewResponse> findByUserId(Long userIdx) {
         List<HomeOverviewResponse> response = new ArrayList<>();
@@ -133,7 +134,6 @@ public class HomeService {
         // toListOverview(homes, homeMapper);
     }
 
-    // 페이징으로 조회
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
         List<HomeOverviewResponse> listResponse = homes.stream()
@@ -146,12 +146,12 @@ public class HomeService {
     }
 
     /**
-     * 집 게시글 상태 변경 (판매완료, 재판매)
+     * 집 게시글 상태 변경 (판매 완료, 재판매)
      */
-    public void changeStatus(Long homeId) {
-        Home home = homeRepository.findById(homeId)
-                .orElseThrow(() -> new EntityNotFoundException("Home not found with id " + homeId));
-        home.setStatus(HomeStatus.SOLD_OUT);
+    @Transactional
+    public void changeStatus(Long homeId, HomeStatus status) {
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), "Not found with id");
+        home.setStatus(status);
         homeRepository.save(home);
     }
 

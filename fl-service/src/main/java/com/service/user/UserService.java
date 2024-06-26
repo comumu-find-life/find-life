@@ -35,9 +35,11 @@ public class UserService {
         User user = userMapper.toEntity(dto);
 
         //파일 업로드
-        String url = fileService.toUrls(image);
-        fileService.fileUpload(image, url);
-        user.setProfileUrl(url);
+        if (image != null) {
+            String url = fileService.toUrls(image);
+            fileService.fileUpload(image, url);
+            user.setProfileUrl(url);
+        }
         //비밀번호 인코딩
         String encode = passwordEncoder.encode(dto.getPassword());
         user.passwordEncode(encode);
@@ -58,7 +60,7 @@ public class UserService {
     }
 
     // 다른 사용자 프로필 조회 기능
-    public UserProfileResponse getUserProfile(Long id){
+    public UserProfileResponse getUserProfile(Long id) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), "존재하지 않는 user ID 입니다.");
         return userMapper.toProfile(user);
     }
