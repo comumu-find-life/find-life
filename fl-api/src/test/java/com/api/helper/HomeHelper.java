@@ -58,7 +58,7 @@ public class HomeHelper {
                 .options("TABLE,DESK,CHAIR")
                 .bond(3000)
                 .gender(Gender.MALE)
-                .type(HomeType.RENT)
+                .type(HomeType.SHARED_ROOM)
                 .introduce("dasdasd")
                 .bill(10)
                 .rent(300)
@@ -119,9 +119,45 @@ public class HomeHelper {
         return images;
     }
 
+
     /**
      * 집 주소 생성 요청 메서드
      */
+
+    public static HomeGeneratorRequest generateHomeGeneratorRequest() {
+        return HomeGeneratorRequest.builder()
+                .userIdx(1L)
+                .homeAddress(generateHomeAddressRequest())
+                .bathRoomCount(5)
+                .bedroomCount(1)
+                .dealSavable(true)
+                .bond(3000)
+                .gender(Gender.MALE)
+                .type(HomeType.HOME_STAY)
+                .introduce("This is a beautiful home")
+                .bill(10)
+                .rent(300)
+                .options("TABLE,DESK,CHAIR")
+                .build();
+    }
+
+    public static HomeUpdateRequest generateHomeUpdateRequest() {
+        return HomeUpdateRequest.builder()
+                .homeId(1L)
+                .homeAddress(generateHomeAddressRequest())
+                .bathRoomCount(100)
+                .dealSavable(false)
+                .bedroomCount(2)
+                .bond(2000)
+                .gender(Gender.FEMALE)
+                .type(HomeType.SHARED_ROOM)
+                .introduce("INTRODUCEE")
+                .bill(3000)
+                .rent(500)
+                .options("asdasdasd")
+                .build();
+    }
+
     private static HomeAddressGeneratorRequest generateHomeAddressRequest() {
         return HomeAddressGeneratorRequest.builder()
                 .state("NSW")

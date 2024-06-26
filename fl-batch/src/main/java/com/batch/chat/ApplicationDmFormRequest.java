@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ApplicationDmFormDto {
+public class ApplicationDmFormRequest {
     private String message;
     private Long receiverId;
     private Long roomId;

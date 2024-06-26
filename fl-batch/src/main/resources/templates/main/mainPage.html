@@ -287,6 +287,10 @@
 }
 
 
+.card-sm {
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
@@ -300,161 +304,50 @@
                 <div class="box-right-button">Find a home</div>
             </div>
         </div>
-        <div class="card-section">
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-sm" id="${room.id}">
-                <div class="div-frame" style="background-color: green;">
-                    <img src="/img/">
-                </div>
-
-                <div class="card-body">
-                    <div class="card-title">
-                        $200 / Week + $800 bond (bill not Inc)
-                    </div>
-                    <div class="card-contents">
-                        <div class="card-contents-texts">Southport, Goldcoast 4215</div>
-                        <div class="card-contents-texts">4B2B - 1 Room in House - 1 or 2 people</div>
-                    </div>
-                </div>
-            </div>
-
-
+        <div class="card-section" id="home-list">
         </div>
     </div>
-    <footer style="background-color: #f8f9fa; padding: 20px 0; text-align: center; border-top: 1px solid #dee2e6;">
-        <div style="max-width: 1200px; margin: auto; padding: 20px;">
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
 
-                <!-- Quick Links -->
-                <div style="flex: 1; min-width: 200px; margin: 10px;">
-                    <h3>Quick Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">How It Works</a></li>
-                        <li><a href="#">Locations</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+    <script>
+    fetch('/api/homes')
+        .then(response => response.json())
+        .then(data => {
+            const dataList = data.map(home => {
+                return `
+                    <div class="card-sm" id="${home.id}">
+                        <div class="div-frame" style="background-color: green;">
+                            <img src="/img/${home.mainImage}">
+                        </div>
 
-                <!-- Contact Information -->
-                <div style="flex: 1; min-width: 200px; margin: 10px;">
-                    <h3>Contact Information</h3>
-                    <p>Email: <a href="mailto:support@findlife.com">support@findlife.com</a></p>
-                    <p>Phone: +1 (800) 123-4567</p>
-                    <p>Address: 123 Co-living Street,<br> Apartment City, CA 90210, USA</p>
-                </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                $${home.rent} / Week + $${home.bond} bond (bill not Inc)
+                            </div>
+                            <div class="card-contents">
+                                <div class="card-contents-texts">${home.address}</div>
+                                <div class="card-contents-texts">${home.bedroomCount}B${home.bathRoomCount}B - 1 Room in House - 1 or 2 people</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
 
-                <!-- Social Media -->
-                <div style="flex: 1; min-width: 200px; margin: 10px;">
-                    <h3>Social Media</h3>
-                    <p><a href="#">Facebook</a></p>
-                    <p><a href="#">Twitter</a></p>
-                    <p><a href="#">Instagram</a></p>
-                    <p><a href="#">LinkedIn</a></p>
-                </div>
+            document.getElementById('home-list').innerHTML = dataList;
 
-                <!-- Legal -->
-                <div style="flex: 1; min-width: 200px; margin: 10px;">
-                    <h3>Legal</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                    </ul>
-                </div>
+            var homeCards = document.getElementsByClassName('card-sm');
 
-                <!-- Newsletter Subscription -->
-                <div style="flex: 1; min-width: 200px; margin: 10px;">
-                    <h3>Newsletter Subscription</h3>
-                    <form>
-                        <input type="email" placeholder="Your email address" style="padding: 8px; width: 80%; max-width: 300px;">
-                        <button type="submit" style="padding: 8px 16px;">Subscribe</button>
-                    </form>
-                </div>
+            Array.from(homeCards).forEach(function(home) {
 
-            </div>
+                home.addEventListener('click', function() {
 
-            <div style="margin-top: 20px;">
-                <p>&copy; 2024 Find Life. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+                    window.location.href = "/home/" + home.id;
+                });
+            });
+
+        })
+        .catch(error => console.error('Error:', error));
+
+</script>
 </body>
 </html>
