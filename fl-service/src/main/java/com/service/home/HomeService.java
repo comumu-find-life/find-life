@@ -17,6 +17,7 @@ import com.service.utils.OptionalUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 
 import static com.service.home.utils.HomeUtil.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HomeService {
@@ -123,13 +125,18 @@ public class HomeService {
      */
     public List<HomeOverviewResponse> findByCity(String cityName) {
         List<Home> homes = homeRepository.findByCity(cityName);
-
         List<HomeOverviewResponse> listResponse = homes.stream()
                 .map(home -> {
                     User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
                     return homeMapper.toSimpleHomeDto(home, user);
                 })
                 .collect(Collectors.toList());
+        log.info(listResponse.get(0).getAddress());
+        log.info(listResponse.get(0).getAddress());
+        log.info(listResponse.get(0).getAddress());
+        log.info(listResponse.get(0).getAddress());
+        log.info(listResponse.get(0).getAddress());
+        log.info(listResponse.get(0).getAddress());
         return listResponse;
         // toListOverview(homes, homeMapper);
     }

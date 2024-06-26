@@ -24,6 +24,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        final String[] SECURE_URLS = {"/dms"};
+
         String requestURI = request.getRequestURI();
         Cookie[] cookies = request.getCookies();
 
@@ -35,10 +37,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                     .orElse(null);
 
             // Authorization 쿠키가 있는지 확인
-            if (authCookie == null) {
-//                response.sendRedirect("/login?redirectURL=" + requestURI);
-//                return false;
-            } else {
+            if (authCookie != null) {
                 String jwtToken = authCookie.getValue();
                 RestTemplate restTemplate = new RestTemplate();
 
@@ -77,11 +76,16 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                 }
             }
 
+
+
         }
 
         // Authorization 쿠키가 없으면 로그인 페이지로 리디렉션
-//        response.sendRedirect("/login?redirectURL=" + requestURI);
-//        return false;
+        if (Arrays.stream(SECURE_URLS).anyMatch(requestURI::equals)) {
+            response.sendRedirect("/login?redirectURL=" + requestURI);
+            return false;
+        }
+
         return true;
     }
 

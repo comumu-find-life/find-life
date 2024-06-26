@@ -63,10 +63,12 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     /**
      * 집 id 로 단일 조회 api
      */
     @GetMapping("/{homeId}")
+
     public ResponseEntity<?> findById(@PathVariable Long homeId) {
         HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_RETRIEVE_SUCCESS, homeInformationResponse);
@@ -127,12 +129,16 @@ public class HomeController {
 
 
 
+
     /**
      * city 이름으로 집 조회 api
      */
     @GetMapping("/city")
     public ResponseEntity<?> findByCity(@RequestParam String city) {
         List<HomeOverviewResponse> homes = homeService.findByCity(city);
+
+
+        List<HomeOverviewResponse> homes = homeService.findByCity(city, page, size);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

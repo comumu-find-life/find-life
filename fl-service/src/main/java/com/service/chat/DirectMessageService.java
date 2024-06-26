@@ -37,9 +37,13 @@ public class DirectMessageService {
     @Value("${domain.chat}")
     private String chatUrl;
 
-    public void applicationDm(DirectMessageApplicationDto dmApplicationDto) {
+    public boolean applicationDm(DirectMessageApplicationDto dmApplicationDto) {
+
+
         // 로그인 유저 정보 받아오기
         Long userId = getLoginUserId();
+        log.info(userId + "");
+        log.info(dmApplicationDto.getReceiverId() + "");
 
         // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
         saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId));
@@ -53,6 +57,8 @@ public class DirectMessageService {
         RestTemplate restTemplate = new RestTemplate();
         String url = chatUrl + "/dm";
         restTemplate.postForObject(url, dmDto, Object.class);
+
+        return true;
     }
 
     // 로그인된 유저의 Dm리스트

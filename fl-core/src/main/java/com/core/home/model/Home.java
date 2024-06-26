@@ -28,6 +28,7 @@ public class Home extends BaseTimeEntity {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_id")
 //    private User user;
+
     private Long userIdx;
 
     //집 사진
@@ -40,10 +41,13 @@ public class Home extends BaseTimeEntity {
     private HomeAddress homeAddress;
 
     // 화장실 개수
-    private Integer bathRoomCount;
+    private int bathRoomCount;
 
     // Bedroom / 침실 개수
-    private Integer bedroomCount;
+    private int bedroomCount;
+
+    // Resident / 입주자 수
+    private Integer residentCount;
 
     // 안전 거래 가능 여부
     private boolean dealSavable;

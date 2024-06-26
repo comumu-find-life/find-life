@@ -79,7 +79,7 @@
 <th:block th:fragment="navBar">
     <div class="nav-bar">
         <div class="logo"><a id="a-logo"href="/"><img src="/assets/FL-logo.png" id="img-logo"></a></div>
-        <form action="/rooms" method="get" id="room-search">
+        <form action="/homes" method="get" id="home-search">
         <div class="search-bar">
                 <input type="text" name="city" id="input-city" placeholder="Search by City or Postcode">
                 <span id="btn-search" value="Search">Search</span>
@@ -94,7 +94,7 @@
     </div>
     <script>
         document.getElementById("btn-search").addEventListener("click", function() {
-           document.getElementById("room-search").submit();
+           document.getElementById("home-search").submit();
         });
         if(![[${isLogged}]]) {
             document.getElementById("btn-sign-in").addEventListener("click", function() {
