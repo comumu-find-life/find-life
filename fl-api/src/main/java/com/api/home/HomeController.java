@@ -1,5 +1,7 @@
 package com.api.home;
 
+import com.api.user.SuccessUserMessages;
+import com.core.home.model.HomeStatus;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
@@ -28,7 +30,9 @@ public class HomeController {
     private final HomeService homeService;
     private final LocationService locationService;
 
-    //게시글 저장 api
+    /**
+     * 집 게시글 등록 api
+     */
     @PostMapping
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeCreateDto,
                                       @RequestPart("images") List<MultipartFile> images) throws IOException, IllegalAccessException {
@@ -39,7 +43,9 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // 주소 유효성 검사를 위한 LatLng 반환
+    /**
+     * 집 주소 검색 (검증) api
+     */
     @PostMapping("/address/validate")
     public ResponseEntity<?> validateAddress(@RequestBody HomeAddressGeneratorRequest homeAddressGeneratorRequest) throws IllegalAccessException {
         LatLng location = locationService.getLatLngFromAddress(homeAddressGeneratorRequest);
@@ -47,6 +53,9 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 사용자 등록한 집 게시글 조회 api
+     */
     @GetMapping("/users/{userId}")
     public ResponseEntity<?> findByUserId(@PathVariable Long userId) {
         List<HomeOverviewResponse> homes = homeService.findByUserId(userId);
@@ -54,6 +63,9 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 집 id 로 단일 조회 api
+     */
     @GetMapping("/{homeId}")
     public ResponseEntity<?> findById(@PathVariable Long homeId) {
         HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
@@ -61,6 +73,9 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 집 정보 수정 api
+     */
     @PatchMapping()
     public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto) {
         homeService.update(homeDto);
@@ -68,6 +83,9 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 집 이미지 수정 api
+     */
     @PatchMapping("/image")
     public ResponseEntity<?> updateHomeImage(@RequestParam("images") List<MultipartFile> images) {
         // 이미지 처리 로직 추가
@@ -79,14 +97,16 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/sell")
-    public ResponseEntity<?> sellHome(@RequestParam Long homeId) {
-        homeService.changeStatus(homeId);
+    @PostMapping("/sell/{homeId}")
+    public ResponseEntity<?> sellHome(@PathVariable Long homeId, @RequestBody HomeStatus status) {
+        homeService.changeStatus(homeId,status);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_SELL_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // 맵 화면에서 사용할 예정
+    /**
+     * 집 게시글 모두 조회 api
+     */
     @GetMapping("/overview")
     public ResponseEntity<?> findAll() {
         List<HomeOverviewResponse> allHomes = homeService.findAllHomes();
@@ -94,24 +114,21 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{homeId}")
-    @PreAuthorize("hasRole(ROLE_PROVIDER)")
-    public ResponseEntity<String> delete(@PathVariable Long homeId) {
-        homeService.delete(homeId);
-        return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);
-    }
-
     /**
-     * 집 게시글 리스트 화면에서 사용
+     * 집 게시글 페이징 조회 api
      * ex) /homes?page=1&size=10
      */
-    @GetMapping()
-    public ResponseEntity<List<HomeOverviewResponse>> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(homeService.findAllByPage(page, size));
+    @GetMapping
+    public ResponseEntity<?> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+        List<HomeOverviewResponse> allByPage = homeService.findAllByPage(page, size);
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.PAGE_HOMES_RETRIEVE_SUCCESS,allByPage);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
+
     /**
-     * city 이름으로 검색
+     * city 이름으로 집 조회 api
      */
     @GetMapping("/city")
     public ResponseEntity<?> findByCity(@RequestParam String city) {
@@ -120,11 +137,24 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 찜 목록 조회 api
+     */
     @GetMapping("/favorite")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> findFavoriteHomes(@RequestParam List<Long> homeIds) {
         List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.FAVORITE_HOMES_RETRIEVE_SUCCESS, favoriteHomes);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 집 게시글 삭제 api
+     */
+    @DeleteMapping("/{homeId}")
+    @PreAuthorize("hasRole(ROLE_PROVIDER)")
+    public ResponseEntity<String> delete(@PathVariable Long homeId) {
+        homeService.delete(homeId);
+        return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);
     }
 }

@@ -76,16 +76,6 @@ public class Home extends BaseTimeEntity {
     //조회수
     private Integer viewCount;
 
-    public void update(Home home) {
-        this.homeAddress = home.homeAddress;
-        this.bathRoomCount = home.bathRoomCount;
-        this.bond = home.bond;
-        this.gender = home.gender;
-        this.introduce = home.introduce;
-        this.bill = home.bill;
-        this.rent = home.rent;
-    }
-
     /**
      * 연관관계 등록 메서드
      */
@@ -100,6 +90,5 @@ public class Home extends BaseTimeEntity {
     public void setImages(List<HomeImage> images) {
         this.images = images;
     }
-
 
 }

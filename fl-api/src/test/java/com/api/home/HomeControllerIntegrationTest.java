@@ -157,5 +157,4 @@ public class HomeControllerIntegrationTest {
                 .andExpect(jsonPath("$.message").value(USER_POSTS_RETRIEVE_SUCCESS));
     }
 
-
 }
