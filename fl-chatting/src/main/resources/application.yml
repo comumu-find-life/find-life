@@ -16,7 +16,7 @@ spring:
     port : 6380
   config:
     import:
-      - 'classpath:/yaml/application-core-dev.yml'
+      - 'classpath:/yaml/application-core-dev.yml'화
       - 'classpath:/yaml/application-core-log.yml'
 server:
   port: 8082
