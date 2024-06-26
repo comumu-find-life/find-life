@@ -41,15 +41,18 @@ public class LocationServiceImpl implements LocationService {
      * 2015 : 우편번호
      */
     @Override
-    public LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto)  {
+    public LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto) throws IllegalAccessException {
         String url = String.format(ADDRESS_PATTERN, GEOCODING_API_URL, toStringAddress(homeAddressDto), API_KEY);
         URI uri = URI.create(url);
 
         // Google Geocoding API 호출
         String response = restTemplate.getForObject(uri, String.class);
+        System.out.println("Response = " + toStringAddress(homeAddressDto));
 
         // JSON 파싱
         JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        // jsonObject 출력
+        validateAddress(jsonObject);
         JsonObject location = jsonObject.getAsJsonArray("results").get(0)
                 .getAsJsonObject().getAsJsonObject("geometry")
                 .getAsJsonObject("location");
@@ -60,6 +63,12 @@ public class LocationServiceImpl implements LocationService {
 
         // LatLng 객체 생성 후 반환
         return new LatLng(lat, lng);
+    }
+
+    private void validateAddress(JsonObject jsonObject) throws IllegalAccessException {
+        if(jsonObject.size() == 0){
+            throw new IllegalAccessException("존재하지 않는 주소입니다.");
+        }
     }
 
 
