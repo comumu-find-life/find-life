@@ -8,7 +8,7 @@ import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
 import com.service.chat.dto.DirectMessageDto;
 import com.service.chat.dto.DirectMessageRoomDto;
-import com.service.chat.dto.DirectMessageRoomListDto;
+import com.service.chat.dto.DirectMessageRoomListResponse;
 import com.service.chat.mapper.DirectMessageRoomMapper;
 import com.service.user.UserService;
 import com.service.user.dto.UserInformationDto;
@@ -62,16 +62,14 @@ public class DirectMessageService {
     }
 
     // 로그인된 유저의 Dm리스트
-    public List<DirectMessageRoomListDto> findDmRoomsByLoginUserId() {
+    public List<DirectMessageRoomListResponse> findDmRoomsByLoginUserId() {
         // 로그인 유저 정보 받아오기
         Long userId = getLoginUserId();
         List<DirectMessageRoom> dmRooms = dmRoomRepository.findByUser1IdOrUser2Id(userId);
 
-        //Dto변환
-        List<DirectMessageRoomListDto> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
-            Long userSetId = (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1().getId() : dmRoom.getUser2().getId();
-            String userSetName = (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1().getNickname() : dmRoom.getUser2().getNickname();
-            return DirectMessageRoomListDto.builder().id(dmRoom.getId()).userId(userSetId).userName(userSetName).build();
+        // Dto변환
+        List<DirectMessageRoomListResponse> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
+            return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2());
         }).collect(Collectors.toList());
 
         return dmRoomListDtos;
@@ -143,5 +141,15 @@ public class DirectMessageService {
                     dmRoomDtos.add(dmRoomMapper.toDto(room));
                 });
         return dmRoomDtos;
+    }
+
+
+    private DirectMessageRoomListResponse getChatUserInfo(Long id, User user) {
+        return DirectMessageRoomListResponse.builder()
+                .id(id)
+                .userId(user.getId())
+                .userNickname(user.getNickname())
+                .userProfileUrl(user.getProfileUrl())
+                .build();
     }
 }

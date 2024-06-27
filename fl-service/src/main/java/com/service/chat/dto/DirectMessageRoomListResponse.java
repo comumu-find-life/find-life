@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class DirectMessageRoomListDto {
+public class DirectMessageRoomListResponse {
 
     private Long id;
-
     private Long userId;
-    private String userName;
+    private String userNickname;
+    private String userProfileUrl;
 }

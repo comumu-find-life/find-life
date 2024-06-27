@@ -1,10 +1,11 @@
 package com.batch.chat;
 
-import com.service.chat.dto.DirectMessageRoomListDto;
+import com.service.chat.dto.DirectMessageRoomListResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class ChatApiController {
     }
 
     @GetMapping("/dm-rooms")
-    public List<DirectMessageRoomListDto> getDmRooms(HttpServletRequest request) {
+    public List<DirectMessageRoomListResponse> getDmRooms(HttpServletRequest request) {
         String token = getTokenFromCookie(request);
         return chatApiService.findDmRoomsByUserId(token);
     }

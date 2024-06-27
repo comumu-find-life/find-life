@@ -3,8 +3,7 @@ package com.api.directmessage;
 import com.core.chat.dto.DirectMessageApplicationDto;
 import com.core.chat.dto.DirectMessageRoomInfoDto;
 import com.service.chat.DirectMessageService;
-import com.service.chat.dto.DirectMessageRoomDto;
-import com.service.chat.dto.DirectMessageRoomListDto;
+import com.service.chat.dto.DirectMessageRoomListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class DirectMessageController {
      * todo
      */
     @GetMapping("/dm-rooms")
-    public ResponseEntity<List<DirectMessageRoomListDto>> findDmRooms() {
+    public ResponseEntity<List<DirectMessageRoomListResponse>> findDmRooms() {
         return ResponseEntity.ok(dmService.findDmRoomsByLoginUserId());
     }
 

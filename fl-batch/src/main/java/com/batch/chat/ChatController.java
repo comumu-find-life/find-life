@@ -14,7 +14,7 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    @GetMapping("/dms")
+    @GetMapping("/dm")
     public String dmRoomList() {
         return "chat/dmRoomList";
     }
@@ -25,6 +25,6 @@ public class ChatController {
         model.addAttribute("roomId", id);
         model.addAttribute("dmRoomInfo", dmRoomInfo);
 
-        return "chat/dmRoom";
+        return "chat/dmRoomList";
     }
 }
