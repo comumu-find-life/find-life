@@ -6,6 +6,7 @@ import com.api.security.handler.LoginFailureHandler;
 import com.api.security.handler.LoginSuccessHandler;
 import com.api.security.service.JwtService;
 import com.api.security.service.LoginService;
+import com.core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redis.user.UserRedisService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,6 @@ import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
 
     private final LoginService loginService;
     private final UserRedisService redisService;
@@ -100,16 +100,16 @@ public class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://10.0.2.2:8080")
-                        .allowedMethods("*")
-                        .allowedHeaders("*");
-            }
-        };
-    }
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**")
+//                        .allowedOrigins("http://10.0.2.2:8080")
+//                        .allowedMethods("*")
+//                        .allowedHeaders("*");
+//            }
+//        };
+//    }
 }

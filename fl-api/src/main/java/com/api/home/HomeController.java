@@ -127,18 +127,12 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
-
-
     /**
      * city 이름으로 집 조회 api
      */
     @GetMapping("/city")
     public ResponseEntity<?> findByCity(@RequestParam String city) {
         List<HomeOverviewResponse> homes = homeService.findByCity(city);
-
-
-        List<HomeOverviewResponse> homes = homeService.findByCity(city, page, size);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
