@@ -49,7 +49,6 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .csrf(csrf -> csrf.disable())
-                .headers(headers -> headers.frameOptions().disable())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, GET_AUTH_WHITELIST).permitAll()

@@ -63,7 +63,6 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     /**
      * 집 id 로 단일 조회 api
      */

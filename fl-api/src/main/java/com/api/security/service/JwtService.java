@@ -155,6 +155,5 @@ public class JwtService {
 class LoginResponse{
     String accessToken;
     String refreshToken;
-    String userId;
 
 }
