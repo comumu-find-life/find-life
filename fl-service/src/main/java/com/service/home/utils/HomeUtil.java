@@ -12,15 +12,6 @@ import java.util.stream.Collectors;
 
 public class HomeUtil {
 
-//    static public Page<HomeOverviewResponse> toPageOverview(Page<Home> homes, HomeMapper homeMapper) {
-//        List<HomeOverviewResponse> pageResponse = homes.getContent().stream()
-//                .map(homeMapper::toSimpleHomeDto)
-//                .collect(Collectors.toList());
-//        return new PageImpl<>(pageResponse, homes.getPageable(), homes.getTotalElements());
-//    }
-
-
-
     static public PageRequest toPageRequest(int pageNumber, int pageSize) {
         return PageRequest.of(pageNumber, pageSize);
     }

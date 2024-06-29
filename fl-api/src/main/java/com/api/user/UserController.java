@@ -49,6 +49,14 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PatchMapping("/{userId}")
+    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
+    public ResponseEntity<?> updateUser(@PathVariable Long userId){
+
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     /**
      * jwt 로 자신의 userId 조회하기.
      */
@@ -71,6 +79,8 @@ public class UserController {
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.PROFILE_RETRIEVE_SUCCESS, userProfile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
 
 
 }
