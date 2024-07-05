@@ -49,7 +49,6 @@ public class UserController {
     @PatchMapping("/{userId}")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> updateUser(@PathVariable Long userId){
-
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
