@@ -1,13 +1,14 @@
 package com.chatting.controller;
 
 import com.chatting.dto.DirectMessageDto;
+import com.chatting.dto.DirectMessageResponse;
+import com.chatting.model.DirectMessage;
 import com.chatting.service.DirectMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,6 +23,11 @@ public class DirectMessageApiController {
     public void sendDm(@RequestBody DirectMessageDto directMessageDto) {
         log.info(directMessageDto.getMessage());
         dmService.sendDM(directMessageDto);
+    }
+
+    @GetMapping("/dm")
+    public List<DirectMessageResponse> getDmLogs(@RequestParam Long user1Id, @RequestParam Long user2Id) {
+        return dmService.findRecentChatLog(user1Id, user2Id);
     }
 
 }

@@ -37,7 +37,7 @@ public class HomeHelper {
                 .dealSavable(true)
                 .bond(3000)
                 .gender(Gender.MALE)
-                .type(HomeType.RENT)
+                .type(HomeType.WHOLE_PROPERTY_RENT)
                 .introduce("This is a beautiful home")
                 .bill(10)
                 .rent(300)

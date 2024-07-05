@@ -2,13 +2,11 @@ package com.core.home.model;
 
 import com.core.base.model.BaseTimeEntity;
 import com.core.user.model.Gender;
-import com.core.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
-import java.util.Objects;
 
 
 @Entity
