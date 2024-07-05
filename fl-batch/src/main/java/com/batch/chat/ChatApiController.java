@@ -22,13 +22,15 @@ public class ChatApiController {
 
     @PostMapping("/dm")
     public ResponseEntity<String> applicationDm(HttpServletRequest request, @RequestBody ApplicationDmFormRequest applicationDmFormRequest) {
-
-        log.info(applicationDmFormRequest.getMessage());
-        log.info(applicationDmFormRequest.getReceiverId() + "");
-        log.info(applicationDmFormRequest.getRoomId() + "");
         String token = getTokenFromCookie(request);
         chatApiService.applicationDm(applicationDmFormRequest, token);
         return ResponseEntity.ok("Success");
+    }
+
+    @GetMapping("/dm")
+    public List<DirectMessageRoomListResponse> getRecentDmLogs(HttpServletRequest request) {
+        String token = getTokenFromCookie(request);
+        return chatApiService.findDmRoomsByUserId(token);
     }
 
     @GetMapping("/dm-rooms")
