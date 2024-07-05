@@ -3,9 +3,12 @@ package com.api.security.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.core.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.utils.SuccessResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,9 +45,9 @@ public class JwtService {
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
     private static final String EMAIL_CLAIM = "email";
+    private static final String USER_ID = "userId";
     private static final String BEARER = "Bearer ";
-
-    private final UserRepository userRepository;
+    private final ObjectMapper objectMapper;
 
     /**
      * AccessToken(Jwt) 생성 메소드
@@ -74,15 +77,7 @@ public class JwtService {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
-    /**
-     * AccessToken 헤더에 실어서 보내기
-     */
-    public void sendAccessToken(HttpServletResponse response, String accessToken) {
-        response.setStatus(HttpServletResponse.SC_OK);
 
-        response.setHeader(accessHeader, accessToken);
-        log.info("재발급된 Access Token : {}", accessToken);
-    }
 
     /**
      * 로그인 시 AccessToken 과 RefreshToken 을 헤더에 실어서 내보냄
@@ -92,10 +87,16 @@ public class JwtService {
         response.setContentType("application/json"); // 응답의 컨텐츠 타입을 JSON으로 설정합니다.
 
         // JSON 형식의 응답 본문을 구성합니다.
-        String responseBody = "{\"accessToken\": \"" + accessToken + "\", \"refreshToken\": \"" + refreshToken + "\"}";
-
+        //SuccessResponse successResponse = new SuccessResponse(true, );
+        //String responseBody = "{\"accessToken\": \"" + accessToken + "\", \"refreshToken\": \"" + refreshToken + "\"}";
+        LoginResponse loginResponse = LoginResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+        SuccessResponse successResponse = new SuccessResponse(true, "Tokens generated successfully", loginResponse);
         try {
             // JSON 응답 본문을 응답에 작성합니다.
+            String responseBody = objectMapper.writeValueAsString(successResponse);
             response.getWriter().write(responseBody);
             response.getWriter().flush();
             response.getWriter().close();
@@ -145,4 +146,14 @@ public class JwtService {
             return false;
         }
     }
+
+
+}
+
+@Builder
+@Getter
+class LoginResponse{
+    String accessToken;
+    String refreshToken;
+
 }

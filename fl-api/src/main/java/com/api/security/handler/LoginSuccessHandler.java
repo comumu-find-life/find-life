@@ -1,6 +1,7 @@
 package com.api.security.handler;
 
 import com.api.security.service.JwtService;
+import com.core.user.repository.UserRepository;
 import com.redis.user.UserRedisService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,9 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) {
         String email = extractUsername(authentication);
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
         String accessToken = jwtService.createAccessToken(email); // JwtService의 createAccessToken을 사용하여 AccessToken 발급
         String refreshToken = jwtService.createRefreshToken(); // JwtService의 createRefreshToken을 사용하여 RefreshToken 발급
 
@@ -47,6 +51,9 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private String extractUsername(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+
+        System.out.println(userDetails.getUsername());
         return userDetails.getUsername();
     }
 }

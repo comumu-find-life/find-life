@@ -25,25 +25,6 @@ public class HomeHelper {
                 .build();
     }
 
-    /**
-     * 집 게시글 생성 메서드
-     */
-    public static HomeGeneratorRequest generateHomeGeneratorRequest() {
-        return HomeGeneratorRequest.builder()
-                .userIdx(1L)
-                .homeAddress(generateHomeAddressRequest())
-                .bathRoomCount(5)
-                .bedroomCount(1)
-                .dealSavable(true)
-                .bond(3000)
-                .gender(Gender.MALE)
-                .type(HomeType.WHOLE_PROPERTY_RENT)
-                .introduce("This is a beautiful home")
-                .bill(10)
-                .rent(300)
-                .options("TABLE,DESK,CHAIR")
-                .build();
-    }
 
     /**
      * 집 엔티티 생성 메서드
@@ -64,27 +45,6 @@ public class HomeHelper {
                 .rent(300)
                 .status(HomeStatus.FOR_SALE)
                 .homeAddress(generateHomeAddressEntity())
-                .build();
-    }
-
-
-    /**
-     * 집 주소 변경할 정보 생성 메서드
-     */
-    public static HomeUpdateRequest generateHomeUpdateRequest() {
-        return HomeUpdateRequest.builder()
-                .homeId(1L)
-                .homeAddress(generateHomeAddressRequest())
-                .bathRoomCount(100)
-                .dealSavable(false)
-                .bedroomCount(2)
-                .bond(2000)
-                .gender(Gender.FEMALE)
-                .type(HomeType.RENT)
-                .introduce("INTRODUCEE")
-                .bill(3000)
-                .rent(500)
-                .options("asdasdasd")
                 .build();
     }
 

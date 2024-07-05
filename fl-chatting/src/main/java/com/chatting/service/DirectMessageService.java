@@ -2,14 +2,12 @@ package com.chatting.service;
 
 import com.chatting.dto.DirectMessageDto;
 import com.chatting.dto.DirectMessageResponse;
-import com.chatting.dto.DirectMessageUsersIdRequest;
 import com.chatting.model.DirectMessage;
 import com.chatting.repository.DirectMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,8 +36,9 @@ public class DirectMessageService {
 
     /**
      * 최근 대화 불러오기 (채팅방 입장시)
+     * @return
      */
-    public List<DirectMessageResponse> findRecentChatLog(Long user1Id, Long user2Id) {
+    public List<DirectMessage> findRecentChatLog(Long user1Id, Long user2Id) {
         List<DirectMessage> dmLogs = dmRepository.findRecentLogs(user1Id, user2Id);
 
         List<DirectMessageResponse> dmLogDtos = dmLogs.stream()
@@ -50,6 +49,6 @@ public class DirectMessageService {
                         .sentAt(dm.getSentAt())
                         .build())
                 .collect(Collectors.toList());
-        return ;
+        return dmLogs;
     }
 }
