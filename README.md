@@ -32,8 +32,9 @@
 - fl-redis : Redis 캐싱 관련 기능을 구현한 모듈
 - 
 **모듈 관계도**
+<img src="https://github.com/comumu-find-life/find-life/assets/55183314/c630f453-5ee6-4898-a5c7-2d38af77108b"  width="700" height="370">
 
-![multi-module-relationship](https://github.com/comumu-find-life/find-life/assets/55183314/c630f453-5ee6-4898-a5c7-2d38af77108b)
+
 
 
 **주의 할점 :** 
