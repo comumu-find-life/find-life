@@ -60,7 +60,6 @@ public class UserController {
     /**
      * jwt 로 자신의 userId 조회하기.
      */
-
     @GetMapping("/me/userId")
     @PreAuthorize("hasAnyRole('ROLE_GETTER')")
     public ResponseEntity<?> getMyUserId(HttpServletRequest request) {

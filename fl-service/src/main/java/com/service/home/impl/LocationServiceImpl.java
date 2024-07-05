@@ -19,7 +19,7 @@ public class LocationServiceImpl implements LocationService {
 
     private static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
     private static final String GEOCODING_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String API_KEY = "AIzaSyDiCJBIUrDSpEKeGIWFKC01_7-fWQhM1bg";
+    private static final String API_KEY = "AIzaSyD1vqgptIQgYusty2ot4ofOabWD6Zpfnf0";
     private static final String ADDRESS_PATTERN = "%s?address=%s&key=%s";
 
     private final RestTemplate restTemplate;

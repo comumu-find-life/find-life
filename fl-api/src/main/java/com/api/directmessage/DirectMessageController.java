@@ -2,11 +2,12 @@ package com.api.directmessage;
 
 import com.core.chat.dto.DirectMessageApplicationDto;
 import com.core.chat.dto.DirectMessageRoomInfoDto;
-import com.service.chat.DirectMessageService;
-import com.service.chat.dto.DirectMessageRoomDto;
+import com.service.chat.DirectMessageRoomService;
 import com.service.chat.dto.DirectMessageRoomListDto;
+import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,21 +19,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DirectMessageController {
 
-    private final DirectMessageService dmService;
+    private final DirectMessageRoomService dmService;
 
     @PostMapping()
-    public ResponseEntity<Boolean> sendDm(@RequestBody DirectMessageApplicationDto dmDto) {
-        return ResponseEntity.ok(dmService.applicationDm(dmDto));
+    public ResponseEntity<?> sendDm(@RequestBody DirectMessageApplicationDto dmDto) {
+        Long roomId = dmService.applicationDm(dmDto);
+        SuccessResponse response = new SuccessResponse(true, "채팅방 생성 성공", roomId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
      * 채팅방 목록
-     * todo
      */
     @GetMapping("/dm-rooms")
     public ResponseEntity<List<DirectMessageRoomListDto>> findDmRooms() {
         return ResponseEntity.ok(dmService.findDmRoomsByLoginUserId());
     }
+
+//    @GetMapping("/{dmRoomId}/history")
+//    public ResponseEntity<?> findDmHistory(){
+//
+//        List<DirectMessageDto> histories = dmService.findDmHistory();
+//        SuccessResponse response = new SuccessResponse(true, "채팅방 생성 성공", null);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 
     /**
      * 채팅 정보 조회

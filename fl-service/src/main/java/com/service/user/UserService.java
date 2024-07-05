@@ -26,7 +26,6 @@ public class UserService {
     private final UserServiceValidation validation;
     private final PasswordEncoder passwordEncoder;
 
-
     /**
      * 회원가입 메서드
      */
@@ -67,7 +66,6 @@ public class UserService {
         return userMapper.toProfile(user);
     }
 
-
     /**
      * 계정 삭제 메서드 by userId
      */
@@ -78,7 +76,6 @@ public class UserService {
 
     private User createUser(UserSignupRequest dto, MultipartFile image) throws Exception {
         User user = userMapper.toEntity(dto);
-
         // 프로필 사진이 있을 때 프로필 URL 설정
         if (image != null) {
             String profileUrl = uploadProfileImage(image);
@@ -88,7 +85,7 @@ public class UserService {
         return user;
     }
 
-    private String uploadProfileImage(MultipartFile image) throws Exception {
+    private String uploadProfileImage(MultipartFile image)  {
         String url = fileService.toUrls(image);
         fileService.fileUpload(image, url);
         return url;
