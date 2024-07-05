@@ -1,12 +1,13 @@
 package com.api.user;
 
+import com.api.security.service.JwtService;
 import com.service.user.UserService;
 import com.service.user.dto.UserInformationDto;
 import com.service.user.dto.UserProfileResponse;
 import com.service.user.dto.UserSignupRequest;
 import com.service.utils.SuccessResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/users")
 public class UserController {
 
     private final UserService userService;
+    private final JwtService jwtService;
 
     /**
      * 회원가입 api
@@ -45,6 +46,26 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PatchMapping("/{userId}")
+    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
+    public ResponseEntity<?> updateUser(@PathVariable Long userId){
+
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * jwt 로 자신의 userId 조회하기.
+     */
+    @GetMapping("/me/userId")
+    @PreAuthorize("hasAnyRole('ROLE_GETTER')")
+    public ResponseEntity<?> getMyUserId(HttpServletRequest request) {
+        String accessToken  = jwtService.extractAccessToken(request).get();
+        String email = jwtService.extractEmail(accessToken).get();
+        Long userId = userService.findByEmail(email).getId();
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_USER_ID_RETRIEVE_SUCCESS, userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     /**
      * 다른 사용자가 프로필을 조회하는 api
      */
@@ -63,9 +84,10 @@ public class UserController {
     public ResponseEntity<UserInformationDto> findLoginUser() {
         // 현재 인증된 사용자 정보 가져오기
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        log.info(email);
         UserInformationDto userInfo = userService.findByEmail(email);
         return ResponseEntity.ok(userInfo);
     }
+
+
 
 }

@@ -135,10 +135,7 @@ public class HomeController {
      */
     @GetMapping("/city")
     public ResponseEntity<?> findByCity(@RequestParam String city) {
-         List<HomeOverviewResponse> homes = homeService.findByCity(city);
-
-
-//        List<HomeOverviewResponse> homes = homeService.findByCity(city, page, size);
+        List<HomeOverviewResponse> homes = homeService.findByCity(city);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

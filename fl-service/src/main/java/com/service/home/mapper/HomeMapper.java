@@ -65,9 +65,6 @@ public interface HomeMapper {
     /**
      * Home 을 리스트로 보여줄 DTO 변환
      */
-    /**
-     * Home 을 리스트로 보여줄 DTO 변환
-     */
     @Mapping(target = "id", source = "home.id")
     @Mapping(target = "address", source = "home.homeAddress", qualifiedByName = "mapSimpleAddress")
     @Mapping(target = "latitude", source = "home.homeAddress.latitude")
@@ -77,28 +74,6 @@ public interface HomeMapper {
     @Mapping(target = "mainImage", source = "home.images", qualifiedByName = "mapMainImage")
     HomeOverviewResponse toSimpleHomeDto(Home home, User user);
 
-    HomeAddressGeneratorRequest toAddressDto(HomeAddress address);
-
-    /**
-     * 커스텀 메서드
-     */
-//    default Home toHomeEntity(HomeGeneratorRequest homeDto) {
-//        Home home = toEntity(homeDto);
-//        return home;
-//    }
-
-
-    /**
-     * 이미지 매핑 메서드
-     */
-    default List<HomeImage> mapHomeImages(List<String> images, Home home) {
-        return images.stream()
-                .map(url -> HomeImage.builder()
-                        .home(home) // 연관관계 설정
-                        .imageUrl(url)
-                        .build())
-                .collect(Collectors.toList());
-    }
 
 
     @Named("mapImageUrls")
@@ -117,24 +92,14 @@ public interface HomeMapper {
     @Named("mapSimpleAddress")
     default String mapSimpleAddress(HomeAddress homeAddress) {
         StringBuilder sb = new StringBuilder();
-
         sb.append(homeAddress.getStreetCode() + " ");
         sb.append(homeAddress.getStreetName() + " ");
         sb.append(", ");
         sb.append(homeAddress.getCity() + " ");
         sb.append(homeAddress.getState() + " ");
         sb.append(homeAddress.getPostCode());
-
         return sb.toString();
     }
 
-    @Named("mapUserId")
-    default Long mapUserId(User user) {
-        return user.getId();
-    }
 
-    @Named("mapUserName")
-    default String mapUserName(User user) {
-        return user.getNickname();
-    }
 }

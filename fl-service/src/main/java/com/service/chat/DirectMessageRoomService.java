@@ -21,12 +21,13 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DirectMessageService {
+public class DirectMessageRoomService {
 
     private final UserService userService;
     private final UserRepository userRepository;
@@ -37,16 +38,14 @@ public class DirectMessageService {
     @Value("${domain.chat}")
     private String chatUrl;
 
-    public boolean applicationDm(DirectMessageApplicationDto dmApplicationDto) {
-
-
+    public Long applicationDm(DirectMessageApplicationDto dmApplicationDto) {
         // 로그인 유저 정보 받아오기
         Long userId = getLoginUserId();
         log.info(userId + "");
         log.info(dmApplicationDto.getReceiverId() + "");
 
         // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
-        saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId));
+        Long roomId = saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId));
 
         // 채팅 전송
         DirectMessageDto dmDto = DirectMessageDto.builder()
@@ -58,7 +57,7 @@ public class DirectMessageService {
         String url = chatUrl + "/dm";
         restTemplate.postForObject(url, dmDto, Object.class);
 
-        return true;
+        return roomId;
     }
 
     // 로그인된 유저의 Dm리스트
@@ -108,18 +107,16 @@ public class DirectMessageService {
         return user.getId();
     }
 
-
     // User1, User2 간의 채팅방이 이미 존재하지 않다면 생성
-    private void saveDmRoom(Long user1Id, Long user2Id) {
+    private Long saveDmRoom(Long user1Id, Long user2Id) {
         log.info("user1=" + user1Id);
         log.info("user2=" + user2Id);
-
-
         /**
          * todo
          * 왜 User Builder 로 객체 생성? db에서 조회해서 넣어야 하는거 아닌감
          */
-        if (!dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id).isPresent()) {
+        Optional<DirectMessageRoom> byUser1IdAndUser2Id = dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
+        if (byUser1IdAndUser2Id.isEmpty()) {
             User user1 = userRepository.findById(user1Id).get();
             User user2 = userRepository.findById(user2Id).get();
 
@@ -128,8 +125,9 @@ public class DirectMessageService {
                     .user2(user2)
                     .build();
 
-            dmRoomRepository.save(newDmRoom);
+            return  dmRoomRepository.save(newDmRoom).getId();
         }
+        return byUser1IdAndUser2Id.get().getId();
     }
 
     // List<dmRoom> => List<dmRoomDto>
