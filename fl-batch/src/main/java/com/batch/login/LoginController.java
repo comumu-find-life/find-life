@@ -28,7 +28,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(LoginFormDto loginFormDto, HttpServletResponse response) {
-        String url ="http://localhost:8080/login";
+        String url ="http://localhost:8080/v1/api/users/login";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -41,6 +41,7 @@ public class LoginController {
             Cookie cookie = new Cookie("Authorization", tokenDto.getAccessToken());
             cookie.setPath("/");
             cookie.setHttpOnly(true); // 서버만 쿠키에 접근
+            cookie.setMaxAge(60*60*30);
             cookie.setSecure(false);
             response.addCookie(cookie);
         } catch (Exception e) {

@@ -6,13 +6,16 @@ import com.service.user.dto.UserProfileResponse;
 import com.service.user.dto.UserSignupRequest;
 import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/users")
@@ -52,5 +55,17 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 본인 정보 조회
+     */
+    @GetMapping("/user-info")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<UserInformationDto> findLoginUser() {
+        // 현재 인증된 사용자 정보 가져오기
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info(email);
+        UserInformationDto userInfo = userService.findByEmail(email);
+        return ResponseEntity.ok(userInfo);
+    }
 
 }

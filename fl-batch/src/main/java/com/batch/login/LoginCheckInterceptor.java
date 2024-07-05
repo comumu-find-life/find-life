@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,16 +16,17 @@ import org.springframework.web.servlet.ModelAndView;
 import java.net.HttpCookie;
 import java.util.Arrays;
 
+@Component
 @RequiredArgsConstructor
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
-    @Value("${domain.api-user}")
+    @Value("${domain.user}")
     private String LoginUserInfoUrl;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        final String[] SECURE_URLS = {"/dms"};
+        final String[] SECURE_URLS = {"/dm"};
 
         String requestURI = request.getRequestURI();
         Cookie[] cookies = request.getCookies();
@@ -53,7 +55,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
                 // 요청 보내기
                 ResponseEntity<UserInformationDto> responseEntity = restTemplate.exchange(
-                        "http://localhost:8080/v1/api/user/user-info",
+                        LoginUserInfoUrl,
                         HttpMethod.GET,
                         requestEntity,
                         UserInformationDto.class);
