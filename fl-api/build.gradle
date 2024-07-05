@@ -12,7 +12,6 @@ dependencies {
     implementation project(':fl-core')
     //implementation project(':fl-authority')
     implementation project(':fl-service')
-    implementation project(':fl-chatting')
 
 
 
