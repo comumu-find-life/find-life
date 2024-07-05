@@ -33,7 +33,7 @@
 - 
 **모듈 관계도**
 
-![relationship](/Users/sinminseok12/IdeaProjects/find-life-merge/multi-module-relationship.jpg)
+![relationship](https://github.com/comumu-find-life/find-life/issues/25#issue-2392461463)
 
 **주의 할점 :** 
 - fl-core 모듈 내부에서 기능을 구현할때 너무 많은 역할을 담당 x 서비스가 커질 수록 core 안에서 비니지스 로직이 흐를 수 있음
