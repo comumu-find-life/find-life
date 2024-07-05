@@ -20,6 +20,9 @@ public class HomeApiService {
     @Value("${domain.api}")
     private String baseUrl;
 
+    @Value("${domain.home}")
+    private String homeUrl;
+
     private final ObjectMapper objectMapper;
 
 
@@ -47,9 +50,7 @@ public class HomeApiService {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = baseUrl + "/home/" + homeId;
-
-        SuccessResponse response = restTemplate.getForObject(url, SuccessResponse.class);
+        SuccessResponse response = restTemplate.getForObject(homeUrl + "/" + homeId, SuccessResponse.class);
         HomeInformationResponse homeDto = objectMapper.convertValue(response.getData(), HomeInformationResponse.class);
         log.info(homeDto.getAddress());
 

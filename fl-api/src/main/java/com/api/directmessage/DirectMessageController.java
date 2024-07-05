@@ -30,6 +30,7 @@ public class DirectMessageController {
 
     /**
      * 채팅방 목록
+     * todo
      */
     @GetMapping("/dm-rooms")
     public ResponseEntity<List<DirectMessageRoomListDto>> findDmRooms() {

@@ -8,15 +8,12 @@ import com.service.user.dto.UserSignupRequest;
 import com.service.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 
 @RestController
@@ -79,6 +76,17 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 본인 정보 조회
+     */
+    @GetMapping("/user-info")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<UserInformationDto> findLoginUser() {
+        // 현재 인증된 사용자 정보 가져오기
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserInformationDto userInfo = userService.findByEmail(email);
+        return ResponseEntity.ok(userInfo);
+    }
 
 
 
