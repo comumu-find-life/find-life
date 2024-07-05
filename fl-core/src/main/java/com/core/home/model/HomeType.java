@@ -6,7 +6,7 @@ public enum HomeType {
     SHARED_ROOM,
     PRIVATE_ROOM,
     HOME_STAY,
-    STUDIO,
+    STUDIO, //(원룸)
     STUDENT_ACCOMMODATION,
     ONE_BED_FLAT;
 }

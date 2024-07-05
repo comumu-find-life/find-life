@@ -63,6 +63,7 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     /**
      * 집 id 로 단일 조회 api
      */
@@ -125,6 +126,9 @@ public class HomeController {
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.PAGE_HOMES_RETRIEVE_SUCCESS,allByPage);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+
 
     /**
      * city 이름으로 집 조회 api

@@ -42,12 +42,9 @@ public class DirectMessageController {
         template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), dmDto);
     }
 
-    /**
-     *
-     */
-    @MessageMapping(value = "/dm/message")
-    public void directMessage(DirectMessageDto dmDto){
-        template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), dmDto.getMessage());
-        dmService.sendDM(dmDto);
-    }
+//    @MessageMapping(value = "/dm/message")
+//    public void directMessage(DirectMessageDto dmDto){
+//        template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), dmDto.getMessage());
+//        dmService.sendDM(dmDto);
+//    }
 }
