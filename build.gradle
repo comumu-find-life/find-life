@@ -48,7 +48,6 @@ project(':fl-api') {
     dependencies {
         implementation project(':fl-redis')
         implementation project(':fl-service')
-        implementation project(':fl-chatting')
     }
 }
 

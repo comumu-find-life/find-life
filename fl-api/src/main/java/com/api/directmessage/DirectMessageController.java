@@ -3,7 +3,6 @@ package com.api.directmessage;
 import com.core.chat.dto.DirectMessageApplicationDto;
 import com.core.chat.dto.DirectMessageRoomInfoDto;
 import com.service.chat.DirectMessageRoomService;
-import com.service.chat.dto.DirectMessageRoomListDto;
 import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,23 +26,6 @@ public class DirectMessageController {
         SuccessResponse response = new SuccessResponse(true, "채팅방 생성 성공", roomId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-    /**
-     * 채팅방 목록
-     * todo
-     */
-    @GetMapping("/dm-rooms")
-    public ResponseEntity<List<DirectMessageRoomListDto>> findDmRooms() {
-        return ResponseEntity.ok(dmService.findDmRoomsByLoginUserId());
-    }
-
-//    @GetMapping("/{dmRoomId}/history")
-//    public ResponseEntity<?> findDmHistory(){
-//
-//        List<DirectMessageDto> histories = dmService.findDmHistory();
-//        SuccessResponse response = new SuccessResponse(true, "채팅방 생성 성공", null);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
 
     /**
      * 채팅 정보 조회
