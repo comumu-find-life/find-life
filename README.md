@@ -30,6 +30,10 @@
 - fl-core : Domain, Repository 를 관리하는 모듈 
 - fl-service : Service 계층, 비지니스 로직을 처리하는 모듈
 - fl-redis : Redis 캐싱 관련 기능을 구현한 모듈
+- 
+**모듈 관계도**
+
+![relationship](/Users/sinminseok12/IdeaProjects/find-life-merge/multi-module-relationship.jpg)
 
 **주의 할점 :** 
 - fl-core 모듈 내부에서 기능을 구현할때 너무 많은 역할을 담당 x 서비스가 커질 수록 core 안에서 비니지스 로직이 흐를 수 있음
