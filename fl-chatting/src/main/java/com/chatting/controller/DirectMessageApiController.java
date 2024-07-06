@@ -30,4 +30,9 @@ public class DirectMessageApiController {
         return dmService.findRecentChatLog(user1Id, user2Id);
     }
 
+    @GetMapping("/dm/history")
+    public List<DirectMessageDto> getDmHistories(@RequestParam Long user1Id, @RequestParam Long user2Id) {
+        return dmService.findChatHistory(user1Id, user2Id);
+    }
+
 }
