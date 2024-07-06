@@ -24,6 +24,8 @@ public class QDirectMessageRoom extends EntityPathBase<DirectMessageRoom> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final NumberPath<Long> progressHomeId = createNumber("progressHomeId", Long.class);
+
     public final com.core.user.model.QUser user1;
 
     public final com.core.user.model.QUser user2;

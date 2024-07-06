@@ -1,22 +1,22 @@
-# Spring Datasource Configuration
-spring:
-
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 97616906818-6co3h9anum6cp6vb9or4s2hojoh5ji26.apps.googleusercontent.com
-            client-secret: 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
-            scope: profile, email
-
-jwt:
-  secretKey: Z2ZkZmdkZmxrZ2pkbGZrZ2pzYXNkamtoYXNrZGphaHNka2fahgvfahvduyasdffjkhsgdfjkhasgfjkphaGRhc2Rhc2Rhc2Rhc2Rhc2ZhZmdzZAo
-
-  access:
-    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
-    header: Authorization
-
-  refresh:
-    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
-    header: Authorization-refresh
+## Spring Datasource Configuration
+#spring:
+#
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: 97616906818-6co3h9anum6cp6vb9or4s2hojoh5ji26.apps.googleusercontent.com
+#            client-secret: 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
+#            scope: profile, email
+#
+#jwt:
+#  secretKey: Z2ZkZmdkZmxrZ2pkbGZrZ2pzYXNkamtoYXNrZGphaHNka2fahgvfahvduyasdffjkhsgdfjkhasgfjkphaGRhc2Rhc2Rhc2Rhc2Rhc2ZhZmdzZAo
+#
+#  access:
+#    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+#    header: Authorization
+#
+#  refresh:
+#    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
+#    header: Authorization-refresh

@@ -1,17 +1,18 @@
 package com.service.chat;
 
-import com.core.chat.dto.DirectMessageApplicationDto;
-import com.core.chat.dto.DirectMessageRoomInfoDto;
+import com.common.chat.mapper.DirectMessageRoomMapper;
+import com.common.chat.request.DirectMessageApplicationRequest;
+import com.common.chat.request.DirectMessageRequest;
+import com.common.chat.response.DirectMessageRoomResponse;
+import com.common.chat.response.DirectMessageRoomInfoResponse;
+import com.common.chat.response.DirectMessageRoomListResponse;
+import com.common.user.response.UserInformationDto;
 import com.core.chat.model.DirectMessageRoom;
 import com.core.chat.repository.DirectMessageRoomRepository;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
-import com.service.chat.dto.DirectMessageDto;
-import com.service.chat.dto.DirectMessageRoomDto;
-import com.service.chat.dto.DirectMessageRoomListResponse;
-import com.service.chat.mapper.DirectMessageRoomMapper;
 import com.service.user.UserService;
-import com.service.user.dto.UserInformationDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,17 +38,20 @@ public class DirectMessageRoomService {
     @Value("${domain.chat}")
     private String chatUrl;
 
-    public Long applicationDm(DirectMessageApplicationDto dmApplicationDto) {
+    @Transactional
+    public Long applicationDm(DirectMessageApplicationRequest dmApplicationDto) {
         // 로그인 유저 정보 받아오기
         Long userId = getLoginUserId();
         log.info(userId + "");
         log.info(dmApplicationDto.getReceiverId() + "");
 
         // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
-        Long roomId = saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId));
+        Long roomId = saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId), dmApplicationDto);
+
+        //todo 이미 생성된 방이 있다면, DirectMessageRoom 에 있는 progressHomeId 최신화
 
         // 채팅 전송
-        DirectMessageDto dmDto = DirectMessageDto.builder()
+        DirectMessageRequest dmDto = DirectMessageRequest.builder()
                 .message(dmApplicationDto.getMessage())
                 .receiverId(dmApplicationDto.getReceiverId())
                 .senderId(userId).build();
@@ -67,19 +71,18 @@ public class DirectMessageRoomService {
 
         // Dto변환
         List<DirectMessageRoomListResponse> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
-            return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2());
+            return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2(), dmRoom.getProgressHomeId());
         }).collect(Collectors.toList());
-
         return dmRoomListDtos;
     }
 
-    public DirectMessageRoomInfoDto findDmRoomById(Long id) {
+    public DirectMessageRoomInfoResponse findDmRoomById(Long id) {
         DirectMessageRoom room = dmRoomRepository.findById(id).orElse(null);
         // TODO 잘못된 요청 처리
         return dmRoomTodmRooomInfoDto(room);
     }
 
-    private DirectMessageRoomInfoDto dmRoomTodmRooomInfoDto(DirectMessageRoom room) {
+    private DirectMessageRoomInfoResponse dmRoomTodmRooomInfoDto(DirectMessageRoom room) {
         Long userId = getLoginUserId();
         Long senderSetId = room.getUser1().getId();
         String senderSetName = room.getUser1().getNickname();
@@ -91,7 +94,7 @@ public class DirectMessageRoomService {
             receiverSetId = room.getUser1().getId();
             receiverSetName = room.getUser1().getNickname();
         }
-        return DirectMessageRoomInfoDto.builder()
+        return DirectMessageRoomInfoResponse.builder()
                 .id(room.getId())
                 .senderId(senderSetId)
                 .senderName(senderSetName)
@@ -107,13 +110,7 @@ public class DirectMessageRoomService {
     }
 
     // User1, User2 간의 채팅방이 이미 존재하지 않다면 생성
-    private Long saveDmRoom(Long user1Id, Long user2Id) {
-        log.info("user1=" + user1Id);
-        log.info("user2=" + user2Id);
-        /**
-         * todo
-         * 왜 User Builder 로 객체 생성? db에서 조회해서 넣어야 하는거 아닌감
-         */
+    private Long saveDmRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest directMessageApplicationDto) {
         Optional<DirectMessageRoom> byUser1IdAndUser2Id = dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
         if (byUser1IdAndUser2Id.isEmpty()) {
             User user1 = userRepository.findById(user1Id).get();
@@ -122,28 +119,35 @@ public class DirectMessageRoomService {
             DirectMessageRoom newDmRoom = DirectMessageRoom.builder()
                     .user1(user1)
                     .user2(user2)
+                    .progressHomeId(directMessageApplicationDto.getRoomId())
                     .build();
 
-            return  dmRoomRepository.save(newDmRoom).getId();
+            return dmRoomRepository.save(newDmRoom).getId();
+        } else {
+            byUser1IdAndUser2Id.get().setProgressHomeId(directMessageApplicationDto.getRoomId());
+            return byUser1IdAndUser2Id.get().getId();
         }
-        return byUser1IdAndUser2Id.get().getId();
+
     }
 
-    // List<dmRoom> => List<dmRoomDto>
-    private List<DirectMessageRoomDto> toDmRoomDtos(List<DirectMessageRoom> dmRooms) {
+    /**
+     * todo 필요한 메서드인지 ?~?
+     */
+//    private List<DirectMessageRoomResponse> toDmRoomDtos(List<DirectMessageRoom> dmRooms) {
+//
+//        List<DirectMessageRoomResponse> dmRoomDtos = new ArrayList<>();
+//        dmRooms.stream()
+//                .forEach(room -> {
+//                    dmRoomDtos.add(dmRoomMapper.toDto(room));
+//                });
+//        return dmRoomDtos;
+//    }
 
-        List<DirectMessageRoomDto> dmRoomDtos = new ArrayList<>();
-        dmRooms.stream()
-                .forEach(room -> {
-                    dmRoomDtos.add(dmRoomMapper.toDto(room));
-                });
-        return dmRoomDtos;
-    }
 
-
-    private DirectMessageRoomListResponse getChatUserInfo(Long id, User user) {
+    private DirectMessageRoomListResponse getChatUserInfo(Long id, User user, Long homeId) {
         return DirectMessageRoomListResponse.builder()
                 .id(id)
+                .progressHomeId(homeId)
                 .userId(user.getId())
                 .userNickname(user.getNickname())
                 .userProfileUrl(user.getProfileUrl())
