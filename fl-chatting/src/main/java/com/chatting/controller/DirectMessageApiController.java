@@ -1,9 +1,8 @@
 package com.chatting.controller;
 
-import com.chatting.dto.DirectMessageDto;
-import com.chatting.dto.DirectMessageResponse;
-import com.chatting.model.DirectMessage;
 import com.chatting.service.DirectMessageService;
+import com.common.chat.request.DirectMessageDto;
+import com.common.chat.response.DirectMessageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

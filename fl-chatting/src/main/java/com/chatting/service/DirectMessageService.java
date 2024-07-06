@@ -1,9 +1,9 @@
 package com.chatting.service;
 
-import com.chatting.dto.DirectMessageDto;
-import com.chatting.dto.DirectMessageResponse;
 import com.chatting.model.DirectMessage;
 import com.chatting.repository.DirectMessageRepository;
+import com.common.chat.request.DirectMessageDto;
+import com.common.chat.response.DirectMessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
