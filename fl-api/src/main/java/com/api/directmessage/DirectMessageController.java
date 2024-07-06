@@ -1,9 +1,9 @@
 package com.api.directmessage;
 
+import com.common.chat.response.DirectMessageRoomListResponse;
 import com.core.chat.dto.DirectMessageApplicationDto;
 import com.core.chat.dto.DirectMessageRoomInfoDto;
 import com.service.chat.DirectMessageRoomService;
-import com.service.chat.dto.DirectMessageRoomListResponse;
 import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

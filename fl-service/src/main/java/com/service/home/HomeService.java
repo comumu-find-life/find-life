@@ -12,7 +12,7 @@ import com.core.home.reposiotry.HomeRepository;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
 import com.service.file.FileService;
-import com.service.home.dto.geocoding.LatLng;
+import com.service.home.utils.LatLng;
 import com.service.utils.OptionalUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

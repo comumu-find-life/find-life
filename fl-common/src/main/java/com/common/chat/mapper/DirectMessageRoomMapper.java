@@ -1,8 +1,7 @@
-package com.service.chat.mapper;
+package com.common.chat.mapper;
 
+import com.common.chat.response.DirectMessageRoomDto;
 import com.core.chat.model.DirectMessageRoom;
-import com.service.chat.dto.DirectMessageRoomDto;
-import com.service.home.mapper.HomeMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

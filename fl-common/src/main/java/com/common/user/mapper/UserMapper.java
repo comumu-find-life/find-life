@@ -1,10 +1,9 @@
-package com.service.user.mapper;
+package com.common.user.mapper;
 
+import com.common.user.request.UserSignupRequest;
+import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserProfileResponse;
 import com.core.user.model.User;
-import com.service.user.dto.UserInformationDto;
-import com.service.user.dto.UserProfileRequest;
-import com.service.user.dto.UserProfileResponse;
-import com.service.user.dto.UserSignupRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

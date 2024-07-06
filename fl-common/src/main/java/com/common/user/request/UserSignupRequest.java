@@ -1,4 +1,4 @@
-package com.service.user.dto;
+package com.common.user.request;
 
 import com.core.user.model.Gender;
 import com.core.user.model.Role;

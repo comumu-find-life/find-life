@@ -3,7 +3,7 @@ import com.api.security.service.JwtService;
 import com.core.home.model.*;
 import com.core.home.reposiotry.HomeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.home.dto.geocoding.LatLng;
+import com.service.home.utils.LatLng;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.impl.LocationServiceImpl;
@@ -22,15 +22,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.helper.HomeHelper.*;
 import static com.api.home.SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS;
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -1,13 +1,12 @@
 package com.api.home;
 
 import com.common.home.request.*;
-import com.common.home.request.*;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
 import com.core.home.model.HomeStatus;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
-import com.service.home.dto.geocoding.LatLng;
+import com.service.home.utils.LatLng;
 import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
