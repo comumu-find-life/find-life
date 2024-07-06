@@ -1,15 +1,13 @@
 package com.api.home;
 
-import com.api.user.SuccessUserMessages;
+import com.common.home.request.*;
+import com.common.home.request.*;
+import com.common.home.response.HomeInformationResponse;
+import com.common.home.response.HomeOverviewResponse;
 import com.core.home.model.HomeStatus;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
-import com.service.home.dto.request.HomeAddressGeneratorRequest;
-import com.service.home.dto.response.HomeOverviewResponse;
-import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.geocoding.LatLng;
-import com.service.home.dto.request.HomeUpdateRequest;
-import com.service.home.dto.response.HomeInformationResponse;
 import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,12 +61,10 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     /**
      * 집 id 로 단일 조회 api
      */
     @GetMapping("/{homeId}")
-
     public ResponseEntity<?> findById(@PathVariable Long homeId) {
         HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_RETRIEVE_SUCCESS, homeInformationResponse);
@@ -101,7 +97,7 @@ public class HomeController {
 
     @PostMapping("/sell/{homeId}")
     public ResponseEntity<?> sellHome(@PathVariable Long homeId, @RequestBody HomeStatus status) {
-        homeService.changeStatus(homeId,status);
+        homeService.changeStatus(homeId, status);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_SELL_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -123,12 +119,9 @@ public class HomeController {
     @GetMapping
     public ResponseEntity<?> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         List<HomeOverviewResponse> allByPage = homeService.findAllByPage(page, size);
-        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.PAGE_HOMES_RETRIEVE_SUCCESS,allByPage);
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.PAGE_HOMES_RETRIEVE_SUCCESS, allByPage);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-
-
 
     /**
      * city 이름으로 집 조회 api
@@ -159,5 +152,15 @@ public class HomeController {
     public ResponseEntity<String> delete(@PathVariable Long homeId) {
         homeService.delete(homeId);
         return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);
+    }
+
+    /**
+     * 사용자1, 사용자2 에 포함된 집 게시글 모두 조회
+     */
+    @GetMapping("/dm")
+    public ResponseEntity<?> findDmHomes(@PathVariable Long user1Id, @PathVariable Long user2Id) {
+        List<HomeOverviewResponse> byUserIds = homeService.findByUserIds(user1Id, user2Id);
+        SuccessResponse response = new SuccessResponse(true, "두명의 사용자 Id로 집 게시글 조회 성공", byUserIds);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -54,6 +54,13 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
         return homes;
     }
 
+    @Override
+    public List<Home> findByUserIds(Long user1Id, Long user2Id) {
+        return query.selectFrom(qHome)
+                .where(qHome.userIdx.eq(user1Id).or(qHome.userIdx.eq(user2Id)))
+                .fetch();
+    }
+
 
 //    @Override
 //    public Optional<Home> findByIdWithUser(Long id) {

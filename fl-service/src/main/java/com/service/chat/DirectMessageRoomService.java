@@ -12,6 +12,7 @@ import com.service.chat.dto.DirectMessageRoomListResponse;
 import com.service.chat.mapper.DirectMessageRoomMapper;
 import com.service.user.UserService;
 import com.service.user.dto.UserInformationDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +38,7 @@ public class DirectMessageRoomService {
     @Value("${domain.chat}")
     private String chatUrl;
 
+    @Transactional
     public Long applicationDm(DirectMessageApplicationDto dmApplicationDto) {
         // 로그인 유저 정보 받아오기
         Long userId = getLoginUserId();
@@ -44,7 +46,9 @@ public class DirectMessageRoomService {
         log.info(dmApplicationDto.getReceiverId() + "");
 
         // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
-        Long roomId = saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId));
+        Long roomId = saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId), dmApplicationDto);
+
+        //todo 이미 생성된 방이 있다면, DirectMessageRoom 에 있는 progressHomeId 최신화
 
         // 채팅 전송
         DirectMessageDto dmDto = DirectMessageDto.builder()
@@ -67,9 +71,8 @@ public class DirectMessageRoomService {
 
         // Dto변환
         List<DirectMessageRoomListResponse> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
-            return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2());
+            return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2(), dmRoom.getProgressHomeId());
         }).collect(Collectors.toList());
-
         return dmRoomListDtos;
     }
 
@@ -107,13 +110,7 @@ public class DirectMessageRoomService {
     }
 
     // User1, User2 간의 채팅방이 이미 존재하지 않다면 생성
-    private Long saveDmRoom(Long user1Id, Long user2Id) {
-        log.info("user1=" + user1Id);
-        log.info("user2=" + user2Id);
-        /**
-         * todo
-         * 왜 User Builder 로 객체 생성? db에서 조회해서 넣어야 하는거 아닌감
-         */
+    private Long saveDmRoom(Long user1Id, Long user2Id, DirectMessageApplicationDto directMessageApplicationDto) {
         Optional<DirectMessageRoom> byUser1IdAndUser2Id = dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
         if (byUser1IdAndUser2Id.isEmpty()) {
             User user1 = userRepository.findById(user1Id).get();
@@ -122,11 +119,15 @@ public class DirectMessageRoomService {
             DirectMessageRoom newDmRoom = DirectMessageRoom.builder()
                     .user1(user1)
                     .user2(user2)
+                    .progressHomeId(directMessageApplicationDto.getRoomId())
                     .build();
 
-            return  dmRoomRepository.save(newDmRoom).getId();
+            return dmRoomRepository.save(newDmRoom).getId();
+        } else {
+            byUser1IdAndUser2Id.get().setProgressHomeId(directMessageApplicationDto.getRoomId());
+            return byUser1IdAndUser2Id.get().getId();
         }
-        return byUser1IdAndUser2Id.get().getId();
+
     }
 
     // List<dmRoom> => List<dmRoomDto>
@@ -141,9 +142,10 @@ public class DirectMessageRoomService {
     }
 
 
-    private DirectMessageRoomListResponse getChatUserInfo(Long id, User user) {
+    private DirectMessageRoomListResponse getChatUserInfo(Long id, User user, Long homeId) {
         return DirectMessageRoomListResponse.builder()
                 .id(id)
+                .progressHomeId(homeId)
                 .userId(user.getId())
                 .userNickname(user.getNickname())
                 .userProfileUrl(user.getProfileUrl())

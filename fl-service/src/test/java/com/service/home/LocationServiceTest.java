@@ -15,7 +15,7 @@ public class LocationServiceTest {
     private LocationServiceImpl locationService;
 
     @BeforeEach
-    void setUp() throws NoSuchFieldException, IllegalAccessException {
+    void setUp()  {
         locationService = new LocationServiceImpl();
     }
 
