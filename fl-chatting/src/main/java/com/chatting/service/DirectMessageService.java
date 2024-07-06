@@ -18,7 +18,6 @@ public class DirectMessageService {
     private final DirectMessageRepository dmRepository;
 
     public String sendDM(DirectMessageDto dmDto) {
-
         try {
             DirectMessage save = dmRepository.save(
                 DirectMessage.builder()
@@ -38,7 +37,7 @@ public class DirectMessageService {
      * 최근 대화 불러오기 (채팅방 입장시)
      * @return
      */
-    public List<DirectMessage> findRecentChatLog(Long user1Id, Long user2Id) {
+    public List<DirectMessageResponse> findRecentChatLog(Long user1Id, Long user2Id) {
         List<DirectMessage> dmLogs = dmRepository.findRecentLogs(user1Id, user2Id);
 
         List<DirectMessageResponse> dmLogDtos = dmLogs.stream()
@@ -49,6 +48,19 @@ public class DirectMessageService {
                         .sentAt(dm.getSentAt())
                         .build())
                 .collect(Collectors.toList());
-        return dmLogs;
+        return dmLogDtos;
+    }
+
+    public List<DirectMessageDto> findChatHistory(Long user1Id, Long user2Id) {
+        List<DirectMessage> dmLogs = dmRepository.findRecentLogs(user1Id, user2Id);
+        List<DirectMessageDto> dmLogDtos = dmLogs.stream()
+                .map(dm -> DirectMessageDto.builder()
+                        .senderId(dm.getSenderId())
+                        .receiverId(dm.getReceiverId())
+                        .message(dm.getMessage())
+                        .sentAt(dm.getSentAt())
+                        .build())
+                .collect(Collectors.toList());
+        return dmLogDtos;
     }
 }
