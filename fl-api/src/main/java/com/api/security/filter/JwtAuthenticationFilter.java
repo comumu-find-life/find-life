@@ -5,7 +5,7 @@ import com.api.security.service.JwtService;
 import com.core.user.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redis.user.UserRedisService;
-import com.service.utils.SuccessResponse;
+import com.common.utils.SuccessResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

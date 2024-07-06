@@ -25,6 +25,8 @@ public interface CustomHomeRepository {
 
     List<Home> findByUserIdx(Long userIdx);
 
+    List<Home> findByUserIds(Long user1Id, Long user2Id);
+
     // Id로 찾기. 유저정보와 같이
 //    @Query("SELECT h FROM Home h JOIN FETCH h.user WHERE h.id = :id")
 //    Optional<Home> findByIdWithUser(Long id);

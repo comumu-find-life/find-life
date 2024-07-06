@@ -1,5 +1,10 @@
 package com.service.home;
 
+import com.common.home.mapper.HomeMapper;
+import com.common.home.request.HomeGeneratorRequest;
+import com.common.home.request.HomeUpdateRequest;
+import com.common.home.response.HomeInformationResponse;
+import com.common.home.response.HomeOverviewResponse;
 import com.core.home.model.Home;
 import com.core.home.model.HomeImage;
 import com.core.home.model.HomeStatus;
@@ -7,12 +12,7 @@ import com.core.home.reposiotry.HomeRepository;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
 import com.service.file.FileService;
-import com.service.home.dto.response.HomeOverviewResponse;
-import com.service.home.dto.request.HomeGeneratorRequest;
-import com.service.home.dto.geocoding.LatLng;
-import com.service.home.dto.request.HomeUpdateRequest;
-import com.service.home.dto.response.HomeInformationResponse;
-import com.service.home.mapper.HomeMapper;
+import com.service.home.utils.LatLng;
 import com.service.utils.OptionalUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -50,7 +50,6 @@ public class HomeService {
         return homeRepository.save(home).getId();
     }
 
-
     /**
      * 집 게시글 수정
      */
@@ -80,6 +79,16 @@ public class HomeService {
     public List<HomeOverviewResponse> findAllHomes() {
         List<HomeOverviewResponse> response = new ArrayList<>();
         List<Home> homes = homeRepository.findAll();
+        homes.stream().forEach(home -> {
+            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), "User not found with id");
+            response.add(homeMapper.toSimpleHomeDto(home, user));
+        });
+        return response;
+    }
+
+    public List<HomeOverviewResponse> findByUserIds(Long user1Id, Long user2Id) {
+        List<Home> homes = homeRepository.findByUserIds(user1Id, user2Id);
+        List<HomeOverviewResponse> response = new ArrayList<>();
         homes.stream().forEach(home -> {
             User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), "User not found with id");
             response.add(homeMapper.toSimpleHomeDto(home, user));
@@ -131,14 +140,7 @@ public class HomeService {
                     return homeMapper.toSimpleHomeDto(home, user);
                 })
                 .collect(Collectors.toList());
-        log.info(listResponse.get(0).getAddress());
-        log.info(listResponse.get(0).getAddress());
-        log.info(listResponse.get(0).getAddress());
-        log.info(listResponse.get(0).getAddress());
-        log.info(listResponse.get(0).getAddress());
-        log.info(listResponse.get(0).getAddress());
         return listResponse;
-        // toListOverview(homes, homeMapper);
     }
 
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
