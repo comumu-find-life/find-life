@@ -10,9 +10,9 @@ import lombok.Getter;
 @Getter
 @Builder
 public class DirectMessageRoomListResponse {
-
     private Long id;
     private Long userId;
     private String userNickname;
     private String userProfileUrl;
+    private Long progressHomeId;
 }

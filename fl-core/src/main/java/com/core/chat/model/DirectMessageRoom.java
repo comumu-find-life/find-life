@@ -23,4 +23,10 @@ public class DirectMessageRoom {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user2;
 
+    private Long progressHomeId;
+
+    public void setProgressHomeId(Long progressHomeId){
+        this.progressHomeId = progressHomeId;
+    }
+
 }
