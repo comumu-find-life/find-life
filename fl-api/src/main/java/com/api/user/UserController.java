@@ -5,7 +5,7 @@ import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationDto;
 import com.common.user.response.UserProfileResponse;
 import com.service.user.UserService;
-import com.service.utils.SuccessResponse;
+import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

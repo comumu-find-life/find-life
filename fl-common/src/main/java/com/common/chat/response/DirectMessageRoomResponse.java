@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class DirectMessageRoomDto {
+public class DirectMessageRoomResponse {
 
     private Long id;
     private Long user1Id;

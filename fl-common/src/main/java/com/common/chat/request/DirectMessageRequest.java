@@ -5,15 +5,16 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/**
+ * 메시지 생성 DTO
+ */
 @Getter
 @Builder
-public class DirectMessageDto {
+public class DirectMessageRequest {
 
     private Long senderId;
     private String senderName;
     private String roomId;
     private Long receiverId;
     private String message;
-    private LocalDateTime sentAt;
-
 }
