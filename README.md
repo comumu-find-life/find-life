@@ -32,8 +32,11 @@
 - fl-redis : Redis 캐싱 관련 기능을 구현한 모듈
 - 
 **모듈 관계도**
+<img src="https://github.com/comumu-find-life/find-life/assets/55183314/c630f453-5ee6-4898-a5c7-2d38af77108b" width="700" height="800">
 
-![relationship](/Users/sinminseok12/IdeaProjects/find-life-merge/multi-module-relationship.jpg)
+
+
+
 
 **주의 할점 :** 
 - fl-core 모듈 내부에서 기능을 구현할때 너무 많은 역할을 담당 x 서비스가 커질 수록 core 안에서 비니지스 로직이 흐를 수 있음
