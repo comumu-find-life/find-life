@@ -34,7 +34,6 @@ public class DirectMessageRoomService {
     private final DirectMessageRoomRepository dmRoomRepository;
     private final DirectMessageRoomMapper dmRoomMapper;
 
-
     @Value("${domain.chat}")
     private String chatUrl;
 

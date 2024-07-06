@@ -1,6 +1,7 @@
 package com.chatting.controller;
 
 import com.chatting.dto.DirectMessageDto;
+import com.chatting.dto.DirectMessageResponse;
 import com.chatting.model.DirectMessage;
 import com.chatting.service.DirectMessageService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,13 @@ public class DirectMessageApiController {
     }
 
     @GetMapping("/dm")
-    public List<DirectMessage> getDmLogs(@RequestParam Long user1Id, @RequestParam Long user2Id) {
+    public List<DirectMessageResponse> getDmLogs(@RequestParam Long user1Id, @RequestParam Long user2Id) {
         return dmService.findRecentChatLog(user1Id, user2Id);
+    }
+
+    @GetMapping("/dm/history")
+    public List<DirectMessageDto> getDmHistories(@RequestParam Long user1Id, @RequestParam Long user2Id) {
+        return dmService.findChatHistory(user1Id, user2Id);
     }
 
 }

@@ -3,6 +3,7 @@ package com.api.directmessage;
 import com.core.chat.dto.DirectMessageApplicationDto;
 import com.core.chat.dto.DirectMessageRoomInfoDto;
 import com.service.chat.DirectMessageRoomService;
+import com.service.chat.dto.DirectMessageRoomListResponse;
 import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,5 +37,15 @@ public class DirectMessageController {
     @GetMapping("/dm-rooms/{dmRoomId}")
     public ResponseEntity<DirectMessageRoomInfoDto> findDmRoomInfo(@PathVariable Long dmRoomId) {
         return ResponseEntity.ok(dmService.findDmRoomById(dmRoomId));
+    }
+
+    /**
+     * 사용자 모든 채팅 목록 조회
+     */
+    @GetMapping("/dm-rooms")
+    public ResponseEntity<?> findAllDmRooms(){
+        List<DirectMessageRoomListResponse> dmRoomsByLoginUserId = dmService.findDmRoomsByLoginUserId();
+        SuccessResponse response = new SuccessResponse(true, "사용자 채팅 목록 조회 성공", dmRoomsByLoginUserId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
