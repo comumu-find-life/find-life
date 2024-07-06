@@ -1,4 +1,4 @@
-package com.chatting.dto;
+package com.common.chat.response;
 
 import lombok.Builder;
 

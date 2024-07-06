@@ -1,14 +1,13 @@
 package com.chatting.controller;
 
 
-import com.chatting.dto.DirectMessageDto;
 import com.chatting.service.DirectMessageService;
+import com.common.chat.request.DirectMessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import java.sql.SQLOutput;
 
 @Controller
 @RequiredArgsConstructor
