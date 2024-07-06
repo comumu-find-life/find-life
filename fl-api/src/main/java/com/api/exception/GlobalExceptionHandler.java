@@ -1,7 +1,7 @@
 package com.api.exception;
 
 
-import com.service.utils.SuccessResponse;
+import com.common.utils.SuccessResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

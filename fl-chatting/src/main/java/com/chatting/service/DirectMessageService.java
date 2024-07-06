@@ -2,7 +2,7 @@ package com.chatting.service;
 
 import com.chatting.model.DirectMessage;
 import com.chatting.repository.DirectMessageRepository;
-import com.common.chat.request.DirectMessageDto;
+import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class DirectMessageService {
 
     private final DirectMessageRepository dmRepository;
 
-    public String sendDM(DirectMessageDto dmDto) {
+    public String sendDM(DirectMessageRequest dmDto) {
         try {
             DirectMessage save = dmRepository.save(
                 DirectMessage.builder()
@@ -51,10 +51,10 @@ public class DirectMessageService {
         return dmLogDtos;
     }
 
-    public List<DirectMessageDto> findChatHistory(Long user1Id, Long user2Id) {
+    public List<DirectMessageResponse> findChatHistory(Long user1Id, Long user2Id) {
         List<DirectMessage> dmLogs = dmRepository.findRecentLogs(user1Id, user2Id);
-        List<DirectMessageDto> dmLogDtos = dmLogs.stream()
-                .map(dm -> DirectMessageDto.builder()
+        List<DirectMessageResponse> dmLogDtos = dmLogs.stream()
+                .map(dm -> DirectMessageResponse.builder()
                         .senderId(dm.getSenderId())
                         .receiverId(dm.getReceiverId())
                         .message(dm.getMessage())

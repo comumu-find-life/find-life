@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.utils.SuccessResponse;
+import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
