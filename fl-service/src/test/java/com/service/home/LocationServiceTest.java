@@ -1,14 +1,12 @@
 package com.service.home;
 
-import com.service.home.dto.request.HomeAddressGeneratorRequest;
-import com.service.home.dto.geocoding.LatLng;
+import com.common.home.request.HomeAddressGeneratorRequest;
+import com.service.home.utils.LatLng;
 import com.service.home.impl.LocationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class LocationServiceTest {
 

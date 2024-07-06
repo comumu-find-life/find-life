@@ -1,4 +1,4 @@
-package com.service.home.dto.geocoding;
+package com.service.home.utils;
 
 import lombok.Getter;
 
@@ -11,6 +11,4 @@ public class LatLng {
         this.lat = lat;
         this.lng = lng;
     }
-
-    // Getters and setters
 }

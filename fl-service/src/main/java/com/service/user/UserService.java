@@ -1,10 +1,12 @@
 package com.service.user;
 
+import com.common.user.mapper.UserMapper;
+import com.common.user.request.UserSignupRequest;
+import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserProfileResponse;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
 import com.service.file.FileService;
-import com.service.user.dto.*;
-import com.service.user.mapper.UserMapper;
 import com.service.user.validation.UserServiceValidation;
 import com.service.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
 
 @Service
 @Transactional

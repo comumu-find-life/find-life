@@ -1,10 +1,10 @@
 package com.api.user;
 
 import com.api.security.service.JwtService;
+import com.common.user.request.UserSignupRequest;
+import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserProfileResponse;
 import com.service.user.UserService;
-import com.service.user.dto.UserInformationDto;
-import com.service.user.dto.UserProfileResponse;
-import com.service.user.dto.UserSignupRequest;
 import com.service.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

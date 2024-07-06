@@ -1,16 +1,17 @@
-package com.service.user.dto;
+package com.common.user.request;
 
 import com.core.user.model.Gender;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * 사용자가 다른 사용자 프로필을 조회할때 사용될 DTO
+ */
 @Getter
 @Builder
-public class UserProfileResponse {
+public class UserProfileRequest {
 
-    private Long id;
-
-    private String nickname;
+    private String nickName;
 
     private String profileUrl;
 
@@ -19,6 +20,4 @@ public class UserProfileResponse {
     private Gender gender;
 
     private String nationality;
-
-    private String introduce;
 }

@@ -1,17 +1,17 @@
 package com.service.chat;
 
+import com.common.chat.mapper.DirectMessageRoomMapper;
+import com.common.chat.request.DirectMessageDto;
+import com.common.chat.response.DirectMessageRoomDto;
+import com.common.chat.response.DirectMessageRoomListResponse;
+import com.common.user.response.UserInformationDto;
 import com.core.chat.dto.DirectMessageApplicationDto;
 import com.core.chat.dto.DirectMessageRoomInfoDto;
 import com.core.chat.model.DirectMessageRoom;
 import com.core.chat.repository.DirectMessageRoomRepository;
 import com.core.user.model.User;
 import com.core.user.repository.UserRepository;
-import com.service.chat.dto.DirectMessageDto;
-import com.service.chat.dto.DirectMessageRoomDto;
-import com.service.chat.dto.DirectMessageRoomListResponse;
-import com.service.chat.mapper.DirectMessageRoomMapper;
 import com.service.user.UserService;
-import com.service.user.dto.UserInformationDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

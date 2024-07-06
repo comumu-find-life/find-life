@@ -4,7 +4,7 @@ import com.common.home.request.HomeAddressGeneratorRequest;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.service.home.LocationService;
-import com.service.home.dto.geocoding.LatLng;
+import com.service.home.utils.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;

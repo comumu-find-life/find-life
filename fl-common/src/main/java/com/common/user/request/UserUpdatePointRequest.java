@@ -1,4 +1,4 @@
-package com.service.user.dto;
+package com.common.user.request;
 
 import lombok.Builder;
 import lombok.Getter;
