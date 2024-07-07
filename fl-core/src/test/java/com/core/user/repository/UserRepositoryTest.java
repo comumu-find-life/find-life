@@ -1,6 +1,7 @@
 package com.core.user.repository;
 
-import com.core.user.model.User;
+import com.core.api_core.user.model.User;
+import com.core.api_core.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

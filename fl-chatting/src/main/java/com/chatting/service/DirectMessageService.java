@@ -1,9 +1,9 @@
 package com.chatting.service;
 
-import com.chatting.model.DirectMessage;
-import com.chatting.repository.DirectMessageRepository;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
+import com.core.chat_core.chat.model.DirectMessage;
+import com.core.chat_core.chat.repository.DirectMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class DirectMessageService {
 
     private final DirectMessageRepository dmRepository;
 
-    public String sendDM(DirectMessageRequest dmDto) {
+    public DirectMessageResponse sendDM(DirectMessageRequest dmDto) throws IllegalAccessException {
         try {
             DirectMessage save = dmRepository.save(
                 DirectMessage.builder()
@@ -27,11 +27,21 @@ public class DirectMessageService {
                     .message(dmDto.getMessage())
                     .build()
             );
-            return save.getId().toString();
+
+//            return save.toResponse();
+            return DirectMessageResponse.builder()
+                    .message(save.getMessage())
+                    .receiverId(save.getReceiverId())
+                    .senderId(save.getSenderId())
+                    .sentAt(save.getSentAt())
+                    .build();
+            //mapper.toResponse(save);
         } catch (Exception e) {
-            return e.getMessage();
+             throw new IllegalAccessException(e.getMessage());
         }
     }
+
+
 
     /**
      * 최근 대화 불러오기 (채팅방 입장시)

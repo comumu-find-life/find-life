@@ -15,4 +15,5 @@ public class DirectMessageRoomListResponse {
     private String userNickname;
     private String userProfileUrl;
     private Long progressHomeId;
+    private String lastMessage;
 }

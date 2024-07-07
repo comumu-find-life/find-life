@@ -3,7 +3,7 @@ package com.common.user.mapper;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationDto;
 import com.common.user.response.UserProfileResponse;
-import com.core.user.model.User;
+import com.core.api_core.user.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

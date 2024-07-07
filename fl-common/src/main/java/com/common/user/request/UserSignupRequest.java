@@ -1,7 +1,7 @@
 package com.common.user.request;
 
-import com.core.user.model.Gender;
-import com.core.user.model.Role;
+import com.core.api_core.user.model.Gender;
+import com.core.api_core.user.model.Role;
 import lombok.Builder;
 import lombok.Getter;
 

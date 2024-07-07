@@ -2,7 +2,7 @@ package com.api.security.filter;
 
 import com.api.security.exception.InvalidTokenException;
 import com.api.security.service.JwtService;
-import com.core.user.model.User;
+import com.core.api_core.user.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redis.user.UserRedisService;
 import com.common.utils.SuccessResponse;
