@@ -27,6 +27,10 @@ public class ProtectedDeal extends BaseTimeEntity {
     // 집주인 ID
     private Long providerId;
 
+    private Long homeId;
+
+    private Long dmId;
+
     //보증금 or 계약금
     private double bond;
 
