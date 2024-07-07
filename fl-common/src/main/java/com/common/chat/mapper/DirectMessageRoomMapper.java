@@ -2,8 +2,8 @@
 //
 //import com.common.chat.response.DirectMessageResponse;
 //import com.common.chat.response.DirectMessageRoomResponse;
-//import com.core.chat.model.DirectMessage;
-//import com.core.chat.model.DirectMessageRoom;
+//import com.core.chat_core.chat.model.DirectMessage;
+//import com.core.api_core.chat.model.DirectMessageRoom;
 //import org.mapstruct.Mapper;
 //import org.mapstruct.factory.Mappers;
 //

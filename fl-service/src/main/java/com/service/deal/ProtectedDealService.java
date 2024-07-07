@@ -1,10 +1,10 @@
 package com.service.deal;
 
-import com.core.deal.model.DealState;
-import com.core.deal.model.ProtectedDeal;
-import com.core.deal.repository.ProtectedDealRepository;
-import com.core.user.model.User;
-import com.core.user.repository.UserRepository;
+import com.core.api_core.deal.model.DealState;
+import com.core.api_core.deal.model.ProtectedDeal;
+import com.core.api_core.deal.repository.ProtectedDealRepository;
+import com.core.api_core.user.model.User;
+import com.core.api_core.user.repository.UserRepository;
 import com.service.deal.dto.CreateProtectedDealDto;
 import com.service.deal.dto.ProtectedDealResponse;
 import com.service.deal.mapper.ProtectedDealMapper;

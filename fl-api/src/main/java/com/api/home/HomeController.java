@@ -4,7 +4,7 @@ import com.common.home.request.*;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
 import com.common.utils.SuccessResponse;
-import com.core.home.model.HomeStatus;
+import com.core.api_core.home.model.HomeStatus;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.utils.LatLng;

@@ -1,9 +1,9 @@
 package com.chatting.service;
 
-import com.chatting.model.DirectMessage;
-import com.chatting.repository.DirectMessageRepository;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
+import com.core.chat_core.chat.model.DirectMessage;
+import com.core.chat_core.chat.repository.DirectMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,13 @@ public class DirectMessageService {
                     .build()
             );
 
-            return save.toResponse();
+//            return save.toResponse();
+            return DirectMessageResponse.builder()
+                    .message(save.getMessage())
+                    .receiverId(save.getReceiverId())
+                    .senderId(save.getSenderId())
+                    .sentAt(save.getSentAt())
+                    .build();
             //mapper.toResponse(save);
         } catch (Exception e) {
              throw new IllegalAccessException(e.getMessage());

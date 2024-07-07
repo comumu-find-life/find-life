@@ -1,7 +1,7 @@
 package com.redis.user;
 
 
-import com.core.user.model.User;
+import com.core.api_core.user.model.User;
 
 import java.util.Optional;
 

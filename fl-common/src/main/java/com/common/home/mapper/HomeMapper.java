@@ -6,10 +6,10 @@ import com.common.home.request.HomeGeneratorRequest;
 import com.common.home.request.HomeUpdateRequest;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
-import com.core.home.model.Home;
-import com.core.home.model.HomeAddress;
-import com.core.home.model.HomeImage;
-import com.core.user.model.User;
+import com.core.api_core.home.model.Home;
+import com.core.api_core.home.model.HomeAddress;
+import com.core.api_core.home.model.HomeImage;
+import com.core.api_core.user.model.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -26,7 +26,7 @@ public interface HomeMapper {
      */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "images", ignore = true)
-    @Mapping(target = "status", expression = "java(com.core.home.model.HomeStatus.FOR_SALE)")
+    @Mapping(target = "status", expression = "java(com.core.api_core.home.model.HomeStatus.FOR_SALE)")
     @Mapping(target = "viewCount", ignore = true)
     //todo userIdx
     Home toEntity(HomeGeneratorRequest homeDto);

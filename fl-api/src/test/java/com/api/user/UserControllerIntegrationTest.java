@@ -1,7 +1,7 @@
 package com.api.user;
 
-import com.core.user.model.User;
-import com.core.user.repository.UserRepository;
+import com.core.api_core.user.model.User;
+import com.core.api_core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.LocationService;
 import com.service.user.dto.UserProfileRequest;
@@ -16,7 +16,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;

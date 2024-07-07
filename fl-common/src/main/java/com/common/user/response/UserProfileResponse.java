@@ -1,6 +1,6 @@
 package com.common.user.response;
 
-import com.core.user.model.Gender;
+import com.core.api_core.user.model.Gender;
 import lombok.Builder;
 import lombok.Getter;
 
