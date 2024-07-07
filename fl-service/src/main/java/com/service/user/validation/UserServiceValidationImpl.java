@@ -1,6 +1,6 @@
 package com.service.user.validation;
 
-import com.core.user.repository.UserRepository;
+import com.core.api_core.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

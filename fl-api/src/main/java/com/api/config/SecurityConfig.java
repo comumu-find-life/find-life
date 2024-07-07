@@ -6,7 +6,6 @@ import com.api.security.handler.LoginFailureHandler;
 import com.api.security.handler.LoginSuccessHandler;
 import com.api.security.service.JwtService;
 import com.api.security.service.LoginService;
-import com.core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redis.user.UserRedisService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +22,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static com.api.config.AuthUrlPatterns.GET_AUTH_WHITELIST;
 import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;

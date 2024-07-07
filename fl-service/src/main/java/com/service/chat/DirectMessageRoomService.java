@@ -1,16 +1,14 @@
 package com.service.chat;
 
-import com.common.chat.mapper.DirectMessageRoomMapper;
 import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
-import com.common.chat.response.DirectMessageRoomResponse;
 import com.common.chat.response.DirectMessageRoomInfoResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
 import com.common.user.response.UserInformationDto;
-import com.core.chat.model.DirectMessageRoom;
-import com.core.chat.repository.DirectMessageRoomRepository;
-import com.core.user.model.User;
-import com.core.user.repository.UserRepository;
+import com.core.api_core.chat.model.DirectMessageRoom;
+import com.core.api_core.chat.repository.DirectMessageRoomRepository;
+import com.core.api_core.user.model.User;
+import com.core.api_core.user.repository.UserRepository;
 import com.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,7 +30,6 @@ public class DirectMessageRoomService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final DirectMessageRoomRepository dmRoomRepository;
-    private final DirectMessageRoomMapper dmRoomMapper;
 
     @Value("${domain.chat}")
     private String chatUrl;
@@ -57,7 +53,9 @@ public class DirectMessageRoomService {
                 .senderId(userId).build();
 
         RestTemplate restTemplate = new RestTemplate();
+
         String url = chatUrl + "/dm";
+        System.out.println("DASDASD = " + url);
         restTemplate.postForObject(url, dmDto, Object.class);
 
         return roomId;
@@ -69,9 +67,11 @@ public class DirectMessageRoomService {
         Long userId = getLoginUserId();
         List<DirectMessageRoom> dmRooms = dmRoomRepository.findByUser1IdOrUser2Id(userId);
 
+
         // Dto변환
         List<DirectMessageRoomListResponse> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
-            return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2(), dmRoom.getProgressHomeId());
+            //DirectMessage message = dmRepository.findLastMessage(dmRoom.getUser1().getId(), dmRoom.getUser2().getId());
+            return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2(), dmRoom.getProgressHomeId(), "TEST MESSAGE");
         }).collect(Collectors.toList());
         return dmRoomListDtos;
     }
@@ -142,15 +142,14 @@ public class DirectMessageRoomService {
 //                });
 //        return dmRoomDtos;
 //    }
-
-
-    private DirectMessageRoomListResponse getChatUserInfo(Long id, User user, Long homeId) {
+    private DirectMessageRoomListResponse getChatUserInfo(Long id, User user, Long homeId, String lastMessage) {
         return DirectMessageRoomListResponse.builder()
                 .id(id)
                 .progressHomeId(homeId)
                 .userId(user.getId())
                 .userNickname(user.getNickname())
                 .userProfileUrl(user.getProfileUrl())
+                .lastMessage(lastMessage)
                 .build();
     }
 }
