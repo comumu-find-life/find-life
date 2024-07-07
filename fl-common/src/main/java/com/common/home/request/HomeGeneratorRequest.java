@@ -17,6 +17,8 @@ public class HomeGeneratorRequest {
 
     private Integer bathRoomCount;
 
+    private Integer residentCount;
+
     private boolean dealSavable;
 
     private Integer bedroomCount;

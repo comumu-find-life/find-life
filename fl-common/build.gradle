@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'

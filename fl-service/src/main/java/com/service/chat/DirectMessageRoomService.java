@@ -1,9 +1,7 @@
 package com.service.chat;
 
-import com.common.chat.mapper.DirectMessageRoomMapper;
 import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
-import com.common.chat.response.DirectMessageRoomResponse;
 import com.common.chat.response.DirectMessageRoomInfoResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
 import com.common.user.response.UserInformationDto;
@@ -33,7 +31,6 @@ public class DirectMessageRoomService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final DirectMessageRoomRepository dmRoomRepository;
-    private final DirectMessageRoomMapper dmRoomMapper;
 
     @Value("${domain.chat}")
     private String chatUrl;
