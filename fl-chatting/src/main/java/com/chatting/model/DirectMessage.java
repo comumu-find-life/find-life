@@ -1,5 +1,6 @@
 package com.chatting.model;
 
+import com.common.chat.response.DirectMessageResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,14 @@ public class DirectMessage {
 
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
+
+    public DirectMessageResponse toResponse(){
+        return DirectMessageResponse.builder()
+                .message(this.message)
+                .receiverId(this.receiverId)
+                .senderId(this.senderId)
+                .sentAt(this.sentAt)
+                .build();
+    }
 
 }
