@@ -1,7 +1,7 @@
 package com.api.helper;
 
-import com.core.home.model.*;
-import com.core.user.model.Gender;
+import com.core.api_core.home.model.*;
+import com.core.api_core.user.model.Gender;
 import com.service.home.dto.request.HomeAddressGeneratorRequest;
 import com.service.home.dto.request.HomeGeneratorRequest;
 import com.service.home.dto.request.HomeUpdateRequest;

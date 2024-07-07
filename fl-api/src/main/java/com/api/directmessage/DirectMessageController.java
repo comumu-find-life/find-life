@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.api.directmessage.SuccessDirectMessages.DM_LIST_FIND_MESSAGE;
+import static com.api.directmessage.SuccessDirectMessages.DM_ROOM_CREATE_MESSAGE;
+
 @Slf4j
 @RestController
 @RequestMapping("/v1/api/dm")
@@ -24,7 +27,7 @@ public class DirectMessageController {
     @PostMapping()
     public ResponseEntity<?> sendDm(@RequestBody DirectMessageApplicationRequest dmDto) {
         Long roomId = dmService.applicationDm(dmDto);
-        SuccessResponse response = new SuccessResponse(true, "채팅방 생성 성공", roomId);
+        SuccessResponse response = new SuccessResponse(true, DM_ROOM_CREATE_MESSAGE, roomId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -45,7 +48,7 @@ public class DirectMessageController {
     @GetMapping("/dm-rooms")
     public ResponseEntity<?> findAllDmRooms(){
         List<DirectMessageRoomListResponse> dmRoomsByLoginUserId = dmService.findDmRoomsByLoginUserId();
-        SuccessResponse response = new SuccessResponse(true, "사용자 채팅 목록 조회 성공", dmRoomsByLoginUserId);
+        SuccessResponse response = new SuccessResponse(true, DM_LIST_FIND_MESSAGE, dmRoomsByLoginUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,7 +1,7 @@
 package com.common.home.response;
 
-import com.core.home.model.HomeType;
-import com.core.user.model.Gender;
+import com.core.api_core.home.model.HomeType;
+import com.core.api_core.user.model.Gender;
 import lombok.Builder;
 import lombok.Getter;
 

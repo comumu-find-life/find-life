@@ -1,6 +1,5 @@
 package com.service.deal.dto;
 
-import com.core.deal.model.DealState;
 import lombok.Builder;
 import lombok.Getter;
 

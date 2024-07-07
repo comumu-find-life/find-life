@@ -1,7 +1,7 @@
 package com.service.deal.mapper;
 
-import com.core.deal.model.DealState;
-import com.core.deal.model.ProtectedDeal;
+import com.core.api_core.deal.model.DealState;
+import com.core.api_core.deal.model.ProtectedDeal;
 import com.service.deal.dto.CreateProtectedDealDto;
 import com.service.deal.dto.ProtectedDealResponse;
 import org.assertj.core.api.Assertions;

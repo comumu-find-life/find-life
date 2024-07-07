@@ -1,7 +1,7 @@
 package com.redis.user.impl;
 
-import com.core.user.model.User;
-import com.core.user.repository.UserRepository;
+import com.core.api_core.user.model.User;
+import com.core.api_core.user.repository.UserRepository;
 import com.redis.user.UserRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CachePut;
