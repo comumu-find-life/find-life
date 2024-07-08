@@ -1,5 +1,7 @@
 package com.common.chat.request;
 
+import com.core.api_core.deal.model.DealState;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,4 +17,12 @@ public class DirectMessageRequest {
     private String roomId;
     private Long receiverId;
     private String message;
+    @JsonProperty("isDeal")
+    private boolean isDeal;
+    private DealState dealState;
+
+    // 수동으로 getter 추가
+    public boolean isDeal() {
+        return isDeal;
+    }
 }

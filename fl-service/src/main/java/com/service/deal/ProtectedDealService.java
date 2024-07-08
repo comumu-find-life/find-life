@@ -1,5 +1,6 @@
 package com.service.deal;
 
+import com.common.chat.request.DirectMessageRequest;
 import com.common.deal.mapper.ProtectedDealMapper;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.core.api_core.deal.model.DealState;
@@ -10,8 +11,10 @@ import com.core.api_core.user.repository.UserRepository;
 import com.service.deal.dto.ProtectedDealResponse;
 import com.service.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -24,12 +27,27 @@ public class ProtectedDealService {
     private final ProtectedDealRepository protectedDealRepository;
     private final ProtectedDealMapper mapper;
 
+    @Value("${domain.chat}")
+    private String chatUrl;
     /**
      * 안전 거래 생성 메서드
      */
     public void save(ProtectedDealGeneratorRequest request) {
         ProtectedDeal deal = mapper.toEntity(request);
         //todo DirectMessage 에도 추가.
+        DirectMessageRequest dmDto = DirectMessageRequest.builder()
+                .message("DEAL MESSAGE")
+                .receiverId(request.getGetterId())
+                .senderId(request.getProviderId())
+                .isDeal(true)
+                .dealState(DealState.BEFORE_DEPOSIT)
+                .build();
+
+        System.out.println("HERE = " +dmDto.isDeal());
+        RestTemplate restTemplate = new RestTemplate();
+        String url = chatUrl + "/dm";
+        restTemplate.postForObject(url, dmDto, Object.class);
+
         protectedDealRepository.save(deal);
     }
 
