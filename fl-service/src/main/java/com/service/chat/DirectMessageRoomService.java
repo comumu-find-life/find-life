@@ -55,9 +55,7 @@ public class DirectMessageRoomService {
         RestTemplate restTemplate = new RestTemplate();
 
         String url = chatUrl + "/dm";
-        System.out.println("DASDASD = " + url);
         restTemplate.postForObject(url, dmDto, Object.class);
-
         return roomId;
     }
 

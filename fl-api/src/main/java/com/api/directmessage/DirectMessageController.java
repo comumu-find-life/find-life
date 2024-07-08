@@ -32,7 +32,7 @@ public class DirectMessageController {
     }
 
     /**
-     * 채팅 정보 조회
+     * 채팅 정보 조회 todo 안전거래 채팅은 제외시키는 기능 구현
      * @param dmRoomId
      * @return
      */
@@ -43,7 +43,7 @@ public class DirectMessageController {
     }
 
     /**
-     * 사용자 모든 채팅 목록 조회
+     * 사용자 모든 채팅 목록 조회 todo 안전거래 채팅은 제외시키는 기능 구현
      */
     @GetMapping("/dm-rooms")
     public ResponseEntity<?> findAllDmRooms(){

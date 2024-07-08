@@ -1,5 +1,7 @@
 package com.common.chat.response;
 
+import com.core.api_core.deal.model.DealState;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,5 +17,7 @@ public class DirectMessageResponse {
     private String senderName;
     private Long receiverId;
     private String message;
+    private boolean isDeal;
+    private DealState dealState;
     private LocalDateTime sentAt;
 }

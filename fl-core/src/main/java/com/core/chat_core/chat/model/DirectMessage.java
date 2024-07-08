@@ -1,6 +1,7 @@
 package com.core.chat_core.chat.model;
 
 
+import com.core.api_core.deal.model.DealState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,13 +33,9 @@ public class DirectMessage {
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
 
-//    public DirectMessageResponse toResponse(){
-//        return DirectMessageResponse.builder()
-//                .message(this.message)
-//                .receiverId(this.receiverId)
-//                .senderId(this.senderId)
-//                .sentAt(this.sentAt)
-//                .build();
-//    }
+    private boolean isDeal;
+
+    @Enumerated(EnumType.STRING)
+    private DealState dealState;
 
 }
