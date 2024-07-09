@@ -59,16 +59,16 @@ public class DirectMessageRoomService {
         return roomId;
     }
 
-    // 로그인된 유저의 Dm리스트
+    /**
+     * 로그인된 유저의 채팅방 목록 조회
+     */
     public List<DirectMessageRoomListResponse> findDmRoomsByLoginUserId() {
         // 로그인 유저 정보 받아오기
         Long userId = getLoginUserId();
         List<DirectMessageRoom> dmRooms = dmRoomRepository.findByUser1IdOrUser2Id(userId);
 
-
         // Dto변환
         List<DirectMessageRoomListResponse> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
-            //DirectMessage message = dmRepository.findLastMessage(dmRoom.getUser1().getId(), dmRoom.getUser2().getId());
             return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2(), dmRoom.getProgressHomeId(), "TEST MESSAGE");
         }).collect(Collectors.toList());
         return dmRoomListDtos;
@@ -140,6 +140,7 @@ public class DirectMessageRoomService {
 //                });
 //        return dmRoomDtos;
 //    }
+
     private DirectMessageRoomListResponse getChatUserInfo(Long id, User user, Long homeId, String lastMessage) {
         return DirectMessageRoomListResponse.builder()
                 .id(id)
