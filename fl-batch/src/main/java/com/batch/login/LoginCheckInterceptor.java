@@ -1,7 +1,6 @@
 package com.batch.login;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.user.dto.UserInformationDto;
+import com.common.user.response.UserInformationDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.net.HttpCookie;
 import java.util.Arrays;
 
 @Component

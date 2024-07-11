@@ -1,6 +1,6 @@
 package com.batch.chat;
 
-import com.service.chat.dto.DirectMessageRoomListResponse;
+import com.common.chat.response.DirectMessageRoomListResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
