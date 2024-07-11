@@ -5,22 +5,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ProtectedDealGeneratorRequest {
-
+public class ProtectedDealFindRequest {
     private Long getterId;
-
     private Long providerId;
-
     private Long homeId;
-
     private Long dmId;
-
-    //계약금
-    private double deposit;
-
-    private String account;
-
-    private String accountHolder;
-
-    private String bankName;
 }

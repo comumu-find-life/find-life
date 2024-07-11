@@ -1,6 +1,7 @@
 package com.common.deal.mapper;
 
 import com.common.deal.request.ProtectedDealGeneratorRequest;
+import com.common.deal.response.ProtectedDealResponse;
 import com.core.api_core.deal.model.ProtectedDeal;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,4 +15,6 @@ public interface ProtectedDealMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "dealState", expression = "java(com.core.api_core.deal.model.DealState.BEFORE_DEPOSIT)")
     ProtectedDeal toEntity(ProtectedDealGeneratorRequest request);
+
+    ProtectedDealResponse toResponse(ProtectedDeal entity);
 }

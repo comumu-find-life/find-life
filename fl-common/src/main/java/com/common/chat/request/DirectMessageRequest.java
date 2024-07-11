@@ -18,11 +18,8 @@ public class DirectMessageRequest {
     private Long receiverId;
     private String message;
     @JsonProperty("isDeal")
-    private boolean isDeal;
+    private int isDeal;
     private DealState dealState;
 
     // 수동으로 getter 추가
-    public boolean isDeal() {
-        return isDeal;
-    }
 }

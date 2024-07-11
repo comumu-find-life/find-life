@@ -17,7 +17,7 @@ public class DirectMessageResponse {
     private String senderName;
     private Long receiverId;
     private String message;
-    private boolean isDeal;
+    private int isDeal;
     private DealState dealState;
     private LocalDateTime sentAt;
 }
