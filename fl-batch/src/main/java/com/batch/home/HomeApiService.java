@@ -1,9 +1,8 @@
 package com.batch.home;
 
+import com.common.home.response.HomeInformationResponse;
+import com.common.utils.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.home.dto.response.HomeInformationResponse;
-import com.service.home.dto.response.HomeOverviewResponse;
-import com.service.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

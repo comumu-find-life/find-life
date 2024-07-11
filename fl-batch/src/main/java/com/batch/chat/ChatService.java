@@ -1,6 +1,6 @@
 package com.batch.chat;
 
-import com.core.chat.dto.DirectMessageRoomInfoDto;
+import com.common.chat.response.DirectMessageRoomInfoResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class ChatService {
     @Value("${domain.api}")
     private String baseUrl;
 
-    public DirectMessageRoomInfoDto findDmRoomInfoByRoomId(String token, Long roomId) {
+    public DirectMessageRoomInfoResponse findDmRoomInfoByRoomId(String token, Long roomId) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders(); // HttpHeaders 객체 생성
@@ -23,11 +23,11 @@ public class ChatService {
 
         String url = baseUrl + "/dm/dm-rooms/" + roomId;
         // 요청 보내기
-        ResponseEntity<DirectMessageRoomInfoDto> responseEntity = restTemplate.exchange(
+        ResponseEntity<DirectMessageRoomInfoResponse> responseEntity = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 requestEntity,
-                DirectMessageRoomInfoDto.class);
+                DirectMessageRoomInfoResponse.class);
 
         return responseEntity.getBody();
     }

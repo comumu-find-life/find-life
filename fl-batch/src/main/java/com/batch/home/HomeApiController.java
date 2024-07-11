@@ -1,7 +1,7 @@
 package com.batch.home;
 
-import com.service.home.dto.response.HomeInformationResponse;
-import com.service.home.dto.response.HomeOverviewResponse;
+import com.common.home.response.HomeInformationResponse;
+import com.common.home.response.HomeOverviewResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
