@@ -32,11 +32,8 @@ public class DirectMessageController {
     }
 
     /**
-     * 채팅 정보 조회 todo 안전거래 채팅은 제외시키는 기능 구현
-     * @param dmRoomId
-     * @return
+     * todo 어떤 메서드인지 설명졈
      */
-    // 접근성 - Authenticated();
     @GetMapping("/dm-rooms/{dmRoomId}")
     public ResponseEntity<DirectMessageRoomInfoResponse> findDmRoomInfo(@PathVariable Long dmRoomId) {
         return ResponseEntity.ok(dmService.findDmRoomById(dmRoomId));

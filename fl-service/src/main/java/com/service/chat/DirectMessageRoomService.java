@@ -1,5 +1,6 @@
 package com.service.chat;
 
+import com.common.chat.mapper.DirectMessageMapper;
 import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageRoomInfoResponse;
@@ -28,18 +29,20 @@ import java.util.stream.Collectors;
 public class DirectMessageRoomService {
 
     private final UserService userService;
+    private final DirectMessageMapper mapper;
     private final UserRepository userRepository;
     private final DirectMessageRoomRepository dmRoomRepository;
 
     @Value("${domain.chat}")
     private String chatUrl;
 
+    /**
+     * 채팅방 생성 메서드
+     */
     @Transactional
     public Long applicationDm(DirectMessageApplicationRequest dmApplicationDto) {
         // 로그인 유저 정보 받아오기
         Long userId = getLoginUserId();
-        log.info(userId + "");
-        log.info(dmApplicationDto.getReceiverId() + "");
 
         // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
         Long roomId = saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId), dmApplicationDto);
@@ -74,6 +77,8 @@ public class DirectMessageRoomService {
         return dmRoomListDtos;
     }
 
+
+
     public DirectMessageRoomInfoResponse findDmRoomById(Long id) {
         DirectMessageRoom room = dmRoomRepository.findById(id).orElse(null);
         // TODO 잘못된 요청 처리
@@ -101,12 +106,6 @@ public class DirectMessageRoomService {
                 .build();
     }
 
-    private Long getLoginUserId() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserInformationDto user = userService.findByEmail(email);
-        return user.getId();
-    }
-
     // User1, User2 간의 채팅방이 이미 존재하지 않다면 생성
     private Long saveDmRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest directMessageApplicationDto) {
         Optional<DirectMessageRoom> byUser1IdAndUser2Id = dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
@@ -128,19 +127,6 @@ public class DirectMessageRoomService {
 
     }
 
-    /**
-     * todo 필요한 메서드인지 ?~?
-     */
-//    private List<DirectMessageRoomResponse> toDmRoomDtos(List<DirectMessageRoom> dmRooms) {
-//
-//        List<DirectMessageRoomResponse> dmRoomDtos = new ArrayList<>();
-//        dmRooms.stream()
-//                .forEach(room -> {
-//                    dmRoomDtos.add(dmRoomMapper.toDto(room));
-//                });
-//        return dmRoomDtos;
-//    }
-
     private DirectMessageRoomListResponse getChatUserInfo(Long id, User user, Long homeId, String lastMessage) {
         return DirectMessageRoomListResponse.builder()
                 .id(id)
@@ -151,4 +137,12 @@ public class DirectMessageRoomService {
                 .lastMessage(lastMessage)
                 .build();
     }
+
+    private Long getLoginUserId() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserInformationDto user = userService.findByEmail(email);
+        return user.getId();
+    }
 }
+
+

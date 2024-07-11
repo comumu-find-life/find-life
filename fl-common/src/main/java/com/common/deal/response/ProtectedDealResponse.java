@@ -1,11 +1,14 @@
-package com.common.deal.request;
+package com.common.deal.response;
 
+import com.core.api_core.deal.model.DealState;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class ProtectedDealGeneratorRequest {
+public class ProtectedDealResponse {
+
+    private Long id;
 
     private Long getterId;
 
@@ -13,9 +16,7 @@ public class ProtectedDealGeneratorRequest {
 
     private Long homeId;
 
-    private Long dmId;
-
-    //계약금
+    //보증금
     private double deposit;
 
     private String account;
@@ -23,4 +24,7 @@ public class ProtectedDealGeneratorRequest {
     private String accountHolder;
 
     private String bankName;
+
+    private DealState dealState;
+
 }

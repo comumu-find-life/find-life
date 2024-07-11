@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface CustomProtectedDealRepository {
 
     Optional<ProtectedDeal> findByUserId(Long getterId, Long providerId);
+
+    Optional<ProtectedDeal> findByMultipleParams(Long getterId, Long providerId, Long homeId, Long dmId);
 }

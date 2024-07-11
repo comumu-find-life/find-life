@@ -32,7 +32,14 @@ public class ProtectedDeal extends BaseTimeEntity {
     private Long dmId;
 
     //보증금 or 계약금
-    private double bond;
+    private double deposit;
+
+    //계좌
+    private String account;
+
+    private String accountHolder;
+
+    private String bankName;
 
     @Enumerated(EnumType.STRING)
     private DealState dealState;
@@ -43,11 +50,11 @@ public class ProtectedDeal extends BaseTimeEntity {
 
     // 최종 결제 금액 계산 메서드
     public double calculateFinalPayPrice() {
-        return bond - calculateCharge();
+        return deposit - calculateCharge();
     }
 
     // 수수료 계산 메서드
     public double calculateCharge() {
-        return bond * chargeRate;
+        return deposit * chargeRate;
     }
 }
