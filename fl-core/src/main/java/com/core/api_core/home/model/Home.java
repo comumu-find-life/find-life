@@ -22,11 +22,6 @@ public class Home extends BaseTimeEntity {
     @Column(name = "home_id")
     private Long id;
 
-    //UserId 와 연관관계 매핑
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-
     private Long userIdx;
 
     //집 사진
