@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Builder
 public class DirectMessageResponse {
     private Long senderId;
-    private String senderName;
     private Long receiverId;
     private String message;
     private int isDeal;

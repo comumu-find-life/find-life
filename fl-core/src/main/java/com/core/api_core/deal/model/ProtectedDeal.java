@@ -1,5 +1,6 @@
 package com.core.api_core.deal.model;
 
+import com.core.api_core.home.model.HomeAddress;
 import com.core.base.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,11 +36,15 @@ public class ProtectedDeal extends BaseTimeEntity {
     private double deposit;
 
     //계좌
-    private String account;
+//    private String account;
+//
+//    private String accountHolder;
+//
+//    private String bankName;
 
-    private String accountHolder;
-
-    private String bankName;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "provider_account_id")
+    private ProviderAccount providerAccount;
 
     @Enumerated(EnumType.STRING)
     private DealState dealState;
