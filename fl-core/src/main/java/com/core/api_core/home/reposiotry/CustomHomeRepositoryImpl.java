@@ -2,6 +2,7 @@ package com.core.api_core.home.reposiotry;
 
 
 import com.core.api_core.home.model.Home;
+import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.model.QHome;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,13 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
     public List<Home> findByPostCode(Integer postCode) {
         return query.selectFrom(qHome)
                 .where(qHome.homeAddress.postCode.like("%" + postCode + "%"))
+                .fetch();
+    }
+
+    @Override
+    public List<Home> findAllSellHome() {
+        return query.selectFrom(qHome)
+                .where(qHome.homeStatus.eq(HomeStatus.FOR_SALE))
                 .fetch();
     }
 

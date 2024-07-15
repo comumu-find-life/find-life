@@ -23,4 +23,14 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
                         qProtectedDeal.providerId.eq(providerId))
                 .fetchOne());
     }
+
+    @Override
+    public Optional<ProtectedDeal> findByMultipleParams(Long getterId, Long providerId, Long homeId, Long dmId) {
+        return Optional.ofNullable(query.selectFrom(qProtectedDeal)
+                .where(qProtectedDeal.getterId.eq(getterId),
+                        qProtectedDeal.providerId.eq(providerId),
+                        qProtectedDeal.homeId.eq(homeId),
+                        qProtectedDeal.dmId.eq(dmId))
+                .fetchFirst());  // fetchFirst()를 사용하여 첫 번째 결과만 반환
+    }
 }

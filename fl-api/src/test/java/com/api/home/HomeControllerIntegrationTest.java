@@ -1,5 +1,6 @@
 package com.api.home;
 import com.api.security.service.JwtService;
+import com.common.home.request.HomeGeneratorRequest;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.reposiotry.HomeRepository;

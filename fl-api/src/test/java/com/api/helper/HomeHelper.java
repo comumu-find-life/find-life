@@ -1,10 +1,10 @@
 package com.api.helper;
 
+import com.common.home.request.HomeAddressGeneratorRequest;
+import com.common.home.request.HomeGeneratorRequest;
+import com.common.home.request.HomeUpdateRequest;
 import com.core.api_core.home.model.*;
 import com.core.api_core.user.model.Gender;
-import com.service.home.dto.request.HomeAddressGeneratorRequest;
-import com.service.home.dto.request.HomeGeneratorRequest;
-import com.service.home.dto.request.HomeUpdateRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class HomeHelper {
                 .introduce("dasdasd")
                 .bill(10)
                 .rent(300)
-                .status(HomeStatus.FOR_SALE)
+                .homeStatus(HomeStatus.FOR_SALE)
                 .homeAddress(generateHomeAddressEntity())
                 .build();
     }
