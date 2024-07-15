@@ -4,7 +4,6 @@ import lombok.Getter;
 
 @Getter
 public enum DealState {
-    //
     NONE,
     // 입금 전 상태
     BEFORE_DEPOSIT,

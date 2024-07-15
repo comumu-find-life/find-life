@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class ProtectedDealController {
     private final ProtectedDealService protectedDealService;
 
+    /**
+     * 안전거래 생성 API
+     */
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public ResponseEntity<?> saveDeal(@RequestBody ProtectedDealGeneratorRequest request) {
@@ -25,6 +28,9 @@ public class ProtectedDealController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 안전거래 조회 API
+     */
     @PostMapping("/read")
     public ResponseEntity<?> findProtectedDeal(@RequestBody ProtectedDealFindRequest request) {
         ProtectedDealResponse protectedDealResponse = protectedDealService.findByDealInformation(request);
@@ -34,6 +40,9 @@ public class ProtectedDealController {
     }
 
 
+    /**
+     * 입금 신청 API (GETTER 가 사용)
+     */
     @PostMapping("/request/deposit/{dealId}")
     public ResponseEntity<?> requestDeposit(@PathVariable Long dealId) {
         protectedDealService.requestDeposit(dealId);
@@ -71,22 +80,4 @@ public class ProtectedDealController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @GetMapping()
-//    public ResponseEntity<ProtectedDealResponse> agreeDealByGetter(Long dealId){
-//        return ResponseEntity.ok(protectedDealService.findById(dealId));
-//    }
-//
-//    //안전거래 취소 메서드
-//    @PostMapping()
-//    public ResponseEntity<String> cancelDeal(ProtectedDealResponse dealResponse){
-//        protectedDealService.cancelProtectedDeal(dealResponse);
-//        return ResponseEntity.ok("deal cancel");
-//    }
-//
-//    //안전거래 성사 메서드
-//    @PostMapping()
-//    public ResponseEntity<String> finishDeal(ProtectedDealResponse dealResponse){
-//        protectedDealService.finishProtectedDeal(dealResponse);
-//        return ResponseEntity.ok("deal finish");
-//    }
 }

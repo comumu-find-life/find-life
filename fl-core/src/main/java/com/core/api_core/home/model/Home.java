@@ -53,7 +53,7 @@ public class Home extends BaseTimeEntity {
 
     // 판매중 or 판매 완료
     @Enumerated(EnumType.STRING)
-    private HomeStatus status;
+    private HomeStatus homeStatus;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -81,7 +81,7 @@ public class Home extends BaseTimeEntity {
     }
 
     public void setStatus(HomeStatus status) {
-        this.status = status;
+        this.homeStatus = status;
     }
 
     public void setImages(List<HomeImage> images) {
