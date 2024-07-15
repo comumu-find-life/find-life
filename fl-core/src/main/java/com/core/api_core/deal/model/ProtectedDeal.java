@@ -22,25 +22,20 @@ public class ProtectedDeal extends BaseTimeEntity {
     @Column(name = "protected_deal_id")
     private Long id;
 
+    // 집 게시글 ID
+    private Long homeId;
+
+    // 채팅방 ID
+    private Long dmId;
+
     // 세입자 ID
     private Long getterId;
 
     // 집주인 ID
     private Long providerId;
 
-    private Long homeId;
-
-    private Long dmId;
-
     //보증금 or 계약금
     private double deposit;
-
-    //계좌
-//    private String account;
-//
-//    private String accountHolder;
-//
-//    private String bankName;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "provider_account_id")

@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 public class DirectMessageRoomService {
 
     private final UserService userService;
-    private final DirectMessageMapper mapper;
     private final UserRepository userRepository;
+
     private final DirectMessageRoomRepository dmRoomRepository;
 
     @Value("${domain.chat}")
@@ -46,8 +46,6 @@ public class DirectMessageRoomService {
 
         // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
         Long roomId = saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId), dmApplicationDto);
-
-        //todo 이미 생성된 방이 있다면, DirectMessageRoom 에 있는 progressHomeId 최신화
 
         // 채팅 전송
         DirectMessageRequest dmDto = DirectMessageRequest.builder()
@@ -66,11 +64,11 @@ public class DirectMessageRoomService {
      * 로그인된 유저의 채팅방 목록 조회
      */
     public List<DirectMessageRoomListResponse> findDmRoomsByLoginUserId() {
-        // 로그인 유저 정보 받아오기
+        // 로그인 유저가 속한 채팅방 정보 조회
         Long userId = getLoginUserId();
         List<DirectMessageRoom> dmRooms = dmRoomRepository.findByUser1IdOrUser2Id(userId);
 
-        // Dto변환
+        // Dto 변환
         List<DirectMessageRoomListResponse> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
             return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2(), dmRoom.getProgressHomeId(), "TEST MESSAGE");
         }).collect(Collectors.toList());
@@ -78,10 +76,8 @@ public class DirectMessageRoomService {
     }
 
 
-
     public DirectMessageRoomInfoResponse findDmRoomById(Long id) {
         DirectMessageRoom room = dmRoomRepository.findById(id).orElse(null);
-        // TODO 잘못된 요청 처리
         return dmRoomTodmRooomInfoDto(room);
     }
 
