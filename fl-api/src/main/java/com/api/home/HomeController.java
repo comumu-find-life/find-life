@@ -94,12 +94,16 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/sell/{homeId}")
-    public ResponseEntity<?> sellHome(@PathVariable Long homeId, @RequestBody HomeStatus status) {
+    /**
+     * 집 상태 변경 API (판매중, 판매 완료, 판매 정지)
+     */
+    @PatchMapping("/{homeId}/status/{status}")
+    public ResponseEntity<?> changeStatusHome(@PathVariable Long homeId, @PathVariable String status) {
         homeService.changeStatus(homeId, status);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_SELL_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     /**
      * 집 게시글 모두 조회 api

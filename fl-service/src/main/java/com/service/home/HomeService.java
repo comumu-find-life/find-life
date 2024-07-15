@@ -78,7 +78,7 @@ public class HomeService {
      */
     public List<HomeOverviewResponse> findAllHomes() {
         List<HomeOverviewResponse> response = new ArrayList<>();
-        List<Home> homes = homeRepository.findAll();
+        List<Home> homes = homeRepository.findAllSellHome();
         homes.stream().forEach(home -> {
             User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), "User not found with id");
             response.add(homeMapper.toSimpleHomeDto(home, user));
@@ -158,9 +158,10 @@ public class HomeService {
      * 집 게시글 상태 변경 (판매 완료, 재판매)
      */
     @Transactional
-    public void changeStatus(Long homeId, HomeStatus status) {
+    public void changeStatus(Long homeId, String status) {
+        HomeStatus homeStatus = HomeStatus.fromString(status);
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), "Not found with id");
-        home.setStatus(status);
+        home.setStatus(homeStatus);
         homeRepository.save(home);
     }
 
