@@ -48,7 +48,7 @@
         </div>
     </div>
 <script>
-    fetch('/api/rooms/[[${city}]]')
+    fetch('/api/homes/[[${city}]]')
         .then(response => response.json())
         .then(data => {
             const dataList = data.map(room => {
@@ -97,7 +97,7 @@
 
 
     document.getElementById('sort-rent').addEventListener('click', e => {
-        fetch('/api/rooms/[[${city}]]')
+        fetch('/api/homes/[[${city}]]')
             .then(response => response.json())
             .then(data => {
                 const dataList = data.map(room => {

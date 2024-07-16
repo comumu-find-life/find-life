@@ -1,6 +1,7 @@
 package com.batch.chat;
 
 import com.common.chat.response.DirectMessageRoomListResponse;
+import com.common.utils.SuccessResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -41,7 +42,7 @@ public class ChatApiService {
 
     }
 
-    public List<DirectMessageRoomListResponse> findDmRoomsByUserId(String token) {
+    public <T> List<T> findDmRoomsByUserId(String token) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders(); // HttpHeaders 객체 생성
@@ -51,16 +52,17 @@ public class ChatApiService {
         HttpEntity requestEntity = new HttpEntity<>(headers); // HttpEntity 객체 생성 (요청 본문 및 헤더 설정)
 
         // 반환 타입 설정
-        ParameterizedTypeReference<List<DirectMessageRoomListResponse>> responseType = new ParameterizedTypeReference<List<DirectMessageRoomListResponse>>() {};
+        ParameterizedTypeReference<SuccessResponse> responseType = new ParameterizedTypeReference<SuccessResponse>() {};
 
         // 요청 보내기
-        ResponseEntity<List<DirectMessageRoomListResponse>> dmRooms = restTemplate.exchange(
+        // API 응답을 SuccessResponse로 받음
+        ResponseEntity<SuccessResponse> response = restTemplate.exchange(
                 dmRoomsUrl,
                 HttpMethod.GET,
                 requestEntity,
                 responseType);
 
-        return dmRooms.getBody();
+        return (List<T>) response.getBody().getData();
     }
 
     public List<DirectMessageRoomListResponse> findDmLogs(String token) {

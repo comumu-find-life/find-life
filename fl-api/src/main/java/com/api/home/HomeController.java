@@ -113,10 +113,10 @@ public class HomeController {
 
     /**
      * 집 게시글 페이징 조회 api
-     * ex) /homes?page=1&size=10
+     * ex) /homes?page=0&size=10
      */
     @GetMapping
-    public ResponseEntity<?> findByPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<?> findByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         List<HomeOverviewResponse> allByPage = homeService.findAllByPage(page, size);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.PAGE_HOMES_RETRIEVE_SUCCESS, allByPage);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -127,6 +127,17 @@ public class HomeController {
      */
     @GetMapping("/city")
     public ResponseEntity<?> findByCity(@RequestParam String city) {
+        List<HomeOverviewResponse> homes = homeService.findByCity(city);
+        SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * city 이름으로 집 조회 api (Path)
+     * [Sol]
+     */
+    @GetMapping("/cities/{city}")
+    public ResponseEntity<?> findByCityPath(@PathVariable String city) {
         List<HomeOverviewResponse> homes = homeService.findByCity(city);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
