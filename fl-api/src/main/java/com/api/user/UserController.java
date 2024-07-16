@@ -57,14 +57,16 @@ public class UserController {
      * jwt 로 자신의 userId 조회하기.
      */
     @GetMapping("/me/userId")
-    @PreAuthorize("hasAnyRole('ROLE_GETTER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getMyUserId(HttpServletRequest request) {
         String accessToken  = jwtService.extractAccessToken(request).get();
         String email = jwtService.extractEmail(accessToken).get();
+        // String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Long userId = userService.findByEmail(email).getId();
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_USER_ID_RETRIEVE_SUCCESS, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     /**
      * 다른 사용자가 프로필을 조회하는 api
      */
@@ -75,9 +77,6 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 본인 정보 조회
-     */
     @GetMapping("/user-info")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserInformationDto> findLoginUser() {

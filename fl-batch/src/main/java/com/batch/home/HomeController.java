@@ -26,6 +26,12 @@ public class HomeController {
         model.addAttribute("homeId", id);
         return "home/home";
     }
+
+    @GetMapping("/home/new")
+    public String homeList() {
+
+        return "homes/homeNew";
+    }
 //
 //    @GetMapping("/test")
 //    public String test() {

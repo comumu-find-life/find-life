@@ -22,6 +22,9 @@ public class HomeApiService {
     @Value("${domain.home}")
     private String homeUrl;
 
+    @Value("${domain.home-city}")
+    private String homeByCityUrl;
+
     private final ObjectMapper objectMapper;
 
 
@@ -37,11 +40,10 @@ public class HomeApiService {
 
     public <T> List<T> findRoomByCity(String city) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = baseUrl + "/homes/city/" + city;
+        String url = homeByCityUrl +"/"+ city;
 
         // API 응답을 SuccessResponse로 받음
         SuccessResponse response = restTemplate.getForObject(url, SuccessResponse.class);
-        log.info(response.getData().toString());
         return (List<T>) response.getData();
     }
 
@@ -49,7 +51,7 @@ public class HomeApiService {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        SuccessResponse response = restTemplate.getForObject(homeUrl + "/" + homeId, SuccessResponse.class);
+        SuccessResponse response = restTemplate.getForObject(homeUrl +"/"+ homeId, SuccessResponse.class);
         HomeInformationResponse homeDto = objectMapper.convertValue(response.getData(), HomeInformationResponse.class);
         log.info(homeDto.getAddress());
 
