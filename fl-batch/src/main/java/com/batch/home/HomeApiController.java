@@ -4,10 +4,7 @@ import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +35,14 @@ public class HomeApiController {
         HomeInformationResponse homeDto = homeApiService.findRoomByRoomId(homeId);
 
         return homeDto;
+    }
+
+
+    @PostMapping("/home/new")
+    public String homeNew(@RequestBody HomeRequest homeRequest) {
+        homeApiService.addHomePost(homeRequest);
+
+        return "redirect:/";
     }
 
 }

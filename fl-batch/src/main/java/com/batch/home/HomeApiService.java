@@ -58,4 +58,11 @@ public class HomeApiService {
 
         return homeDto;
     }
+
+
+    public void addHomePost(HomeRequest homeRequest) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        SuccessResponse response = restTemplate.postForObject(homeUrl, homeRequest, SuccessResponse.class);
+    }
 }
