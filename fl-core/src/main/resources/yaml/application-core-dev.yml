@@ -5,9 +5,9 @@ spring:
   datasource:
     initialization-mode : always
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fl_core?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/hnj?serverTimezone=Asia/Seoul
     username: root
-    password: sin981023@
+    password: dhsdk1977!
 
   logging:
     level:

@@ -1,6 +1,6 @@
 package com.batch.chat;
 
-import com.core.chat.dto.DirectMessageRoomInfoDto;
+import com.common.chat.response.DirectMessageRoomInfoResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class ChatController {
 
     @GetMapping("/dm/{id}")
     public String dmRoom(@PathVariable Long id, Model model, HttpServletRequest request) {
-        DirectMessageRoomInfoDto dmRoomInfo = chatService.findDmRoomInfoByRoomId((String) request.getAttribute("accessToken"), id);
+        DirectMessageRoomInfoResponse dmRoomInfo = chatService.findDmRoomInfoByRoomId((String) request.getAttribute("accessToken"), id);
         model.addAttribute("roomId", id);
         model.addAttribute("dmRoomInfo", dmRoomInfo);
 
