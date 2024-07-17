@@ -51,7 +51,7 @@ public class HomeController {
     }
 
     /**
-     * 사용자 등록한 집 게시글 조회 api
+     * 자신의 집 게시글 모두 조회 api
      */
     @GetMapping("/users/{userId}")
     public ResponseEntity<?> findByUserId(@PathVariable Long userId) {

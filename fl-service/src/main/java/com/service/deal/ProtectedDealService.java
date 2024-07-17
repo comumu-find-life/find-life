@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -34,9 +36,23 @@ public class ProtectedDealService {
         protectedDealRepository.save(deal);
     }
 
-    public ProtectedDealResponse findByDealInformation(ProtectedDealFindRequest request){
+    /**
+     * 내 안전거래 조회 메서드
+     */
+    public List<ProtectedDealResponse> findAllByUserId(Long userId) {
+        List<ProtectedDeal> allByUserId = protectedDealRepository.findAllByUserId(userId);
+        return allByUserId.stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * 안전거래 조회 메서드
+     */
+    public ProtectedDealResponse findByDealInformation(ProtectedDealFindRequest request) {
         Optional<ProtectedDeal> byMultipleParams = protectedDealRepository.findByMultipleParams(request.getGetterId(), request.getProviderId(), request.getHomeId(), request.getDmId());
-        if(byMultipleParams.isEmpty()){
+        if (byMultipleParams.isEmpty()) {
             return null;
         }
         return mapper.toResponse(byMultipleParams.get());
@@ -46,7 +62,7 @@ public class ProtectedDealService {
      * 입금 신청 메서드 by getter
      */
     @Transactional
-    public void requestDeposit(Long dealId){
+    public void requestDeposit(Long dealId) {
         //todo cms 에서 확인 요청
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), "존재하지 않는 거래 ID 입니다.");
         protectedDeal.setDealState(DealState.DURING_DEPOSIT);
@@ -57,7 +73,7 @@ public class ProtectedDealService {
      * 입금 완료 매서드 by admin
      */
     @Transactional
-    public void doneDeposit(Long dealId){
+    public void doneDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), "ProtectedDeal not found with id");
         protectedDeal.setDealState(DealState.DONE_DEPOSIT);
     }
@@ -66,7 +82,7 @@ public class ProtectedDealService {
      * 입금 완료 실패 메서드 by admin
      */
     @Transactional
-    public void failDeposit(Long dealId){
+    public void failDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), "ProtectedDeal not found with id");
         protectedDeal.setDealState(DealState.BEFORE_DEPOSIT);
     }
@@ -75,7 +91,7 @@ public class ProtectedDealService {
      * 거래 완료 메서드 by getter
      */
     @Transactional
-    public void finishDeal(Long dealId){
+    public void finishDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), "ProtectedDeal not found with id");
         //todo cms 에서 입금하는 로직 구현
         protectedDeal.setDealState(DealState.FINISH);
@@ -83,7 +99,7 @@ public class ProtectedDealService {
 
 
     @Transactional
-    public void cancelDeal(Long dealId){
+    public void cancelDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), "ProtectedDeal not found with id");
         //todo cms 에서 입금하는 로직 구현
         protectedDeal.setDealState(DealState.CANCEL);

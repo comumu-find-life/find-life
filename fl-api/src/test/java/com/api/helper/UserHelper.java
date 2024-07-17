@@ -1,9 +1,9 @@
 package com.api.helper;
 
+import com.common.user.request.UserSignupRequest;
 import com.core.api_core.user.model.Gender;
 import com.core.api_core.user.model.Role;
 import com.core.api_core.user.model.User;
-import com.service.user.dto.UserSignupRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserHelper {

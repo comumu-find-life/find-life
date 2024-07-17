@@ -55,6 +55,7 @@ public class HomeService {
      */
     @Transactional
     public Long update(HomeUpdateRequest homeUpdateDto) {
+
         Home home = homeRepository.findById(homeUpdateDto.getHomeId())
                 .orElseThrow(() -> new EntityNotFoundException("Home not found"));
         homeMapper.updateHomeFromDto(homeUpdateDto, home);
