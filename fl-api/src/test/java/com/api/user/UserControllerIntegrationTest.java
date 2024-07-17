@@ -1,13 +1,12 @@
 package com.api.user;
 
+import com.common.user.request.UserSignupRequest;
+import com.common.user.response.UserProfileResponse;
+import com.common.utils.SuccessResponse;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.LocationService;
-import com.service.user.dto.UserProfileRequest;
-import com.service.user.dto.UserProfileResponse;
-import com.service.user.dto.UserSignupRequest;
-import com.service.utils.SuccessResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

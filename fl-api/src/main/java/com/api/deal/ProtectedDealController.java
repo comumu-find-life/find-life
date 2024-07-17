@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/deal")
@@ -37,6 +39,16 @@ public class ProtectedDealController {
         SuccessResponse response = new SuccessResponse(true, "안전거래 조회 성공", protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
         //getterId, providerId, dmId
+    }
+
+    /**
+     * 자신의 안전거래 조회 API
+     */
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
+        List<ProtectedDealResponse> allByUserId = protectedDealService.findAllByUserId(userId);
+        SuccessResponse response = new SuccessResponse(true, "내 안전거래 조회 성공", allByUserId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
