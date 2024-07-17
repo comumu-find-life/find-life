@@ -1,5 +1,6 @@
 package com.common.home.response;
 
+import com.core.api_core.home.model.HomeStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,4 +23,5 @@ public class HomeOverviewResponse {
         private String type;
         private Long userIdx;
         private String userName;
+        private HomeStatus homeStatus;
 }

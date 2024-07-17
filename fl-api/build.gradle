@@ -13,8 +13,8 @@ dependencies {
     //implementation project(':fl-authority')
     implementation project(':fl-service')
 
-
-
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    //implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 

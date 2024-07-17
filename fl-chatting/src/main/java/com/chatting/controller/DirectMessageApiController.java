@@ -19,7 +19,6 @@ public class DirectMessageApiController {
 
     @PostMapping("/dm")
     public void sendDm(@RequestBody DirectMessageRequest directMessageDto) throws IllegalAccessException {
-        log.info(directMessageDto.getMessage());
         dmService.sendDM(directMessageDto);
     }
 

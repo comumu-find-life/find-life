@@ -1,5 +1,6 @@
 package com.core.api_core.deal.model;
 
+import com.core.api_core.home.model.HomeAddress;
 import com.core.base.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,12 @@ public class ProtectedDeal extends BaseTimeEntity {
     @Column(name = "protected_deal_id")
     private Long id;
 
+    // 집 게시글 ID
+    private Long homeId;
+
+    // 채팅방 ID
+    private Long dmId;
+
     // 세입자 ID
     private Long getterId;
 
@@ -28,7 +35,11 @@ public class ProtectedDeal extends BaseTimeEntity {
     private Long providerId;
 
     //보증금 or 계약금
-    private double bond;
+    private double deposit;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "provider_account_id")
+    private ProviderAccount providerAccount;
 
     @Enumerated(EnumType.STRING)
     private DealState dealState;
@@ -39,11 +50,11 @@ public class ProtectedDeal extends BaseTimeEntity {
 
     // 최종 결제 금액 계산 메서드
     public double calculateFinalPayPrice() {
-        return bond - calculateCharge();
+        return deposit - calculateCharge();
     }
 
     // 수수료 계산 메서드
     public double calculateCharge() {
-        return bond * chargeRate;
+        return deposit * chargeRate;
     }
 }

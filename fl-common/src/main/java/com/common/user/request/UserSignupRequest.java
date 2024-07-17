@@ -2,6 +2,7 @@ package com.common.user.request;
 
 import com.core.api_core.user.model.Gender;
 import com.core.api_core.user.model.Role;
+import com.core.api_core.user.model.SignupType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -27,5 +28,7 @@ public class UserSignupRequest {
     private  String nationality;
 
     private String introduce;
+
+    private SignupType signupType;
 
 }
