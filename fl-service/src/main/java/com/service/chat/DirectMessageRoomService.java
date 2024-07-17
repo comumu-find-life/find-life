@@ -42,16 +42,19 @@ public class DirectMessageRoomService {
     @Transactional
     public Long applicationDm(DirectMessageApplicationRequest dmApplicationDto) {
         // 로그인 유저 정보 받아오기
-        Long userId = getLoginUserId();
+        Long senderId = getLoginUserId();
+        Long receiverId = dmApplicationDto.getReceiverId();
+
+        if (senderId == receiverId) throw new IllegalArgumentException();
 
         // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
-        Long roomId = saveDmRoom(Math.min(dmApplicationDto.getReceiverId(), userId), Math.max(dmApplicationDto.getReceiverId(), userId), dmApplicationDto);
+        Long roomId = saveDmRoom(Math.min(senderId, receiverId), Math.max(senderId, receiverId), dmApplicationDto);
 
         // 채팅 전송
         DirectMessageRequest dmDto = DirectMessageRequest.builder()
                 .message(dmApplicationDto.getMessage())
-                .receiverId(dmApplicationDto.getReceiverId())
-                .senderId(userId).build();
+                .receiverId(receiverId)
+                .senderId(senderId).build();
 
         RestTemplate restTemplate = new RestTemplate();
 

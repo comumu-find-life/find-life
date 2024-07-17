@@ -1,7 +1,9 @@
 package com.batch.login;
 
+import com.common.login.response.LoginResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -12,11 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Controller
 public class LoginController {
 
-    @Value("${domain.api}")
-    private String baseUrl;
+    @Value("${domain.login}")
+    private String loginUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -27,18 +30,15 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(LoginFormDto loginFormDto, HttpServletResponse response) {
-        String url ="http://localhost:8080/v1/api/users/login";
-
+    public String login(LoginFormRequest loginFormDto, HttpServletResponse response) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<LoginFormDto> requestEntity = new HttpEntity<>(loginFormDto, headers);
+        HttpEntity<LoginFormRequest> requestEntity = new HttpEntity<>(loginFormDto, headers);
 
         try {
-            JwtTokenDto tokenDto = restTemplate.postForObject(url, requestEntity, JwtTokenDto.class);
+            LoginResponse loginResponse = restTemplate.postForObject(loginUrl, requestEntity, LoginResponse.class);
 
-            Cookie cookie = new Cookie("Authorization", tokenDto.getAccessToken());
+            Cookie cookie = new Cookie("Authorization", loginResponse.getData().getAccessToken());
             cookie.setPath("/");
             cookie.setHttpOnly(true); // 서버만 쿠키에 접근
             cookie.setMaxAge(60*60*30);

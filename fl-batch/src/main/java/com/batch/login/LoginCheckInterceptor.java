@@ -1,7 +1,6 @@
 package com.batch.login;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.user.dto.UserInformationDto;
+import com.common.user.response.UserInformationDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.net.HttpCookie;
 import java.util.Arrays;
 
 @Component
@@ -52,30 +50,30 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
                 // HttpEntity 객체 생성 (요청 본문 및 헤더 설정)
                 HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+                try {
+                    // 요청 보내기
+                    ResponseEntity<UserInformationDto> responseEntity = restTemplate.exchange(
+                            LoginUserInfoUrl,
+                            HttpMethod.GET,
+                            requestEntity,
+                            UserInformationDto.class);
+                    // 응답 확인
+                    HttpStatus statusCode = (HttpStatus) responseEntity.getStatusCode();
 
-                // 요청 보내기
-                ResponseEntity<UserInformationDto> responseEntity = restTemplate.exchange(
-                        LoginUserInfoUrl,
-                        HttpMethod.GET,
-                        requestEntity,
-                        UserInformationDto.class);
+                    System.out.println(statusCode == HttpStatus.OK);
+                    if (statusCode == HttpStatus.OK) {
+                        UserInformationDto responseBody = responseEntity.getBody();
 
-                // 응답 확인
-                HttpStatus statusCode = (HttpStatus) responseEntity.getStatusCode();
-
-                System.out.println(statusCode == HttpStatus.OK);
-                if (statusCode == HttpStatus.OK) {
-                    UserInformationDto responseBody = responseEntity.getBody();
-                    System.out.println("Response Body: " + responseBody);
-
-
-                    request.setAttribute("userId", responseBody.getId());
-                    request.setAttribute("accessToken", jwtToken);
-                    return true;
-                } else {
-                    System.err.println("Request failed with status code: " + statusCode);
-                    return true;
+                        request.setAttribute("userId", responseBody.getId());
+                        request.setAttribute("accessToken", jwtToken);
+                        return true;
+                    }
+                } catch (Exception e) {
+                    System.err.println("Cookie error");
                 }
+                System.err.println("Request failed");
+                return true;
+
             }
 
 
