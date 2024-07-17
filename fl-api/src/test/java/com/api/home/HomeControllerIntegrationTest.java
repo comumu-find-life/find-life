@@ -1,15 +1,15 @@
 package com.api.home;
 import com.api.security.service.JwtService;
+import com.common.home.request.HomeAddressGeneratorRequest;
+import com.common.home.request.HomeGeneratorRequest;
+import com.common.home.request.HomeUpdateRequest;
+import com.common.utils.SuccessResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.reposiotry.HomeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.utils.LatLng;
-import com.service.home.dto.request.HomeAddressGeneratorRequest;
-import com.service.home.dto.request.HomeUpdateRequest;
 import com.service.home.impl.LocationServiceImpl;
-import com.service.home.dto.request.HomeGeneratorRequest;
-import com.service.utils.SuccessResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -119,7 +119,7 @@ public class HomeControllerIntegrationTest {
 
         //then
         Home home = repository.findById(homeId).get();
-        Assertions.assertThat(home.getStatus()).isEqualTo(HomeStatus.SOLD_OUT);
+        Assertions.assertThat(home.getHomeStatus()).isEqualTo(HomeStatus.SOLD_OUT);
     }
 
     @Test
@@ -129,7 +129,7 @@ public class HomeControllerIntegrationTest {
         HomeAddressGeneratorRequest homeAddressGeneratorRequest = generateHomeAddressGeneratorReqeust();
 
         LatLng expectedLatLng = new LatLng(-33.8689919, 151.2080409);  // 예상되는 위도와 경도
-        SuccessResponse expectedResponse = new SuccessResponse(true, "주소 반환 성공", expectedLatLng);
+        SuccessResponse expectedResponse = new SuccessResponse(true, SuccessHomeMessages.ADDRESS_VALIDATION_SUCCESS, expectedLatLng);
 
         mockMvc.perform(post("/v1/api/homes/address/validate")
                         .header(HttpHeaders.AUTHORIZATION, token)
@@ -141,7 +141,6 @@ public class HomeControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(roles = "PROVIDER")
     public void 자신의_집_게시글_모두_조회_테스트() throws Exception {
         // given
         Long userIdx = 1L;
@@ -154,5 +153,6 @@ public class HomeControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").value(USER_POSTS_RETRIEVE_SUCCESS));
     }
+
 
 }

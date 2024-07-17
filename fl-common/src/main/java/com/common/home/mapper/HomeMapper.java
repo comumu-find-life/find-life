@@ -26,7 +26,7 @@ public interface HomeMapper {
      */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "images", ignore = true)
-    @Mapping(target = "status", expression = "java(com.core.api_core.home.model.HomeStatus.FOR_SALE)")
+    @Mapping(target = "homeStatus", expression = "java(com.core.api_core.home.model.HomeStatus.FOR_SALE)")
     @Mapping(target = "viewCount", ignore = true)
     //todo userIdx
     Home toEntity(HomeGeneratorRequest homeDto);
@@ -70,6 +70,7 @@ public interface HomeMapper {
     @Mapping(target = "address", source = "home.homeAddress", qualifiedByName = "mapSimpleAddress")
     @Mapping(target = "latitude", source = "home.homeAddress.latitude")
     @Mapping(target = "longitude", source = "home.homeAddress.longitude")
+    @Mapping(target = "homeStatus", source = "home.homeStatus")
     @Mapping(target = "userIdx", source = "user.id")
     @Mapping(target = "userName", source = "user.nickname")
     @Mapping(target = "mainImage", source = "home.images", qualifiedByName = "mapMainImage")

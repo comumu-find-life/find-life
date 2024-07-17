@@ -1,5 +1,6 @@
 package com.service.chat;
 
+import com.common.chat.mapper.DirectMessageMapper;
 import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageRoomInfoResponse;
@@ -29,11 +30,15 @@ public class DirectMessageRoomService {
 
     private final UserService userService;
     private final UserRepository userRepository;
+
     private final DirectMessageRoomRepository dmRoomRepository;
 
     @Value("${domain.chat}")
     private String chatUrl;
 
+    /**
+     * 채팅방 생성 메서드
+     */
     @Transactional
     public Long applicationDm(DirectMessageApplicationRequest dmApplicationDto) {
         // 로그인 유저 정보 받아오기
@@ -45,8 +50,6 @@ public class DirectMessageRoomService {
         // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
         Long roomId = saveDmRoom(Math.min(senderId, receiverId), Math.max(senderId, receiverId), dmApplicationDto);
 
-        //todo 이미 생성된 방이 있다면, DirectMessageRoom 에 있는 progressHomeId 최신화
-
         // 채팅 전송
         DirectMessageRequest dmDto = DirectMessageRequest.builder()
                 .message(dmApplicationDto.getMessage())
@@ -57,28 +60,27 @@ public class DirectMessageRoomService {
 
         String url = chatUrl + "/dm";
         restTemplate.postForObject(url, dmDto, Object.class);
-
         return roomId;
     }
 
-    // 로그인된 유저의 Dm리스트
+    /**
+     * 로그인된 유저의 채팅방 목록 조회
+     */
     public List<DirectMessageRoomListResponse> findDmRoomsByLoginUserId() {
-        // 로그인 유저 정보 받아오기
+        // 로그인 유저가 속한 채팅방 정보 조회
         Long userId = getLoginUserId();
         List<DirectMessageRoom> dmRooms = dmRoomRepository.findByUser1IdOrUser2Id(userId);
 
-
-        // Dto변환
+        // Dto 변환
         List<DirectMessageRoomListResponse> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
-            //DirectMessage message = dmRepository.findLastMessage(dmRoom.getUser1().getId(), dmRoom.getUser2().getId());
             return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2(), dmRoom.getProgressHomeId(), "TEST MESSAGE");
         }).collect(Collectors.toList());
         return dmRoomListDtos;
     }
 
+
     public DirectMessageRoomInfoResponse findDmRoomById(Long id) {
         DirectMessageRoom room = dmRoomRepository.findById(id).orElse(null);
-        // TODO 잘못된 요청 처리
         return dmRoomTodmRooomInfoDto(room);
     }
 
@@ -103,12 +105,6 @@ public class DirectMessageRoomService {
                 .build();
     }
 
-    private Long getLoginUserId() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserInformationDto user = userService.findByEmail(email);
-        return user.getId();
-    }
-
     // User1, User2 간의 채팅방이 이미 존재하지 않다면 생성
     private Long saveDmRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest directMessageApplicationDto) {
         Optional<DirectMessageRoom> byUser1IdAndUser2Id = dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
@@ -130,18 +126,6 @@ public class DirectMessageRoomService {
 
     }
 
-    /**
-     * todo 필요한 메서드인지 ?~?
-     */
-//    private List<DirectMessageRoomResponse> toDmRoomDtos(List<DirectMessageRoom> dmRooms) {
-//
-//        List<DirectMessageRoomResponse> dmRoomDtos = new ArrayList<>();
-//        dmRooms.stream()
-//                .forEach(room -> {
-//                    dmRoomDtos.add(dmRoomMapper.toDto(room));
-//                });
-//        return dmRoomDtos;
-//    }
     private DirectMessageRoomListResponse getChatUserInfo(Long id, User user, Long homeId, String lastMessage) {
         return DirectMessageRoomListResponse.builder()
                 .id(id)
@@ -152,4 +136,12 @@ public class DirectMessageRoomService {
                 .lastMessage(lastMessage)
                 .build();
     }
+
+    private Long getLoginUserId() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserInformationDto user = userService.findByEmail(email);
+        return user.getId();
+    }
 }
+
+

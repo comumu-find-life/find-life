@@ -14,6 +14,8 @@ public interface CustomHomeRepository {
     //postcode 로 검색
     List<Home> findByPostCode(Integer postCode);
 
+    List<Home> findAllSellHome();
+
     //시티이름 기반으로 찾기
     List<Home> findByCity(String cityName);
 

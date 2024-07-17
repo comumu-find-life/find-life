@@ -41,6 +41,9 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Enumerated(EnumType.STRING)
+    private SignupType signupType;
+
     private String nationality;
 
     //자기 소개글
