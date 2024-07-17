@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,6 +23,14 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
                 .where(qProtectedDeal.getterId.eq(getterId),
                         qProtectedDeal.providerId.eq(providerId))
                 .fetchOne());
+    }
+
+    @Override
+    public List<ProtectedDeal> findAllByUserId(Long userId) {
+        return query.selectFrom(qProtectedDeal)
+                .where(qProtectedDeal.getterId.eq(userId)
+                        .or(qProtectedDeal.providerId.eq(userId)))
+                .fetch();
     }
 
     @Override
