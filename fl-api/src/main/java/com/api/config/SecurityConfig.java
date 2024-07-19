@@ -1,20 +1,24 @@
 package com.api.config;
 
+import com.api.security.CustomAuthenticationProvider;
+import com.api.security.CustomUserDetailsService;
 import com.api.security.filter.CustomLoginAuthenticationFilter;
 import com.api.security.filter.JwtAuthenticationFilter;
 import com.api.security.handler.LoginFailureHandler;
 import com.api.security.handler.LoginSuccessHandler;
 import com.api.security.service.JwtService;
-import com.api.security.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redis.user.UserRedisService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +26,10 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static com.api.config.AuthUrlPatterns.GET_AUTH_WHITELIST;
 import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;
@@ -35,10 +43,10 @@ import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final LoginService loginService;
     private final UserRedisService redisService;
     private final JwtService jwtService;
     private final ObjectMapper objectMapper;
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -71,10 +79,12 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(loginService);
-        return new ProviderManager(provider);
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProviderProvider();
+//        provider.setPasswordEncoder(passwordEncoder());
+//        provider.setUserDetailsService(customUserDetailsService);
+
+        return new ProviderManager(Collections.singletonList(customAuthenticationProvider));
+
     }
 
     @Bean
