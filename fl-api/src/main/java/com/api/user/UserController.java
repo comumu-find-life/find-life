@@ -1,5 +1,6 @@
 package com.api.user;
 
+import com.api.security.CustomUserDetails;
 import com.api.security.service.JwtService;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationDto;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,6 +86,20 @@ public class UserController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserInformationDto userInfo = userService.findByEmail(email);
         return ResponseEntity.ok(userInfo);
+    }
+
+
+    @GetMapping("/user-id-test")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Long> findLoginUserTest() {
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        System.out.println(userDetails.getId());
+        System.out.println(userDetails.getAuthorities());
+        System.out.println(userDetails.getUsername());
+        System.out.println(userDetails.getPassword());
+        return ResponseEntity.ok(userDetails.getId());
     }
 
 }
