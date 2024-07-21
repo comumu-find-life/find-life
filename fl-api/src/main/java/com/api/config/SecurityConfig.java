@@ -46,7 +46,7 @@ public class SecurityConfig {
     private final UserRedisService redisService;
     private final JwtService jwtService;
     private final ObjectMapper objectMapper;
-    private final CustomAuthenticationProvider customAuthenticationProvider;
+    private final CustomUserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -62,28 +62,33 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 );
 
-        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
+        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(http), LogoutFilter.class);
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomLoginAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public CustomLoginAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
+    public CustomLoginAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter(HttpSecurity http) throws Exception {
         CustomLoginAuthenticationFilter customJsonUsernamePasswordLoginFilter = new CustomLoginAuthenticationFilter(objectMapper);
-        customJsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
+        customJsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager(http));
         customJsonUsernamePasswordLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
         customJsonUsernamePasswordLoginFilter.setAuthenticationFailureHandler(loginFailureHandler());
         return customJsonUsernamePasswordLoginFilter;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager() {
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
 //        DaoAuthenticationProvider provider = new DaoAuthenticationProviderProvider();
 //        provider.setPasswordEncoder(passwordEncoder());
 //        provider.setUserDetailsService(customUserDetailsService);
 
-        return new ProviderManager(Collections.singletonList(customAuthenticationProvider));
+//        return new ProviderManager(Collections.singletonList(customAuthenticationProvider));
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder())
+                .and()
+                .build();
 
     }
 
