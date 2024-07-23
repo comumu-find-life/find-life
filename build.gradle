@@ -53,6 +53,15 @@ project(':fl-api') {
 }
 
 
+project(':fl-admin') {
+    dependencies {
+        implementation project(':fl-common')
+        implementation project(':fl-redis')
+        implementation project(':fl-service')
+    }
+}
+
+
 project(':fl-batch') {
     dependencies {
         implementation project(':fl-common')
