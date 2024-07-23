@@ -29,6 +29,7 @@ public class HomeController {
 
     /**
      * 집 게시글 등록 api
+     * todo 사용자가 동시에 2번 요청을 보냈을경우 예외처리
      */
     @PostMapping
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeCreateDto,
