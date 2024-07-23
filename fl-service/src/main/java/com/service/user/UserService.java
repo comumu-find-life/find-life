@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -57,6 +61,18 @@ public class UserService {
     public UserInformationDto findByEmail(String email) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), "존재하지 않는 user email 입니다.");
         return userMapper.toDto(user);
+    }
+
+    /**
+     * 모든 회원 조회 메서드 (admin 이 사용)
+     */
+    public List<UserInformationDto> findAll(){
+        List<UserInformationDto> response = new ArrayList<>();
+        List<User> all = userRepository.findAll();
+        all.stream().forEach(user -> {
+            response.add(userMapper.toDto(user));
+        });
+        return response;
     }
 
     /**
