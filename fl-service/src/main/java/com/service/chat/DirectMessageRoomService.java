@@ -1,11 +1,10 @@
 package com.service.chat;
 
-import com.common.chat.mapper.DirectMessageMapper;
 import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageRoomInfoResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
-import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserInformationResponse;
 import com.core.api_core.chat.model.DirectMessageRoom;
 import com.core.api_core.chat.repository.DirectMessageRoomRepository;
 import com.core.api_core.user.model.User;
@@ -140,7 +139,7 @@ public class DirectMessageRoomService {
 
     private Long getLoginUserId() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserInformationDto user = userService.findByEmail(email);
+        UserInformationResponse user = userService.findByEmail(email);
         return user.getId();
     }
 }
