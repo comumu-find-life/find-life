@@ -1,20 +1,20 @@
-
+#개발 환경 설정
 # Spring Datasource Configuration
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
-  datasource:
-    initialization-mode : always
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fl_core?serverTimezone=Asia/Seoul
-    username: root
-    password: sin981023@
 
-  logging:
-    level:
-      me.selvernine: DEBUG
+jwt:
+  secretKey: Z2ZkZmdkZmxrZ2pkbGZrZ2pzYXNkamtoYXNrZGphaHNka2fahgvfahvduyasdffjkhsgdfjkhasgfjkphaGRhc2Rhc2Rhc2Rhc2Rhc2ZhZmdzZAo
 
-  redis:
-    host : localhost
-    port : 6380
+  access:
+    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+    header: Authorization
+
+  refresh:
+    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
+    header: Authorization-refresh
 
   # JPA Configuration

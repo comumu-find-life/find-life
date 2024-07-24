@@ -1,16 +1,8 @@
 spring:
-
   config:
     import:
       - 'classpath:/yaml/application-core-dev.yml'
       - 'classpath:/yaml/application-core-log.yml'
-server:
-  port: 8082
-
-domain:
-  base: http://localhost:8081
-  chat:
-    directMessage: /dm
-    publish: /pub
-    subscribe: /sub
+      - 'classpath:/yaml/application-core-local.yml'
+      #- 'classpath:/yaml/application-core-socket.yml'
 
