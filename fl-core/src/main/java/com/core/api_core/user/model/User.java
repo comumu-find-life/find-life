@@ -38,6 +38,8 @@ public class User extends BaseTimeEntity {
 
     private String job;
 
+    private UserState userState;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -55,6 +57,10 @@ public class User extends BaseTimeEntity {
 
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
+    }
+
+    public void setUserState(UserState userState){
+        this.userState = userState;
     }
 
 }

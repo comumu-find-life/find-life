@@ -1,7 +1,8 @@
 package com.common.user.mapper;
 
 import com.common.user.request.UserSignupRequest;
-import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserInformationByAdminResponse;
+import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
 import com.core.api_core.user.model.User;
 import org.mapstruct.Mapper;
@@ -18,9 +19,12 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "profileUrl", ignore = true)
+    @Mapping(target = "userState", expression = "java(com.core.api_core.user.model.UserState.ACTIVE)")
     User toEntity(UserSignupRequest dto);
 
-    UserInformationDto toDto(User user);
+    UserInformationResponse toDto(User user);
+
+    UserInformationByAdminResponse toAdminResponse(User user);
 
     UserProfileResponse toProfile(User user);
 

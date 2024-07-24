@@ -1,5 +1,5 @@
 server:
-  port: 8082  # fl-api 모듈의 포트를 8082로 설정
+  port: 8080  # fl-api 모듈의 포트를 8082로 설정
 
 spring:
   profiles:
