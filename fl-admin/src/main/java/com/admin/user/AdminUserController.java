@@ -26,4 +26,8 @@ public class AdminUserController {
         SuccessResponse response = new SuccessResponse(true, "모든 회원 정보 조회 성공", users);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    /**
+     * 회원 단일 조회 API
+     */
 }
