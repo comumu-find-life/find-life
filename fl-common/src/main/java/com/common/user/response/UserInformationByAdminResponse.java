@@ -19,7 +19,6 @@ public class UserInformationByAdminResponse {
 
     private String profileUrl;
 
-
     private Integer brith;
 
     private Integer phoneNumber;
@@ -33,7 +32,6 @@ public class UserInformationByAdminResponse {
     private SignupType signupType;
 
     private String nationality;
-
     //자기 소개글
     private String introduce;
 
