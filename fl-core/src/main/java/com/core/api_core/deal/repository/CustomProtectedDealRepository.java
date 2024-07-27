@@ -12,4 +12,6 @@ public interface CustomProtectedDealRepository {
     List<ProtectedDeal> findAllByUserId(Long userId);
 
     Optional<ProtectedDeal> findByMultipleParams(Long getterId, Long providerId, Long homeId, Long dmId);
+
+    List<ProtectedDeal> findAllBeforeDeposit();
 }

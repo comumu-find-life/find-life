@@ -1,5 +1,6 @@
 package com.admin.user;
 
+import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationByAdminResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.utils.SuccessResponse;
@@ -7,10 +8,7 @@ import com.service.user.UserAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,16 @@ import java.util.List;
 public class AdminUserController {
 
     private final UserAdminService userService;
+
+    /**
+     * 계정 생성 API (추후 삭제)
+     */
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> signup(@RequestBody UserSignupRequest userSignupRequest){
+        Long userId = userService.signUpAdmin(userSignupRequest);
+        SuccessResponse response = new SuccessResponse(true, "admin 계정 생성 완료", userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     /**
      * 모든 회원 정보 조회 API

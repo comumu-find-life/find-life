@@ -22,4 +22,8 @@ public class AdminUser extends BaseTimeEntity {
     private String loginId;
 
     private String password;
+
+    public void passwordEncode(String encodePassword) {
+        this.password = encodePassword;
+    }
 }
