@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="" method="post" style="display: flex; flex-direction: column; width: 250px;">
+    <form action="/api/home/new" method="post" style="display: flex; flex-direction: column; width: 250px;">
 
         <input type="text" placeholder="Address detail" name="detailAddress">
         <input type="text" placeholder="Street Name, Number" name="streetName">
@@ -18,15 +18,77 @@
         <input type="number" placeholder="Bill" name="bill">
 
         <input type="number" placeholder="Bedroom Count" name="bedroomCount">
-        <input type="number" placeholder="Bathroom Count" name="bathroomCount">
-        <input type="number" placeholder="Tenant Count" name="tenantCount">
+        <input type="number" placeholder="Bathroom Count" name="bathRoomCount">
+        <input type="number" placeholder="Tenant Count" name="residentCount">
 
         <input type="text" placeholder="About the property" name="introduce">
         <input type="text" placeholder="About the Share mates" name="">
 
-        <input type="text" placeholder="Gender">
-        <input type="text" placeholder="Type">
-        <input type="file" placeholder="Pictures">
+        <select id="gender" name="gender">
+            <option value="ANYTHING">Any gender</option>
+            <option value="FEMALE">Women only</option>
+            <option value="MALE">Men only</option>
+        </select>
+        <label for="homeType">Accommodation type</label>
+        <select id="homeType" name="homeType">
+            <option value="WHOLE_PROPERTY_RENT">Whole Property for Rent</option>
+            <option value="SHARED_ROOM">Shared Room</option>
+            <option value="PRIVATE_ROOM">Private Room</option>
+            <option value="HOME_STAY">Home Stay</option>
+            <option value="STUDIO">Studio</option>
+            <option value="STUDENT_ACCOMMODATION">Student Accommodation</option>
+            <option value="ONE_BED_FLAT">One-Bedroom Flat</option>
+        </select>
+        <input type="file" name="images" multiple>
+
+        <input type="hidden" name="dealSavable" value="true">
+
+        <input type="submit">
+
+
+    </form>
+
+    <form action="/api/home/new" method="post" enctype="multipart/form-data" conte style="display: flex; flex-direction: column; width: 250px;">
+
+        <input type="text" placeholder="Address detail" name="homeAddress.detailAddress" value="unit 109">
+        <input type="text" placeholder="Street Name, Number" name="homeAddress.streetName" value="888 Collin St">
+        <input type="text" placeholder="City"  name="homeAddress.city" value="Melbourne">
+        <input type="text" placeholder="State"  name="homeAddress.state" value="VIC">
+        <input type="text" placeholder="PostCode" name="homeAddress.postcode" value="3000">
+
+        <input type="number" placeholder="rent" name="rent" value="300">
+        <input type="number" placeholder="Bond" name="bond" value="600">
+        <input type="number" placeholder="Bill" name="bill" value="0">
+
+        <input type="number" placeholder="Bedroom Count" name="bedroomCount" value="3">
+        <input type="number" placeholder="Bathroom Count" name="bathRoomCount" value="1">
+        <input type="number" placeholder="Tenant Count" name="residentCount" value="4">
+
+        <input type="text" placeholder="About the property" name="introduce" value="About the property content">
+        <input type="text" placeholder="About the Share mates" name="" value="About the Share mates content">
+
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender">
+            <option value="ANYTHING">Any gender</option>
+            <option value="FEMALE">Women only</option>
+            <option value="MALE">Men only</option>
+        </select>
+        <label for="homeType">Accommodation type</label>
+        <select id="homeType" name="homeType">
+            <option value="WHOLE_PROPERTY_RENT">Whole Property for Rent</option>
+            <option value="SHARED_ROOM">Shared Room</option>
+            <option value="PRIVATE_ROOM">Private Room</option>
+            <option value="HOME_STAY">Home Stay</option>
+            <option value="STUDIO">Studio</option>
+            <option value="STUDENT_ACCOMMODATION">Student Accommodation</option>
+            <option value="ONE_BED_FLAT">One-Bedroom Flat</option>
+        </select>
+        <input type="file" name="images" multiple>
+
+        <input type="hidden" name="dealSavable" value="true">
+        <input type="hidden" name="userIdx" value="1">
+
+        <input type="submit">
 
 
     </form>

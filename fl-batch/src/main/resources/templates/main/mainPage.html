@@ -300,7 +300,7 @@
             <div class="box-title">Australia's home & flatmate finder</div>
             <div class="box-sub-title">Free to list, search & communicate</div>
             <div class="box-buttons">
-                <div class="box-left-button">List your room</div>
+                <div class="box-left-button" id="list-my-room">List your room</div>
                 <div class="box-right-button">Find a home</div>
             </div>
         </div>
@@ -348,6 +348,9 @@
         })
         .catch(error => console.error('Error:', error));
 
+        document.getElementById('list-my-room').addEventListener('click', function(){
+            window.location.href = "/home/new";
+        })
 </script>
 </body>
 </html>

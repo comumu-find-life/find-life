@@ -24,7 +24,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        final String[] SECURE_URLS = {"/dm"};
+        final String[] SECURE_URLS = {"/dm", "/home/new"};
 
         String requestURI = request.getRequestURI();
         Cookie[] cookies = request.getCookies();
