@@ -1,11 +1,18 @@
 package com.batch.home;
 
+import com.batch.util.CookieUtils;
+import com.common.home.request.HomeGeneratorRequest;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -39,8 +46,12 @@ public class HomeApiController {
 
 
     @PostMapping("/home/new")
-    public String homeNew(@RequestBody HomeRequest homeRequest) {
-        homeApiService.addHomePost(homeRequest);
+    public String homeNew(@ModelAttribute HomeGeneratorRequest homeRequest,
+                          @RequestParam("images") List<MultipartFile> images, HttpServletRequest request) throws IOException {
+
+        // 인증정보 받아오기
+        String token = CookieUtils.getTokenFromCookie(request);
+        homeApiService.addHomePost(homeRequest, images, token);
 
         return "redirect:/";
     }

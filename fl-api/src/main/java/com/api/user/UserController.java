@@ -89,17 +89,4 @@ public class UserController {
     }
 
 
-    @GetMapping("/user-id-test")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Long> findLoginUserTest() {
-        // 현재 인증된 사용자 정보 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        System.out.println(userDetails.getId());
-        System.out.println(userDetails.getAuthorities());
-        System.out.println(userDetails.getUsername());
-        System.out.println(userDetails.getPassword());
-        return ResponseEntity.ok(userDetails.getId());
-    }
-
 }

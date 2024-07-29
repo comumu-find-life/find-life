@@ -61,7 +61,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, POST_AUTH_WHITELIST).permitAll()
                         .anyRequest().authenticated()
                 );
-
+      
         http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(http), LogoutFilter.class);
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomLoginAuthenticationFilter.class);
 
