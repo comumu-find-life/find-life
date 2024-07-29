@@ -1,5 +1,8 @@
 package com.admin.security.service;
 
+import com.core.admin_core.user.model.AdminUser;
+import com.core.admin_core.user.repository.AdminUserRepository;
+import com.core.api_core.user.model.Role;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,18 +15,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginService  implements UserDetailsService  {
 
-    private final UserRepository userRepository;
+    private final AdminUserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         System.out.println("loadUserByUsername()");
-        User user = userRepository.findByEmail(email)
+        AdminUser user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 이메일이 존재하지 않습니다."));
+
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
-                .roles(user.getRole().name())
+                .roles(Role.ADMIN.name())
                 .build();
     }
 }

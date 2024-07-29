@@ -1,9 +1,12 @@
 package com.admin.security.service;
 
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.common.login.response.LoginResponse;
 import com.common.utils.SuccessResponse;
+import com.core.admin_core.user.repository.AdminUserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Builder;
@@ -22,9 +25,7 @@ import java.util.Optional;
 @Getter
 @Slf4j
 public class JwtService {
-    /*
-    application-core-dev.yml 의 프로퍼티 주입
-     */
+
     @Value("${jwt.secretKey}")
     private String secretKey;
 
@@ -43,15 +44,17 @@ public class JwtService {
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
     private static final String EMAIL_CLAIM = "email";
-    private static final String USER_ID = "userId";
     private static final String BEARER = "Bearer ";
+
+    private final AdminUserRepository userRepository;
+
     private final ObjectMapper objectMapper;
 
     /**
      * AccessToken(Jwt) 생성 메소드
-     * <p>
+     *
      * AccessToken 에는 날짜와 이메일을 페이로드에 담습니다.
-     * 사용할 알고리즘은 HMA512 알고리즘이고 application-core-dev.yml 에서 지정한 secret 키로 암호화
+     * 사용할 알고리즘은 HMA512 알고리즘이고 application.yml 에서 지정한 secret 키로 암호화
      */
     public String createAccessToken(String email) {
         Date now = new Date();
@@ -64,7 +67,7 @@ public class JwtService {
 
     /**
      * RefreshToken 생성
-     * <p>
+     *
      * RefreshToken 은 클레임에 이메일을 넣지 않음
      */
     public String createRefreshToken() {
@@ -75,8 +78,6 @@ public class JwtService {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
-
-
     /**
      * 로그인 시 AccessToken 과 RefreshToken 을 헤더에 실어서 내보냄
      */
@@ -84,14 +85,11 @@ public class JwtService {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json"); // 응답의 컨텐츠 타입을 JSON으로 설정합니다.
 
-        // JSON 형식의 응답 본문을 구성합니다.
-        //SuccessResponse successResponse = new SuccessResponse(true, );
-        //String responseBody = "{\"accessToken\": \"" + accessToken + "\", \"refreshToken\": \"" + refreshToken + "\"}";
         LoginResponse loginResponse = LoginResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
-        SuccessResponse successResponse = new SuccessResponse(true, "Tokens generated successfully", loginResponse);
+        SuccessResponse successResponse = new SuccessResponse(true, "로그인 성공", loginResponse);
         try {
             // JSON 응답 본문을 응답에 작성합니다.
             String responseBody = objectMapper.writeValueAsString(successResponse);
@@ -115,8 +113,8 @@ public class JwtService {
 
     public Optional<String> extractAccessToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(accessHeader))
-                .filter(accessToken -> accessToken.startsWith(BEARER))
-                .map(accessToken -> accessToken.replace(BEARER, ""));
+                .filter(refreshToken -> refreshToken.startsWith(BEARER))
+                .map(refreshToken -> refreshToken.replace(BEARER, ""));
     }
 
 
@@ -134,8 +132,17 @@ public class JwtService {
         }
     }
 
-    //  토큰 유효성을 검사하는 메서드
-    public boolean isTokenValid(String token) {
+
+
+    public void updateRefreshToken(String email, String refreshToken) {
+        userRepository.findByEmail(email)
+                .ifPresentOrElse(
+                        user -> user.updateRefreshToken(refreshToken),
+                        () -> new Exception("일치하는 회원이 없습니다.")
+                );
+    }
+
+    public boolean validateToken(String token) {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
@@ -144,14 +151,5 @@ public class JwtService {
             return false;
         }
     }
-
-
 }
 
-@Builder
-@Getter
-class LoginResponse{
-    String accessToken;
-    String refreshToken;
-
-}

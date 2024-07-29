@@ -28,7 +28,9 @@ public class UserAdminService {
     private final PasswordEncoder passwordEncoder;
 
     public Long signUpAdmin(UserSignupRequest dto){
-        AdminUser adminUser = AdminUser.builder().build();
+        AdminUser adminUser = AdminUser.builder()
+                .email(dto.getEmail())
+                .build();
         adminUser.passwordEncode(passwordEncoder.encode(dto.getPassword()));
         return adminUserRepository.save(adminUser).getId();
     }

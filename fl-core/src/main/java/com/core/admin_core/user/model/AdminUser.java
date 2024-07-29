@@ -19,11 +19,18 @@ public class AdminUser extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    private String loginId;
+    private String email;
 
     private String password;
+
+    private String refreshToken; // 리프레시 토큰
 
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
     }
+
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
+
 }

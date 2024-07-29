@@ -6,8 +6,11 @@ import com.admin.security.handler.LoginFailureHandler;
 import com.admin.security.handler.LoginSuccessHandler;
 import com.admin.security.service.JwtService;
 import com.admin.security.service.LoginService;
+import com.core.admin_core.user.repository.AdminUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redis.user.UserRedisService;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,46 +19,59 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
+import java.util.List;
 
-/**
- * 인증은 CustomJsonUsernamePasswordAuthenticationFilter 에서 authenticate()로 인증된 사용자로 처리
- * JwtAuthenticationProcessingFilter 는 AccessToken, RefreshToken 재발급
- */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final LoginService loginService;
-    private final UserRedisService redisService;
     private final JwtService jwtService;
+    private final AdminUserRepository userRepository;
     private final ObjectMapper objectMapper;
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> {
+            web.ignoring()
+                    .requestMatchers("/v1/api/admin/users/sign-up").anyRequest();
+        };
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .formLogin(formLogin -> formLogin.disable())
-                .httpBasic(httpBasic -> httpBasic.disable())
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin((formLogin) -> formLogin.disable())
+                .httpBasic((httpBasic) -> httpBasic.disable())
+                .csrf((csrfConfig) -> csrfConfig.disable())
+                .headers((headerConfig) ->
+                        headerConfig.frameOptions(frameOptionsConfig ->
+                                frameOptionsConfig.disable()
+                        )
+                )
+                .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        //.requestMatchers("/v1/api/admin/users/sign-up").permitAll()
                         .anyRequest().authenticated()
                 );
 
-        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
-        http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomLoginAuthenticationFilter.class);
+        // Ensure the filters are added in correct order
+        http.addFilterAfter(customLoginAuthenticationFilter(), LogoutFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), CustomLoginAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public CustomLoginAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
+    public CustomLoginAuthenticationFilter customLoginAuthenticationFilter() {
         CustomLoginAuthenticationFilter customJsonUsernamePasswordLoginFilter = new CustomLoginAuthenticationFilter(objectMapper);
         customJsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
         customJsonUsernamePasswordLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
@@ -72,13 +88,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationProcessingFilter() {
-        return new JwtAuthenticationFilter(jwtService, redisService);
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtService, userRepository);
     }
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, redisService);
+        return new LoginSuccessHandler(jwtService, userRepository);
     }
 
     @Bean
@@ -90,5 +106,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
 }
