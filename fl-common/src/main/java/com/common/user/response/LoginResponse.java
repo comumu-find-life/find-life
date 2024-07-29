@@ -1,12 +1,11 @@
-package com.common.login.response;
+package com.common.user.response;
 
-import com.common.login.JwtTokenDto;
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class LoginResponse{
+class LoginResponse{
     String accessToken;
     String refreshToken;
 

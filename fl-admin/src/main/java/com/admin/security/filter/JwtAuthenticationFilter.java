@@ -1,18 +1,15 @@
 package com.admin.security.filter;
 
-import com.admin.security.exception.InvalidTokenException;
 import com.admin.security.service.JwtService;
-import com.core.api_core.user.model.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redis.user.UserRedisService;
-import com.common.utils.SuccessResponse;
+import com.core.admin_core.user.model.AdminUser;
+import com.core.admin_core.user.repository.AdminUserRepository;
+import com.core.api_core.user.model.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -22,16 +19,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String NO_CHECK_URL = "/login";
+    private static final String NO_CHECK_URL = "admin/login";
 
     private final JwtService jwtService;
-    private final UserRedisService userRedisService;
+    private final AdminUserRepository userRepository;
+
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+    private final List<String> excludeUrls = List.of("/v1/api/admin/users/sign-up", "/v1/api/admin/users/login");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -39,80 +40,67 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+        String refreshToken = jwtService.extractRefreshToken(request)
+                .filter(jwtService::validateToken)
+                .orElse(null);
+        if (refreshToken != null) {
+            checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
+            return;
+        }
 
-        try {
-            String refreshToken = jwtService.extractRefreshToken(request)
-                    .filter(jwtService::isTokenValid)
-                    .orElse(null);
-
-            if (refreshToken != null) {
-                checkRefreshTokenAndReIssueAccessToken(refreshToken, request, response);
-                return;
-            }
-
-            if (refreshToken == null) {
-                checkAccessTokenAndAuthentication(request, response, filterChain);
-            }
-
-        } catch (InvalidTokenException ex) {
-            handleException(response, ex);
+        if (refreshToken == null) {
+            checkAccessTokenAndAuthentication(request, response, filterChain);
         }
     }
 
-    // refreshToken 이 있을때 refreshToken, accessToken 둘다 재발급
-    public void checkRefreshTokenAndReIssueAccessToken(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
-        jwtService.extractAccessToken(request)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> {
-                            try {
-                                userRedisService.validateRefreshToken(email, refreshToken);
-                                String reIssuedRefreshToken = reIssueRefreshToken(email);
-                                jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(email), reIssuedRefreshToken);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }));
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        boolean shouldNotFilter = excludeUrls.contains(request.getRequestURI());
+        log.info("shouldNotFilter: " + shouldNotFilter + " for URI: " + request.getRequestURI());
+        return shouldNotFilter;
     }
 
-    private String reIssueRefreshToken(String email) {
+    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
+        userRepository.findByRefreshToken(refreshToken)
+                .ifPresent(user -> {
+                    String reIssuedRefreshToken = reIssueRefreshToken(user);
+                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getEmail()),
+                            reIssuedRefreshToken);
+                });
+    }
+
+    private String reIssueRefreshToken(AdminUser user) {
         String reIssuedRefreshToken = jwtService.createRefreshToken();
-        userRedisService.saveUserCaching(email, reIssuedRefreshToken);
+        user.updateRefreshToken(reIssuedRefreshToken);
+        userRepository.saveAndFlush(user);
         return reIssuedRefreshToken;
     }
 
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
+        log.info("checkAccessTokenAndAuthentication() 호출");
         jwtService.extractAccessToken(request)
-                .ifPresent(accessToken -> {
-                    if (jwtService.isTokenValid(accessToken)) {
-                        jwtService.extractEmail(accessToken)
-                                .ifPresent(email -> userRedisService.findUserByEmail(email)
-                                        .ifPresent(this::saveAuthentication));
-                    } else {
-                        throw new InvalidTokenException("Access token is invalid");
-                    }
-                });
+                .filter(jwtService::validateToken)
+                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
+                        .ifPresent(email -> userRepository.findByEmail(email)
+                                .ifPresent(this::saveAuthentication)));
 
         filterChain.doFilter(request, response);
     }
 
-    public void saveAuthentication(User myUser) {
+    public void saveAuthentication(AdminUser myUser) {
+        String password = myUser.getPassword();
+
         UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
                 .username(myUser.getEmail())
-                .password(myUser.getPassword())
-                .roles(myUser.getRole().name())
+                .password(password)
+                .roles(String.valueOf(Role.ADMIN))
                 .build();
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetailsUser, null,
-                authoritiesMapper.mapAuthorities(userDetailsUser.getAuthorities()));
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(userDetailsUser, null,
+                        authoritiesMapper.mapAuthorities(userDetailsUser.getAuthorities()));
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
-
-    private void handleException(HttpServletResponse response, InvalidTokenException ex) throws IOException {
-        // 401
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType("application/json");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(new SuccessResponse(false, "유효하지 않은 토큰: " + ex.getMessage(), null)));
     }
 }

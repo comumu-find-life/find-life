@@ -2,6 +2,7 @@ package com.api.security.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.common.login.response.LoginResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -84,9 +85,6 @@ public class JwtService {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json"); // 응답의 컨텐츠 타입을 JSON으로 설정합니다.
 
-        // JSON 형식의 응답 본문을 구성합니다.
-        //SuccessResponse successResponse = new SuccessResponse(true, );
-        //String responseBody = "{\"accessToken\": \"" + accessToken + "\", \"refreshToken\": \"" + refreshToken + "\"}";
         LoginResponse loginResponse = LoginResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -148,10 +146,3 @@ public class JwtService {
 
 }
 
-@Builder
-@Getter
-class LoginResponse{
-    String accessToken;
-    String refreshToken;
-
-}

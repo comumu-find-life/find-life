@@ -5,6 +5,7 @@ import com.common.user.response.UserInformationByAdminResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.utils.SuccessResponse;
 import com.service.user.UserAdminService;
+import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/admin/users")
 public class AdminUserController {
 
     private final UserAdminService userService;
+    private final UserService userService2;
 
     /**
      * 계정 생성 API (추후 삭제)

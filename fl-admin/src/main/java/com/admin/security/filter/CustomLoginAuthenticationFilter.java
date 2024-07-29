@@ -39,15 +39,11 @@ public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProce
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
-        // application/json 형식이 아니면 예외 발생
         if (request.getContentType() == null || (!request.getContentType().equals(CONTENT_TYPE) && !request.getContentType().startsWith(CONTENT_TYPE))) {
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
-
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
-
         Map<String, String> usernamePasswordMap = objectMapper.readValue(messageBody, Map.class);
-
         //요청받은 messageBody 는 json 형식이므로 ObjectMapper 로 email 과 password 를 추출한다.
         String email = usernamePasswordMap.get(USERNAME_KEY);
         String password = usernamePasswordMap.get(PASSWORD_KEY);
