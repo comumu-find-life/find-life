@@ -2,7 +2,7 @@ package com.service.user;
 
 import com.common.user.mapper.UserMapper;
 import com.common.user.request.UserSignupRequest;
-import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
@@ -46,7 +46,7 @@ public class UserService {
     /**
      * 회원 조회 메서드 by userId
      */
-    public UserInformationDto findById(Long id) {
+    public UserInformationResponse findById(Long id) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), "존재하지 않는 user ID 입니다.");
         return userMapper.toDto(user);
     }
@@ -54,7 +54,7 @@ public class UserService {
     /**
      * 회원 조회 메서드 by email
      */
-    public UserInformationDto findByEmail(String email) {
+    public UserInformationResponse findByEmail(String email) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), "존재하지 않는 user email 입니다.");
         return userMapper.toDto(user);
     }

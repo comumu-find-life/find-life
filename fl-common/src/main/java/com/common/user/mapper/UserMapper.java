@@ -1,7 +1,7 @@
 package com.common.user.mapper;
 
 import com.common.user.request.UserSignupRequest;
-import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
 import com.core.api_core.user.model.User;
 import org.mapstruct.Mapper;
@@ -20,7 +20,7 @@ public interface UserMapper {
     @Mapping(target = "profileUrl", ignore = true)
     User toEntity(UserSignupRequest dto);
 
-    UserInformationDto toDto(User user);
+    UserInformationResponse toDto(User user);
 
     UserProfileResponse toProfile(User user);
 
