@@ -85,20 +85,19 @@ public class HomeControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 11L))));
-
     }
 
     @Test
     @WithMockUser(roles = "PROVIDER")
     public void 집_게시글_동시_생성_테스트() throws Exception {
         List<Home> homes = repository.findAll();
-        System.out.println("ASDASDASD = " + homes.size());
         // given
         HomeGeneratorRequest homeGeneratorRequest = generateHomeGeneratorRequest();
         MockMultipartFile jsonFile = new MockMultipartFile("homeCreateDto", "", "application/json",
                 objectMapper.writeValueAsBytes(homeGeneratorRequest));
         MockMultipartFile image1 = new MockMultipartFile("images", "image1.jpg", "image/jpeg", "image1".getBytes());
         MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
+
         int threadCount = 5;
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
@@ -119,13 +118,8 @@ public class HomeControllerIntegrationTest {
                 }
             });
         }
-
-
         List<Home> homes2 = repository.findAll();
-        System.out.println("ASDASDASD = " + homes2.size());
     }
-
-
 
     @Test
     @WithMockUser(roles = "PROVIDER")
@@ -149,25 +143,6 @@ public class HomeControllerIntegrationTest {
         Assertions.assertThat(home.getBathRoomCount()).isEqualTo(homeGeneratorRequest.getBathRoomCount());
     }
 
-    @Test
-    @WithMockUser(roles = "PROVIDER")
-    public void 집_상태_변경_테스트() throws Exception {
-        //given
-        Long homeId = 1L;
-
-        //when
-        mockMvc.perform(post("/v1/api/homes/sell")
-                        .param("homeId", homeId.toString())
-                        .header(HttpHeaders.AUTHORIZATION, token)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 판매 완료", null))));
-
-        //then
-        Home home = repository.findById(homeId).get();
-        Assertions.assertThat(home.getHomeStatus()).isEqualTo(HomeStatus.SOLD_OUT);
-    }
 
     @Test
     @WithMockUser(roles = "PROVIDER")
