@@ -1,6 +1,7 @@
 #개발 환경 설정
 # Spring Datasource Configuration
 spring:
+
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

@@ -92,7 +92,7 @@ INSERT INTO provider_account (provider_account_id, account, account_holder, bank
 
 -- ProtectedDeal 데이터 삽입
 INSERT INTO protected_deal (create_date, provider_account_id, home_id, dm_id, getter_id, provider_id, deposit, deal_state) VALUES
-('2023-07-31T10:00:00', 1, 1, 1, 1, 1, 10000.0, 'BEFORE_DEPOSIT'),
-('2023-08-01T11:00:00', 2, 2, 2, 2, 2, 15000.0, 'DURING_DEPOSIT'),
-('2023-08-02T12:00:00', 3, 3, 3, 3, 3, 20000.0, 'DONE_DEPOSIT'),
-('2023-08-03T13:00:00', 4, 4, 4, 4, 4, 25000.0, 'FINISH');
+('2023-07-31T10:00:00', 1, 1, 1, 1, 2, 10000.0, 'BEFORE_DEPOSIT'),
+('2023-08-01T11:00:00', 2, 2, 2, 2, 3, 15000.0, 'DURING_DEPOSIT'),
+('2023-08-02T12:00:00', 3, 3, 3, 3, 4, 20000.0, 'DONE_DEPOSIT'),
+('2023-08-03T13:00:00', 4, 4, 4, 4, 5, 25000.0, 'FINISH');
