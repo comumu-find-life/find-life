@@ -1,9 +1,8 @@
 package com.api.user;
 
-import com.api.security.CustomUserDetails;
 import com.api.security.service.JwtService;
 import com.common.user.request.UserSignupRequest;
-import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
 import com.service.user.UserService;
 import com.common.utils.SuccessResponse;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +41,7 @@ public class UserController {
     @GetMapping("/{userId}")
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> findById(@PathVariable Long userId) {
-        UserInformationDto byId = userService.findById(userId);
+        UserInformationResponse byId = userService.findById(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_RETRIEVE_SUCCESS, byId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -81,10 +79,10 @@ public class UserController {
 
     @GetMapping("/user-info")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<UserInformationDto> findLoginUser() {
+    public ResponseEntity<UserInformationResponse> findLoginUser() {
         // 현재 인증된 사용자 정보 가져오기
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserInformationDto userInfo = userService.findByEmail(email);
+        UserInformationResponse userInfo = userService.findByEmail(email);
         return ResponseEntity.ok(userInfo);
     }
 

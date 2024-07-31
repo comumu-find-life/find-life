@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
 </head>
 <body>
     <div class="user-profile" id="user-profile">
-        <div id="user-picture">picture</div>
-        <div id="user-name">username</div>
+        <div id="user-picture" th:text="${profileUrl}">picture</div>
+        <div id="user-name" th:text="${userNickname}">username</div>
         <div class="btn">Edit my profile</div>
         <div class="btn">My list</div>
     </div>

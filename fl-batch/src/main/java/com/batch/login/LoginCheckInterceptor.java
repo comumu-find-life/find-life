@@ -1,6 +1,6 @@
 package com.batch.login;
 
-import com.common.user.response.UserInformationDto;
+import com.common.user.response.UserInformationResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +24,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        final String[] SECURE_URLS = {"/dm", "/home/new"};
+        final String[] SECURE_URLS = {
+                "/dm",
+                "/home/new",
+                "/profile"
+        };
 
         String requestURI = request.getRequestURI();
         Cookie[] cookies = request.getCookies();
@@ -52,19 +56,22 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                 HttpEntity<String> requestEntity = new HttpEntity<>(headers);
                 try {
                     // 요청 보내기
-                    ResponseEntity<UserInformationDto> responseEntity = restTemplate.exchange(
+                    ResponseEntity<UserInformationResponse> responseEntity = restTemplate.exchange(
                             LoginUserInfoUrl,
                             HttpMethod.GET,
                             requestEntity,
-                            UserInformationDto.class);
+                            UserInformationResponse.class);
                     // 응답 확인
                     HttpStatus statusCode = (HttpStatus) responseEntity.getStatusCode();
 
                     System.out.println(statusCode == HttpStatus.OK);
                     if (statusCode == HttpStatus.OK) {
-                        UserInformationDto responseBody = responseEntity.getBody();
+                        UserInformationResponse responseBody = responseEntity.getBody();
 
                         request.setAttribute("userId", responseBody.getId());
+                        request.setAttribute("email", responseBody.getEmail());
+                        request.setAttribute("userNickname", responseBody.getNickname());
+                        request.setAttribute("profileUrl", responseBody.getProfileUrl());
                         request.setAttribute("accessToken", jwtToken);
                         return true;
                     }

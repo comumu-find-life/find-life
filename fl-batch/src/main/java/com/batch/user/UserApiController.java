@@ -1,14 +1,11 @@
 package com.batch.user;
 
-import com.batch.util.CookieUtils;
-import com.common.user.response.UserInformationDto;
-import com.common.user.response.UserProfileResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
@@ -16,9 +13,12 @@ public class UserApiController {
 
     private final UserService userService;
 
-    @GetMapping("me")
-    public UserProfileResponse userInfo(HttpServletRequest request) {
-        String token = CookieUtils.getTokenFromCookie(request);
-        userService.getLoginUserProfile(token);
-    }
+//    @GetMapping("me")
+//    public void userInfo(HttpServletRequest request) {
+//        log.info(request.getAttribute("userId") + "");
+//        log.info(request.getAttribute("accessToken") + "");
+//
+////        String token = CookieUtils.getTokenFromCookie(request);
+////        return userService.getLoginUserProfile(token);
+//    }
 }

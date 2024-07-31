@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class UserInformationDto {
+public class UserInformationResponse {
 
     private Long id;
 
