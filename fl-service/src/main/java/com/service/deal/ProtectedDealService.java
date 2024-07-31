@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -32,8 +33,13 @@ public class ProtectedDealService {
      * 안전 거래 생성 메서드
      */
     public void save(ProtectedDealGeneratorRequest request) {
-        ProtectedDeal deal = mapper.toEntity(request);
+
+        ProtectedDeal deal = mapper.toEntity(request, generateRandomUUID());
         protectedDealRepository.save(deal);
+    }
+
+    private String generateRandomUUID(){
+        return  UUID.randomUUID().toString();
     }
 
     /**

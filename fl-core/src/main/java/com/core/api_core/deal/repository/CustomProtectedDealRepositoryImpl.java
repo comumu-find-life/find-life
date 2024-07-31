@@ -50,4 +50,11 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
                 .where(qProtectedDeal.dealState.eq(DealState.DURING_DEPOSIT))
                 .fetch();
     }
+
+    @Override
+    public List<ProtectedDeal> findAllSubmitDeal() {
+        return query.selectFrom(qProtectedDeal)
+                .where(qProtectedDeal.dealState.eq(DealState.SUBMIT_DEAL))
+                .fetch();
+    }
 }

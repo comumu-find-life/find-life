@@ -28,6 +28,9 @@ public class ProtectedDeal extends BaseTimeEntity {
     // 채팅방 ID
     private Long dmId;
 
+    // 입금자 명 (랜덤 생성)
+    private String randomDepositorName;
+
     // 세입자 ID
     private Long getterId;
 
