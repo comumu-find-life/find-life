@@ -14,4 +14,9 @@ public interface CustomProtectedDealRepository {
     Optional<ProtectedDeal> findByMultipleParams(Long getterId, Long providerId, Long homeId, Long dmId);
 
     List<ProtectedDeal> findAllBeforeDeposit();
+
+    /**
+     * 입금 신청 상태의 안전거래 모두 조회
+     */
+    List<ProtectedDeal> findAllSubmitDeal();
 }

@@ -22,7 +22,7 @@ public class AdminUserController {
     private final UserService userService2;
 
     /**
-     * 계정 생성 API (추후 삭제)
+     * 계정 생성 API (추후 삭제) - done
      */
     @PostMapping("/sign-up")
     public ResponseEntity<?> signup(@RequestBody UserSignupRequest userSignupRequest){
@@ -32,7 +32,7 @@ public class AdminUserController {
     }
 
     /**
-     * 모든 회원 정보 조회 API
+     * 모든 회원 정보 조회 API - done
      */
     @GetMapping()
     public ResponseEntity<?> findAllUsers() {
@@ -42,7 +42,7 @@ public class AdminUserController {
     }
 
     /**
-     * 회원 단일 조회 API
+     * 회원 단일 조회 API - done
      */
     @GetMapping("/{userId}")
     public ResponseEntity<?> findById(@PathVariable Long userId) {
@@ -51,12 +51,14 @@ public class AdminUserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 회원 계정 정지 API - done
+     */
     @PatchMapping("/{userId}/inactive")
     public ResponseEntity<?> setUserInactive(@PathVariable Long userId){
         userService.setUserInactive(userId);
         SuccessResponse response = new SuccessResponse(true, "회원 비활성화 성공", null);
         return new ResponseEntity<>(response, HttpStatus.OK);
-
     }
 
 
