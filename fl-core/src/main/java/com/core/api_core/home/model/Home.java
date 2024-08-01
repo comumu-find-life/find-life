@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -72,6 +73,8 @@ public class Home extends BaseTimeEntity {
 
     //조회수
     private Integer viewCount;
+
+    private LocalDateTime createDate;
 
     /**
      * 연관관계 등록 메서드

@@ -305,6 +305,7 @@
             </div>
         </div>
         <div class="card-section" id="home-list">
+
         </div>
     </div>
 
@@ -313,7 +314,7 @@
     fetch('/api/homes')
         .then(response => response.json())
         .then(data => {
-            const dataList = data.map(home => {
+            const dataList += data.map(home => {
                 return `
                     <div class="card-sm" id="${home.id}">
                         <div class="div-frame" style="background-color: green;">

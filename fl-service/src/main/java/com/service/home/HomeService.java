@@ -18,6 +18,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -145,7 +146,7 @@ public class HomeService {
     }
 
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
-        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
+        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize, Sort.by("createDate").descending())).getContent();
         List<HomeOverviewResponse> listResponse = homes.stream()
                 .map(home -> {
                     User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
