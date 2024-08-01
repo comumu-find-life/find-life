@@ -1,5 +1,6 @@
 package com.core.api_core.deal.repository;
 
+import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.model.QProtectedDeal;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -41,5 +42,19 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
                         qProtectedDeal.homeId.eq(homeId),
                         qProtectedDeal.dmId.eq(dmId))
                 .fetchFirst());  // fetchFirst()를 사용하여 첫 번째 결과만 반환
+    }
+
+    @Override
+    public List<ProtectedDeal> findAllBeforeDeposit() {
+        return query.selectFrom(qProtectedDeal)
+                .where(qProtectedDeal.dealState.eq(DealState.DURING_DEPOSIT))
+                .fetch();
+    }
+
+    @Override
+    public List<ProtectedDeal> findAllSubmitDeal() {
+        return query.selectFrom(qProtectedDeal)
+                .where(qProtectedDeal.dealState.eq(DealState.SUBMIT_DEAL))
+                .fetch();
     }
 }

@@ -1,0 +1,11 @@
+server:
+  port: 8080  # fl-api 모듈의 포트를 8082로 설정
+
+spring:
+  profiles:
+    active: core
+  config:
+    import:
+      - 'classpath:/yaml/application-core-dev.yml'
+      - 'classpath:/yaml/application-core-log.yml'
+      - 'classpath:/yaml/application-core-local.yml'
