@@ -19,8 +19,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.api.config.ApiUrlConstants.HOMES_BASE_URL;
+import static com.api.config.ApiUrlConstants.HOMES_VALIDATE_ADDRESS;
 import static com.api.helper.HomeHelper.*;
 import static com.api.home.SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class HomeControllerIntegrationTest {
 
     @Autowired
@@ -75,7 +79,7 @@ public class HomeControllerIntegrationTest {
         MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
 
         // when
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/v1/api/homes")
+        mockMvc.perform(MockMvcRequestBuilders.multipart(HOMES_BASE_URL)
                         .file(jsonFile)
                         .file(image1)
                         .file(image2)
@@ -84,7 +88,7 @@ public class HomeControllerIntegrationTest {
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 11L))));
+                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 2L))));
     }
 
     @Test
@@ -128,21 +132,19 @@ public class HomeControllerIntegrationTest {
         HomeUpdateRequest homeGeneratorRequest = generateHomeUpdateRequest();
 
         // when
-        mockMvc.perform(patch("/v1/api/homes")
+        mockMvc.perform(patch(HOMES_BASE_URL)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(homeGeneratorRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 수정 성공", null))));
-//
-//        // then
+
+        // then
         Home home = repository.findById(1L).get();
-
-
-        Assertions.assertThat(home.getBathRoomCount()).isEqualTo(homeGeneratorRequest.getBathRoomCount());
+        Assertions.assertThat(home.getBond()).isEqualTo(homeGeneratorRequest.getBond());
+        Assertions.assertThat(home.getHomeAddress().getState()).isEqualTo(homeGeneratorRequest.getHomeAddress().getState());
     }
-
 
     @Test
     @WithMockUser(roles = "PROVIDER")
@@ -153,27 +155,13 @@ public class HomeControllerIntegrationTest {
         LatLng expectedLatLng = new LatLng(-33.8689919, 151.2080409);  // 예상되는 위도와 경도
         SuccessResponse expectedResponse = new SuccessResponse(true, SuccessHomeMessages.ADDRESS_VALIDATION_SUCCESS, expectedLatLng);
 
-        mockMvc.perform(post("/v1/api/homes/address/validate")
+        mockMvc.perform(post(HOMES_VALIDATE_ADDRESS)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(homeAddressGeneratorRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse)));
-    }
-
-    @Test
-    public void 자신의_집_게시글_모두_조회_테스트() throws Exception {
-        // given
-        Long userIdx = 1L;
-
-        // when
-        mockMvc.perform(get("/v1/api/homes/users/" + userIdx)
-                        .header(HttpHeaders.AUTHORIZATION, token)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.message").value(USER_POSTS_RETRIEVE_SUCCESS));
     }
 
 

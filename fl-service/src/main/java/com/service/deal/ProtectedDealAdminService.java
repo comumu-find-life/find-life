@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -43,35 +42,31 @@ public class ProtectedDealAdminService {
     }
 
     public ProtectedDealAdminResponse findById(Long dealId) {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), "존재하지 않는 안전거래 ID 입니다.");
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
         return mapToProtectedDealAdminResponse(protectedDeal);
     }
 
     public void checkDeposit(Long dealId) {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), "존재하지 않는 안전거래 ID 입니다.");
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
         protectedDeal.setDealState(DealState.DONE_DEPOSIT);
     }
 
-    /**
-     * 거래 완료 신청된 모든 안전거래 조회 로직
-     */
-    public List<ProtectedDealOverViewResponse>  findAllSubmitDeal(){
+    public List<ProtectedDealOverViewResponse> findAllSubmitDeal() {
         List<ProtectedDeal> allSubmitDeal = dealRepository.findAllSubmitDeal();
         List<ProtectedDealOverViewResponse> responses = new ArrayList<>();
         allSubmitDeal.forEach(deal -> responses.add(protectedDealMapper.toAdminOverViewResponse(deal)));
         return responses;
     }
 
-    public void completeDeal(Long dealId){
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), "존재하지 않는 안전거래 ID 입니다.");
+    public void completeDeal(Long dealId) {
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
         protectedDeal.setDealState(DealState.FINISH);
     }
 
-
     private ProtectedDealAdminResponse mapToProtectedDealAdminResponse(ProtectedDeal deal) {
-        User provider = findUserById(deal.getProviderId(), "존재하지 않는 유저 ID 입니다.");
-        User getter = findUserById(deal.getGetterId(), "존재하지 않는 유저 ID 입니다.");
-        Home home = findHomeById(deal.getHomeId(), "존재하지 않는 집 ID 입니다.");
+        User provider = findUserById(deal.getProviderId(), ProtectedDealMessages.USER_NOT_FOUND);
+        User getter = findUserById(deal.getGetterId(), ProtectedDealMessages.USER_NOT_FOUND);
+        Home home = findHomeById(deal.getHomeId(), ProtectedDealMessages.HOME_NOT_FOUND);
 
         HomeInformationResponse homeInfoResponse = homeMapper.toHomeInformation(home, provider);
         UserInformationByAdminResponse providerResponse = userMapper.toAdminResponse(provider);
@@ -93,6 +88,4 @@ public class ProtectedDealAdminService {
     private Home findHomeById(Long homeId, String errorMessage) {
         return OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), errorMessage);
     }
-
-
 }

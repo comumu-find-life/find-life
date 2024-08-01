@@ -26,7 +26,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.service.home.HomeMessages.NOT_EXIST_HOME;
+import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
 import static com.service.home.utils.HomeUtil.*;
+import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
 
 @Slf4j
 @Service
@@ -43,7 +46,6 @@ public class HomeService {
      */
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
         Home home = homeMapper.toEntity(homeCreateDto);
-
         //이미지, 위치 정보 저장
         home.setImages(generateHomeImages(home, files));
         home.setLatLng(latLng.getLat(), latLng.getLng());
@@ -57,20 +59,18 @@ public class HomeService {
     public Long update(HomeUpdateRequest homeUpdateDto) {
 
         Home home = homeRepository.findById(homeUpdateDto.getHomeId())
-                .orElseThrow(() -> new EntityNotFoundException("Home not found"));
+                .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_HOME));
         homeMapper.updateHomeFromDto(homeUpdateDto, home);
-
         homeRepository.save(home);
         return home.getId();
     }
-
 
     /**
      * 집 게시글 단일 조회(집 정보 + 작성자 정보) 로직
      */
     public HomeInformationResponse findById(Long id) {
-        Home entity = OptionalUtil.getOrElseThrow(homeRepository.findById(id), "Home not found with id");
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(entity.getUserIdx()), "User not found with id");
+        Home entity = OptionalUtil.getOrElseThrow(homeRepository.findById(id), NOT_EXIST_HOME_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(entity.getUserIdx()), NOT_EXIT_USER_ID);
         return homeMapper.toHomeInformation(entity, user);
     }
 
@@ -81,7 +81,7 @@ public class HomeService {
         List<HomeOverviewResponse> response = new ArrayList<>();
         List<Home> homes = homeRepository.findAllSellHome();
         homes.stream().forEach(home -> {
-            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), "User not found with id");
+            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), NOT_EXIT_USER_ID);
             response.add(homeMapper.toSimpleHomeDto(home, user));
         });
         return response;
@@ -91,7 +91,7 @@ public class HomeService {
         List<Home> homes = homeRepository.findByUserIds(user1Id, user2Id);
         List<HomeOverviewResponse> response = new ArrayList<>();
         homes.stream().forEach(home -> {
-            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), "User not found with id");
+            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), NOT_EXIT_USER_ID);
             response.add(homeMapper.toSimpleHomeDto(home, user));
         });
         return response;
@@ -100,13 +100,14 @@ public class HomeService {
 
     public List<HomeOverviewResponse> findByUserId(Long userIdx) {
         List<HomeOverviewResponse> response = new ArrayList<>();
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), "User not found with id");
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), NOT_EXIT_USER_ID);
         List<Home> homes = homeRepository.findByUserIdx(userIdx);
         homes.stream().forEach(home -> {
             response.add(homeMapper.toSimpleHomeDto(home, user));
         });
         return response;
     }
+
     /**
      * 찜 목록 게시글 조회
      */
@@ -116,7 +117,7 @@ public class HomeService {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(home -> {
-                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException(NOT_EXIT_USER_ID + home.getUserIdx()));
                     return homeMapper.toSimpleHomeDto(home, user);
                 })
                 .collect(Collectors.toList());
@@ -137,7 +138,7 @@ public class HomeService {
         List<Home> homes = homeRepository.findByCity(cityName);
         List<HomeOverviewResponse> listResponse = homes.stream()
                 .map(home -> {
-                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException(NOT_EXIT_USER_ID + home.getUserIdx()));
                     return homeMapper.toSimpleHomeDto(home, user);
                 })
                 .collect(Collectors.toList());
@@ -148,7 +149,7 @@ public class HomeService {
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
         List<HomeOverviewResponse> listResponse = homes.stream()
                 .map(home -> {
-                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + home.getUserIdx()));
+                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException(NOT_EXIT_USER_ID + home.getUserIdx()));
                     return homeMapper.toSimpleHomeDto(home, user);
                 })
                 .collect(Collectors.toList());
@@ -161,7 +162,7 @@ public class HomeService {
     @Transactional
     public void changeStatus(Long homeId, String status) {
         HomeStatus homeStatus = HomeStatus.fromString(status);
-        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), "Not found with id");
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME_ID);
         home.setStatus(homeStatus);
         homeRepository.save(home);
     }

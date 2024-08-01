@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.service.user.UserMessages.NOT_EXIT_USER_EMAIL;
+import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
+
 
 @Service
 @Transactional
@@ -43,11 +46,12 @@ public class UserService {
         // 사용자 저장 및 ID 반환
         return userRepository.save(user).getId();
     }
+
     /**
      * 회원 조회 메서드 by userId
      */
     public UserInformationResponse findById(Long id) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), "존재하지 않는 user ID 입니다.");
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
         return userMapper.toDto(user);
     }
 
@@ -55,7 +59,7 @@ public class UserService {
      * 회원 조회 메서드 by email
      */
     public UserInformationResponse findByEmail(String email) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), "존재하지 않는 user email 입니다.");
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         return userMapper.toDto(user);
     }
 
@@ -64,7 +68,7 @@ public class UserService {
      * 사용자 프로필 조회 메서드 by userId
      */
     public UserProfileResponse getUserProfile(Long id) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), "존재하지 않는 user ID 입니다.");
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
         return userMapper.toProfile(user);
     }
 
@@ -72,7 +76,7 @@ public class UserService {
      * 계정 삭제 메서드 by userId
      */
     public void delete(Long id) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), "존재하지 않는 user ID 입니다.");
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
         userRepository.delete(user);
     }
 

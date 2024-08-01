@@ -40,9 +40,9 @@ public interface HomeMapper {
     HomeAddress toAddressEntity(HomeAddressGeneratorRequest homeAddressDto);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "userIdx", ignore = true)
     @Mapping(target = "images", ignore = true)
     @Mapping(target = "status", ignore = true)
-
     @Mapping(target = "viewCount", ignore = true)
     void updateHomeFromDto(HomeUpdateRequest dto, @MappingTarget Home entity);
 
