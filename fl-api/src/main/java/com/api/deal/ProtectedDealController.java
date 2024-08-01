@@ -21,7 +21,7 @@ import static com.api.config.ApiUrlConstants.*;
 public class ProtectedDealController {
     private final ProtectedDealService protectedDealService;
 
-    @PostMapping(SAVE_DEAL)
+    @PostMapping(DEALS_SAVE)
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public ResponseEntity<?> saveDeal(@RequestBody ProtectedDealGeneratorRequest request) {
         protectedDealService.save(request);
@@ -29,42 +29,42 @@ public class ProtectedDealController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping(READ_DEAL)
+    @PostMapping(DEALS_READ)
     public ResponseEntity<?> findProtectedDeal(@RequestBody ProtectedDealFindRequest request) {
         ProtectedDealResponse protectedDealResponse = protectedDealService.findByDealInformation(request);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(FIND_ALL_BY_USER_ID)
+    @GetMapping(DEALS_FIND_ALL_BY_USER_ID)
     public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
         List<ProtectedDealResponse> allByUserId = protectedDealService.findAllByUserId(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED_FOR_USER, allByUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping(REQUEST_DEPOSIT)
+    @PostMapping(DEALS_REQUEST_DEPOSIT)
     public ResponseEntity<?> requestDeposit(@PathVariable Long dealId) {
         protectedDealService.requestDeposit(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_REQUESTED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PatchMapping(DONE_DEPOSIT)
+    @PatchMapping(DEALS_DONE_DEPOSIT)
     public ResponseEntity<?> doneDeposit(@PathVariable Long dealId) {
         protectedDealService.doneDeposit(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PatchMapping(DONE_DEAL)
+    @PatchMapping(DEALS_DONE)
     public ResponseEntity<?> doneDeal(@PathVariable Long dealId){
         protectedDealService.finishDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PatchMapping(CANCEL_DEAL)
+    @PatchMapping(DEALS_CANCEL)
     public ResponseEntity<?> cancelDeal(@PathVariable Long dealId){
         protectedDealService.cancelDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CANCELLED, null);
