@@ -13,3 +13,4 @@ domain:
     directMessage: /dm
     publish: /pub
     subscribe: /sub
+

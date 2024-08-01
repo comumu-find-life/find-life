@@ -13,37 +13,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.api.directmessage.SuccessDirectMessages.DM_LIST_FIND_MESSAGE;
-import static com.api.directmessage.SuccessDirectMessages.DM_ROOM_CREATE_MESSAGE;
+import static com.api.config.ApiUrlConstants.*;
+import static com.api.directmessage.SuccessDirectMessages.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/api/dm")
+@RequestMapping(DM_BASE_URL)
 @RequiredArgsConstructor
 public class DirectMessageController {
 
     private final DirectMessageRoomService dmService;
 
-    @PostMapping()
+    /**
+     * 첫 채팅 전송 API
+     */
+    @PostMapping
     public ResponseEntity<?> sendDm(@RequestBody DirectMessageApplicationRequest dmDto) {
         Long roomId = dmService.applicationDm(dmDto);
         SuccessResponse response = new SuccessResponse(true, DM_ROOM_CREATE_MESSAGE, roomId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * todo 어떤 메서드인지 설명졈
-     */
-    @GetMapping("/dm-rooms/{dmRoomId}")
+    @GetMapping(DM_FIND_ROOM_INFO)
     public ResponseEntity<DirectMessageRoomInfoResponse> findDmRoomInfo(@PathVariable Long dmRoomId) {
         return ResponseEntity.ok(dmService.findDmRoomById(dmRoomId));
     }
 
     /**
-     * 사용자 모든 채팅 목록 조회 todo 안전거래 채팅은 제외시키는 기능 구현
+     * 자신의 모든 채팅 목록 조회
      */
-    @GetMapping("/dm-rooms")
-    public ResponseEntity<?> findAllDmRooms(){
+    @GetMapping(DM_FIND_ALL_ROOMS)
+    public ResponseEntity<?> findAllDmRooms() {
         List<DirectMessageRoomListResponse> dmRoomsByLoginUserId = dmService.findDmRoomsByLoginUserId();
         SuccessResponse response = new SuccessResponse(true, DM_LIST_FIND_MESSAGE, dmRoomsByLoginUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
