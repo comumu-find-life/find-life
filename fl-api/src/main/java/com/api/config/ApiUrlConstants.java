@@ -19,7 +19,6 @@ public class ApiUrlConstants {
 
     // 채팅 API URL
     public static final String DM_BASE_URL = BASE_API_URL + "/dm";
-    public static final String DM_SEND = DM_BASE_URL;
     public static final String DM_FIND_ROOM_INFO = DM_BASE_URL + "/dm-rooms/{dmRoomId}";
     public static final String DM_FIND_ALL_ROOMS = DM_BASE_URL + "/dm-rooms";
 

@@ -18,6 +18,9 @@ public class DirectMessageService {
     private final DirectMessageRepository dmRepository;
     private final DirectMessageMapper mapper;
 
+    /**
+     * 채팅
+     */
     public DirectMessageResponse sendDM(DirectMessageRequest dmDto) throws IllegalAccessException {
         try {
             DirectMessage directMessage = mapper.toDirectMessage(dmDto);
@@ -27,10 +30,9 @@ public class DirectMessageService {
             throw new IllegalAccessException(e.getMessage());
         }
     }
+
     /**
      * 최근 대화 불러오기 (채팅방 입장시)
-     *
-     * @return
      */
     public List<DirectMessageResponse> findRecentChatLog(Long user1Id, Long user2Id) {
         List<DirectMessage> dmLogs = dmRepository.findRecentLogs(user1Id, user2Id);

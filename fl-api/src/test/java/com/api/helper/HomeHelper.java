@@ -104,7 +104,7 @@ public class HomeHelper {
     public static HomeUpdateRequest generateHomeUpdateRequest() {
         return HomeUpdateRequest.builder()
                 .homeId(1L)
-                .homeAddress(generateHomeAddressRequest())
+                .homeAddress(generateHomeAddressUpdateRequest())
                 .bathRoomCount(100)
                 .dealSavable(false)
                 .bedroomCount(2)
@@ -121,6 +121,17 @@ public class HomeHelper {
     private static HomeAddressGeneratorRequest generateHomeAddressRequest() {
         return HomeAddressGeneratorRequest.builder()
                 .state("NSW")
+                .city("Sydney")
+                .postCode(2000)
+                .detailAddress("401호")
+                .streetCode("10")
+                .streetName("BridgeStreet")
+                .build();
+    }
+
+    private static HomeAddressGeneratorRequest generateHomeAddressUpdateRequest() {
+        return HomeAddressGeneratorRequest.builder()
+                .state("WAC")
                 .city("Sydney")
                 .postCode(2000)
                 .detailAddress("401호")
