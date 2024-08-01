@@ -15,10 +15,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.api.config.ApiUrlConstants.*;
+
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/users")
+@RequestMapping(USERS_BASE_URL)
 public class UserController {
 
     private final UserService userService;
@@ -27,7 +29,7 @@ public class UserController {
     /**
      * 회원가입 api
      */
-    @PostMapping("/sign-up")
+    @PostMapping(USERS_SIGN_UP)
     public ResponseEntity<?> signUp(@RequestPart UserSignupRequest userSignupRequest,
                                     @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
         Long userId = userService.signUp(userSignupRequest, image);
@@ -38,7 +40,7 @@ public class UserController {
     /**
      * 본인 프로필 조회 api
      */
-    @GetMapping("/{userId}")
+    @GetMapping(USERS_FIND_BY_ID)
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> findById(@PathVariable Long userId) {
         UserInformationResponse byId = userService.findById(userId);
@@ -46,7 +48,7 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PatchMapping("/{userId}")
+    @PatchMapping(USERS_UPDATE)
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> updateUser(@PathVariable Long userId){
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);
@@ -56,7 +58,7 @@ public class UserController {
     /**
      * jwt 로 자신의 userId 조회하기.
      */
-    @GetMapping("/me/userId")
+    @GetMapping(USERS_GET_MY_USER_ID)
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getMyUserId(HttpServletRequest request) {
         String accessToken  = jwtService.extractAccessToken(request).get();
@@ -70,14 +72,14 @@ public class UserController {
     /**
      * 다른 사용자가 프로필을 조회하는 api
      */
-    @GetMapping("/profile/{userId}")
+    @GetMapping(USERS_GET_PROFILE)
     public ResponseEntity<?> getUserProfile(@PathVariable Long userId) {
         UserProfileResponse userProfile = userService.getUserProfile(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.PROFILE_RETRIEVE_SUCCESS, userProfile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/user-info")
+    @GetMapping(USERS_FIND_LOGIN_USER)
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserInformationResponse> findLoginUser() {
         // 현재 인증된 사용자 정보 가져오기
