@@ -2,6 +2,9 @@ package com.api.helper;
 
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
+import com.core.api_core.deal.model.DealState;
+import com.core.api_core.deal.model.ProtectedDeal;
+import com.core.api_core.deal.model.ProviderAccount;
 
 public class ProtectedDealHelper {
 
@@ -9,6 +12,7 @@ public class ProtectedDealHelper {
         return ProtectedDealGeneratorRequest.builder()
                 .getterId(1L)
                 .providerId(2L)
+                .homeId(1L)
                 .dmId(1L)
                 .deposit(10000)
                 .account("123-123-123")
@@ -19,10 +23,31 @@ public class ProtectedDealHelper {
 
     public static ProtectedDealFindRequest generateProtectedDealFindRequest() {
         return ProtectedDealFindRequest.builder()
-                .getterId(1L)
-                .providerId(2L)
                 .homeId(1L)
                 .dmId(1L)
+                .getterId(2L)
+                .providerId(1L)
+                .build();
+    }
+
+    public static ProtectedDeal generateProtectedDeal(){
+        return ProtectedDeal.builder()
+                .homeId(1L)
+                .dmId(1L)
+                .randomDepositorName("randomString")
+                .getterId(2L)
+                .providerId(1L)
+                .deposit(2000)
+                .providerAccount(generateProviderAccount())
+                .dealState(DealState.BEFORE_DEPOSIT)
+                .build();
+    }
+
+    public static ProviderAccount generateProviderAccount() {
+        return ProviderAccount.builder()
+                .accountHolder("minseok")
+                .bankName("bankName")
+                .account("account")
                 .build();
     }
 }

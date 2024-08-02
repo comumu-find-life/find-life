@@ -54,7 +54,7 @@ public class HomeController {
     }
 
     /**
-     * 자신의 집 게시글 모두 조회 api
+     * 사용자(본인, 다른 사용자) 집 게시글 모두 조회 api
      */
     @GetMapping(HOMES_FIND_BY_USER_ID)
     public ResponseEntity<?> findByUserId(@PathVariable Long userId) {
@@ -154,7 +154,7 @@ public class HomeController {
      * 찜 목록 조회 api
      */
     @GetMapping(HOMES_FIND_FAVORITE)
-    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> findFavoriteHomes(@RequestParam List<Long> homeIds) {
         List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.FAVORITE_HOMES_RETRIEVE_SUCCESS, favoriteHomes);
@@ -165,7 +165,7 @@ public class HomeController {
      * 집 게시글 삭제 api
      */
     @DeleteMapping(HOMES_DELETE)
-    @PreAuthorize("hasRole(ROLE_PROVIDER)")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> delete(@PathVariable Long homeId) {
         homeService.delete(homeId);
         return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);
