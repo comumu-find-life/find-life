@@ -128,9 +128,11 @@ public class HomeControllerIntegrationTest {
     @Test
     @WithMockUser(roles = "PROVIDER")
     public void 집_게시글_수정_테스트() throws Exception {
+        Home home1 = repository.findById(1L).get();
+        System.out.println("Before Address : " + home1.getHomeAddress().getState() + home1.getHomeAddress().getCity());
         // given
         HomeUpdateRequest homeGeneratorRequest = generateHomeUpdateRequest();
-
+        System.out.println("To Change Address : " + homeGeneratorRequest.getHomeAddress().getState() + homeGeneratorRequest.getHomeAddress().getCity());
         // when
         mockMvc.perform(patch(HOMES_BASE_URL)
                         .header(HttpHeaders.AUTHORIZATION, token)
@@ -142,6 +144,7 @@ public class HomeControllerIntegrationTest {
 
         // then
         Home home = repository.findById(1L).get();
+        System.out.println("After Address : " + home.getHomeAddress().getState() + home.getHomeAddress().getCity());
         Assertions.assertThat(home.getBond()).isEqualTo(homeGeneratorRequest.getBond());
         Assertions.assertThat(home.getHomeAddress().getState()).isEqualTo(homeGeneratorRequest.getHomeAddress().getState());
     }

@@ -82,17 +82,17 @@ VALUES
 (10, 'url20');
 
 
--- ProviderAccount 데이터 삽입
-INSERT INTO provider_account (provider_account_id, account, account_holder, bank_name) VALUES
-(1, '123-456-789', 'John Doe', 'Bank A'),
-(2, '987-654-321', 'Jane Smith', 'Bank B'),
-(3, '122-333-321', 'Doe Smith', 'Bank C'),
-(4, '653-654-321', 'GGG das', 'Bank D');
-
-
--- ProtectedDeal 데이터 삽입
-INSERT INTO protected_deal (create_date, provider_account_id, home_id, dm_id, getter_id, provider_id, deposit, deal_state) VALUES
-('2023-07-31T10:00:00', 1, 1, 1, 1, 2, 10000.0, 'BEFORE_DEPOSIT'),
-('2023-08-01T11:00:00', 2, 2, 2, 2, 3, 15000.0, 'DURING_DEPOSIT'),
-('2023-08-02T12:00:00', 3, 3, 3, 3, 4, 20000.0, 'DONE_DEPOSIT'),
-('2023-08-03T13:00:00', 4, 4, 4, 4, 5, 25000.0, 'FINISH');
+---- ProviderAccount 데이터 삽입
+--INSERT INTO provider_account (provider_account_id, account, account_holder, bank_name) VALUES
+--(1, '123-456-789', 'John Doe', 'Bank A'),
+--(2, '987-654-321', 'Jane Smith', 'Bank B'),
+--(3, '122-333-321', 'Doe Smith', 'Bank C'),
+--(4, '653-654-321', 'GGG das', 'Bank D');
+--
+--
+---- ProtectedDeal 데이터 삽입
+--INSERT INTO protected_deal (create_date, provider_account_id, home_id, dm_id, getter_id, provider_id, deposit, deal_state) VALUES
+--('2023-07-31T10:00:00', 1, 1, 1, 1, 2, 10000.0, 'BEFORE_DEPOSIT'),
+--('2023-08-01T11:00:00', 2, 2, 2, 2, 3, 15000.0, 'DURING_DEPOSIT'),
+--('2023-08-02T12:00:00', 3, 3, 3, 3, 4, 20000.0, 'DONE_DEPOSIT'),
+--('2023-08-03T13:00:00', 4, 4, 4, 4, 5, 25000.0, 'FINISH');

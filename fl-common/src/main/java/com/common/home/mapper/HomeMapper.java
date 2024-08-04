@@ -39,13 +39,22 @@ public interface HomeMapper {
     @Mapping(target = "longitude", ignore = true)
     HomeAddress toAddressEntity(HomeAddressGeneratorRequest homeAddressDto);
 
+    /**
+     * 집 정보 수정
+     */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "userIdx", ignore = true)
     @Mapping(target = "images", ignore = true)
     @Mapping(target = "status", ignore = true)
+    @Mapping(target = "homeAddress", ignore = true)
     @Mapping(target = "viewCount", ignore = true)
     void updateHomeFromDto(HomeUpdateRequest dto, @MappingTarget Home entity);
 
+    /**
+     * 집 주소 수정
+     */
+    @Mapping(target = "id", ignore = true)
+    void updateAddressFromDto(HomeAddressGeneratorRequest dto, @MappingTarget HomeAddress entity);
 
     /**
      * Home 게시글을 보여줄 DTO 변환

@@ -132,7 +132,7 @@ public class HomeHelper {
     private static HomeAddressGeneratorRequest generateHomeAddressUpdateRequest() {
         return HomeAddressGeneratorRequest.builder()
                 .state("WAC")
-                .city("Sydney")
+                .city("New Sydney")
                 .postCode(2000)
                 .detailAddress("401호")
                 .streetCode("10")

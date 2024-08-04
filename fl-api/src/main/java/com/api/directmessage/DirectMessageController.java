@@ -18,7 +18,6 @@ import static com.api.directmessage.SuccessDirectMessages.*;
 
 @Slf4j
 @RestController
-@RequestMapping(DM_BASE_URL)
 @RequiredArgsConstructor
 public class DirectMessageController {
 
@@ -27,7 +26,7 @@ public class DirectMessageController {
     /**
      * 첫 채팅 전송 API
      */
-    @PostMapping
+    @PostMapping(DM_BASE_URL)
     public ResponseEntity<?> sendDm(@RequestBody DirectMessageApplicationRequest dmDto) {
         Long roomId = dmService.applicationDm(dmDto);
         SuccessResponse response = new SuccessResponse(true, DM_ROOM_CREATE_MESSAGE, roomId);

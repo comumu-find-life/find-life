@@ -3,6 +3,7 @@ package com.api.deal;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.ProtectedDealResponse;
+import com.common.deal.response.ProtectedDealResponseV2;
 import com.common.utils.SuccessResponse;
 import com.service.deal.ProtectedDealService;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,7 @@ public class ProtectedDealController {
      */
     @GetMapping(DEALS_FIND_ALL_BY_USER_ID)
     public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
-        List<ProtectedDealResponse> allByUserId = protectedDealService.findAllByUserId(userId);
+        List<ProtectedDealResponseV2> allByUserId = protectedDealService.findAllByUserId(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED_FOR_USER, allByUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

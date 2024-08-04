@@ -24,7 +24,6 @@ import static com.api.config.ApiUrlConstants.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(HOMES_BASE_URL)
 public class HomeController {
     private final HomeService homeService;
     private final LocationService locationService;
@@ -33,12 +32,12 @@ public class HomeController {
      * 집 게시글 등록 api
      * todo 사용자가 동시에 2번 요청을 보냈을경우 예외처리
      */
-    @PostMapping
-    public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeCreateDto,
+    @PostMapping(HOMES_BASE_URL)
+    public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeGeneratorRequest,
                                       @RequestPart("images") List<MultipartFile> images) throws IOException, IllegalAccessException {
         //주소 -> 위도, 경도 변환
-        LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
-        Long homeId = homeService.save(homeCreateDto, images, location);
+        LatLng location = locationService.getLatLngFromAddress(homeGeneratorRequest.getHomeAddress());
+        Long homeId = homeService.save(homeGeneratorRequest, images, location);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -76,7 +75,7 @@ public class HomeController {
     /**
      * 집 정보 수정 api
      */
-    @PatchMapping()
+    @PatchMapping(HOMES_BASE_URL)
     public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto) {
         homeService.update(homeDto);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_UPDATE_SUCCESS, null);

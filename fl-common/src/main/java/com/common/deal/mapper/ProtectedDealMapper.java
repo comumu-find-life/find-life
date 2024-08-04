@@ -3,8 +3,10 @@ package com.common.deal.mapper;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.ProtectedDealOverViewResponse;
 import com.common.deal.response.ProtectedDealResponse;
+import com.common.deal.response.ProtectedDealResponseV2;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.model.ProviderAccount;
+import com.core.api_core.home.model.Home;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -27,6 +29,23 @@ public interface ProtectedDealMapper {
             @Mapping(target = "bankName", source = "entity.providerAccount.bankName"),
     })
     ProtectedDealResponse toResponse(ProtectedDeal entity);
+
+    @Mappings({
+            @Mapping(target = "id", source = "deal.id"),
+            @Mapping(target = "dealState", source = "deal.dealState"),
+            @Mapping(target = "deposit", source = "deal.deposit"),
+            @Mapping(target = "fee", constant = "0"),
+            @Mapping(target = "totalPrice", source = "deal.deposit"),
+            @Mapping(target = "startDate", source = "deal.createDate"),
+            @Mapping(target = "depositDate", source = "deal.depositDate"),
+            @Mapping(target = "finishDate", source = "deal.finishDate"),
+            @Mapping(target = "cancelDate", source = "deal.cancelDate"),
+            @Mapping(target = "address", expression = "java(home.getHomeAddress().parseAddress())"),
+            @Mapping(target = "homeImage", expression = "java(home.getMainImage())"),
+            @Mapping(target = "rent", source = "home.rent"),
+            @Mapping(target = "bill", source = "home.bill")
+    })
+    ProtectedDealResponseV2 toResponseV2(ProtectedDeal deal, Home home);
 
     ProtectedDealOverViewResponse toAdminOverViewResponse(ProtectedDeal entity);
 
