@@ -5,9 +5,12 @@ import com.common.deal.mapper.ProtectedDealMapper;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.ProtectedDealResponse;
+import com.common.deal.response.ProtectedDealResponseV2;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
+import com.core.api_core.home.model.Home;
+import com.core.api_core.home.reposiotry.HomeRepository;
 import com.core.api_core.user.repository.UserRepository;
 import com.service.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 public class ProtectedDealService {
 
     private final ProtectedDealRepository protectedDealRepository;
+    private final HomeRepository homeRepository;
     private final ProtectedDealMapper mapper;
 
     /**
@@ -45,11 +50,15 @@ public class ProtectedDealService {
     /**
      * 내 안전거래 조회 메서드
      */
-    public List<ProtectedDealResponse> findAllByUserId(Long userId) {
+    public List<ProtectedDealResponseV2> findAllByUserId(Long userId) {
         List<ProtectedDeal> allByUserId = protectedDealRepository.findAllByUserId(userId);
-        return allByUserId.stream()
-                .map(mapper::toResponse)
-                .collect(Collectors.toList());
+        List<ProtectedDealResponseV2> response = new ArrayList<>();
+        allByUserId.stream()
+                .forEach(protectedDeal -> {
+                    Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), "존재하지 않는 집 ID 입니다.");
+                    response.add(mapper.toResponseV2(protectedDeal, home));
+                });
+        return  response;
     }
 
 

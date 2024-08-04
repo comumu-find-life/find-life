@@ -41,3 +41,5 @@ public class ApiUrlConstants {
     public static final String DEALS_DONE = DEALS_BASE_URL + "/done/{dealId}";
     public static final String DEALS_CANCEL = DEALS_BASE_URL + "/cancel/{dealId}";
 }
+
+

@@ -24,6 +24,8 @@ public class QProtectedDeal extends EntityPathBase<ProtectedDeal> {
 
     public final com.core.base.model.QBaseTimeEntity _super = new com.core.base.model.QBaseTimeEntity(this);
 
+    public final DateTimePath<java.time.LocalDateTime> cancelDate = createDateTime("cancelDate", java.time.LocalDateTime.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 
@@ -31,7 +33,11 @@ public class QProtectedDeal extends EntityPathBase<ProtectedDeal> {
 
     public final NumberPath<Double> deposit = createNumber("deposit", Double.class);
 
+    public final DateTimePath<java.time.LocalDateTime> depositDate = createDateTime("depositDate", java.time.LocalDateTime.class);
+
     public final NumberPath<Long> dmId = createNumber("dmId", Long.class);
+
+    public final DateTimePath<java.time.LocalDateTime> finishDate = createDateTime("finishDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> getterId = createNumber("getterId", Long.class);
 

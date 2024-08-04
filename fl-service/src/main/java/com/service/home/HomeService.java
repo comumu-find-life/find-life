@@ -6,6 +6,7 @@ import com.common.home.request.HomeUpdateRequest;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
 import com.core.api_core.home.model.Home;
+import com.core.api_core.home.model.HomeAddress;
 import com.core.api_core.home.model.HomeImage;
 import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.reposiotry.HomeRepository;
@@ -57,11 +58,24 @@ public class HomeService {
      */
     @Transactional
     public Long update(HomeUpdateRequest homeUpdateDto) {
-
         Home home = homeRepository.findById(homeUpdateDto.getHomeId())
                 .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_HOME));
+
+        // Home 엔티티를 업데이트
         homeMapper.updateHomeFromDto(homeUpdateDto, home);
+
+
+        // 기존 HomeAddress를 가져와서 업데이트
+        HomeAddress homeAddress = home.getHomeAddress();
+
+        homeMapper.updateAddressFromDto(homeUpdateDto.getHomeAddress(), homeAddress);
+
+
+
+        // 변경 사항 저장
         homeRepository.save(home);
+
+
         return home.getId();
     }
 
