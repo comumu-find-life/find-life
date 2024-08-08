@@ -146,6 +146,7 @@ public class HomeService {
     }
 
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
+//        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize, Sort.by("createDate").descending())).getContent();
         List<HomeOverviewResponse> listResponse = homes.stream()
                 .map(home -> {
