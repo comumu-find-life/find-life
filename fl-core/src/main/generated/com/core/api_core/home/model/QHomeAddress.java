@@ -24,7 +24,7 @@ public class QHomeAddress extends EntityPathBase<HomeAddress> {
     public final StringPath city = createString("city");
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+    public final DateTimePath<java.time.LocalDateTime> createDateTime = _super.createDateTime;
 
     public final StringPath detailAddress = createString("detailAddress");
 
@@ -35,7 +35,7 @@ public class QHomeAddress extends EntityPathBase<HomeAddress> {
     public final NumberPath<Double> longitude = createNumber("longitude", Double.class);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDateTime = _super.modifiedDateTime;
 
     public final NumberPath<Integer> postCode = createNumber("postCode", Integer.class);
 

@@ -1,7 +1,7 @@
 package com.common.deal;
 
 import com.common.deal.mapper.ProtectedDealMapper;
-import com.common.deal.response.ProtectedDealResponseV2;
+import com.common.deal.response.MyProtectedDealResponse;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.home.model.Home;
@@ -57,7 +57,7 @@ public class ProtectedDealMapperTest {
                 .build();
 
         // When
-        ProtectedDealResponseV2 response = mapper.toResponseV2(deal, home);
+        MyProtectedDealResponse response = mapper.toResponseV2(deal, home);
 
         // Then
         assertNotNull(response);

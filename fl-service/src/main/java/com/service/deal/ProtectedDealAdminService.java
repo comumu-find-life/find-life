@@ -66,7 +66,7 @@ public class ProtectedDealAdminService {
     private ProtectedDealAdminResponse mapToProtectedDealAdminResponse(ProtectedDeal deal) {
         User provider = findUserById(deal.getProviderId(), ProtectedDealMessages.USER_NOT_FOUND);
         User getter = findUserById(deal.getGetterId(), ProtectedDealMessages.USER_NOT_FOUND);
-        Home home = findHomeById(deal.getHomeId(), ProtectedDealMessages.HOME_NOT_FOUND);
+        Home home = findHomeById(deal.getHomeId(), ProtectedDealMessages.USER_NOT_FOUND);
 
         HomeInformationResponse homeInfoResponse = homeMapper.toHomeInformation(home, provider);
         UserInformationByAdminResponse providerResponse = userMapper.toAdminResponse(provider);

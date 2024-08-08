@@ -34,7 +34,8 @@ public class ApiUrlConstants {
     // 안전거래 API URL
     public static final String DEALS_BASE_URL = BASE_API_URL + "/deals";
     public static final String DEALS_SAVE = DEALS_BASE_URL;
-    public static final String DEALS_READ = DEALS_BASE_URL + "/read";
+    public static final String DEALS_GETTER_READ = DEALS_BASE_URL + "/read/getter";
+    public static final String DEALS_PROVIDER_READ = DEALS_BASE_URL + "/read/provider";
     public static final String DEALS_FIND_ALL_BY_USER_ID = DEALS_BASE_URL + "/{userId}";
     public static final String DEALS_REQUEST_DEPOSIT = DEALS_BASE_URL + "/request/deposit/{dealId}";
     public static final String DEALS_DONE_DEPOSIT = DEALS_BASE_URL + "/done/deposit/{dealId}";

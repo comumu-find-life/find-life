@@ -10,13 +10,13 @@ import com.service.file.FileService;
 import com.service.user.validation.UserServiceValidation;
 import com.service.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.service.user.UserMessages.NOT_EXIT_USER_EMAIL;
-import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
+import static com.service.user.UserMessages.*;
 
 
 @Service
@@ -61,6 +61,16 @@ public class UserService {
     public UserInformationResponse findByEmail(String email) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         return userMapper.toDto(user);
+    }
+
+
+
+    public Long findUserIdByUsername() {
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("THISTHIS == ");
+        System.out.println(currentUsername);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByNickname(currentUsername), NOT_EXIT_USER_NICKNAME);
+        return user.getId();
     }
 
 

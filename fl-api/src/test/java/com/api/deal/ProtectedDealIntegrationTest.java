@@ -3,7 +3,7 @@ package com.api.deal;
 import com.api.security.service.JwtService;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
-import com.common.deal.response.ProtectedDealResponse;
+import com.common.deal.response.ProtectedDealByProviderResponse;
 import com.common.utils.SuccessResponse;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
@@ -35,7 +35,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @SpringBootTest
@@ -91,7 +90,7 @@ public class ProtectedDealIntegrationTest {
         repository.save(generateProtectedDeal());
         ProtectedDealFindRequest protectedDealFindRequest = generateProtectedDealFindRequest();
         //when
-        ResultActions resultActions = mockMvc.perform(post(DEALS_READ)
+        ResultActions resultActions = mockMvc.perform(post(DEALS_GETTER_READ)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(protectedDealFindRequest)))
@@ -102,7 +101,7 @@ public class ProtectedDealIntegrationTest {
         JsonNode root = objectMapper.readTree(responseString);
         JsonNode dataNode = root.path("data");
 
-        ProtectedDealResponse protectedDealResponse = objectMapper.treeToValue(dataNode, ProtectedDealResponse.class);
+        ProtectedDealByProviderResponse protectedDealResponse = objectMapper.treeToValue(dataNode, ProtectedDealByProviderResponse.class);
         Assertions.assertThat(protectedDealResponse.getAccount()).isEqualTo("account");
     }
 
@@ -125,7 +124,7 @@ public class ProtectedDealIntegrationTest {
         JsonNode dataNode = root.path("data");
 
         // 응답이 배열 형태이므로 이를 리스트로 변환
-        List<ProtectedDealResponse> protectedDealResponseList = objectMapper.convertValue(dataNode, new TypeReference<>(){});
+        List<ProtectedDealByProviderResponse> protectedDealResponseList = objectMapper.convertValue(dataNode, new TypeReference<>(){});
 
         Assertions.assertThat(protectedDealResponseList.size()).isEqualTo(1);
     }

@@ -44,6 +44,7 @@ public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProce
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
 
+
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
 
         Map<String, String> usernamePasswordMap = objectMapper.readValue(messageBody, Map.class);

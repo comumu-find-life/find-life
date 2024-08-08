@@ -22,14 +22,14 @@ public class QAdminUser extends EntityPathBase<AdminUser> {
     public final com.core.base.model.QBaseTimeEntity _super = new com.core.base.model.QBaseTimeEntity(this);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+    public final DateTimePath<java.time.LocalDateTime> createDateTime = _super.createDateTime;
 
     public final StringPath email = createString("email");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDateTime = _super.modifiedDateTime;
 
     public final StringPath password = createString("password");
 

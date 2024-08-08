@@ -33,6 +33,7 @@ public class DirectMessageController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @GetMapping(DM_FIND_ROOM_INFO)
     public ResponseEntity<DirectMessageRoomInfoResponse> findDmRoomInfo(@PathVariable Long dmRoomId) {
         return ResponseEntity.ok(dmService.findDmRoomById(dmRoomId));

@@ -2,10 +2,12 @@ package com.api.deal;
 
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
-import com.common.deal.response.ProtectedDealResponse;
-import com.common.deal.response.ProtectedDealResponseV2;
+import com.common.deal.response.MyProtectedDealResponse;
+import com.common.deal.response.ProtectedDealByGetterResponse;
+import com.common.deal.response.ProtectedDealByProviderResponse;
 import com.common.utils.SuccessResponse;
 import com.service.deal.ProtectedDealService;
+import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import static com.api.config.ApiUrlConstants.*;
 @RequiredArgsConstructor
 @RequestMapping()
 public class ProtectedDealController {
+
     private final ProtectedDealService protectedDealService;
 
     /**
@@ -37,21 +40,31 @@ public class ProtectedDealController {
     }
 
     /**
-     * 안전거래 조회 API
+     * 안전거래 조회 API (By Getter)
      */
-    @PostMapping(DEALS_READ)
-    public ResponseEntity<?> findProtectedDeal(@RequestBody ProtectedDealFindRequest request) {
-        ProtectedDealResponse protectedDealResponse = protectedDealService.findByDealInformation(request);
+    @PostMapping(DEALS_GETTER_READ)
+    public ResponseEntity<?> findProtectedDealByGetter(@RequestBody ProtectedDealFindRequest request) {
+        ProtectedDealByGetterResponse protectedDealResponse = protectedDealService.findByGetterDealInformation( request);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * 내 안전거래 조회 API
+     * 안전거래 조회 API (By Provider)
+     */
+    @PostMapping(DEALS_PROVIDER_READ)
+    public ResponseEntity<?> findProtectedDealByProvider(@RequestBody ProtectedDealFindRequest request) {
+        ProtectedDealByProviderResponse protectedDealResponse = protectedDealService.findByProviderDealInformation( request);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 내 안전거래 조회 API (By Getter)
      */
     @GetMapping(DEALS_FIND_ALL_BY_USER_ID)
     public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
-        List<ProtectedDealResponseV2> allByUserId = protectedDealService.findAllByUserId(userId);
+        List<MyProtectedDealResponse> allByUserId = protectedDealService.findAllByUserId(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED_FOR_USER, allByUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

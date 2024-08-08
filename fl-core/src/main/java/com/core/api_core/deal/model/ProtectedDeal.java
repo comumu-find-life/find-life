@@ -42,17 +42,13 @@ public class ProtectedDeal extends BaseTimeEntity {
     //보증금 or 계약금
     private double deposit;
 
-    //입금 시간
-    private LocalDateTime depositDate;
-
-    //거래 종료 시간
-    private LocalDateTime finishDate;
-
-    private LocalDateTime cancelDate;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "provider_account_id")
     private ProviderAccount providerAccount;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "protected_deal_time_id")
+    private ProtectedDealDateTime protectedDealDateTime;
 
     @Enumerated(EnumType.STRING)
     private DealState dealState;
