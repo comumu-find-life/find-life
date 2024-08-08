@@ -24,7 +24,7 @@ public class QUser extends EntityPathBase<User> {
     public final NumberPath<Integer> brith = createNumber("brith", Integer.class);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+    public final DateTimePath<java.time.LocalDateTime> createDateTime = _super.createDateTime;
 
     public final StringPath email = createString("email");
 
@@ -37,7 +37,7 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath job = createString("job");
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDateTime = _super.modifiedDateTime;
 
     public final StringPath nationality = createString("nationality");
 

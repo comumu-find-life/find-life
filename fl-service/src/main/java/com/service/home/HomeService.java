@@ -47,7 +47,6 @@ public class HomeService {
      */
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
         Home home = homeMapper.toEntity(homeCreateDto);
-        //이미지, 위치 정보 저장
         home.setImages(generateHomeImages(home, files));
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();

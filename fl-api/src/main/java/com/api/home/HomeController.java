@@ -8,6 +8,7 @@ import com.core.api_core.home.model.HomeStatus;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.utils.LatLng;
+import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.api.config.ApiUrlConstants.*;
@@ -34,7 +34,8 @@ public class HomeController {
      */
     @PostMapping(HOMES_BASE_URL)
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeGeneratorRequest,
-                                      @RequestPart("images") List<MultipartFile> images) throws IOException, IllegalAccessException {
+                                      @RequestPart("images") List<MultipartFile> images) throws IllegalAccessException {
+
         //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeGeneratorRequest.getHomeAddress());
         Long homeId = homeService.save(homeGeneratorRequest, images, location);

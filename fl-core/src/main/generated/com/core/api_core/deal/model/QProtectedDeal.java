@@ -24,20 +24,14 @@ public class QProtectedDeal extends EntityPathBase<ProtectedDeal> {
 
     public final com.core.base.model.QBaseTimeEntity _super = new com.core.base.model.QBaseTimeEntity(this);
 
-    public final DateTimePath<java.time.LocalDateTime> cancelDate = createDateTime("cancelDate", java.time.LocalDateTime.class);
-
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+    public final DateTimePath<java.time.LocalDateTime> createDateTime = _super.createDateTime;
 
     public final EnumPath<DealState> dealState = createEnum("dealState", DealState.class);
 
     public final NumberPath<Double> deposit = createNumber("deposit", Double.class);
 
-    public final DateTimePath<java.time.LocalDateTime> depositDate = createDateTime("depositDate", java.time.LocalDateTime.class);
-
     public final NumberPath<Long> dmId = createNumber("dmId", Long.class);
-
-    public final DateTimePath<java.time.LocalDateTime> finishDate = createDateTime("finishDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> getterId = createNumber("getterId", Long.class);
 
@@ -46,7 +40,9 @@ public class QProtectedDeal extends EntityPathBase<ProtectedDeal> {
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDateTime = _super.modifiedDateTime;
+
+    public final QProtectedDealDateTime protectedDealDateTime;
 
     public final QProviderAccount providerAccount;
 
@@ -72,6 +68,7 @@ public class QProtectedDeal extends EntityPathBase<ProtectedDeal> {
 
     public QProtectedDeal(Class<? extends ProtectedDeal> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.protectedDealDateTime = inits.isInitialized("protectedDealDateTime") ? new QProtectedDealDateTime(forProperty("protectedDealDateTime")) : null;
         this.providerAccount = inits.isInitialized("providerAccount") ? new QProviderAccount(forProperty("providerAccount")) : null;
     }
 
