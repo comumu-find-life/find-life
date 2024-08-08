@@ -33,10 +33,12 @@ public interface ProtectedDealMapper {
             @Mapping(target = "deposit", source = "deal.deposit"),
             @Mapping(target = "fee", constant = "0"),
             @Mapping(target = "totalPrice", source = "deal.deposit"),
-            @Mapping(target = "startDate", source = "deal.createDate"),
-            @Mapping(target = "depositDate", source = "deal.depositDate"),
-            @Mapping(target = "finishDate", source = "deal.finishDate"),
-            @Mapping(target = "cancelDate", source = "deal.cancelDate"),
+            @Mapping(target = "dealStartDateTime", expression = "java(deal.getProtectedDealDateTime().getDealStartDateTime())"),
+            @Mapping(target = "depositRequestDateTime", expression = "java(deal.getProtectedDealDateTime().getDepositRequestDateTime())"),
+            @Mapping(target = "depositCompletionDateTime", expression = "java(deal.getProtectedDealDateTime().getDepositCompletionDateTime())"),
+            @Mapping(target = "dealCompletionRequestDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCompletionRequestDateTime())"),
+            @Mapping(target = "dealCompletionDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCompletionDateTime())"),
+            @Mapping(target = "dealCancellationDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCancellationDateTime())"),
             @Mapping(target = "address", expression = "java(home.getHomeAddress().parseAddress())"),
             @Mapping(target = "homeImage", expression = "java(home.getMainImage())"),
             @Mapping(target = "rent", source = "home.rent"),
@@ -51,10 +53,12 @@ public interface ProtectedDealMapper {
             @Mapping(target = "deposit", source = "deal.deposit"),
             @Mapping(target = "fee", constant = "0"),
             @Mapping(target = "totalPrice", source = "deal.deposit"),
-            @Mapping(target = "startDate", source = "deal.createDate"),
-            @Mapping(target = "depositDate", source = "deal.depositDate"),
-            @Mapping(target = "finishDate", source = "deal.finishDate"),
-            @Mapping(target = "cancelDate", source = "deal.cancelDate"),
+            @Mapping(target = "dealStartDateTime", expression = "java(deal.getProtectedDealDateTime().getDealStartDateTime())"),
+            @Mapping(target = "depositRequestDateTime", expression = "java(deal.getProtectedDealDateTime().getDepositRequestDateTime())"),
+            @Mapping(target = "depositCompletionDateTime", expression = "java(deal.getProtectedDealDateTime().getDepositCompletionDateTime())"),
+            @Mapping(target = "dealCompletionRequestDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCompletionRequestDateTime())"),
+            @Mapping(target = "dealCompletionDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCompletionDateTime())"),
+            @Mapping(target = "dealCancellationDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCancellationDateTime())"),
             @Mapping(target = "address", expression = "java(home.getHomeAddress().parseAddress())"),
             @Mapping(target = "homeImage", expression = "java(home.getMainImage())"),
             @Mapping(target = "rent", source = "home.rent"),
@@ -63,12 +67,6 @@ public interface ProtectedDealMapper {
     })
     ProtectedDealByGetterResponse toGetterResponse(ProtectedDeal deal, Home home);
 
-//    @Mappings({
-//            @Mapping(target = "account", source = "entity.providerAccount.account"),
-//            @Mapping(target = "accountHolder", source = "entity.providerAccount.accountHolder"),
-//            @Mapping(target = "bankName", source = "entity.providerAccount.bankName"),
-//    })
-//    ProtectedDealResponse toResponse(ProtectedDeal entity);
 
     @Mappings({
             @Mapping(target = "id", source = "deal.id"),
@@ -76,10 +74,12 @@ public interface ProtectedDealMapper {
             @Mapping(target = "deposit", source = "deal.deposit"),
             @Mapping(target = "fee", constant = "0"),
             @Mapping(target = "totalPrice", source = "deal.deposit"),
-            @Mapping(target = "startDate", source = "deal.createDate"),
-            @Mapping(target = "depositDate", source = "deal.depositDate"),
-            @Mapping(target = "finishDate", source = "deal.finishDate"),
-            @Mapping(target = "cancelDate", source = "deal.cancelDate"),
+            @Mapping(target = "dealStartDateTime", expression = "java(deal.getProtectedDealDateTime().getDealStartDateTime())"),
+            @Mapping(target = "depositRequestDateTime", expression = "java(deal.getProtectedDealDateTime().getDepositRequestDateTime())"),
+            @Mapping(target = "depositCompletionDateTime", expression = "java(deal.getProtectedDealDateTime().getDepositCompletionDateTime())"),
+            @Mapping(target = "dealCompletionRequestDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCompletionRequestDateTime())"),
+            @Mapping(target = "dealCompletionDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCompletionDateTime())"),
+            @Mapping(target = "dealCancellationDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCancellationDateTime())"),
             @Mapping(target = "address", expression = "java(home.getHomeAddress().parseAddress())"),
             @Mapping(target = "homeImage", expression = "java(home.getMainImage())"),
             @Mapping(target = "rent", source = "home.rent"),

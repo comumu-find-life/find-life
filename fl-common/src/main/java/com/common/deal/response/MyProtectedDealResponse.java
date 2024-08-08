@@ -20,13 +20,12 @@ public class MyProtectedDealResponse {
 
     private double totalPrice;
 
-    private LocalDateTime startDate;
-
-    private LocalDateTime depositDate;
-
-    private LocalDateTime finishDate;
-
-    private LocalDateTime cancelDate;
+    private LocalDateTime dealStartDateTime;
+    private LocalDateTime depositRequestDateTime;
+    private LocalDateTime depositCompletionDateTime;
+    private LocalDateTime dealCompletionRequestDateTime;
+    private LocalDateTime dealCompletionDateTime;
+    private LocalDateTime dealCancellationDateTime;
 
     private String address;
 
