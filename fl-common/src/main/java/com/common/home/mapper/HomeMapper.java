@@ -94,10 +94,10 @@ public interface HomeMapper {
     @Named("mapSimpleAddress")
     default String mapSimpleAddress(HomeAddress homeAddress) {
         StringBuilder sb = new StringBuilder();
-        sb.append(homeAddress.getStreetCode() + " ");
+        sb.append(homeAddress.getDetailAddress() + ", ");
         sb.append(homeAddress.getStreetName() + " ");
         sb.append(", ");
-        sb.append(homeAddress.getCity() + " ");
+        sb.append(homeAddress.getCity() + ", ");
         sb.append(homeAddress.getState() + " ");
         sb.append(homeAddress.getPostCode());
         return sb.toString();
