@@ -290,6 +290,16 @@
 .card-sm {
     cursor: pointer;
 }
+        .img-icon {
+            width: 1.25rem;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+
+        }
+        .card-contents-info {
+            font-size: 1.25rem;
+
+        }
 
     </style>
 </head>
@@ -326,8 +336,12 @@
                                 $${home.rent} / Week + $${home.bond} bond (bill not Inc)
                             </div>
                             <div class="card-contents">
-                                <div class="card-contents-texts">${home.address}</div>
-                                <div class="card-contents-texts">${home.bedroomCount}B${home.bathRoomCount}B - 1 Room in House - 1 or 2 people</div>
+                                <div class="card-contents-text">${home.address}</div>
+                                <div class="card-contents-info">
+                                    ${home.bedroomCount}<img class="img-icon" src="/assets/icons/bed-icon.svg">
+                                    ${home.bathRoomCount}<img class="img-icon" src="/assets/icons/bathroom-icon.svg">
+                                     1 Room in House - 1 or 2 people
+                                </div>
                             </div>
                         </div>
                     </div>
