@@ -48,7 +48,7 @@ public class ProtectedDealAdminService {
 
     public void checkDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
-        protectedDeal.setDealState(DealState.DONE_DEPOSIT);
+        protectedDeal.setDealState(DealState.COMPLETE_DEPOSIT);
     }
 
     public List<ProtectedDealOverViewResponse> findAllSubmitDeal() {
@@ -60,7 +60,7 @@ public class ProtectedDealAdminService {
 
     public void completeDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
-        protectedDeal.setDealState(DealState.FINISH);
+        protectedDeal.setDealState(DealState.COMPLETE_DEAL);
     }
 
     private ProtectedDealAdminResponse mapToProtectedDealAdminResponse(ProtectedDeal deal) {

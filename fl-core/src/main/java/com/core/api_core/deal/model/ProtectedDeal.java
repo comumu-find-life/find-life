@@ -66,4 +66,37 @@ public class ProtectedDeal extends BaseTimeEntity {
     public double calculateCharge() {
         return deposit * chargeRate;
     }
+
+
+    //입금 완료 시간 설정
+    public void setDepositCompletionDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDepositCompletionDateTime(time);
+    }
+
+    // 입근 신청 시간 설정
+    public void setDepositRequestDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDepositRequestDateTime(time);
+    }
+
+    // 입금 취소 시간 설정
+    public void setDepositCancelDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDepositCancelDateTime(time);
+    }
+
+    // 거래 완료 신청 시간 설정
+    public void setDealCompletionRequestDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDealCompletionRequestDateTime(time);
+    }
+
+    // 거래 종료 시간 설정
+    public void setDealCompleteDateTime(LocalDateTime time) {
+        this.protectedDealDateTime.setDealCompletionDateTime(time);
+    }
+
+    //거래 취소 시간 설정
+    public void setDealCancellationDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDealCancellationDateTime(time);
+    }
+
+
 }

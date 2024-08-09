@@ -148,7 +148,7 @@ public class ProtectedDealIntegrationTest {
 
         //then
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(repository.findById(id), "ERROR");
-        Assertions.assertThat(protectedDeal.getDealState()).isEqualTo(DealState.DURING_DEPOSIT);
+        Assertions.assertThat(protectedDeal.getDealState()).isEqualTo(DealState.REQUEST_DEPOSIT);
     }
 
 }
