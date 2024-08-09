@@ -37,4 +37,28 @@ public class ProtectedDealDateTime {
 
     //거래 취소 시간
     private LocalDateTime dealCancellationDateTime;
+
+    public void setDealStartDateTime(LocalDateTime dealStartDateTime) {
+        this.dealStartDateTime = dealStartDateTime;
+    }
+
+    public void setDepositRequestDateTime(LocalDateTime depositRequestDateTime) {
+        this.depositRequestDateTime = depositRequestDateTime;
+    }
+
+    public void setDepositCompletionDateTime(LocalDateTime depositCompletionDateTime) {
+        this.depositCompletionDateTime = depositCompletionDateTime;
+    }
+
+    public void setDealCompletionRequestDateTime(LocalDateTime dealCompletionRequestDateTime) {
+        this.dealCompletionRequestDateTime = dealCompletionRequestDateTime;
+    }
+
+    public void setDealCompletionDateTime(LocalDateTime dealCompletionDateTime) {
+        this.dealCompletionDateTime = dealCompletionDateTime;
+    }
+
+    public void setDealCancellationDateTime(LocalDateTime dealCancellationDateTime) {
+        this.dealCancellationDateTime = dealCancellationDateTime;
+    }
 }

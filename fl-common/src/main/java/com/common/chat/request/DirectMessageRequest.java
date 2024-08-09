@@ -20,6 +20,4 @@ public class DirectMessageRequest {
     @JsonProperty("isDeal")
     private int isDeal;
     private DealState dealState;
-
-    // 수동으로 getter 추가
 }

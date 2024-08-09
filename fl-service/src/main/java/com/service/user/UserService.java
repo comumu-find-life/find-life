@@ -65,11 +65,11 @@ public class UserService {
 
 
 
-    public Long findUserIdByUsername() {
+    public Long findUserIdByEmail() {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("THISTHIS == ");
         System.out.println(currentUsername);
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByNickname(currentUsername), NOT_EXIT_USER_NICKNAME);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(currentUsername), NOT_EXIT_USER_NICKNAME);
         return user.getId();
     }
 
@@ -89,6 +89,8 @@ public class UserService {
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
         userRepository.delete(user);
     }
+
+
 
     private User createUser(UserSignupRequest dto, MultipartFile image) throws Exception {
         User user = userMapper.toEntity(dto);
