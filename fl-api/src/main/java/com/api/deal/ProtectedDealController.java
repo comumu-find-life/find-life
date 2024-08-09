@@ -7,7 +7,6 @@ import com.common.deal.response.ProtectedDealByGetterResponse;
 import com.common.deal.response.ProtectedDealByProviderResponse;
 import com.common.utils.SuccessResponse;
 import com.service.deal.ProtectedDealService;
-import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,7 +93,7 @@ public class ProtectedDealController {
      */
     @PatchMapping(DEALS_DONE)
     public ResponseEntity<?> doneDeal(@PathVariable Long dealId){
-        protectedDealService.finishDeal(dealId);
+        protectedDealService.completeDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

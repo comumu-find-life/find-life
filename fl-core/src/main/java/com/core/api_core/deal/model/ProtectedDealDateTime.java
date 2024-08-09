@@ -29,6 +29,9 @@ public class ProtectedDealDateTime {
     //입금 완료 시간
     private LocalDateTime depositCompletionDateTime;
 
+    //입금 취소 시간
+    private LocalDateTime depositCancelDateTime;
+
     //거래 완료 신청 시간
     private LocalDateTime dealCompletionRequestDateTime;
 
@@ -56,6 +59,10 @@ public class ProtectedDealDateTime {
 
     public void setDealCompletionDateTime(LocalDateTime dealCompletionDateTime) {
         this.dealCompletionDateTime = dealCompletionDateTime;
+    }
+
+    public void setDepositCancelDateTime(LocalDateTime depositCancelDateTime) {
+        this.depositCancelDateTime = depositCancelDateTime;
     }
 
     public void setDealCancellationDateTime(LocalDateTime dealCancellationDateTime) {

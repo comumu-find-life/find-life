@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -82,7 +83,8 @@ public class ProtectedDealService {
     public void requestDeposit(Long dealId) {
         //todo cms 에서 확인 요청
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
-        protectedDeal.setDealState(DealState.DURING_DEPOSIT);
+        protectedDeal.setDealState(DealState.REQUEST_DEPOSIT);
+        protectedDeal.setDepositRequestDateTime(LocalDateTime.now());
 
     }
 
@@ -92,34 +94,52 @@ public class ProtectedDealService {
     @Transactional
     public void doneDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
-        protectedDeal.setDealState(DealState.DONE_DEPOSIT);
+        protectedDeal.setDepositCompletionDateTime(LocalDateTime.now());
+        protectedDeal.setDealState(DealState.COMPLETE_DEPOSIT);
     }
 
     /**
      * 입금 완료 실패 메서드 by admin
      */
     @Transactional
-    public void failDeposit(Long dealId) {
+    public void requestCancelDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
+        protectedDeal.setDepositCancelDateTime(LocalDateTime.now());
         protectedDeal.setDealState(DealState.BEFORE_DEPOSIT);
     }
 
     /**
-     * 거래 완료 메서드 by getter
+     * 거래 완료 신청 메서드 by getter
      */
     @Transactional
-    public void finishDeal(Long dealId) {
+    public void requestCompleteDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         //todo cms 에서 입금하는 로직 구현
-        protectedDeal.setDealState(DealState.FINISH);
+        protectedDeal.setDealCompletionRequestDateTime(LocalDateTime.now());
+        protectedDeal.setDealState(DealState.REQUEST_COMPLETE_DEAL);
+    }
+
+    /**
+     * 거래 완료 메서드 by admin
+     */
+    @Transactional
+    public void completeDeal(Long dealId) {
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
+        //todo cms 에서 입금하는 로직 구현
+        protectedDeal.setDealCompleteDateTime(LocalDateTime.now());
+        protectedDeal.setDealState(DealState.COMPLETE_DEAL);
     }
 
 
+    /**
+     * 거래 취소 메서드 by getter
+     */
     @Transactional
     public void cancelDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         //todo cms 에서 입금하는 로직 구현
-        protectedDeal.setDealState(DealState.CANCEL);
+        protectedDeal.setDealCancellationDateTime(LocalDateTime.now());
+        protectedDeal.setDealState(DealState.CANCEL_DEAL);
     }
 
     //랜덤 UUID 생성   TODO 로직 변경
