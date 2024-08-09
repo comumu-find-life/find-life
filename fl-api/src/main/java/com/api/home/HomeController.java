@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,7 @@ import static com.api.config.ApiUrlConstants.*;
 @RequiredArgsConstructor
 public class HomeController {
     private final HomeService homeService;
+    private final UserService userService;
     private final LocationService locationService;
 
     /**
@@ -36,9 +38,10 @@ public class HomeController {
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeGeneratorRequest,
                                       @RequestPart("images") List<MultipartFile> images) throws IllegalAccessException {
 
+        Long userId = userService.findUserIdByEmail();
         //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeGeneratorRequest.getHomeAddress());
-        Long homeId = homeService.save(homeGeneratorRequest, images, location);
+        Long homeId = homeService.save(homeGeneratorRequest, images, userId, location);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

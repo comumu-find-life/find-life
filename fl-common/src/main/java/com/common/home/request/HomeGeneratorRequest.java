@@ -11,7 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class HomeGeneratorRequest {
 
-    private Long userIdx;
 
     private HomeAddressGeneratorRequest homeAddress;
 

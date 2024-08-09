@@ -28,8 +28,9 @@ public interface HomeMapper {
     @Mapping(target = "images", ignore = true)
     @Mapping(target = "homeStatus", expression = "java(com.core.api_core.home.model.HomeStatus.FOR_SALE)")
     @Mapping(target = "viewCount", ignore = true)
+    @Mapping(target = "userIdx", source = "userIdx")
     //todo userIdx
-    Home toEntity(HomeGeneratorRequest homeDto);
+    Home toEntity(HomeGeneratorRequest homeDto, Long userIdx);
 
     /**
      * HomeAddress 엔티티 변환
