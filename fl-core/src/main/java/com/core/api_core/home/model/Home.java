@@ -34,6 +34,9 @@ public class Home extends BaseTimeEntity {
     @JoinColumn(name = "home_address_id")
     private HomeAddress homeAddress;
 
+    @Embedded
+    private HomeInfo homeInfo;
+
     // 화장실 개수
     private int bathRoomCount;
 

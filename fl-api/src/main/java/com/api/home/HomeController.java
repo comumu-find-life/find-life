@@ -24,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/homes")
 public class HomeController {
+
     private final HomeService homeService;
     private final LocationService locationService;
 

@@ -46,7 +46,11 @@ public class HomeService {
         Home home = homeMapper.toEntity(homeCreateDto);
 
         //이미지, 위치 정보 저장
-        home.setImages(generateHomeImages(home, files));
+        log.info("homeCreateDto.getGender()");
+        log.info(homeCreateDto.getGender() + "");
+        if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
+            home.setImages(generateHomeImages(home, files));
+        }
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
