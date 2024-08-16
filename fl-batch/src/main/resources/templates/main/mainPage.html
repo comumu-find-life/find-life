@@ -292,13 +292,32 @@
 }
         .img-icon {
             width: 1.25rem;
-            margin-left: 0.25rem;
-            margin-right: 0.5rem;
 
         }
         .card-contents-info {
             font-size: 1.25rem;
+            margin-top: 0.25rem;
+        }
+        .info-count {
 
+            margin-left: 0.65rem;
+            margin-right: 0.5rem;
+        }
+
+        .room-type {
+            padding: 0.1rem 0.75rem;
+            font-size: 1rem;
+            border: 2px solid;
+            border-radius: 1rem;
+            font-weight: bold;
+        }
+
+        .btn-more {
+            margin: 3rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 1px solid black;
+            padding: 1rem;
         }
 
     </style>
@@ -317,6 +336,9 @@
         <div class="card-section" id="home-list">
 
         </div>
+        <div class="btn-more">
+            View More Listings
+        </div>
     </div>
 
     <th:block th:replace="~{fragments/footer :: footer}"></th:block>
@@ -324,6 +346,15 @@
     fetch('/api/homes')
         .then(response => response.json())
         .then(data => {
+            const HOME_TYPE = {
+                'WHOLE_PROPERTY_RENT' : 'Whole property',
+                'SHARED_ROOM' : 'Shared room',
+                'PRIVATE_ROOM' : 'Private room',
+                'HOME_STAY' : 'Home stay',
+                'STUDIO' : 'Studio', //(원룸)
+                'STUDENT_ACCOMMODATION' : 'Student accommodation',
+                'ONE_BED_FLAT' : 'One bed flat'
+            };
             const dataList = data.map(home => {
                 return `
                     <div class="card-sm" id="${home.id}">
@@ -338,9 +369,9 @@
                             <div class="card-contents">
                                 <div class="card-contents-text">${home.address}</div>
                                 <div class="card-contents-info">
-                                    ${home.bedroomCount}<img class="img-icon" src="/assets/icons/bed-icon.svg">
-                                    ${home.bathRoomCount}<img class="img-icon" src="/assets/icons/bathroom-icon.svg">
-                                     1 Room in House - 1 or 2 people
+                                    <img class="img-icon" src="/assets/icons/bed-icon.svg"><span class="info-count">${home.bedroomCount}</span>
+                                    <img class="img-icon" src="/assets/icons/bathroom-icon.svg"><span class="info-count">${home.bathRoomCount}</span>
+                                    <span class="room-type">${HOME_TYPE[home.type]}</span>
                                 </div>
                             </div>
                         </div>

@@ -51,6 +51,11 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @GetMapping("/register")
+    public String registerPage() {
+        return "login/register";
+    }
+
     @GetMapping("/logout")
     public String logout(HttpServletResponse response){
         Cookie cookie = new Cookie("Authorization", null);
