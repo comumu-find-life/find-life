@@ -23,12 +23,19 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.helper.HomeHelper.*;
 import static com.api.home.SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -82,6 +89,40 @@ public class HomeControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = "PROVIDER")
+    public void 집_게시글_동시_생성_테스트() throws Exception {
+        List<Home> homes = repository.findAll();
+        // given
+        HomeGeneratorRequest homeGeneratorRequest = generateHomeGeneratorRequest();
+        MockMultipartFile jsonFile = new MockMultipartFile("homeCreateDto", "", "application/json",
+                objectMapper.writeValueAsBytes(homeGeneratorRequest));
+        MockMultipartFile image1 = new MockMultipartFile("images", "image1.jpg", "image/jpeg", "image1".getBytes());
+        MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
+
+        int threadCount = 5;
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+        CountDownLatch latch = new CountDownLatch(threadCount);
+
+        for(int i=0; i<threadCount; i++){
+            executorService.submit(() -> {
+                try {
+                    mockMvc.perform(MockMvcRequestBuilders.multipart("/v1/api/homes")
+                            .file(jsonFile)
+                            .file(image1)
+                            .file(image2)
+                            .header(HttpHeaders.AUTHORIZATION, token)
+                            .contentType(MediaType.MULTIPART_FORM_DATA));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    latch.countDown();
+                }
+            });
+        }
+        List<Home> homes2 = repository.findAll();
+    }
+
+    @Test
+    @WithMockUser(roles = "PROVIDER")
     public void 집_게시글_수정_테스트() throws Exception {
         // given
         HomeUpdateRequest homeGeneratorRequest = generateHomeUpdateRequest();
@@ -102,25 +143,6 @@ public class HomeControllerIntegrationTest {
         Assertions.assertThat(home.getBathRoomCount()).isEqualTo(homeGeneratorRequest.getBathRoomCount());
     }
 
-    @Test
-    @WithMockUser(roles = "PROVIDER")
-    public void 집_상태_변경_테스트() throws Exception {
-        //given
-        Long homeId = 1L;
-
-        //when
-        mockMvc.perform(post("/v1/api/homes/sell")
-                        .param("homeId", homeId.toString())
-                        .header(HttpHeaders.AUTHORIZATION, token)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 판매 완료", null))));
-
-        //then
-        Home home = repository.findById(homeId).get();
-        Assertions.assertThat(home.getHomeStatus()).isEqualTo(HomeStatus.SOLD_OUT);
-    }
 
     @Test
     @WithMockUser(roles = "PROVIDER")

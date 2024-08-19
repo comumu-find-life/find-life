@@ -59,6 +59,7 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
+
     /**
      * 사용자 프로필 조회 메서드 by userId
      */

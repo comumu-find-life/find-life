@@ -13,82 +13,61 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.api.config.ApiUrlConstants.*;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/deal")
+@RequestMapping(BASE_API_URL)
 public class ProtectedDealController {
     private final ProtectedDealService protectedDealService;
 
-    /**
-     * 안전거래 생성 API
-     */
-    @PostMapping()
+    @PostMapping(DEALS_SAVE)
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public ResponseEntity<?> saveDeal(@RequestBody ProtectedDealGeneratorRequest request) {
         protectedDealService.save(request);
-        SuccessResponse response = new SuccessResponse(true, "안전거래 생성 완료", null);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 안전거래 조회 API
-     */
-    @PostMapping("/read")
+    @PostMapping(DEALS_READ)
     public ResponseEntity<?> findProtectedDeal(@RequestBody ProtectedDealFindRequest request) {
         ProtectedDealResponse protectedDealResponse = protectedDealService.findByDealInformation(request);
-        SuccessResponse response = new SuccessResponse(true, "안전거래 조회 성공", protectedDealResponse);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
-        //getterId, providerId, dmId
     }
 
-    /**
-     * 자신의 안전거래 조회 API
-     */
-    @GetMapping("/{userId}")
+    @GetMapping(DEALS_FIND_ALL_BY_USER_ID)
     public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
         List<ProtectedDealResponse> allByUserId = protectedDealService.findAllByUserId(userId);
-        SuccessResponse response = new SuccessResponse(true, "내 안전거래 조회 성공", allByUserId);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED_FOR_USER, allByUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
-    /**
-     * 입금 신청 API (GETTER 가 사용)
-     */
-    @PostMapping("/request/deposit/{dealId}")
+    @PostMapping(DEALS_REQUEST_DEPOSIT)
     public ResponseEntity<?> requestDeposit(@PathVariable Long dealId) {
         protectedDealService.requestDeposit(dealId);
-        SuccessResponse response = new SuccessResponse(true, "입금 신청 완료", null);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_REQUESTED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 입금 완료 API (ADMIN 이 사용)
-     */
-    @PatchMapping("/done/deposit/{dealId}")
+    @PatchMapping(DEALS_DONE_DEPOSIT)
     public ResponseEntity<?> doneDeposit(@PathVariable Long dealId) {
         protectedDealService.doneDeposit(dealId);
-        SuccessResponse response = new SuccessResponse(true, "입금 완료", null);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 거래 성사 API (GETTER 가 사용)
-     */
-    @PatchMapping("/done/{dealId}")
+    @PatchMapping(DEALS_DONE)
     public ResponseEntity<?> doneDeal(@PathVariable Long dealId){
         protectedDealService.finishDeal(dealId);
-        SuccessResponse response = new SuccessResponse(true, "거래 완료", null);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 거래 취소 API (GETTER 가 사용)
-     */
-    @PatchMapping("/cancel/{dealId}")
+    @PatchMapping(DEALS_CANCEL)
     public ResponseEntity<?> cancelDeal(@PathVariable Long dealId){
         protectedDealService.cancelDeal(dealId);
-        SuccessResponse response = new SuccessResponse(true, "거래 취소", null);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CANCELLED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
