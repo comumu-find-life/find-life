@@ -26,6 +26,7 @@ import static com.api.config.ApiUrlConstants.*;
 @RequiredArgsConstructor
 @RequestMapping(HOMES_BASE_URL)
 public class HomeController {
+
     private final HomeService homeService;
     private final LocationService locationService;
 
@@ -42,6 +43,7 @@ public class HomeController {
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     /**
      * 집 주소 검색 (검증) api

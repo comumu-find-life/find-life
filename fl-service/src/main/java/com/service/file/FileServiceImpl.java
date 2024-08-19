@@ -1,5 +1,6 @@
 package com.service.file;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class FileServiceImpl implements FileService {
 
@@ -23,6 +25,12 @@ public class FileServiceImpl implements FileService {
                 DateTimeFormatter.ofPattern("yyyyMMdd");
         String createdDate = now.format(dateTimeFormatter);
         String uuid = UUID.randomUUID().toString();
+
+        log.info(file.getOriginalFilename());
+        log.info("file.getOriginalFilename()");
+        log.info("file.getOriginalFilename()");
+        log.info("file.getOriginalFilename()");
+        log.info("file.getOriginalFilename()");
 
         String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         return createdDate + File.separator + uuid + ext;

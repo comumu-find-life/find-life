@@ -290,6 +290,35 @@
 .card-sm {
     cursor: pointer;
 }
+        .img-icon {
+            width: 1.25rem;
+
+        }
+        .card-contents-info {
+            font-size: 1.25rem;
+            margin-top: 0.25rem;
+        }
+        .info-count {
+
+            margin-left: 0.65rem;
+            margin-right: 0.5rem;
+        }
+
+        .room-type {
+            padding: 0.1rem 0.75rem;
+            font-size: 1rem;
+            border: 2px solid;
+            border-radius: 1rem;
+            font-weight: bold;
+        }
+
+        .btn-more {
+            margin: 3rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 1px solid black;
+            padding: 1rem;
+        }
 
     </style>
 </head>
@@ -300,11 +329,15 @@
             <div class="box-title">Australia's home & flatmate finder</div>
             <div class="box-sub-title">Free to list, search & communicate</div>
             <div class="box-buttons">
-                <div class="box-left-button">List your room</div>
+                <div class="box-left-button" id="list-my-room">List your room</div>
                 <div class="box-right-button">Find a home</div>
             </div>
         </div>
         <div class="card-section" id="home-list">
+
+        </div>
+        <div class="btn-more">
+            View More Listings
         </div>
     </div>
 
@@ -313,6 +346,15 @@
     fetch('/api/homes')
         .then(response => response.json())
         .then(data => {
+            const HOME_TYPE = {
+                'WHOLE_PROPERTY_RENT' : 'Whole property',
+                'SHARED_ROOM' : 'Shared room',
+                'PRIVATE_ROOM' : 'Private room',
+                'HOME_STAY' : 'Home stay',
+                'STUDIO' : 'Studio', //(원룸)
+                'STUDENT_ACCOMMODATION' : 'Student accommodation',
+                'ONE_BED_FLAT' : 'One bed flat'
+            };
             const dataList = data.map(home => {
                 return `
                     <div class="card-sm" id="${home.id}">
@@ -325,8 +367,12 @@
                                 $${home.rent} / Week + $${home.bond} bond (bill not Inc)
                             </div>
                             <div class="card-contents">
-                                <div class="card-contents-texts">${home.address}</div>
-                                <div class="card-contents-texts">${home.bedroomCount}B${home.bathRoomCount}B - 1 Room in House - 1 or 2 people</div>
+                                <div class="card-contents-text">${home.address}</div>
+                                <div class="card-contents-info">
+                                    <img class="img-icon" src="/assets/icons/bed-icon.svg"><span class="info-count">${home.bedroomCount}</span>
+                                    <img class="img-icon" src="/assets/icons/bathroom-icon.svg"><span class="info-count">${home.bathRoomCount}</span>
+                                    <span class="room-type">${HOME_TYPE[home.type]}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -348,6 +394,9 @@
         })
         .catch(error => console.error('Error:', error));
 
+        document.getElementById('list-my-room').addEventListener('click', function(){
+            window.location.href = "/home/new";
+        })
 </script>
 </body>
 </html>

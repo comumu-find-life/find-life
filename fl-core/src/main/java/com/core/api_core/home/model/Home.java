@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -32,6 +33,9 @@ public class Home extends BaseTimeEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "home_address_id")
     private HomeAddress homeAddress;
+
+    @Embedded
+    private HomeInfo homeInfo;
 
     // 화장실 개수
     private int bathRoomCount;

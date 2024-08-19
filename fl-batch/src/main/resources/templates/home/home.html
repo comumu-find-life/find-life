@@ -293,6 +293,17 @@
         .side-menu {
             width: 40rem;
         }
+        .room-summary {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .room-summary-item {
+            flex: 1 1 40%;
+            margin-bottom: 0.75rem;
+            margin-top: 0.75rem;
+            font-size: 1.25rem;
+        }
+
     </style>
 </head>
 <body>
@@ -342,7 +353,7 @@
                                     <img class="img-icon" src="/assets/icons/people-icon.svg"> <span class="room-count-number">${home.residentCount}</span>
                                 </div>
                                 <div class="home-type">
-                                    ${ROOM_TYPE[home.type]}
+                                    ${home.type}
                                 </div>
                             </div>
                         </div>
@@ -375,6 +386,22 @@
                                 </div>
                             </div>
 
+                            <div class="divider"></div>
+
+                            <div class="home-contents-section">
+                                <h2>Room summary</h2>
+                                <div class="room-summary">
+                                    <div class="room-summary-item">$${home.rent} weekly rent</div>
+                                    <div class="room-summary-item">Bills included in rent</div>
+                                    <div class="room-summary-item">${home.type}</div>
+                                    <div class="room-summary-item">${home.homeInfo.bathroomType}</div>
+                                    <div class="room-summary-item">${home.homeInfo.minimumStay}</div>
+                                    <div class="room-summary-item">${home.homeInfo.residentType}</div>
+                                    <div class="room-summary-item">${home.homeInfo.isFurnished}</div>
+                                    <div class="room-summary-item">${home.homeInfo.parkingType}</div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
                             <div class="home-contents-section">
                                 <h2>About the Share mates</h2>
                                 <div>

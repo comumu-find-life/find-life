@@ -1,5 +1,6 @@
 package com.common.home.response;
 
+import com.core.api_core.home.model.HomeInfo;
 import com.core.api_core.home.model.HomeType;
 import com.core.api_core.user.model.Gender;
 import lombok.Builder;
@@ -53,4 +54,5 @@ public class HomeInformationResponse {
 
     private double longitude;
 
+    private HomeInfo homeInfo;
 }
