@@ -13,6 +13,8 @@ public enum DealState {
     DONE_DEPOSIT,
     // 입금 취소 상태
     FAIL_DEPOSIT,
+    //거래 완료 신청
+    SUBMIT_DEAL,
     //거래 완료 상태
     FINISH,
     //거래 취소 상태

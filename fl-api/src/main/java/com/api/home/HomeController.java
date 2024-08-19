@@ -19,10 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+import static com.api.config.ApiUrlConstants.*;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/homes")
+@RequestMapping(HOMES_BASE_URL)
 public class HomeController {
 
     private final HomeService homeService;
@@ -30,6 +32,7 @@ public class HomeController {
 
     /**
      * 집 게시글 등록 api
+     * todo 사용자가 동시에 2번 요청을 보냈을경우 예외처리
      */
     @PostMapping
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeCreateDto,
@@ -45,7 +48,7 @@ public class HomeController {
     /**
      * 집 주소 검색 (검증) api
      */
-    @PostMapping("/address/validate")
+    @PostMapping(HOMES_VALIDATE_ADDRESS)
     public ResponseEntity<?> validateAddress(@RequestBody HomeAddressGeneratorRequest homeAddressGeneratorRequest) throws IllegalAccessException {
         LatLng location = locationService.getLatLngFromAddress(homeAddressGeneratorRequest);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.ADDRESS_VALIDATION_SUCCESS, location);
@@ -55,7 +58,7 @@ public class HomeController {
     /**
      * 자신의 집 게시글 모두 조회 api
      */
-    @GetMapping("/users/{userId}")
+    @GetMapping(HOMES_FIND_BY_USER_ID)
     public ResponseEntity<?> findByUserId(@PathVariable Long userId) {
         List<HomeOverviewResponse> homes = homeService.findByUserId(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS, homes);
@@ -65,7 +68,7 @@ public class HomeController {
     /**
      * 집 id 로 단일 조회 api
      */
-    @GetMapping("/{homeId}")
+    @GetMapping(HOMES_FIND_BY_ID)
     public ResponseEntity<?> findById(@PathVariable Long homeId) {
         HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_RETRIEVE_SUCCESS, homeInformationResponse);
@@ -85,7 +88,7 @@ public class HomeController {
     /**
      * 집 이미지 수정 api
      */
-    @PatchMapping("/image")
+    @PatchMapping(HOMES_UPDATE_IMAGE)
     public ResponseEntity<?> updateHomeImage(@RequestParam("images") List<MultipartFile> images) {
         // 이미지 처리 로직 추가
         for (MultipartFile image : images) {
@@ -99,7 +102,7 @@ public class HomeController {
     /**
      * 집 상태 변경 API (판매중, 판매 완료, 판매 정지)
      */
-    @PatchMapping("/{homeId}/status/{status}")
+    @PatchMapping(HOMES_CHANGE_STATUS)
     public ResponseEntity<?> changeStatusHome(@PathVariable Long homeId, @PathVariable String status) {
         homeService.changeStatus(homeId, status);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_SELL_SUCCESS, null);
@@ -110,7 +113,7 @@ public class HomeController {
     /**
      * 집 게시글 모두 조회 api
      */
-    @GetMapping("/overview")
+    @GetMapping(HOMES_FIND_ALL)
     public ResponseEntity<?> findAll() {
         List<HomeOverviewResponse> allHomes = homeService.findAllHomes();
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.ALL_HOMES_RETRIEVE_SUCCESS, allHomes);
@@ -131,7 +134,7 @@ public class HomeController {
     /**
      * city 이름으로 집 조회 api
      */
-    @GetMapping("/city")
+    @GetMapping(HOMES_FIND_BY_CITY)
     public ResponseEntity<?> findByCity(@RequestParam String city) {
         List<HomeOverviewResponse> homes = homeService.findByCity(city);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
@@ -142,7 +145,7 @@ public class HomeController {
      * city 이름으로 집 조회 api (Path)
      * [Sol]
      */
-    @GetMapping("/cities/{city}")
+    @GetMapping(HOMES_FIND_BY_CITY_PATH)
     public ResponseEntity<?> findByCityPath(@PathVariable String city) {
         List<HomeOverviewResponse> homes = homeService.findByCity(city);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
@@ -152,7 +155,7 @@ public class HomeController {
     /**
      * 찜 목록 조회 api
      */
-    @GetMapping("/favorite")
+    @GetMapping(HOMES_FIND_FAVORITE)
     @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> findFavoriteHomes(@RequestParam List<Long> homeIds) {
         List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
@@ -163,7 +166,7 @@ public class HomeController {
     /**
      * 집 게시글 삭제 api
      */
-    @DeleteMapping("/{homeId}")
+    @DeleteMapping(HOMES_DELETE)
     @PreAuthorize("hasRole(ROLE_PROVIDER)")
     public ResponseEntity<String> delete(@PathVariable Long homeId) {
         homeService.delete(homeId);
@@ -173,7 +176,7 @@ public class HomeController {
     /**
      * 사용자1, 사용자2 에 포함된 집 게시글 모두 조회
      */
-    @GetMapping("/dm")
+    @GetMapping(HOMES_FIND_DM_HOMES)
     public ResponseEntity<?> findDmHomes(@PathVariable Long user1Id, @PathVariable Long user2Id) {
         List<HomeOverviewResponse> byUserIds = homeService.findByUserIds(user1Id, user2Id);
         SuccessResponse response = new SuccessResponse(true, "두명의 사용자 Id로 집 게시글 조회 성공", byUserIds);
