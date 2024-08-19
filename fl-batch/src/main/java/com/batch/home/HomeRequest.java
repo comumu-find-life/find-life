@@ -1,14 +1,18 @@
 package com.batch.home;
 
+import com.common.home.request.HomeAddressGeneratorRequest;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class HomeRequest {
 
     private Long id;
 
-    private String detailAddress;
-    private String streetName;
-    private String city;
-    private String state;
-    private Integer postCode;
+    private HomeAddressGeneratorRequest homeAddress;
 
     private Integer rent;
     private Integer bond;
@@ -24,4 +28,5 @@ public class HomeRequest {
     private String gender;
     private String Type;
     private String pictures;
+
 }

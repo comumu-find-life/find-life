@@ -23,9 +23,7 @@ public interface UserMapper {
     User toEntity(UserSignupRequest dto);
 
     UserInformationResponse toDto(User user);
-
     UserInformationByAdminResponse toAdminResponse(User user);
-
     UserProfileResponse toProfile(User user);
 
 

@@ -15,25 +15,22 @@ public class HomeGeneratorRequest {
 
     private HomeAddressGeneratorRequest homeAddress;
 
-    private Integer bathRoomCount;
+    private Integer rent;
+    private Integer bond;
+    private Integer bill;
 
+
+    private Integer bedroomCount;
+    private Integer bathRoomCount;
     private Integer residentCount;
 
     private boolean dealSavable;
 
-    private Integer bedroomCount;
-
-    private Integer bond;
-
-    private Gender gender;
-
-    private HomeType type;
-
     private String introduce;
 
-    private Integer bill;
+    private Gender gender;
+    private HomeType type;
 
-    private Integer rent;
 
     private String options;
 

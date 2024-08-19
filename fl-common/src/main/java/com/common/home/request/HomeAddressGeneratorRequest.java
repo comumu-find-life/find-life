@@ -1,9 +1,11 @@
 package com.common.home.request;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class HomeAddressGeneratorRequest {
 

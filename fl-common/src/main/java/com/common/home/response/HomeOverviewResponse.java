@@ -4,6 +4,8 @@ import com.core.api_core.home.model.HomeStatus;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 /**
  * 제거 예정 HomeListOvervireResponse로 대체
  */
@@ -24,4 +26,5 @@ public class HomeOverviewResponse {
         private Long userIdx;
         private String userName;
         private HomeStatus homeStatus;
+//        private LocalDateTime createDate;
 }
