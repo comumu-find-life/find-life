@@ -81,18 +81,16 @@ public class ProtectedDealService {
      */
     @Transactional
     public void requestDeposit(Long dealId) {
-        //todo cms 에서 확인 요청
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         protectedDeal.setDealState(DealState.REQUEST_DEPOSIT);
         protectedDeal.setDepositRequestDateTime(LocalDateTime.now());
-
     }
 
     /**
      * 입금 완료 매서드 by admin
      */
     @Transactional
-    public void doneDeposit(Long dealId) {
+    public void completeDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         protectedDeal.setDepositCompletionDateTime(LocalDateTime.now());
         protectedDeal.setDealState(DealState.COMPLETE_DEPOSIT);
@@ -120,7 +118,7 @@ public class ProtectedDealService {
     }
 
     /**
-     * 거래 완료 메서드 by admin
+     * 거래 완료 메서드 by admin todo 삭제
      */
     @Transactional
     public void completeDeal(Long dealId) {

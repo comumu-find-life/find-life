@@ -45,8 +45,8 @@ public class HomeService {
     /**
      * 집 게시글 등록
      */
-    public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files,Long userId ,LatLng latLng) {
-        Home home = homeMapper.toEntity(homeCreateDto,userId );
+    public Long save(HomeGeneratorRequest homeGeneratorRequest, List<MultipartFile> files,Long userId ,LatLng latLng) {
+        Home home = homeMapper.toEntity(homeGeneratorRequest,userId);
         home.setImages(generateHomeImages(home, files));
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
@@ -62,18 +62,12 @@ public class HomeService {
 
         // Home 엔티티를 업데이트
         homeMapper.updateHomeFromDto(homeUpdateDto, home);
-
-
         // 기존 HomeAddress를 가져와서 업데이트
         HomeAddress homeAddress = home.getHomeAddress();
-
         homeMapper.updateAddressFromDto(homeUpdateDto.getHomeAddress(), homeAddress);
-
-
 
         // 변경 사항 저장
         homeRepository.save(home);
-
 
         return home.getId();
     }
