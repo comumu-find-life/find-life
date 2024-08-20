@@ -24,7 +24,7 @@ import static com.api.config.ApiUrlConstants.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(HOMES_BASE_URL)
+//@RequestMapping(HOMES_BASE_URL)
 public class HomeController {
 
     private final HomeService homeService;
@@ -78,7 +78,7 @@ public class HomeController {
     /**
      * 집 정보 수정 api
      */
-    @PatchMapping()
+    @PatchMapping(HOMES_BASE_URL)
     public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto) {
         homeService.update(homeDto);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_UPDATE_SUCCESS, null);
@@ -124,7 +124,7 @@ public class HomeController {
      * 집 게시글 페이징 조회 api
      * ex) /homes?page=0&size=10
      */
-    @GetMapping
+    @GetMapping(HOMES_BASE_URL)
     public ResponseEntity<?> findByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         List<HomeOverviewResponse> allByPage = homeService.findAllByPage(page, size);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.PAGE_HOMES_RETRIEVE_SUCCESS, allByPage);

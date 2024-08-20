@@ -38,7 +38,7 @@ public class LoginController {
         try {
             LoginResponse loginResponse = restTemplate.postForObject(loginUrl, requestEntity, LoginResponse.class);
 
-            Cookie cookie = new Cookie("Authorization", loginResponse.getData().getAccessToken());
+            Cookie cookie = new Cookie("Authorization", loginResponse.getAccessToken());
             cookie.setPath("/");
             cookie.setHttpOnly(true); // 서버만 쿠키에 접근
             cookie.setMaxAge(60*60*30);
@@ -54,6 +54,12 @@ public class LoginController {
     @GetMapping("/register")
     public String registerPage() {
         return "login/register";
+    }
+
+    @PostMapping("/register")
+    public String register() {
+
+        return "redirect:/";
     }
 
     @GetMapping("/logout")

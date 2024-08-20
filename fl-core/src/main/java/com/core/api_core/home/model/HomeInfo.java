@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class HomeInfo {
 
-    private String bathroomType;
+    private BathroomType bathroomType;
 
     private String minimumStay;
 

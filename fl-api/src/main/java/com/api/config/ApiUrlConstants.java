@@ -41,4 +41,9 @@ public class ApiUrlConstants {
     public static final String DEALS_DONE_DEPOSIT = DEALS_BASE_URL + "/done/deposit/{dealId}";
     public static final String DEALS_DONE = DEALS_BASE_URL + "/done/{dealId}";
     public static final String DEALS_CANCEL = DEALS_BASE_URL + "/cancel/{dealId}";
+
+    // private 생성자로 인스턴스 생성 방지
+    private ApiUrlConstants() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
 }

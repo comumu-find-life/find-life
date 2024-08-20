@@ -41,8 +41,6 @@ public class HomeApiController {
     public HomeInformationResponse roomDetail(@PathVariable Long homeId) {
         HomeInformationResponse homeDto = homeApiService.findRoomByRoomId(homeId);
 
-        log.info(homeDto.getHomeInfo().getBathroomType());
-
         return homeDto;
     }
 
