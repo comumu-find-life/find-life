@@ -20,7 +20,7 @@ import static com.api.config.ApiUrlConstants.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(USERS_BASE_URL)
+@RequestMapping()
 public class UserController {
 
     private final UserService userService;

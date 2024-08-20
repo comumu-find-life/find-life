@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 채팅 방 생성 DTO
+ * 채팅 방 생성 요청 DTO
  */
 @Getter
 @Builder

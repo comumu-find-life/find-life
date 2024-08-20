@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -44,6 +46,10 @@ public class ProtectedDeal extends BaseTimeEntity {
     @JoinColumn(name = "provider_account_id")
     private ProviderAccount providerAccount;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "protected_deal_time_id")
+    private ProtectedDealDateTime protectedDealDateTime;
+
     @Enumerated(EnumType.STRING)
     private DealState dealState;
 
@@ -60,4 +66,37 @@ public class ProtectedDeal extends BaseTimeEntity {
     public double calculateCharge() {
         return deposit * chargeRate;
     }
+
+
+    //입금 완료 시간 설정
+    public void setDepositCompletionDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDepositCompletionDateTime(time);
+    }
+
+    // 입근 신청 시간 설정
+    public void setDepositRequestDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDepositRequestDateTime(time);
+    }
+
+    // 입금 취소 시간 설정
+    public void setDepositCancelDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDepositCancelDateTime(time);
+    }
+
+    // 거래 완료 신청 시간 설정
+    public void setDealCompletionRequestDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDealCompletionRequestDateTime(time);
+    }
+
+    // 거래 종료 시간 설정
+    public void setDealCompleteDateTime(LocalDateTime time) {
+        this.protectedDealDateTime.setDealCompletionDateTime(time);
+    }
+
+    //거래 취소 시간 설정
+    public void setDealCancellationDateTime(LocalDateTime time){
+        this.protectedDealDateTime.setDealCancellationDateTime(time);
+    }
+
+
 }

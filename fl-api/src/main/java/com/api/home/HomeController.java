@@ -8,15 +8,16 @@ import com.core.api_core.home.model.HomeStatus;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.utils.LatLng;
+import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.api.config.ApiUrlConstants.*;
@@ -24,22 +25,24 @@ import static com.api.config.ApiUrlConstants.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(HOMES_BASE_URL)
 public class HomeController {
 
     private final HomeService homeService;
+    private final UserService userService;
     private final LocationService locationService;
 
     /**
      * 집 게시글 등록 api
      * todo 사용자가 동시에 2번 요청을 보냈을경우 예외처리
      */
-    @PostMapping
-    public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeCreateDto,
-                                      @RequestPart("images") List<MultipartFile> images) throws IOException, IllegalAccessException {
+    @PostMapping(HOMES_BASE_URL)
+    public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeGeneratorRequest,
+                                      @RequestPart("images") List<MultipartFile> images) throws IllegalAccessException {
+
+        Long userId = userService.findUserIdByEmail();
         //주소 -> 위도, 경도 변환
-        LatLng location = locationService.getLatLngFromAddress(homeCreateDto.getHomeAddress());
-        Long homeId = homeService.save(homeCreateDto, images, location);
+        LatLng location = locationService.getLatLngFromAddress(homeGeneratorRequest.getHomeAddress());
+        Long homeId = homeService.save(homeGeneratorRequest, images, userId, location);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -56,7 +59,7 @@ public class HomeController {
     }
 
     /**
-     * 자신의 집 게시글 모두 조회 api
+     * 사용자(본인, 다른 사용자) 집 게시글 모두 조회 api
      */
     @GetMapping(HOMES_FIND_BY_USER_ID)
     public ResponseEntity<?> findByUserId(@PathVariable Long userId) {
@@ -78,7 +81,7 @@ public class HomeController {
     /**
      * 집 정보 수정 api
      */
-    @PatchMapping()
+    @PatchMapping(HOMES_BASE_URL)
     public ResponseEntity<?> updateHome(@RequestBody HomeUpdateRequest homeDto) {
         homeService.update(homeDto);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_UPDATE_SUCCESS, null);
@@ -156,7 +159,7 @@ public class HomeController {
      * 찜 목록 조회 api
      */
     @GetMapping(HOMES_FIND_FAVORITE)
-    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> findFavoriteHomes(@RequestParam List<Long> homeIds) {
         List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.FAVORITE_HOMES_RETRIEVE_SUCCESS, favoriteHomes);
@@ -167,7 +170,7 @@ public class HomeController {
      * 집 게시글 삭제 api
      */
     @DeleteMapping(HOMES_DELETE)
-    @PreAuthorize("hasRole(ROLE_PROVIDER)")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> delete(@PathVariable Long homeId) {
         homeService.delete(homeId);
         return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);

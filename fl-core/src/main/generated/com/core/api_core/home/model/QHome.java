@@ -33,7 +33,7 @@ public class QHome extends EntityPathBase<Home> {
     public final NumberPath<Integer> bond = createNumber("bond", Integer.class);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+    public final DateTimePath<java.time.LocalDateTime> createDateTime = _super.createDateTime;
 
     public final BooleanPath dealSavable = createBoolean("dealSavable");
 
@@ -50,7 +50,7 @@ public class QHome extends EntityPathBase<Home> {
     public final StringPath introduce = createString("introduce");
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDateTime = _super.modifiedDateTime;
 
     public final StringPath options = createString("options");
 

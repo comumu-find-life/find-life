@@ -2,16 +2,14 @@ package com.core.api_core.home.model;
 
 import com.core.base.model.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Objects;
 
 @Entity
 @Getter
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class HomeAddress extends BaseTimeEntity {
@@ -49,6 +47,17 @@ public class HomeAddress extends BaseTimeEntity {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    public String parseAddress(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(streetCode+" ");
+        sb.append(streetName+",");
+        sb.append(city+" ");
+        sb.append(state+" ");
+        sb.append(postCode);
+        return sb.toString();
+    }
+
 
     @Override
     public boolean equals(Object o) {

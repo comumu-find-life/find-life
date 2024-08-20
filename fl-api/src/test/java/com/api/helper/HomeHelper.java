@@ -86,7 +86,6 @@ public class HomeHelper {
 
     public static HomeGeneratorRequest generateHomeGeneratorRequest() {
         return HomeGeneratorRequest.builder()
-                .userIdx(1L)
                 .homeAddress(generateHomeAddressRequest())
                 .bathRoomCount(5)
                 .bedroomCount(1)
@@ -104,7 +103,7 @@ public class HomeHelper {
     public static HomeUpdateRequest generateHomeUpdateRequest() {
         return HomeUpdateRequest.builder()
                 .homeId(1L)
-                .homeAddress(generateHomeAddressRequest())
+                .homeAddress(generateHomeAddressUpdateRequest())
                 .bathRoomCount(100)
                 .dealSavable(false)
                 .bedroomCount(2)
@@ -122,6 +121,17 @@ public class HomeHelper {
         return HomeAddressGeneratorRequest.builder()
                 .state("NSW")
                 .city("Sydney")
+                .postCode(2000)
+                .detailAddress("401호")
+                .streetCode("10")
+                .streetName("BridgeStreet")
+                .build();
+    }
+
+    private static HomeAddressGeneratorRequest generateHomeAddressUpdateRequest() {
+        return HomeAddressGeneratorRequest.builder()
+                .state("WAC")
+                .city("New Sydney")
                 .postCode(2000)
                 .detailAddress("401호")
                 .streetCode("10")

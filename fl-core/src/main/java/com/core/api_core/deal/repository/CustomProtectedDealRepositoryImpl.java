@@ -47,14 +47,14 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
     @Override
     public List<ProtectedDeal> findAllBeforeDeposit() {
         return query.selectFrom(qProtectedDeal)
-                .where(qProtectedDeal.dealState.eq(DealState.DURING_DEPOSIT))
+                .where(qProtectedDeal.dealState.eq(DealState.REQUEST_DEPOSIT))
                 .fetch();
     }
 
     @Override
     public List<ProtectedDeal> findAllSubmitDeal() {
         return query.selectFrom(qProtectedDeal)
-                .where(qProtectedDeal.dealState.eq(DealState.SUBMIT_DEAL))
+                .where(qProtectedDeal.dealState.eq(DealState.REQUEST_COMPLETE_DEAL))
                 .fetch();
     }
 }

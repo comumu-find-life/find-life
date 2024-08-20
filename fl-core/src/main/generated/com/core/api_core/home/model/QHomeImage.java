@@ -25,7 +25,7 @@ public class QHomeImage extends EntityPathBase<HomeImage> {
     public final com.core.base.model.QBaseTimeEntity _super = new com.core.base.model.QBaseTimeEntity(this);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+    public final DateTimePath<java.time.LocalDateTime> createDateTime = _super.createDateTime;
 
     public final QHome home;
 
@@ -34,7 +34,7 @@ public class QHomeImage extends EntityPathBase<HomeImage> {
     public final StringPath imageUrl = createString("imageUrl");
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDateTime = _super.modifiedDateTime;
 
     public QHomeImage(String variable) {
         this(HomeImage.class, forVariable(variable), INITS);

@@ -8,5 +8,6 @@ public class SuccessProtectedDealMessages {
     public static final String DEPOSIT_REQUESTED = "입금 신청 완료";
     public static final String DEPOSIT_DONE = "입금 완료";
     public static final String DEAL_COMPLETED = "거래 완료";
+    public static final String DEAL_REQUEST_COMPLETED = "거래 완료 신청 성공";
     public static final String DEAL_CANCELLED = "거래 취소";
 }

@@ -1,12 +1,16 @@
 package com.common.home.request;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@AllArgsConstructor
 public class HomeAddressGeneratorRequest {
 
     // ex) 3000 우편번호

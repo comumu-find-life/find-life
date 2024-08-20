@@ -19,7 +19,6 @@ public class ApiUrlConstants {
 
     // 채팅 API URL
     public static final String DM_BASE_URL = BASE_API_URL + "/dm";
-    public static final String DM_SEND = DM_BASE_URL;
     public static final String DM_FIND_ROOM_INFO = DM_BASE_URL + "/dm-rooms/{dmRoomId}";
     public static final String DM_FIND_ALL_ROOMS = DM_BASE_URL + "/dm-rooms";
 
@@ -35,10 +34,14 @@ public class ApiUrlConstants {
     // 안전거래 API URL
     public static final String DEALS_BASE_URL = BASE_API_URL + "/deals";
     public static final String DEALS_SAVE = DEALS_BASE_URL;
-    public static final String DEALS_READ = DEALS_BASE_URL + "/read";
+    public static final String DEALS_GETTER_READ = DEALS_BASE_URL + "/read/getter";
+    public static final String DEALS_PROVIDER_READ = DEALS_BASE_URL + "/read/provider";
     public static final String DEALS_FIND_ALL_BY_USER_ID = DEALS_BASE_URL + "/{userId}";
     public static final String DEALS_REQUEST_DEPOSIT = DEALS_BASE_URL + "/request/deposit/{dealId}";
-    public static final String DEALS_DONE_DEPOSIT = DEALS_BASE_URL + "/done/deposit/{dealId}";
-    public static final String DEALS_DONE = DEALS_BASE_URL + "/done/{dealId}";
+    public static final String DEALS_COMPLETE_DEPOSIT = DEALS_BASE_URL + "/complete/deposit/{dealId}";
+    public static final String DEALS_COMPLETE = DEALS_BASE_URL + "/complete/{dealId}";
+    public static final String DEALS_REQUEST_COMPLETE_URL = DEALS_BASE_URL + "/request/done/{dealId}";
     public static final String DEALS_CANCEL = DEALS_BASE_URL + "/cancel/{dealId}";
 }
+
+

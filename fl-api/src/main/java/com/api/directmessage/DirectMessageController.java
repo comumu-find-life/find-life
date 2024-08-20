@@ -18,7 +18,6 @@ import static com.api.directmessage.SuccessDirectMessages.*;
 
 @Slf4j
 @RestController
-@RequestMapping(DM_BASE_URL)
 @RequiredArgsConstructor
 public class DirectMessageController {
 
@@ -27,16 +26,17 @@ public class DirectMessageController {
     /**
      * 첫 채팅 전송 API
      */
-    @PostMapping
+    @PostMapping(DM_BASE_URL)
     public ResponseEntity<?> sendDm(@RequestBody DirectMessageApplicationRequest dmDto) {
-        Long roomId = dmService.applicationDm(dmDto);
+        Long roomId = dmService.createDirectMessageRoom(dmDto);
         SuccessResponse response = new SuccessResponse(true, DM_ROOM_CREATE_MESSAGE, roomId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @GetMapping(DM_FIND_ROOM_INFO)
     public ResponseEntity<DirectMessageRoomInfoResponse> findDmRoomInfo(@PathVariable Long dmRoomId) {
-        return ResponseEntity.ok(dmService.findDmRoomById(dmRoomId));
+        return ResponseEntity.ok(dmService.getDirectMessageRoomById(dmRoomId));
     }
 
     /**
@@ -44,7 +44,7 @@ public class DirectMessageController {
      */
     @GetMapping(DM_FIND_ALL_ROOMS)
     public ResponseEntity<?> findAllDmRooms() {
-        List<DirectMessageRoomListResponse> dmRoomsByLoginUserId = dmService.findDmRoomsByLoginUserId();
+        List<DirectMessageRoomListResponse> dmRoomsByLoginUserId = dmService.getDirectMessageRoomsByUser();
         SuccessResponse response = new SuccessResponse(true, DM_LIST_FIND_MESSAGE, dmRoomsByLoginUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

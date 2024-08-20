@@ -19,6 +19,8 @@ public class ProtectedDealAdminResponse {
 
     private String randomDepositorName;
 
+    private Long dmId;
+
     private double deposit;
 
 }

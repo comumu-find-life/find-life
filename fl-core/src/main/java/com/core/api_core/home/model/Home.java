@@ -92,4 +92,8 @@ public class Home extends BaseTimeEntity {
         this.images = images;
     }
 
+    public String getMainImage(){
+        return images.get(0).getImageUrl();
+    }
+
 }
