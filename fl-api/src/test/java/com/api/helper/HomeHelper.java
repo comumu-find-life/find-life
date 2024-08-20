@@ -86,7 +86,6 @@ public class HomeHelper {
 
     public static HomeGeneratorRequest generateHomeGeneratorRequest() {
         return HomeGeneratorRequest.builder()
-                .userIdx(1L)
                 .homeAddress(generateHomeAddressRequest())
                 .bathRoomCount(5)
                 .bedroomCount(1)

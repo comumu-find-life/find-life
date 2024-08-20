@@ -14,13 +14,17 @@ import com.core.api_core.home.model.Home;
 import com.core.api_core.home.reposiotry.HomeRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
+import com.service.chat.DirectMessageRoomService;
 import com.service.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.service.deal.ProtectedDealMessages.DEAL_NOT_FOUND;
 
 @Service
 @Transactional
@@ -29,11 +33,16 @@ public class ProtectedDealAdminService {
 
     private final ProtectedDealMapper protectedDealMapper;
     private final HomeMapper homeMapper;
+    //private final DirectMessageRoomService directMessageRoomService;
     private final UserMapper userMapper;
     private final HomeRepository homeRepository;
     private final UserRepository userRepository;
     private final ProtectedDealRepository dealRepository;
 
+    /**
+     *
+     * @return
+     */
     public List<ProtectedDealOverViewResponse> findAllBeforeDeposit() {
         List<ProtectedDeal> allBeforeDeposit = dealRepository.findAllBeforeDeposit();
         List<ProtectedDealOverViewResponse> responses = new ArrayList<>();
@@ -58,8 +67,13 @@ public class ProtectedDealAdminService {
         return responses;
     }
 
+    /**
+     * 거래 확정 로직
+     */
     public void completeDeal(Long dealId) {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), DEAL_NOT_FOUND);
+        //todo cms 에서 입금하는 로직 구현
+        protectedDeal.setDealCompleteDateTime(LocalDateTime.now());
         protectedDeal.setDealState(DealState.COMPLETE_DEAL);
     }
 
@@ -74,6 +88,7 @@ public class ProtectedDealAdminService {
 
         return ProtectedDealAdminResponse.builder()
                 .id(deal.getId())
+                .dmId(deal.getDmId())
                 .homeInformationResponse(homeInfoResponse)
                 .getter(getterResponse)
                 .provider(providerResponse)

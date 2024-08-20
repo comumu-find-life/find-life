@@ -38,8 +38,9 @@ public class ApiUrlConstants {
     public static final String DEALS_PROVIDER_READ = DEALS_BASE_URL + "/read/provider";
     public static final String DEALS_FIND_ALL_BY_USER_ID = DEALS_BASE_URL + "/{userId}";
     public static final String DEALS_REQUEST_DEPOSIT = DEALS_BASE_URL + "/request/deposit/{dealId}";
-    public static final String DEALS_DONE_DEPOSIT = DEALS_BASE_URL + "/done/deposit/{dealId}";
-    public static final String DEALS_DONE = DEALS_BASE_URL + "/done/{dealId}";
+    public static final String DEALS_COMPLETE_DEPOSIT = DEALS_BASE_URL + "/complete/deposit/{dealId}";
+    public static final String DEALS_COMPLETE = DEALS_BASE_URL + "/complete/{dealId}";
+    public static final String DEALS_REQUEST_COMPLETE_URL = DEALS_BASE_URL + "/request/done/{dealId}";
     public static final String DEALS_CANCEL = DEALS_BASE_URL + "/cancel/{dealId}";
 }
 

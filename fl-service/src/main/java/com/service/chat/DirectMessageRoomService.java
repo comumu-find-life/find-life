@@ -1,5 +1,6 @@
 package com.service.chat;
 
+import com.common.chat.mapper.DirectMessageRoomMapper;
 import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageRoomInfoResponse;
@@ -7,9 +8,11 @@ import com.common.chat.response.DirectMessageRoomListResponse;
 import com.common.user.response.UserInformationResponse;
 import com.core.api_core.chat.model.DirectMessageRoom;
 import com.core.api_core.chat.repository.DirectMessageRoomRepository;
+import com.core.api_core.deal.model.DealState;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.service.user.UserService;
+import com.service.utils.OptionalUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +32,8 @@ public class DirectMessageRoomService {
 
     private final UserService userService;
     private final UserRepository userRepository;
-
-    private final DirectMessageRoomRepository dmRoomRepository;
+    private final DirectMessageRoomRepository directMessageRoomRepository;
+    private final DirectMessageRoomMapper directMessageRoomMapper;
 
     @Value("${domain.chat}")
     private String chatUrl;
@@ -39,108 +42,131 @@ public class DirectMessageRoomService {
      * 채팅방 생성 메서드
      */
     @Transactional
-    public Long applicationDm(DirectMessageApplicationRequest dmApplicationDto) {
-        // 로그인 유저 정보 받아오기
-        Long senderId = getLoginUserId();
-        Long receiverId = dmApplicationDto.getReceiverId();
+    public Long createDirectMessageRoom(DirectMessageApplicationRequest request) {
+        Long senderId = getLoggedInUserId();
+        Long receiverId = request.getReceiverId();
 
-        if (senderId == receiverId) throw new IllegalArgumentException();
+        if (senderId.equals(receiverId)) {
+            throw new IllegalArgumentException("Sender and receiver cannot be the same.");
+        }
 
-        // 채팅방 생성 (User1Id에 작은 값, User2Id에 큰 값을 항상 유지)
-        Long roomId = saveDmRoom(Math.min(senderId, receiverId), Math.max(senderId, receiverId), dmApplicationDto);
+        Long roomId = saveOrUpdateDirectMessageRoom(Math.min(senderId, receiverId), Math.max(senderId, receiverId), request);
 
-        // 채팅 전송
-        DirectMessageRequest dmDto = DirectMessageRequest.builder()
-                .message(dmApplicationDto.getMessage())
-                .receiverId(receiverId)
-                .senderId(senderId).build();
+        sendDirectMessage(request.getMessage(), senderId, receiverId);
 
-        RestTemplate restTemplate = new RestTemplate();
-
-        String url = chatUrl + "/dm";
-        restTemplate.postForObject(url, dmDto, Object.class);
         return roomId;
     }
 
     /**
-     * 로그인된 유저의 채팅방 목록 조회
+     * 거래 완료 메시지 전송 메서드
      */
-    public List<DirectMessageRoomListResponse> findDmRoomsByLoginUserId() {
-        // 로그인 유저가 속한 채팅방 정보 조회
-        Long userId = getLoginUserId();
-        List<DirectMessageRoom> dmRooms = dmRoomRepository.findByUser1IdOrUser2Id(userId);
-
-        // Dto 변환
-        List<DirectMessageRoomListResponse> dmRoomListDtos = dmRooms.stream().map(dmRoom -> {
-            return getChatUserInfo(dmRoom.getId(), (dmRoom.getUser1().getId() != userId) ? dmRoom.getUser1() : dmRoom.getUser2(), dmRoom.getProgressHomeId(), "TEST MESSAGE");
-        }).collect(Collectors.toList());
-        return dmRoomListDtos;
+    @Transactional
+    public void sendDealCompletionMessage(DirectMessageRequest request) {
+        DirectMessageRequest dealCompletionMessage = createDealCompletionMessage(request);
+        sendDirectMessage(dealCompletionMessage);
     }
 
+    /**
+     * 로그인된 유저의 채팅방 목록 조회
+     * todo 마지막 메시지 입력
+     */
+    public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser() {
+        Long userId = getLoggedInUserId();
+        List<DirectMessageRoom> rooms = directMessageRoomRepository.findByUser1IdOrUser2Id(userId);
 
-    public DirectMessageRoomInfoResponse findDmRoomById(Long id) {
-        DirectMessageRoom room = dmRoomRepository.findById(id).orElse(null);
-        return dmRoomTodmRooomInfoDto(room);
+        return rooms.stream()
+                .map(room -> toDirectMessageRoomListResponse(room, userId))
+                .collect(Collectors.toList());
     }
 
-    private DirectMessageRoomInfoResponse dmRoomTodmRooomInfoDto(DirectMessageRoom room) {
-        Long userId = getLoginUserId();
-        Long senderSetId = room.getUser1().getId();
-        String senderSetName = room.getUser1().getNickname();
-        Long receiverSetId = room.getUser2().getId();
-        String receiverSetName = room.getUser2().getNickname();
-        if (userId != room.getUser1().getId()) {
-            senderSetId = room.getUser2().getId();
-            senderSetName = room.getUser2().getNickname();
-            receiverSetId = room.getUser1().getId();
-            receiverSetName = room.getUser1().getNickname();
-        }
-        return DirectMessageRoomInfoResponse.builder()
-                .id(room.getId())
-                .senderId(senderSetId)
-                .senderName(senderSetName)
-                .receiverId(receiverSetId)
-                .receiverName(receiverSetName)
-                .build();
+    /**
+     * 채팅방 ID로 채팅방 정보 조회
+     */
+    public DirectMessageRoomInfoResponse getDirectMessageRoomById(Long id) {
+        DirectMessageRoom room = OptionalUtil.getOrElseThrow(directMessageRoomRepository.findById(id), "존재하지 않는 채팅 방 ID입니다.");
+        return directMessageRoomMapper.toDirectMessageRoomInfoResponse(room);
     }
 
-    // User1, User2 간의 채팅방이 이미 존재하지 않다면 생성
-    private Long saveDmRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest directMessageApplicationDto) {
-        Optional<DirectMessageRoom> byUser1IdAndUser2Id = dmRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
-        if (byUser1IdAndUser2Id.isEmpty()) {
-            User user1 = userRepository.findById(user1Id).get();
-            User user2 = userRepository.findById(user2Id).get();
+    /**
+     * 채팅방 저장 또는 업데이트 메서드
+     */
+    private Long saveOrUpdateDirectMessageRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest request) {
+        Optional<DirectMessageRoom> existingRoom = directMessageRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
+        if (existingRoom.isEmpty()) {
+            User user1 = userRepository.findById(user1Id).orElseThrow(() -> new IllegalArgumentException("User not found: " + user1Id));
+            User user2 = userRepository.findById(user2Id).orElseThrow(() -> new IllegalArgumentException("User not found: " + user2Id));
 
-            DirectMessageRoom newDmRoom = DirectMessageRoom.builder()
+            DirectMessageRoom newRoom = DirectMessageRoom.builder()
                     .user1(user1)
                     .user2(user2)
-                    .progressHomeId(directMessageApplicationDto.getRoomId())
+                    .progressHomeId(request.getRoomId())
                     .build();
 
-            return dmRoomRepository.save(newDmRoom).getId();
+            return directMessageRoomRepository.save(newRoom).getId();
         } else {
-            byUser1IdAndUser2Id.get().setProgressHomeId(directMessageApplicationDto.getRoomId());
-            return byUser1IdAndUser2Id.get().getId();
+            DirectMessageRoom room = existingRoom.get();
+            room.setProgressHomeId(request.getRoomId());
+            return room.getId();
         }
-
     }
 
-    private DirectMessageRoomListResponse getChatUserInfo(Long id, User user, Long homeId, String lastMessage) {
-        return DirectMessageRoomListResponse.builder()
-                .id(id)
-                .progressHomeId(homeId)
-                .userId(user.getId())
-                .userNickname(user.getNickname())
-                .userProfileUrl(user.getProfileUrl())
-                .lastMessage(lastMessage)
+    /**
+     * 거래 완료 메시지 생성 메서드
+     */
+    private DirectMessageRequest createDealCompletionMessage(DirectMessageRequest request) {
+        return DirectMessageRequest.builder()
+                .message("DEAL MESSAGE")
+                .receiverId(request.getReceiverId())
+                .isDeal(3)
+                .senderId(request.getSenderId())
+                .dealState(DealState.COMPLETE_DEAL)
+                .roomId(request.getRoomId())
                 .build();
     }
 
-    private Long getLoginUserId() {
+    /**
+     * 채팅 메시지 전송 메서드
+     */
+    private void sendDirectMessage(String message, Long senderId, Long receiverId) {
+        DirectMessageRequest messageRequest = DirectMessageRequest.builder()
+                .message(message)
+                .senderId(senderId)
+                .receiverId(receiverId)
+                .build();
+
+        sendDirectMessage(messageRequest);
+    }
+
+    /**
+     * 채팅 메시지 전송 메서드 (오버로드)
+     */
+    private void sendDirectMessage(DirectMessageRequest messageRequest) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = chatUrl + "/dm";
+        restTemplate.postForObject(url, messageRequest, Object.class);
+    }
+
+    /**
+     * DirectMessageRoomListResponse 생성 메서드
+     */
+    private DirectMessageRoomListResponse toDirectMessageRoomListResponse(DirectMessageRoom room, Long userId) {
+        User otherUser = (room.getUser1().getId().equals(userId)) ? room.getUser2() : room.getUser1();
+        return DirectMessageRoomListResponse.builder()
+                .id(room.getId())
+                .progressHomeId(room.getProgressHomeId())
+                .userId(otherUser.getId())
+                .userNickname(otherUser.getNickname())
+                .userProfileUrl(otherUser.getProfileUrl())
+                .lastMessage("TEST MESSAGE")
+                .build();
+    }
+
+    /**
+     * 현재 로그인된 사용자 ID 가져오는 메서드
+     */
+    private Long getLoggedInUserId() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserInformationResponse user = userService.findByEmail(email);
         return user.getId();
     }
 }
-
-

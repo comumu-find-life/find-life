@@ -1,11 +1,13 @@
 package com.api.deal;
 
+import com.common.chat.request.DirectMessageRequest;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.MyProtectedDealResponse;
 import com.common.deal.response.ProtectedDealByGetterResponse;
 import com.common.deal.response.ProtectedDealByProviderResponse;
 import com.common.utils.SuccessResponse;
+import com.service.chat.DirectMessageRoomService;
 import com.service.deal.ProtectedDealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,7 @@ import static com.api.config.ApiUrlConstants.*;
 public class ProtectedDealController {
 
     private final ProtectedDealService protectedDealService;
+    private final DirectMessageRoomService directMessageRoomService;
 
     /**
      * 안전거래 생성 API
@@ -79,20 +82,30 @@ public class ProtectedDealController {
     }
 
     /**
-     * 입금 완료 API
+     * 입금 완료 API (TODO 삭제 예정)
      */
-    @PatchMapping(DEALS_DONE_DEPOSIT)
+    @PatchMapping(DEALS_COMPLETE_DEPOSIT)
     public ResponseEntity<?> doneDeposit(@PathVariable Long dealId) {
-        protectedDealService.doneDeposit(dealId);
+        protectedDealService.completeDeposit(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * 거래 완료 API
+     * 거래 완료 신청 API (By GETTER)
      */
-    @PatchMapping(DEALS_DONE)
-    public ResponseEntity<?> doneDeal(@PathVariable Long dealId){
+    @PatchMapping(DEALS_REQUEST_COMPLETE_URL)
+    public ResponseEntity<?> requestCompleteDeal(@PathVariable Long dealId) {
+        protectedDealService.requestCompleteDeal(dealId);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_REQUEST_COMPLETED, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    /**
+     * 거래 완료 API (By Admin TODO 삭제 예정)
+     */
+    @PatchMapping(DEALS_COMPLETE)
+    public ResponseEntity<?> completeDeal(@PathVariable Long dealId, @RequestBody DirectMessageRequest directMessageRequest){
+        directMessageRoomService.sendDealCompletionMessage(directMessageRequest);
         protectedDealService.completeDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);

@@ -30,8 +30,8 @@ public interface ProtectedDealMapper {
 
     @Mappings({
             @Mapping(target = "account", expression = "java(deal.getProviderAccount().getAccount())"),
-            @Mapping(target = "accountHolder", expression = "java(deal.getProviderAccount().getAccount())"),
-            @Mapping(target = "bankName", expression = "java(deal.getProviderAccount().getAccount())"),
+            @Mapping(target = "accountHolder", expression = "java(deal.getProviderAccount().getAccountHolder())"),
+            @Mapping(target = "bankName", expression = "java(deal.getProviderAccount().getBankName())"),
             @Mapping(target = "id", expression = "java(deal.getId())"),
             @Mapping(target = "dealState", source = "deal.dealState"),
             @Mapping(target = "deposit", source = "deal.deposit"),
