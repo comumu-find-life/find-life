@@ -19,6 +19,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,9 +46,18 @@ public class HomeService {
     /**
      * 집 게시글 등록
      */
-    public Long save(HomeGeneratorRequest homeGeneratorRequest, List<MultipartFile> files,Long userId ,LatLng latLng) {
-        Home home = homeMapper.toEntity(homeGeneratorRequest,userId);
-        home.setImages(generateHomeImages(home, files));
+
+
+    public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
+        Home home = homeMapper.toEntity(homeCreateDto);
+
+        //이미지, 위치 정보 저장
+        log.info("homeCreateDto.getGender()");
+        log.info(homeCreateDto.getGender() + "");
+        if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
+            home.setImages(generateHomeImages(home, files));
+        }
+
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
@@ -153,7 +163,8 @@ public class HomeService {
     }
 
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
-        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
+//        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
+        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize, Sort.by("createDate").descending())).getContent();
         List<HomeOverviewResponse> listResponse = homes.stream()
                 .map(home -> {
                     User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException(NOT_EXIT_USER_ID + home.getUserIdx()));
