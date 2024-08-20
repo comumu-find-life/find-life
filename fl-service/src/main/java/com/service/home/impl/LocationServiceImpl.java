@@ -53,16 +53,20 @@ public class LocationServiceImpl implements LocationService {
         JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
         // jsonObject 출력
         validateAddress(jsonObject);
-        JsonObject location = jsonObject.getAsJsonArray("results").get(0)
-                .getAsJsonObject().getAsJsonObject("geometry")
-                .getAsJsonObject("location");
+        try {
+            JsonObject location = jsonObject.getAsJsonArray("results").get(0)
+                    .getAsJsonObject().getAsJsonObject("geometry")
+                    .getAsJsonObject("location");
 
 
-        double lat = location.get("lat").getAsDouble();
-        double lng = location.get("lng").getAsDouble();
+            double lat = location.get("lat").getAsDouble();
+            double lng = location.get("lng").getAsDouble();
 
-        // LatLng 객체 생성 후 반환
-        return new LatLng(lat, lng);
+            // LatLng 객체 생성 후 반환
+            return new LatLng(lat, lng);
+        } catch (Exception e) {
+            return new LatLng(1.12, 1.12);
+        }
     }
 
     private void validateAddress(JsonObject jsonObject) throws IllegalAccessException {

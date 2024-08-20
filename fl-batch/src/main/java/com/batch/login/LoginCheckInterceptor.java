@@ -24,7 +24,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        final String[] SECURE_URLS = {"/dm"};
+        final String[] SECURE_URLS = {
+                "/dm",
+                "/home/new",
+                "/profile"
+        };
 
         String requestURI = request.getRequestURI();
         Cookie[] cookies = request.getCookies();
@@ -65,6 +69,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                         UserInformationResponse responseBody = responseEntity.getBody();
 
                         request.setAttribute("userId", responseBody.getId());
+                        request.setAttribute("email", responseBody.getEmail());
+                        request.setAttribute("userNickname", responseBody.getNickname());
+                        request.setAttribute("profileUrl", responseBody.getProfileUrl());
                         request.setAttribute("accessToken", jwtToken);
                         return true;
                     }
