@@ -135,6 +135,9 @@ public class JwtService {
     //  토큰 유효성을 검사하는 메서드
     public boolean isTokenValid(String token) {
         try {
+            System.out.println("asfasf");
+            System.out.println(token);
+
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {
