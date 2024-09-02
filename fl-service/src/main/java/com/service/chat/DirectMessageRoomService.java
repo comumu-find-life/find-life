@@ -73,7 +73,8 @@ public class DirectMessageRoomService {
     public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser() {
         Long userId = getLoggedInUserId();
         List<DirectMessageRoom> rooms = directMessageRoomRepository.findByUser1IdOrUser2Id(userId);
-
+        System.out.println("----");
+        System.out.println(rooms.size());
         return rooms.stream()
                 .map(room -> toDirectMessageRoomListResponse(room, userId))
                 .collect(Collectors.toList());

@@ -23,7 +23,6 @@
 ### 프로젝트 구조
 
 - fl-api : 사용자 요청을 처리하는 모듈
-- fl-authority : spring security, oauth 등 접근 보안, 권한을 관리하는 모듈
 - fl-batch : spring batch 처리를 위한 모듈
 - fl-chatting : 웹 소켓으로 구현한 채팅 기능을 관리하는 모듈
 - fl-common : 프로젝트 전역으로 사용할 수 있는 Utils 성 기능을 관리하는 모듈
@@ -33,13 +32,6 @@
 - 
 **모듈 관계도**
 <img src="https://github.com/comumu-find-life/find-life/assets/55183314/c630f453-5ee6-4898-a5c7-2d38af77108b" width="700" height="800">
-
-
-
-
-**주의 할점 :** 
-- fl-core 모듈 내부에서 기능을 구현할때 너무 많은 역할을 담당 x 서비스가 커질 수록 core 안에서 비니지스 로직이 흐를 수 있음
-- dto 변환은 fl-service 모듈 내부에서 처리
 
 
 ----
