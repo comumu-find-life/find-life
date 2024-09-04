@@ -57,7 +57,7 @@ public class ProtectedDealMapperTest {
                 .build();
 
         // When
-        MyProtectedDealResponse response = mapper.toResponseV2(deal, home);
+        MyProtectedDealResponse response = mapper.toMyProtectedDealResponse(deal, home);
 
         // Then
         assertNotNull(response);

@@ -95,7 +95,8 @@ public interface ProtectedDealMapper {
             @Mapping(target = "rent", source = "home.rent"),
             @Mapping(target = "bill", source = "home.bill")
     })
-    MyProtectedDealResponse toResponseV2(ProtectedDeal deal, Home home);
+
+    MyProtectedDealResponse toMyProtectedDealResponse(ProtectedDeal deal, Home home);
 
     ProtectedDealOverViewResponse toAdminOverViewResponse(ProtectedDeal entity);
 

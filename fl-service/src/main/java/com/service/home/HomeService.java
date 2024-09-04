@@ -5,6 +5,7 @@ import com.common.home.request.HomeGeneratorRequest;
 import com.common.home.request.HomeUpdateRequest;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
+import com.common.user.response.UserInformationResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
 import com.core.api_core.home.model.HomeImage;
@@ -14,12 +15,14 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.service.file.FileService;
 import com.service.home.utils.LatLng;
-import com.service.utils.OptionalUtil;
+import com.service.user.UserService;
+import com.common.utils.OptionalUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +43,7 @@ public class HomeService {
 
     private final FileService fileService;
     private final HomeRepository homeRepository;
+    private final UserService userService;
     private final UserRepository userRepository;
     private final HomeMapper homeMapper;
 
@@ -47,17 +51,13 @@ public class HomeService {
      * 집 게시글 등록
      */
 
-
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
-        Home home = homeMapper.toEntity(homeCreateDto);
+        Home home = homeMapper.toEntity(homeCreateDto, getLoggedInUserId());
 
         //이미지, 위치 정보 저장
-        log.info("homeCreateDto.getGender()");
-        log.info(homeCreateDto.getGender() + "");
         if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
             home.setImages(generateHomeImages(home, files));
         }
-
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
@@ -198,5 +198,10 @@ public class HomeService {
         return response;
     }
 
+    private Long getLoggedInUserId() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserInformationResponse user = userService.findByEmail(email);
+        return user.getId();
+    }
 
 }

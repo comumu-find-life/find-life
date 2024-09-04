@@ -1,4 +1,6 @@
-package com.service.utils;
+package com.common.utils;
+
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Optional;
 

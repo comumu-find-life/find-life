@@ -11,7 +11,7 @@ import com.core.api_core.deal.repository.ProtectedDealRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

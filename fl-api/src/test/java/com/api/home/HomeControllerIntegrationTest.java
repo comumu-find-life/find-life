@@ -1,4 +1,5 @@
 package com.api.home;
+import com.api.ApiApplication;
 import com.api.security.service.JwtService;
 import com.common.home.request.HomeAddressGeneratorRequest;
 import com.common.home.request.HomeGeneratorRequest;
@@ -40,7 +41,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
+@SpringBootTest(classes = {ApiApplication.class})
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class HomeControllerIntegrationTest {

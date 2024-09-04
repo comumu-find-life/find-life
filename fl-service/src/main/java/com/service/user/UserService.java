@@ -8,7 +8,7 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.service.file.FileService;
 import com.service.user.validation.UserServiceValidation;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;

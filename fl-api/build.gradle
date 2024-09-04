@@ -24,6 +24,9 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // H2 Database for in-memory usage
+    testImplementation 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2'
     //security 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
