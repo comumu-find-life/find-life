@@ -20,7 +20,7 @@ public class ApiUrlConstants {
     // 채팅 API URL
     public static final String DM_BASE_URL = BASE_API_URL + "/dm";
     public static final String DM_FIND_ROOM_INFO = DM_BASE_URL + "/dm-rooms/{dmRoomId}";
-    public static final String DM_FIND_ALL_ROOMS = DM_BASE_URL + "/dm-rooms";
+    public static final String DM_FIND_ALL_ROOMS = DM_BASE_URL + "/dm-rooms/users/{userId}";
 
     // 사용자 API URL
     public static final String USERS_BASE_URL = BASE_API_URL + "/users";

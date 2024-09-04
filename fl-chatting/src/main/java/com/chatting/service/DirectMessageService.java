@@ -1,8 +1,11 @@
 package com.chatting.service;
 
 import com.common.chat.mapper.DirectMessageMapper;
+import com.common.chat.mapper.DirectMessageRoomMapper;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
+import com.common.utils.OptionalUtil;
+import com.core.api_core.chat.repository.DirectMessageRoomRepository;
 import com.core.chat_core.chat.model.DirectMessage;
 import com.core.chat_core.chat.repository.DirectMessageRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,8 @@ public class DirectMessageService {
 
     private final DirectMessageRepository dmRepository;
     private final DirectMessageMapper mapper;
+    private final DirectMessageRoomRepository directMessageRoomRepository;
+    private final DirectMessageRoomMapper directMessageRoomMapper;
 
     /**
      * 채팅
@@ -29,6 +34,13 @@ public class DirectMessageService {
         } catch (Exception e) {
             throw new IllegalAccessException(e.getMessage());
         }
+    }
+
+    public DirectMessage getLastMessage(Long user1Id, Long user2Id) {
+
+
+        return  OptionalUtil.getOrElseThrow(dmRepository.findLastMessage(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
+
     }
 
     /**

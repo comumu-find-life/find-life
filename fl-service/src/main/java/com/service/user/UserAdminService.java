@@ -9,7 +9,7 @@ import com.core.admin_core.user.repository.AdminUserRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserState;
 import com.core.api_core.user.repository.UserRepository;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

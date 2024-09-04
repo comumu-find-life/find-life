@@ -11,7 +11,7 @@ import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.reposiotry.HomeRepository;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +51,7 @@ public class ProtectedDealService {
         allByUserId.stream()
                 .forEach(protectedDeal -> {
                     Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), "존재하지 않는 집 ID 입니다.");
-                    response.add(mapper.toResponseV2(protectedDeal, home));
+                    response.add(mapper.toMyProtectedDealResponse(protectedDeal, home));
                 });
         return response;
     }

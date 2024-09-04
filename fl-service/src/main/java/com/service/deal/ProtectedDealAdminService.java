@@ -14,8 +14,7 @@ import com.core.api_core.home.model.Home;
 import com.core.api_core.home.reposiotry.HomeRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
-import com.service.chat.DirectMessageRoomService;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +32,6 @@ public class ProtectedDealAdminService {
 
     private final ProtectedDealMapper protectedDealMapper;
     private final HomeMapper homeMapper;
-    //private final DirectMessageRoomService directMessageRoomService;
     private final UserMapper userMapper;
     private final HomeRepository homeRepository;
     private final UserRepository userRepository;

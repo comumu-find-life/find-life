@@ -34,7 +34,6 @@ public class ProtectedDealController {
      * 안전거래 생성 API
      */
     @PostMapping(DEALS_SAVE)
-    @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public ResponseEntity<?> saveDeal(@RequestBody ProtectedDealGeneratorRequest request) {
         protectedDealService.save(request);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, null);
@@ -82,16 +81,6 @@ public class ProtectedDealController {
     }
 
     /**
-     * 입금 완료 API (TODO 삭제 예정)
-     */
-    @PatchMapping(DEALS_COMPLETE_DEPOSIT)
-    public ResponseEntity<?> doneDeposit(@PathVariable Long dealId) {
-        protectedDealService.completeDeposit(dealId);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
      * 거래 완료 신청 API (By GETTER)
      */
     @PatchMapping(DEALS_REQUEST_COMPLETE_URL)
@@ -108,6 +97,16 @@ public class ProtectedDealController {
         directMessageRoomService.sendDealCompletionMessage(directMessageRequest);
         protectedDealService.completeDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_COMPLETED, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 입금 완료 API (TODO 삭제 예정)
+     */
+    @PatchMapping(DEALS_COMPLETE_DEPOSIT)
+    public ResponseEntity<?> doneDeposit(@PathVariable Long dealId) {
+        protectedDealService.completeDeposit(dealId);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

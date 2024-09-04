@@ -39,10 +39,9 @@ public class HomeController {
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeGeneratorRequest,
                                       @RequestPart("images") List<MultipartFile> images) throws IllegalAccessException {
 
-        Long userId = userService.findUserIdByEmail();
         //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeGeneratorRequest.getHomeAddress());
-        Long homeId = homeService.save(homeGeneratorRequest, images, userId, location);
+        Long homeId = homeService.save(homeGeneratorRequest, images, location);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
