@@ -69,6 +69,9 @@ public class DirectMessageRoomService {
         sendDirectMessage(dealCompletionMessage);
     }
 
+    /**
+     * 자신이 속한 채팅방 리스트 조회 메서드
+     */
     public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser(Long userId) {
 
         List<DirectMessageRoom> rooms = directMessageRoomRepository.findByUser1IdOrUser2Id(userId);

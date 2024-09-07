@@ -1,5 +1,6 @@
 package com.api.deal;
 
+import com.api.config.TestConfig;
 import com.api.security.service.JwtService;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
@@ -21,7 +22,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.config.ApiUrlConstants.*;
@@ -36,12 +39,14 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-
 @SpringBootTest
-@AutoConfigureMockMvc
 @ActiveProfiles("test")
+@AutoConfigureMockMvc
 @Transactional
 public class ProtectedDealIntegrationTest {
+
+    @MockBean
+    private SecurityFilterChain securityFilterChain;
 
     @Autowired
     private MockMvc mockMvc;
@@ -102,7 +107,7 @@ public class ProtectedDealIntegrationTest {
         JsonNode dataNode = root.path("data");
 
         ProtectedDealByProviderResponse protectedDealResponse = objectMapper.treeToValue(dataNode, ProtectedDealByProviderResponse.class);
-        Assertions.assertThat(protectedDealResponse.getAccount()).isEqualTo("account");
+        Assertions.assertThat(protectedDealResponse.getDeposit()).isEqualTo(2000.0);
     }
 
     @Test
@@ -110,9 +115,10 @@ public class ProtectedDealIntegrationTest {
     public void 자신의_안전거래_조회_테스트() throws Exception {
         //given
         repository.save(generateProtectedDeal());
+        repository.save(generateProtectedDeal());
 
         //when
-        ResultActions resultActions = mockMvc.perform(get("/v1/api/deals/" + 1L)
+        ResultActions resultActions =  mockMvc.perform(get(DEALS_FIND_ALL_BY_USER_ID, 1L)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -126,7 +132,7 @@ public class ProtectedDealIntegrationTest {
         // 응답이 배열 형태이므로 이를 리스트로 변환
         List<ProtectedDealByProviderResponse> protectedDealResponseList = objectMapper.convertValue(dataNode, new TypeReference<>(){});
 
-        Assertions.assertThat(protectedDealResponseList.size()).isEqualTo(1);
+        Assertions.assertThat(protectedDealResponseList.size()).isEqualTo(2);
     }
 
     /**
@@ -137,17 +143,15 @@ public class ProtectedDealIntegrationTest {
     public void 입금_신청_테스트() throws Exception {
         //given
         repository.save(generateProtectedDeal());
-        List<ProtectedDeal> all = repository.findAll();
-        Long id = all.get(0).getId();
-        //post
-        ResultActions resultActions = mockMvc.perform(post("/v1/api/deals/request/deposit/" + id)
+        //when
+        ResultActions resultActions = mockMvc.perform(post(DEALS_REQUEST_DEPOSIT,  1L)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         //then
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(repository.findById(id), "ERROR");
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(repository.findById(1L), "ERROR");
         Assertions.assertThat(protectedDeal.getDealState()).isEqualTo(DealState.REQUEST_DEPOSIT);
     }
 

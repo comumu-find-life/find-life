@@ -1,6 +1,7 @@
 package com.service.chat;
 
 import com.service.ServiceApplication;
+import com.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

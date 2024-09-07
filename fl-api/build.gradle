@@ -10,7 +10,6 @@ repositories {
 
 dependencies {
     implementation project(':fl-core')
-    //implementation project(':fl-authority')
     implementation project(':fl-service')
 
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
@@ -20,6 +19,7 @@ dependencies {
 
     implementation 'junit:junit:4.13.1'
 
+//    testImplementation project(':fl-admin')
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

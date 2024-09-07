@@ -10,7 +10,7 @@ import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
 import com.core.api_core.home.model.HomeImage;
 import com.core.api_core.home.model.HomeStatus;
-import com.core.api_core.home.reposiotry.HomeRepository;
+import com.core.api_core.home.repository.HomeRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.service.file.FileService;
@@ -53,7 +53,6 @@ public class HomeService {
 
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
         Home home = homeMapper.toEntity(homeCreateDto, getLoggedInUserId());
-
         //이미지, 위치 정보 저장
         if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
             home.setImages(generateHomeImages(home, files));
@@ -104,21 +103,13 @@ public class HomeService {
         return response;
     }
 
-    public List<HomeOverviewResponse> findByUserIds(Long user1Id, Long user2Id) {
-        List<Home> homes = homeRepository.findByUserIds(user1Id, user2Id);
-        List<HomeOverviewResponse> response = new ArrayList<>();
-        homes.stream().forEach(home -> {
-            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), NOT_EXIT_USER_ID);
-            response.add(homeMapper.toSimpleHomeDto(home, user));
-        });
-        return response;
-    }
+
 
 
     public List<HomeOverviewResponse> findByUserId(Long userIdx) {
         List<HomeOverviewResponse> response = new ArrayList<>();
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), NOT_EXIT_USER_ID);
-        List<Home> homes = homeRepository.findByUserIdx(userIdx);
+        List<Home> homes = homeRepository.findByUserId(userIdx);
         homes.stream().forEach(home -> {
             response.add(homeMapper.toSimpleHomeDto(home, user));
         });
@@ -200,6 +191,8 @@ public class HomeService {
 
     private Long getLoggedInUserId() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("hhhhh");
+        System.out.println(email);
         UserInformationResponse user = userService.findByEmail(email);
         return user.getId();
     }

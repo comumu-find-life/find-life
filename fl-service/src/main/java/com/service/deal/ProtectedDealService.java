@@ -10,7 +10,7 @@ import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
 import com.core.api_core.home.model.Home;
-import com.core.api_core.home.reposiotry.HomeRepository;
+import com.core.api_core.home.repository.HomeRepository;
 import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

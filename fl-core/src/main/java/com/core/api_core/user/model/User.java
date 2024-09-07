@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "`user`")
 public class User extends BaseTimeEntity {
 
     @Id

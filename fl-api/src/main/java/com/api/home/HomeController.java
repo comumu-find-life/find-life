@@ -175,13 +175,5 @@ public class HomeController {
         return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);
     }
 
-    /**
-     * 사용자1, 사용자2 에 포함된 집 게시글 모두 조회
-     */
-    @GetMapping(HOMES_FIND_DM_HOMES)
-    public ResponseEntity<?> findDmHomes(@PathVariable Long user1Id, @PathVariable Long user2Id) {
-        List<HomeOverviewResponse> byUserIds = homeService.findByUserIds(user1Id, user2Id);
-        SuccessResponse response = new SuccessResponse(true, "두명의 사용자 Id로 집 게시글 조회 성공", byUserIds);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+
 }

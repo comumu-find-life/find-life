@@ -61,7 +61,7 @@ public class ProtectedDealController {
     }
 
     /**
-     * 내 안전거래 조회 API (By Getter)
+     * 내 모든 안전거래 조회 API (By Getter)
      */
     @GetMapping(DEALS_FIND_ALL_BY_USER_ID)
     public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
@@ -71,7 +71,7 @@ public class ProtectedDealController {
     }
 
     /**
-     * 입금 신청 API
+     * 입금 신청 API (By GETTER)
      */
     @PostMapping(DEALS_REQUEST_DEPOSIT)
     public ResponseEntity<?> requestDeposit(@PathVariable Long dealId) {

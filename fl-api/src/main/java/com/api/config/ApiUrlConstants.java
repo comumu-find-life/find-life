@@ -15,7 +15,6 @@ public class ApiUrlConstants {
     public static final String HOMES_FIND_BY_CITY_PATH = HOMES_BASE_URL + "/cities/{city}";
     public static final String HOMES_FIND_FAVORITE = HOMES_BASE_URL + "/favorite";
     public static final String HOMES_DELETE = HOMES_BASE_URL + "/{homeId}";
-    public static final String HOMES_FIND_DM_HOMES = HOMES_BASE_URL + "/dm";
 
     // 채팅 API URL
     public static final String DM_BASE_URL = BASE_API_URL + "/dm";
@@ -36,7 +35,7 @@ public class ApiUrlConstants {
     public static final String DEALS_SAVE = DEALS_BASE_URL;
     public static final String DEALS_GETTER_READ = DEALS_BASE_URL + "/read/getter";
     public static final String DEALS_PROVIDER_READ = DEALS_BASE_URL + "/read/provider";
-    public static final String DEALS_FIND_ALL_BY_USER_ID = DEALS_BASE_URL + "/{userId}";
+    public static final String DEALS_FIND_ALL_BY_USER_ID = DEALS_BASE_URL + "/users/{userId}";
     public static final String DEALS_REQUEST_DEPOSIT = DEALS_BASE_URL + "/request/deposit/{dealId}";
     public static final String DEALS_COMPLETE_DEPOSIT = DEALS_BASE_URL + "/complete/deposit/{dealId}";
     public static final String DEALS_COMPLETE = DEALS_BASE_URL + "/complete/{dealId}";

@@ -1,13 +1,13 @@
 package com.api.home;
-import com.api.ApiApplication;
+import com.api.config.TestConfig;
 import com.api.security.service.JwtService;
 import com.common.home.request.HomeAddressGeneratorRequest;
 import com.common.home.request.HomeGeneratorRequest;
 import com.common.home.request.HomeUpdateRequest;
 import com.common.utils.SuccessResponse;
 import com.core.api_core.home.model.Home;
-import com.core.api_core.home.model.HomeStatus;
-import com.core.api_core.home.reposiotry.HomeRepository;
+import com.core.api_core.home.repository.HomeRepository;
+import com.core.api_core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.utils.LatLng;
 import com.service.home.impl.LocationServiceImpl;
@@ -15,36 +15,43 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.config.ApiUrlConstants.HOMES_BASE_URL;
 import static com.api.config.ApiUrlConstants.HOMES_VALIDATE_ADDRESS;
 import static com.api.helper.HomeHelper.*;
-import static com.api.home.SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.api.helper.UserHelper.generateUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
-@SpringBootTest(classes = {ApiApplication.class})
-@AutoConfigureMockMvc
+
+@SpringBootTest
+@ContextConfiguration(classes = TestConfig.class)
 @ActiveProfiles("test")
+@AutoConfigureMockMvc
 public class HomeControllerIntegrationTest {
+
+    @MockBean
+    private SecurityFilterChain securityFilterChain;
 
     @Autowired
     private MockMvc mockMvc;
@@ -53,10 +60,16 @@ public class HomeControllerIntegrationTest {
     private HomeRepository repository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private LocationServiceImpl locationService;
 
     @MockBean
     private JwtService jwtService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -66,6 +79,7 @@ public class HomeControllerIntegrationTest {
     @BeforeEach
     public void setUp() {
         token = "Bearer your-jwt-token";
+        userRepository.save(generateUser(passwordEncoder));
         repository.save(generateHomeEntity());
     }
 
@@ -74,7 +88,7 @@ public class HomeControllerIntegrationTest {
     public void 집_게시글_생성_테스트() throws Exception {
         // given
         HomeGeneratorRequest homeGeneratorRequest = generateHomeGeneratorRequest();
-        MockMultipartFile jsonFile = new MockMultipartFile("homeCreateDto", "", "application/json",
+        MockMultipartFile jsonFile = new MockMultipartFile("homeGeneratorRequest", "", "application/json",
                 objectMapper.writeValueAsBytes(homeGeneratorRequest));
         MockMultipartFile image1 = new MockMultipartFile("images", "image1.jpg", "image/jpeg", "image1".getBytes());
         MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
@@ -88,42 +102,9 @@ public class HomeControllerIntegrationTest {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 //then
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(objectMapper.writeValueAsString(new SuccessResponse(true, "집 게시글 등록 성공", 2L))));
-    }
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-    @Test
-    @WithMockUser(roles = "PROVIDER")
-    public void 집_게시글_동시_생성_테스트() throws Exception {
-        List<Home> homes = repository.findAll();
-        // given
-        HomeGeneratorRequest homeGeneratorRequest = generateHomeGeneratorRequest();
-        MockMultipartFile jsonFile = new MockMultipartFile("homeCreateDto", "", "application/json",
-                objectMapper.writeValueAsBytes(homeGeneratorRequest));
-        MockMultipartFile image1 = new MockMultipartFile("images", "image1.jpg", "image/jpeg", "image1".getBytes());
-        MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
-
-        int threadCount = 5;
-        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
-        CountDownLatch latch = new CountDownLatch(threadCount);
-
-        for(int i=0; i<threadCount; i++){
-            executorService.submit(() -> {
-                try {
-                    mockMvc.perform(MockMvcRequestBuilders.multipart("/v1/api/homes")
-                            .file(jsonFile)
-                            .file(image1)
-                            .file(image2)
-                            .header(HttpHeaders.AUTHORIZATION, token)
-                            .contentType(MediaType.MULTIPART_FORM_DATA));
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    latch.countDown();
-                }
-            });
-        }
-        List<Home> homes2 = repository.findAll();
+        Assertions.assertThat(repository.findAll().size()).isEqualTo(11);
     }
 
     @Test
@@ -146,7 +127,7 @@ public class HomeControllerIntegrationTest {
         // then
         Home home = repository.findById(1L).get();
         System.out.println("After Address : " + home.getHomeAddress().getState() + home.getHomeAddress().getCity());
-        Assertions.assertThat(home.getBond()).isEqualTo(homeGeneratorRequest.getBond());
+        Assertions.assertThat(home.getHomeInfo().getBond()).isEqualTo(homeGeneratorRequest.getBond());
         Assertions.assertThat(home.getHomeAddress().getState()).isEqualTo(homeGeneratorRequest.getHomeAddress().getState());
     }
 

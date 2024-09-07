@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserHelper {
 
-    public static final String USER_EMAIL = "sin1768@naver.com";
+    public static final String USER_EMAIL = "user";
     public static final String USER_SIGNUP_EMAIL = "sin1768@naver.com";
     public static final String USER_NICKNAME = "minseok";
     public static final Role USER_ROLE = Role.GETTER;
