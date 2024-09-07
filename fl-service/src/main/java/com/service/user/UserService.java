@@ -67,8 +67,6 @@ public class UserService {
 
     public Long findUserIdByEmail() {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("THISTHIS == ");
-        System.out.println(currentUsername);
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(currentUsername), NOT_EXIT_USER_NICKNAME);
         return user.getId();
     }

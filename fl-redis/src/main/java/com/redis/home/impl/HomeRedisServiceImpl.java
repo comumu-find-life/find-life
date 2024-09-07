@@ -1,7 +1,7 @@
 package com.redis.home.impl;
 
 import com.core.api_core.home.model.Home;
-import com.core.api_core.home.reposiotry.HomeRepository;
+import com.core.api_core.home.repository.HomeRepository;
 import com.redis.home.HomeRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

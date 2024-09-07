@@ -1,4 +1,4 @@
-package com.core.api_core.home.reposiotry;
+package com.core.api_core.home.repository;
 
 import com.core.api_core.home.model.Home;
 import org.springframework.data.jpa.repository.JpaRepository;

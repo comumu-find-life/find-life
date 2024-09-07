@@ -1,4 +1,4 @@
-package com.core.api_core.home.reposiotry;
+package com.core.api_core.home.repository;
 
 
 import com.core.api_core.home.model.Home;
@@ -16,22 +16,6 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
     private final JPAQueryFactory query;
     private final QHome qHome = QHome.home;
 
-    @Override
-    public List<Home> findByFilter() {
-        return null;
-    }
-
-    @Override
-    public List<Home> findByAddress() {
-        return null;
-    }
-
-    @Override
-    public List<Home> findByPostCode(Integer postCode) {
-        return query.selectFrom(qHome)
-                .where(qHome.homeAddress.postCode.like("%" + postCode + "%"))
-                .fetch();
-    }
 
     @Override
     public List<Home> findAllSellHome() {
@@ -50,24 +34,12 @@ public class CustomHomeRepositoryImpl implements CustomHomeRepository {
     }
 
     @Override
-    public List<Home> findByUserIdx(Long userIdx) {
+    public List<Home> findByUserId(Long userIdx) {
         List<Home> homes = query.selectFrom(qHome)
                 .where(qHome.userIdx.eq(userIdx))
                 .fetch();
-
         return homes;
     }
 
-    @Override
-    public List<Home> findByUserIds(Long user1Id, Long user2Id) {
-        return query.selectFrom(qHome)
-                .where(qHome.userIdx.eq(user1Id).or(qHome.userIdx.eq(user2Id)))
-                .fetch();
-    }
 
-
-//    @Override
-//    public Optional<Home> findByIdWithUser(Long id) {
-//        return null;
-//    }
 }

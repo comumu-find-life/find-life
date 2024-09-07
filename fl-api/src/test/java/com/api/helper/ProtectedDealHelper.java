@@ -4,7 +4,10 @@ import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
+import com.core.api_core.deal.model.ProtectedDealDateTime;
 import com.core.api_core.deal.model.ProviderAccount;
+
+import java.time.LocalDateTime;
 
 public class ProtectedDealHelper {
 
@@ -38,8 +41,15 @@ public class ProtectedDealHelper {
                 .getterId(2L)
                 .providerId(1L)
                 .deposit(2000)
+                .protectedDealDateTime(generateProtectedDealDateTime())
                 .providerAccount(generateProviderAccount())
                 .dealState(DealState.BEFORE_DEPOSIT)
+                .build();
+    }
+
+    public static ProtectedDealDateTime generateProtectedDealDateTime(){
+        return ProtectedDealDateTime.builder()
+                .dealStartDateTime(LocalDateTime.of(2024,10,31,14,15))
                 .build();
     }
 

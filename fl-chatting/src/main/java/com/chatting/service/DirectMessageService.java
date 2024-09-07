@@ -37,9 +37,7 @@ public class DirectMessageService {
     }
 
     public DirectMessage getLastMessage(Long user1Id, Long user2Id) {
-
-
-        return  OptionalUtil.getOrElseThrow(dmRepository.findLastMessage(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
+        return  OptionalUtil.getOrElseThrow(dmRepository.findLastMessageMyUserIds(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
 
     }
 
@@ -47,7 +45,7 @@ public class DirectMessageService {
      * 최근 대화 불러오기 (채팅방 입장시)
      */
     public List<DirectMessageResponse> findRecentChatLog(Long user1Id, Long user2Id) {
-        List<DirectMessage> dmLogs = dmRepository.findRecentLogs(user1Id, user2Id);
+        List<DirectMessage> dmLogs = dmRepository.findDirectMessageByUserIds(user1Id, user2Id);
 
         List<DirectMessageResponse> dmLogDtos = dmLogs.stream()
                 .map(dm -> mapper.toDirectMessageResponse(dm))
@@ -56,7 +54,7 @@ public class DirectMessageService {
     }
 
     public List<DirectMessageResponse> findChatHistory(Long user1Id, Long user2Id) {
-        List<DirectMessage> dmLogs = dmRepository.findRecentLogs(user1Id, user2Id);
+        List<DirectMessage> dmLogs = dmRepository.findDirectMessageByUserIds(user1Id, user2Id);
         List<DirectMessageResponse> dmLogDtos = dmLogs.stream()
                 .map(dm -> mapper.toDirectMessageResponse(dm))
                 .collect(Collectors.toList());
