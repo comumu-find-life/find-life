@@ -1,6 +1,5 @@
 package com.api.deal;
 
-import com.api.config.TestConfig;
 import com.api.security.service.JwtService;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
@@ -24,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.config.ApiUrlConstants.*;

@@ -1,6 +1,5 @@
 package com.common.login.response;
 
-import com.common.login.JwtTokenDto;
 import lombok.Builder;
 import lombok.Getter;
 

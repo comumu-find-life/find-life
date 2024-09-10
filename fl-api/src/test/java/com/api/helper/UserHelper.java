@@ -23,7 +23,7 @@ public class UserHelper {
 
     public static User generateUser(PasswordEncoder passwordEncoder){
         return User.builder()
-                .id(1L)
+                .id(5L)
                 .email(USER_EMAIL)
                 .nickname(USER_NICKNAME) //
                 .role(USER_ROLE)

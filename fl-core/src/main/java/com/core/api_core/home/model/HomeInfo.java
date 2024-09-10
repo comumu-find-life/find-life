@@ -17,8 +17,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class HomeInfo {
 
+    //침대 타입
     private String bathroomType;
 
+    //최소 머물 기간
     private String minimumStay;
 
     private LocalDate date;
@@ -27,7 +29,8 @@ public class HomeInfo {
 
     private String isFurnished;
 
-    private String parkingType;
+    //주차 여부
+    private boolean canParking;
 
     // 화장실 개수
     private int bathRoomCount;
@@ -53,7 +56,7 @@ public class HomeInfo {
     // 관리비(물, 전기, 가스, 인터넷 등) / bill
     private Integer bill;
 
-    // 주세 or 월세 / Rent
+    // 주세/ Rent
     private Integer rent;
 
     @Enumerated(EnumType.STRING)

@@ -4,7 +4,6 @@ import com.common.home.request.*;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
 import com.common.utils.SuccessResponse;
-import com.core.api_core.home.model.HomeStatus;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.utils.LatLng;
@@ -14,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

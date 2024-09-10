@@ -9,4 +9,5 @@ include 'fl-service'
 include 'fl-authority'
 include 'fl-redis'
 include 'fl-admin'
+include 'fl-sc'
 

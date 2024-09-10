@@ -1,6 +1,5 @@
 package com.core.api_core.deal.model;
 
-import com.core.api_core.home.model.HomeAddress;
 import com.core.base.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

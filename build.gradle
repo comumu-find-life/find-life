@@ -16,7 +16,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'java-test-fixtures'
+//    apply plugin: 'java-test-fixtures'
 
     repositories {
         mavenCentral()
@@ -38,8 +38,8 @@ subprojects {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
 
-        testImplementation 'com.h2database:h2'
-        runtimeOnly 'com.h2database:h2'
+//        testImplementation 'com.h2database:h2'
+//        runtimeOnly 'com.h2database:h2'
     }
 
     bootJar { enabled = false }

@@ -9,6 +9,7 @@ import com.common.home.response.HomeOverviewResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
 import com.core.api_core.home.model.HomeImage;
+import com.core.api_core.home.model.HomeInfo;
 import com.core.api_core.user.model.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -29,7 +30,25 @@ public interface HomeMapper {
     @Mapping(target = "homeStatus", expression = "java(com.core.api_core.home.model.HomeStatus.FOR_SALE)")
     @Mapping(target = "viewCount", ignore = true)
     @Mapping(target = "userIdx", source = "userIdx")
+    @Mapping(target = "homeInfo", source = "homeDto", qualifiedByName = "mapHomeInfo") // HomeInfo 설정
     Home toEntity(HomeGeneratorRequest homeDto, Long userIdx);
+
+    @Named("mapHomeInfo")
+    default HomeInfo mapHomeInfo(HomeGeneratorRequest homeGeneratorRequest){
+        return HomeInfo.builder()
+                .canParking(homeGeneratorRequest.isCanParking())
+                .bathRoomCount(homeGeneratorRequest.getBathRoomCount())
+                .bedroomCount(homeGeneratorRequest.getBedroomCount())
+                .residentCount(homeGeneratorRequest.getResidentCount())
+                .options(homeGeneratorRequest.getOptions())
+                .bond(homeGeneratorRequest.getBond())
+                .bill(homeGeneratorRequest.getBill())
+                .rent(homeGeneratorRequest.getRent())
+                .introduce(homeGeneratorRequest.getIntroduce())
+                .gender(homeGeneratorRequest.getGender())
+                .type(homeGeneratorRequest.getType())
+                .build();
+    }
 
     /**
      * HomeAddress 엔티티 변환
@@ -108,6 +127,8 @@ public interface HomeMapper {
     }
 
 
+
+
     @Named("mapMainImage")
     default String mapMainImage(List<HomeImage> images) {
         return images.get(0).getImageUrl();
@@ -116,10 +137,9 @@ public interface HomeMapper {
     @Named("mapSimpleAddress")
     default String mapSimpleAddress(HomeAddress homeAddress) {
         StringBuilder sb = new StringBuilder();
-        sb.append(homeAddress.getDetailAddress() + ", ");
-        sb.append(homeAddress.getStreetName() + " ");
-        sb.append(", ");
-        sb.append(homeAddress.getCity() + ", ");
+        sb.append(homeAddress.getStreetCode() + " ");
+        sb.append(homeAddress.getStreetName() + ", ");
+        sb.append(homeAddress.getCity() + " ");
         sb.append(homeAddress.getState() + " ");
         sb.append(homeAddress.getPostCode());
         return sb.toString();

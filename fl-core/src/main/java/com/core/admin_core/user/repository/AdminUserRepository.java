@@ -1,7 +1,6 @@
 package com.core.admin_core.user.repository;
 
 import com.core.admin_core.user.model.AdminUser;
-import com.core.api_core.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
