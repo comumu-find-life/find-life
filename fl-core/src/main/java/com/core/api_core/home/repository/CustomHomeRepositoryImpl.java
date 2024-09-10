@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class CustomHomeRepositoryImpl implements CustomHomeRepository {
+public class CustomHomeRepositoryImpl implements com.core.api_core.home.repository.CustomHomeRepository {
 
     private final JPAQueryFactory query;
     private final QHome qHome = QHome.home;

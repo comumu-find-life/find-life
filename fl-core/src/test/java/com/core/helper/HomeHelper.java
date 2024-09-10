@@ -26,7 +26,7 @@ public class HomeHelper {
                 .date(LocalDate.now())  // 현재 날짜로 설정
                 .residentType("Family")  // 거주자 유형 (예: Family)
                 .isFurnished("Yes")  // 가구 포함 여부 (예: Yes)
-                .parkingType("Underground")  // 주차 타입 (예: Underground)
+                .canParking(true)  // 주차 타입 (예: Underground)
                 .bathRoomCount(2)  // 화장실 개수
                 .bedroomCount(3)  // 침실 개수
                 .residentCount(4)  // 입주자 수

@@ -1,7 +1,6 @@
 package com.core.api_core.chat.repository;
 
 import com.core.api_core.chat.model.DirectMessageRoom;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;

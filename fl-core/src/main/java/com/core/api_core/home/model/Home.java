@@ -1,12 +1,10 @@
 package com.core.api_core.home.model;
 
 import com.core.base.model.BaseTimeEntity;
-import com.core.api_core.user.model.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
