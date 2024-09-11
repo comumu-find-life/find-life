@@ -1,11 +1,21 @@
 #개발 환경 설정
 # Spring Datasource Configuration
 spring:
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
+  mail:
+    host: smtp.gmail.com # 1
+    port: 587 # 2
+    username: simmim1768@gmail.com
+    password: vectgfslbunvlhoz
+    properties:
+      mail:
+        smtp:
+          auth: true # 5
+          timeout: 5000 # 6
+          starttls:
+            enable: true # 7
 
 jwt:
   secretKey: Z2ZkZmdkZmxrZ2pkbGZrZ2pzYXNkamtoYXNrZGphaHNka2fahgvfahvduyasdffjkhsgdfjkhasgfjkphaGRhc2Rhc2Rhc2Rhc2Rhc2ZhZmdzZAo
