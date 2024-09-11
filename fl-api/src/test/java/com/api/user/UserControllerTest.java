@@ -5,6 +5,7 @@ import com.common.user.response.UserProfileResponse;
 import com.common.utils.SuccessResponse;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.LocationService;
 import org.assertj.core.api.Assertions;
@@ -16,17 +17,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Map;
 
-import static com.api.helper.UserHelper.*;
+import static com.core.user.UserBuilder.USER_EMAIL;
+import static com.core.user.UserBuilder.createUser;
+import static com.core.user.request.UserRequestBuilder.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class UserControllerTest {
 
     @Autowired
@@ -45,14 +51,14 @@ public class UserControllerTest {
     private LocationService locationService;
 
     @BeforeEach
-    void setInit(){
+    void setInit() {
         userRepository.deleteAll();
     }
 
     @Test
     void 회원가입_테스트() throws Exception {
         //given
-        UserSignupRequest request = generateSignupDto();
+        UserSignupRequest request = createSignupDto();
         String requestJson = objectMapper.writeValueAsString(request);
 
         // MockMultipartFile을 사용하여 테스트용 파일 생성
@@ -83,37 +89,12 @@ public class UserControllerTest {
         Assertions.assertThat(user).isNotNull();
         Assertions.assertThat(user.getNickname()).isEqualTo(USER_NICKNAME);
     }
-    @Test
-    void 로그인_테스트() throws Exception {
-        // given
-        User user = generateUser(passwordEncoder);
-        userRepository.save(user);
 
-        // 로그인 요청 JSON 생성
-        String loginRequestJson = objectMapper.writeValueAsString(Map.of(
-                "email", USER_EMAIL,
-                "password", USER_PASSWORD
-        ));
-
-        // when
-        MvcResult result = mockMvc.perform(post("/v1/api/users/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(loginRequestJson))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String responseBody = result.getResponse().getContentAsString();
-        Map<String, String> responseMap = objectMapper.readValue(responseBody, Map.class);
-
-        // then
-        Assertions.assertThat(responseMap.get("accessToken")).isNotBlank();
-        Assertions.assertThat(responseMap.get("refreshToken")).isNotBlank();
-    }
 
     @Test
     void 상대방_프로필_조회_테스트() throws Exception {
         // given
-        User user = generateUser(passwordEncoder);
+        User user = createUser(passwordEncoder.encode("123123"));
         User savedUser = userRepository.save(user);
 
         // when

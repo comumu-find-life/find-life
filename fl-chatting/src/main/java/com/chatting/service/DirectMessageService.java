@@ -20,11 +20,9 @@ public class DirectMessageService {
 
     private final DirectMessageRepository dmRepository;
     private final DirectMessageMapper mapper;
-    private final DirectMessageRoomRepository directMessageRoomRepository;
-    private final DirectMessageRoomMapper directMessageRoomMapper;
 
     /**
-     * 채팅
+     * 채팅 전송 service
      */
     public DirectMessageResponse sendDM(DirectMessageRequest dmDto) throws IllegalAccessException {
         try {

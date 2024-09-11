@@ -1,6 +1,6 @@
 package com.api.deal;
 
-import com.api.security.service.JwtService;
+import com.api.config.TestConfig;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.ProtectedDealByProviderResponse;
@@ -8,43 +8,44 @@ import com.common.utils.SuccessResponse;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
+import com.core.api_core.home.model.Home;
+import com.core.api_core.home.repository.HomeRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.common.utils.OptionalUtil;
-import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.config.ApiUrlConstants.*;
 import static com.api.deal.SuccessProtectedDealMessages.DEAL_CREATED;
-import static com.api.helper.ProtectedDealHelper.*;
+import static com.core.deal.ProtectedDealBuilder.createProtectedDeal;
+import static com.core.deal.request.ProtectedDealRequestBuilder.*;
+import static com.core.home.HomeBuilder.createHome;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ContextConfiguration(classes = TestConfig.class)
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 @Transactional
 public class ProtectedDealIntegrationTest {
-
-    @MockBean
-    private SecurityFilterChain securityFilterChain;
 
     @Autowired
     private MockMvc mockMvc;
@@ -52,8 +53,8 @@ public class ProtectedDealIntegrationTest {
     @Autowired
     private ProtectedDealRepository repository;
 
-    @MockBean
-    private JwtService jwtService;
+    @Autowired
+    private HomeRepository homeRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -70,7 +71,7 @@ public class ProtectedDealIntegrationTest {
     @WithMockUser(roles = "PROVIDER")
     public void 안전거래_생성_테스트() throws Exception {
         //given
-        ProtectedDealGeneratorRequest protectedDealGeneratorRequest = generateProtectedDealGeneratorRequest();
+        ProtectedDealGeneratorRequest protectedDealGeneratorRequest = createProtectedDealGeneratorRequest();
         SuccessResponse expectedResponse = new SuccessResponse(true, DEAL_CREATED, null);
         //when
 
@@ -90,8 +91,9 @@ public class ProtectedDealIntegrationTest {
     @WithMockUser(roles = "PROVIDER")
     public void 안전거래_단일_조회_테스트() throws Exception {
         //given
-        repository.save(generateProtectedDeal());
-        ProtectedDealFindRequest protectedDealFindRequest = generateProtectedDealFindRequest();
+        Home home = homeRepository.save(createHome());
+        repository.save(createProtectedDeal(home.getId()));
+        ProtectedDealFindRequest protectedDealFindRequest = createProtectedDealFindRequest(home.getId());
         //when
         ResultActions resultActions = mockMvc.perform(post(DEALS_GETTER_READ)
                         .header(HttpHeaders.AUTHORIZATION, token)
@@ -112,8 +114,9 @@ public class ProtectedDealIntegrationTest {
     @WithMockUser(roles = "PROVIDER")
     public void 자신의_안전거래_조회_테스트() throws Exception {
         //given
-        repository.save(generateProtectedDeal());
-        repository.save(generateProtectedDeal());
+        Home home = homeRepository.save(createHome());
+        repository.save(createProtectedDeal(home.getId()));
+        repository.save(createProtectedDeal(home.getId()));
 
         //when
         ResultActions resultActions =  mockMvc.perform(get(DEALS_FIND_ALL_BY_USER_ID, 1L)
@@ -140,16 +143,17 @@ public class ProtectedDealIntegrationTest {
     @WithMockUser(roles = "PROVIDER")
     public void 입금_신청_테스트() throws Exception {
         //given
-        repository.save(generateProtectedDeal());
+        Home home = homeRepository.save(createHome());
+        ProtectedDeal save = repository.save(createProtectedDeal(home.getId()));
         //when
-        ResultActions resultActions = mockMvc.perform(post(DEALS_REQUEST_DEPOSIT,  1L)
+        mockMvc.perform(post(DEALS_REQUEST_DEPOSIT,  save.getId())
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         //then
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(repository.findById(1L), "ERROR");
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(repository.findById(save.getId()), "ERROR");
         Assertions.assertThat(protectedDeal.getDealState()).isEqualTo(DealState.REQUEST_DEPOSIT);
     }
 

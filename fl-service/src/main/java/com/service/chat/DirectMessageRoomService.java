@@ -153,28 +153,9 @@ public class DirectMessageRoomService {
     }
 
     private DirectMessage getLastMessage(Long user1Id, Long user2Id) {
-        System.out.println("THISS11");
         RestTemplate restTemplate = new RestTemplate();
         String url = chatUrl + "/dm/last/information?user1Id=" + user1Id + "&user2Id=" + user2Id;
-        DirectMessage lastMessage = restTemplate.getForObject(url, DirectMessage.class);
-        System.out.println("THISS22");
-        System.out.println(lastMessage.getMessage());
-        return lastMessage;
-    }
-
-    /**
-     * DirectMessageRoomListResponse 생성 메서드
-     */
-    private DirectMessageRoomListResponse toDirectMessageRoomListResponse(DirectMessageRoom room, Long userId) {
-        User otherUser = (room.getUser1().getId().equals(userId)) ? room.getUser2() : room.getUser1();
-        return DirectMessageRoomListResponse.builder()
-                .id(room.getId())
-                .progressHomeId(room.getProgressHomeId())
-                .userId(otherUser.getId())
-                .userNickname(otherUser.getNickname())
-                .userProfileUrl(otherUser.getProfileUrl())
-                .lastMessage("TEST MESSAGE")
-                .build();
+        return restTemplate.getForObject(url, DirectMessage.class);
     }
 
     /**
