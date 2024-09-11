@@ -7,7 +7,7 @@ import com.api.security.handler.LoginFailureHandler;
 import com.api.security.handler.LoginSuccessHandler;
 import com.api.security.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redis.user.UserRedisService;
+import com.redis.user.service.UserRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

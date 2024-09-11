@@ -12,9 +12,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableRedisRepositories
+@EnableRedisRepositories // Redis를 사용하한 다고 명시해 주는 애너테이션
 public class RedisConfig {
 
+    /**
+     * Redis 서버와의 연결 정보를 저장하는 객체
+     */
     private final RedisProperties redisProperties;
 
     @Bean

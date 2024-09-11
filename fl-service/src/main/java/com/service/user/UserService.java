@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 import static com.service.user.UserMessages.*;
 
 
@@ -45,6 +47,21 @@ public class UserService {
 
         // 사용자 저장 및 ID 반환
         return userRepository.save(user).getId();
+    }
+
+    public boolean validateDuplicateEmail(String email){
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        if(byEmail.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 회원가입시 인증 코드 전송 메서드
+     */
+    public void sendCheckCodeToEmail(String email){
+
     }
 
     /**

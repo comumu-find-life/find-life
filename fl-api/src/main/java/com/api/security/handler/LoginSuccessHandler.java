@@ -1,7 +1,7 @@
 package com.api.security.handler;
 
 import com.api.security.service.JwtService;
-import com.redis.user.UserRedisService;
+import com.redis.user.service.UserRedisService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

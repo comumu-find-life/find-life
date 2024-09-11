@@ -4,6 +4,7 @@ import com.api.security.service.JwtService;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
+import com.redis.user.service.UserRedisService;
 import com.service.user.UserService;
 import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import static com.api.config.ApiUrlConstants.*;
 public class UserController {
 
     private final UserService userService;
+    private final UserRedisService userRedisService;
     private final JwtService jwtService;
 
     /**
@@ -34,6 +36,21 @@ public class UserController {
                                     @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
         Long userId = userService.signUp(userSignupRequest, image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(USERS_CHECK_DUPLICATE_EMAIL)
+    public ResponseEntity<?> validateDuplicateEmail(String email){
+        boolean result = userService.validateDuplicateEmail(email);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.EMAIL_DUPLICATE_VERIFICATION_SUCCESS, result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping(USERS_SEND_VERIFICATION_EMAIL)
+    public ResponseEntity<?> sendCheckCode(@PathVariable String email) {
+        userService.sendCheckCodeToEmail(email);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SEND_VERIFICATION_CODE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
