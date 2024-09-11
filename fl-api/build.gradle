@@ -16,7 +16,7 @@ dependencies {
     testImplementation(testFixtures(project(":fl-core"))) // 공통된 코드를 사용하기 위한
     testImplementation(testFixtures(project(":fl-common"))) // 공통된 코드를 사용하기 위한
     testRuntimeOnly(testFixtures(project(":fl-core")))
-
+    implementation 'org.springframework.data:spring-data-redis'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'

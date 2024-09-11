@@ -21,7 +21,7 @@ import static com.api.config.ApiUrlConstants.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping()
+@RequestMapping
 public class UserController {
 
     private final UserService userService;
@@ -39,18 +39,13 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 이메일 중복 확인 API
+     */
     @GetMapping(USERS_CHECK_DUPLICATE_EMAIL)
     public ResponseEntity<?> validateDuplicateEmail(String email){
         boolean result = userService.validateDuplicateEmail(email);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.EMAIL_DUPLICATE_VERIFICATION_SUCCESS, result);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-
-    @PostMapping(USERS_SEND_VERIFICATION_EMAIL)
-    public ResponseEntity<?> sendCheckCode(@PathVariable String email) {
-        userService.sendCheckCodeToEmail(email);
-        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SEND_VERIFICATION_CODE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -3,6 +3,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,12 +13,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableRedisRepositories // Redis를 사용하한 다고 명시해 주는 애너테이션
+@EnableRedisRepositories
 public class RedisConfig {
 
-    /**
-     * Redis 서버와의 연결 정보를 저장하는 객체
-     */
     private final RedisProperties redisProperties;
 
     @Bean
