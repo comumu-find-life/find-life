@@ -26,23 +26,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.config.ApiUrlConstants.*;
-import static com.api.helper.UserHelper.generateUser;
 import static com.core.home.HomeBuilder.createHome;
 import static com.core.home.request.HomeRequestBuilder.*;
+import static com.core.user.UserBuilder.createUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -81,7 +78,7 @@ public class HomeControllerIntegrationTest {
     @BeforeEach
     public void setUp() {
         token = "Bearer your-jwt-token";
-        userRepository.save(generateUser(passwordEncoder));
+        userRepository.save(createUser(passwordEncoder.encode("123123")));
     }
 
     @AfterEach
@@ -180,8 +177,6 @@ public class HomeControllerIntegrationTest {
         JsonNode root = objectMapper.readTree(responseString);
         JsonNode dataNode = root.path("data");
         List<HomeOverviewResponse> responses = objectMapper.convertValue(dataNode, new TypeReference<>(){});
-        System.out.println("DASDASD");
-        System.out.println(responses.size());
 
 //        Assertions.assertThat(responses.size()).isEqualTo(3);
     }

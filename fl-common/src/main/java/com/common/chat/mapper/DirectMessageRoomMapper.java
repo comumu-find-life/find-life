@@ -23,7 +23,7 @@ public interface DirectMessageRoomMapper {
 
 
     @Mapping(target = "id", expression = "java(room.getId())")
-    @Mapping(target = "userId" ,expression = "java(otherUser.getId())")
+    @Mapping(target = "otherUserId" ,expression = "java(otherUser.getId())")
     @Mapping(target = "userNickname",expression = "java(otherUser.getNickname())")
     @Mapping(target = "userProfileUrl",expression ="java(otherUser.getProfileUrl())")
     @Mapping(target = "progressHomeId",expression = "java(room.getProgressHomeId())")

@@ -27,13 +27,4 @@ public class DirectMessageController {
     }
 
 
-
-//    @MessageMapping(value = "/chat/deal/create")
-//    public void create
-
-//    @MessageMapping(value = "/dm/message")
-//    public void directMessage(DirectMessageRequest dmDto){
-//        template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), dmDto.getMessage());
-//        dmService.sendDM(dmDto);
-//    }
 }
