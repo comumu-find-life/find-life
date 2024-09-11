@@ -24,6 +24,11 @@ public class ApiUrlConstants {
     // 사용자 API URL
     public static final String USERS_BASE_URL = BASE_API_URL + "/users";
     public static final String USERS_SIGN_UP = USERS_BASE_URL + "/sign-up";
+    public static final String USERS_CHECK_DUPLICATE_EMAIL = USERS_BASE_URL + "/verification/email/{email}";
+    public static final String USERS_SEND_VERIFICATION_EMAIL = USERS_BASE_URL+"/verification/email/send/{email}";
+    public static final String USERS_CONFIRM_VERIFICATION_EMAIL = USERS_BASE_URL+"/verification/email/confirm/{code}";
+
+
     public static final String USERS_FIND_BY_ID = USERS_BASE_URL + "/{userId}";
     public static final String USERS_UPDATE = USERS_BASE_URL + "/{userId}";
     public static final String USERS_GET_MY_USER_ID = USERS_BASE_URL + "/me/userId";
