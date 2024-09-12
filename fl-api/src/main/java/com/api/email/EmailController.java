@@ -26,7 +26,6 @@ public class EmailController {
      */
     @PostMapping(SEND_EMAIL_URL)
     public ResponseEntity<?> sendCheckCode(@PathVariable String email) {
-        System.out.println("email = " + email);
         emailRedisService.sendVerificationCode(email);
         SuccessResponse response = new SuccessResponse(true, SuccessEmailMessage.VERIFICATION_CODE_SENT_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -37,8 +36,8 @@ public class EmailController {
      */
     @PostMapping(VERIFICATION_EMAIL_CODE_URL)
     public ResponseEntity<?> verifyCode(@PathVariable String email, @PathVariable String code) {
-        emailRedisService.checkVerificationCode(email, code);
-        SuccessResponse response = new SuccessResponse(true, SuccessEmailMessage.EMAIL_VERIFICATION_SUCCESS, null);
+        boolean result = emailRedisService.checkVerificationCode(email, code);
+        SuccessResponse response = new SuccessResponse(true, SuccessEmailMessage.EMAIL_VERIFICATION_SUCCESS, result);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

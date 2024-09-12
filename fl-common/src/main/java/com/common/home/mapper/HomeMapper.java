@@ -96,6 +96,7 @@ public interface HomeMapper {
     @Mapping(target = "options", source = "home.homeInfo.options")
     @Mapping(target = "address", source = "home.homeAddress", qualifiedByName = "mapSimpleAddress")
     @Mapping(target = "images", source = "home.images", qualifiedByName = "mapImageUrls")
+    @Mapping(target = "canParking", source = "home.homeInfo.canParking")
     HomeInformationResponse toHomeInformation(Home home, User user);
 
     /**

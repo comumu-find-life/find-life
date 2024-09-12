@@ -20,7 +20,8 @@ public final class AuthUrlPatterns {
             ROOT_URL + "/users/profile/{userId}",
             ROOT_URL + "/users/sign-up",
             ROOT_URL + "/users/login",
-            ROOT_URL + "/users/verification/email/send/**"
+            ROOT_URL + "/users/verification/email/send/**",
+            ROOT_URL + "/users/verification/email/confirm/**",
 
     };
 }

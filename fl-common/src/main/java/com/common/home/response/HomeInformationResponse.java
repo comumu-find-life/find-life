@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @Builder
 public class HomeInformationResponse {
-
     /**
      *  집주인 정보
      */
@@ -52,6 +51,8 @@ public class HomeInformationResponse {
     private double latitude;
 
     private double longitude;
+
+    private boolean canParking;
 
     // DTO 는 도메인과 완전히 분리 되어야해.
 //    private HomeInfo homeInfo;
