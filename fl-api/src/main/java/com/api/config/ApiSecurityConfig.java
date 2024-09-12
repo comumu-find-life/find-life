@@ -70,11 +70,6 @@ public class ApiSecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProviderProvider();
-//        provider.setPasswordEncoder(passwordEncoder());
-//        provider.setUserDetailsService(customUserDetailsService);
-
-//        return new ProviderManager(Collections.singletonList(customAuthenticationProvider));
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder())
