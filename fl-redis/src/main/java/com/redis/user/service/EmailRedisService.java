@@ -37,11 +37,11 @@ public class EmailRedisService {
             VerificationCode newCode = new VerificationCode(email, randomCode);
             verificationCodeRepository.save(newCode);
         } else {
-            System.out.println(444);
             // 인증 코드가 없다면 새로 생성하고 저장
             String randomCode = generateVerificationCode();
             VerificationCode newCode = new VerificationCode(email, randomCode);
             verificationCodeRepository.save(newCode);
+            System.out.println("New Code = " + newCode);
             sendEmail(email, randomCode);
         }
     }
