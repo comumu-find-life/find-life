@@ -39,10 +39,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         try {
             String refreshToken = jwtService.extractRefreshToken(request)
-                    .filter(jwtService::isTokenValid)
+                    .filter(token -> {
+                        try {
+                            jwtService.isTokenValid(token);
+                            return true;
+                        } catch (Exception e) {
+                            return false;
+                        }
+                    })
                     .orElse(null);
 
             if (refreshToken != null) {
@@ -65,11 +71,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
                         .ifPresent(email -> {
                             try {
+                                // 예외가 발생할 수 있는 부분을 try-catch로 처리
                                 userRedisService.validateRefreshToken(email, refreshToken);
                                 String reIssuedRefreshToken = reIssueRefreshToken(email);
                                 jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(email), reIssuedRefreshToken);
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                log.error("토큰 재발급 중 오류 발생: {}", e.getMessage());
+                                throw new InvalidTokenException("유효하지 않은 Refresh token 입니다.");
                             }
                         }));
     }
@@ -84,11 +92,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                                   FilterChain filterChain) throws ServletException, IOException {
         jwtService.extractAccessToken(request)
                 .ifPresent(accessToken -> {
-                    if (jwtService.isTokenValid(accessToken)) {
+                    try {
+                        // isTokenValid 호출 시 예외 처리
+                        jwtService.isTokenValid(accessToken);
                         jwtService.extractEmail(accessToken)
                                 .ifPresent(email -> userRedisService.findUserByEmail(email)
                                         .ifPresent(this::saveAuthentication));
-                    } else {
+                    } catch (Exception e) {
+                        log.error("액세스 토큰 유효성 검사 실패: {}", e.getMessage());
                         throw new InvalidTokenException("Access token is invalid");
                     }
                 });
@@ -108,11 +119,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-
     private void handleException(HttpServletResponse response, InvalidTokenException ex) throws IOException {
         // 401
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(new SuccessResponse(false, "유효하지 않은 토큰: " + ex.getMessage(), null)));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(new SuccessResponse(false, "Access token is invalid", null)));
     }
 }
