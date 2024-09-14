@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.service.deal.ProtectedDealMessages.DEAL_NOT_FOUND;
 import static com.service.deal.ProtectedDealMessages.NOT_EXIST_DEAL_INFORMATION;
@@ -37,9 +38,9 @@ public class ProtectedDealService {
     /**
      * 안전 거래 생성 메서드
      */
-    public void save(ProtectedDealGeneratorRequest request) {
+    public Long save(ProtectedDealGeneratorRequest request) {
         ProtectedDeal deal = mapper.toEntity(request, generateRandomUUID());
-        protectedDealRepository.save(deal);
+        return protectedDealRepository.save(deal).getId();
     }
 
     /**
@@ -56,24 +57,32 @@ public class ProtectedDealService {
         return response;
     }
 
-
     /**
-     * 안전거래 조회 메서드 by Getter
+     * 안전거래 조회 메서드 by Getter (DTO 로 조회)
      */
-    public ProtectedDealByGetterResponse findByGetterDealInformation(ProtectedDealFindRequest request) {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findByMultipleParams(request.getGetterId(), request.getProviderId(), request.getHomeId(), request.getDmId()), NOT_EXIST_DEAL_INFORMATION);
-        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(request.getHomeId()), NOT_EXIST_HOME_ID);
-        //todo getter 와 provider 판단 로직
-        return mapper.toGetterResponse(protectedDeal, home);
+    public List<ProtectedDealByGetterResponse> findByGetterDealInformation(ProtectedDealFindRequest request) {
+        List<ProtectedDealByGetterResponse> responses = new ArrayList<>();
+        List<ProtectedDeal> protectedDeals = protectedDealRepository.findByMultipleParams(request.getGetterId(), request.getProviderId(), request.getHomeId(), request.getDmId());
+        protectedDeals.stream()
+                .forEach(protectedDeal -> {
+                    Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
+                    responses.add(mapper.toGetterResponse(protectedDeal, home));
+                });
+         return responses;
     }
 
     /**
-     * 안전거래 조회 메서드 by Provider
+     * 안전거래 조회 메서드 by Provider (DTO 로 조회)
      */
-    public ProtectedDealByProviderResponse findByProviderDealInformation(ProtectedDealFindRequest request) {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findByMultipleParams(request.getGetterId(), request.getProviderId(), request.getHomeId(), request.getDmId()), NOT_EXIST_DEAL_INFORMATION);
-        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(request.getHomeId()), NOT_EXIST_HOME_ID);
-        return mapper.toProviderResponse(protectedDeal, home);
+    public List<ProtectedDealByProviderResponse> findByProviderDealInformation(ProtectedDealFindRequest request) {
+        List<ProtectedDealByProviderResponse> responses = new ArrayList<>();
+        List<ProtectedDeal> protectedDeals = protectedDealRepository.findByMultipleParams(request.getGetterId(), request.getProviderId(), request.getHomeId(), request.getDmId());
+        protectedDeals.stream()
+                .forEach(protectedDeal -> {
+                    Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
+                    responses.add(mapper.toProviderResponse(protectedDeal, home));
+                });
+        return responses;
     }
 
     /**
@@ -144,5 +153,25 @@ public class ProtectedDealService {
     private String generateRandomUUID() {
         return UUID.randomUUID().toString();
     }
+
+    // TODO 삭제 예정 ---------------------------------------------------------
+    /**
+     * 안전거래 조회 메서드 by Getter (안전거래 ID 로 조회)
+     */
+    public ProtectedDealByGetterResponse findByIdFromGetter(Long dealId){
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), NOT_EXIST_DEAL_INFORMATION);
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
+        return mapper.toGetterResponse(protectedDeal, home);
+    }
+
+    /**
+     * 안전거래 조회 메서드 by Provider
+     */
+    public ProtectedDealByProviderResponse findByIdFromProvider(Long dealId){
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), NOT_EXIST_DEAL_INFORMATION);
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
+        return mapper.toProviderResponse(protectedDeal, home);
+    }
+
 
 }

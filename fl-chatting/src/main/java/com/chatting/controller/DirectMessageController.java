@@ -10,6 +10,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 
+/**
+ * STOMP 소켓 통신 Controller
+ */
 @Controller
 @RequiredArgsConstructor
 public class DirectMessageController {
