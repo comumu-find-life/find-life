@@ -70,7 +70,7 @@ public class HomeService {
                 .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_HOME));
 
         // Home 엔티티를 업데이트
-        homeMapper.updateHomeFromDto(homeUpdateDto, home);
+        homeMapper.updateHomeFromDto(homeUpdateDto, home.getHomeInfo());
         // 기존 HomeAddress를 가져와서 업데이트
         HomeAddress homeAddress = home.getHomeAddress();
         homeMapper.updateAddressFromDto(homeUpdateDto.getHomeAddress(), homeAddress);

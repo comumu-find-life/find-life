@@ -19,7 +19,7 @@ import java.util.List;
 import static com.api.config.ApiUrlConstants.*;
 
 /**
- * 클라이언트가 사용할 안전거래 API 다.
+ * 클라이언트가 사용할 안전거래 API
  */
 @RestController
 @RequiredArgsConstructor
@@ -58,28 +58,6 @@ public class ProtectedDealController {
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-//    /**
-//     * id 로 안전거래 조회 API (By Getter)
-//     */
-//    @GetMapping(DEALS_READ_BY_ID_FROM_GETTER)
-//    public ResponseEntity<?> findProtectedDealByIdFromGetter(@PathVariable Long dealId) {
-//        ProtectedDealByGetterResponse protectedDealResponse = protectedDealService.findByIdFromGetter(dealId);
-//        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-//
-//    /**
-//     * id 로 안전거래 조회 API (By Provide)
-//     */
-//    @GetMapping(DEALS_READ_BY_ID_FROM_PROVIDER)
-//    public ResponseEntity<?> findProtectedDealByIdFromProvider(@PathVariable Long dealId) {
-//        ProtectedDealByProviderResponse protectedDealResponse = protectedDealService.findByIdFromProvider(dealId);
-//        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-
-
 
     /**
      * 내 모든 안전거래 조회 API (By Getter)

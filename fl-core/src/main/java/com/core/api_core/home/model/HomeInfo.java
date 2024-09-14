@@ -2,16 +2,14 @@ package com.core.api_core.home.model;
 
 import com.core.api_core.user.model.Gender;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 
 @Embeddable
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
