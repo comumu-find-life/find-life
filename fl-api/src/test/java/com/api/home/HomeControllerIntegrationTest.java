@@ -135,7 +135,7 @@ public class HomeControllerIntegrationTest {
 
         // then
         Home home = repository.findById(save.getId()).get();
-        Assertions.assertThat(home.getHomeAddress().getState()).isEqualTo(homeGeneratorRequest.getHomeAddress().getState());
+        Assertions.assertThat(home.getHomeInfo().getBill()).isEqualTo(homeGeneratorRequest.getBill());
     }
 
     @Test

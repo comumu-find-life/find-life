@@ -37,7 +37,7 @@ public class HomeRequestBuilder {
                 .gender(Gender.FEMALE)
                 .type(HomeType.SHARED_ROOM)
                 .introduce("INTRODUCEE")
-                .bill(3000)
+                .bill(50)
                 .rent(500)
                 .options("asdasdasd")
                 .build();
