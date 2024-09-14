@@ -34,8 +34,8 @@ public class ProtectedDealController {
      */
     @PostMapping(DEALS_SAVE)
     public ResponseEntity<?> saveDeal(@RequestBody ProtectedDealGeneratorRequest request) {
-        protectedDealService.save(request);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, null);
+        Long dealId = protectedDealService.save(request);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, dealId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -44,7 +44,7 @@ public class ProtectedDealController {
      */
     @PostMapping(DEALS_GETTER_READ)
     public ResponseEntity<?> findProtectedDealByGetter(@RequestBody ProtectedDealFindRequest request) {
-        ProtectedDealByGetterResponse protectedDealResponse = protectedDealService.findByGetterDealInformation( request);
+        List<ProtectedDealByGetterResponse> protectedDealResponse = protectedDealService.findByGetterDealInformation( request);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -54,10 +54,32 @@ public class ProtectedDealController {
      */
     @PostMapping(DEALS_PROVIDER_READ)
     public ResponseEntity<?> findProtectedDealByProvider(@RequestBody ProtectedDealFindRequest request) {
-        ProtectedDealByProviderResponse protectedDealResponse = protectedDealService.findByProviderDealInformation( request);
+        List<ProtectedDealByProviderResponse> protectedDealResponse = protectedDealService.findByProviderDealInformation( request);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+//    /**
+//     * id 로 안전거래 조회 API (By Getter)
+//     */
+//    @GetMapping(DEALS_READ_BY_ID_FROM_GETTER)
+//    public ResponseEntity<?> findProtectedDealByIdFromGetter(@PathVariable Long dealId) {
+//        ProtectedDealByGetterResponse protectedDealResponse = protectedDealService.findByIdFromGetter(dealId);
+//        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+//
+//    /**
+//     * id 로 안전거래 조회 API (By Provide)
+//     */
+//    @GetMapping(DEALS_READ_BY_ID_FROM_PROVIDER)
+//    public ResponseEntity<?> findProtectedDealByIdFromProvider(@PathVariable Long dealId) {
+//        ProtectedDealByProviderResponse protectedDealResponse = protectedDealService.findByIdFromProvider(dealId);
+//        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+
+
 
     /**
      * 내 모든 안전거래 조회 API (By Getter)
@@ -108,6 +130,11 @@ public class ProtectedDealController {
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    /**
+     * (1) 입금전에 취소한 상황
+     * (2) 입금후에 취소한 상황
+     */
 
     /**
      * 거래 취소 API

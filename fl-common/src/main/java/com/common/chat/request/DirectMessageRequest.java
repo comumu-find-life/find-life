@@ -17,5 +17,6 @@ public class DirectMessageRequest {
     private String message;
     @JsonProperty("isDeal")
     private int isDeal;
+    private Long dealId;
     private DealState dealState;
 }

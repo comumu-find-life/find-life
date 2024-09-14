@@ -17,15 +17,6 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
     private final JPAQueryFactory query;
     private final QProtectedDeal qProtectedDeal = QProtectedDeal.protectedDeal;
 
-    //todo getterId 와 provider 로 구분할 수 있는 안전거래 객체는 무조건 한개인가 ?
-    @Override
-    public Optional<ProtectedDeal> findByUserId(Long getterId, Long providerId) {
-        return Optional.ofNullable(query.selectFrom(qProtectedDeal)
-                .where(qProtectedDeal.getterId.eq(getterId),
-                        qProtectedDeal.providerId.eq(providerId))
-                .fetchOne());
-    }
-
     @Override
     public List<ProtectedDeal> findAllByUserId(Long userId) {
         return query.selectFrom(qProtectedDeal)
@@ -35,13 +26,13 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
     }
 
     @Override
-    public Optional<ProtectedDeal> findByMultipleParams(Long getterId, Long providerId, Long homeId, Long dmId) {
-        return Optional.ofNullable(query.selectFrom(qProtectedDeal)
+    public List<ProtectedDeal> findByMultipleParams(Long getterId, Long providerId, Long homeId, Long dmId) {
+        return query.selectFrom(qProtectedDeal)
                 .where(qProtectedDeal.getterId.eq(getterId),
                         qProtectedDeal.providerId.eq(providerId),
                         qProtectedDeal.homeId.eq(homeId),
                         qProtectedDeal.dmId.eq(dmId))
-                .fetchFirst());  // fetchFirst()를 사용하여 첫 번째 결과만 반환
+                .fetch();  // fetch()를 사용하여 모든 결과를 반환
     }
 
     @Override
