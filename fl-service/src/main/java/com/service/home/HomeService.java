@@ -10,6 +10,7 @@ import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
 import com.core.api_core.home.model.HomeImage;
 import com.core.api_core.home.model.HomeStatus;
+import com.core.api_core.home.repository.HomeImageRepository;
 import com.core.api_core.home.repository.HomeRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
@@ -46,11 +47,11 @@ public class HomeService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final HomeMapper homeMapper;
+    private final HomeImageRepository homeImageRepository;
 
     /**
      * 집 게시글 등록
      */
-
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
         Home home = homeMapper.toEntity(homeCreateDto, getLoggedInUserId());
         //이미지, 위치 정보 저장
@@ -68,18 +69,37 @@ public class HomeService {
     public Long update(HomeUpdateRequest homeUpdateDto) {
         Home home = homeRepository.findById(homeUpdateDto.getHomeId())
                 .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_HOME));
-
-        // Home 엔티티를 업데이트
         homeMapper.updateHomeFromDto(homeUpdateDto, home.getHomeInfo());
-        // 기존 HomeAddress를 가져와서 업데이트
         HomeAddress homeAddress = home.getHomeAddress();
         homeMapper.updateAddressFromDto(homeUpdateDto.getHomeAddress(), homeAddress);
-
-        // 변경 사항 저장
         homeRepository.save(home);
-
         return home.getId();
     }
+
+    /**
+     * 새로운 집 이미지 추가
+     */
+    @Transactional
+    public void updateHomeImages(Long homeId, List<MultipartFile> files) {
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME);
+        if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
+            home.addImages(generateHomeImages(home, files));
+        }
+    }
+
+    /**
+     * 집 이미지 삭제
+     */
+    @Transactional
+    public void deleteHomeImage(Long homeId, List<Long> ids) {
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME);
+        List<HomeImage> imagesToDelete = home.getImages().stream()
+                .filter(image -> ids.contains(image.getId()))
+                .collect(Collectors.toList());
+        home.getImages().removeAll(imagesToDelete);
+        homeImageRepository.deleteAll(imagesToDelete);
+    }
+
 
     /**
      * 집 게시글 단일 조회(집 정보 + 작성자 정보) 로직
@@ -104,8 +124,9 @@ public class HomeService {
     }
 
 
-
-
+    /**
+     * 자신의 집 게시물 모두 조회 메서드
+     */
     public List<HomeOverviewResponse> findByUserId(Long userIdx) {
         List<HomeOverviewResponse> response = new ArrayList<>();
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), NOT_EXIT_USER_ID);
@@ -153,8 +174,10 @@ public class HomeService {
         return listResponse;
     }
 
+    /**
+     * 집 게시물 페이징 조회
+     */
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
-//        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize, Sort.by("createDate").descending())).getContent();
         List<HomeOverviewResponse> listResponse = homes.stream()
                 .map(home -> {
@@ -176,6 +199,9 @@ public class HomeService {
         homeRepository.save(home);
     }
 
+    /**
+     * 집 게시물 url 생성 && 서버 업로드
+     */
     private List<HomeImage> generateHomeImages(Home home, List<MultipartFile> files) {
         List<HomeImage> response = new ArrayList<>();
         for (MultipartFile file : files) {
@@ -191,8 +217,6 @@ public class HomeService {
 
     private Long getLoggedInUserId() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("hhhhh");
-        System.out.println(email);
         UserInformationResponse user = userService.findByEmail(email);
         return user.getId();
     }

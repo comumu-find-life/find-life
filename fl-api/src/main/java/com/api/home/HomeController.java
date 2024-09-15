@@ -26,7 +26,6 @@ import static com.api.config.ApiUrlConstants.*;
 public class HomeController {
 
     private final HomeService homeService;
-    private final UserService userService;
     private final LocationService locationService;
 
     /**
@@ -36,8 +35,6 @@ public class HomeController {
     @PostMapping(HOMES_BASE_URL)
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeGeneratorRequest,
                                       @RequestPart("images") List<MultipartFile> images) throws IllegalAccessException {
-
-        //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeGeneratorRequest.getHomeAddress());
         Long homeId = homeService.save(homeGeneratorRequest, images, location);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
@@ -86,16 +83,24 @@ public class HomeController {
     }
 
     /**
-     * 집 이미지 수정 api
+     * 집 이미지 추가 등록 api
      */
     @PatchMapping(HOMES_UPDATE_IMAGE)
-    public ResponseEntity<?> updateHomeImage(@RequestParam("images") List<MultipartFile> images) {
+    public ResponseEntity<?> updateHomeImage(@PathVariable Long homeId, @RequestPart("images") List<MultipartFile> images) {
         // 이미지 처리 로직 추가
-        for (MultipartFile image : images) {
-            // 예: 이미지를 저장하거나 검증하는 코드 추가
-            System.out.println("Received image: " + image.getOriginalFilename());
-        }
+        homeService.updateHomeImages(homeId, images);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_IMAGE_UPDATE_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 집 이미지 삭제 API
+     * ex) DELETE /v1/api/homes/{homeId}/image?imageIds=1,2,3
+     */
+    @DeleteMapping(HOMES_UPDATE_IMAGE)
+    public ResponseEntity<?> deleteHomeImage(@PathVariable Long homeId, @RequestParam List<Long> imageIds) {
+        homeService.deleteHomeImage(homeId, imageIds);
+        SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.HOME_IMAGE_DELETE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
