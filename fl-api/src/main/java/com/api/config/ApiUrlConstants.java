@@ -8,7 +8,7 @@ public class ApiUrlConstants {
     public static final String HOMES_VALIDATE_ADDRESS = HOMES_BASE_URL + "/address/validate";
     public static final String HOMES_FIND_BY_USER_ID = HOMES_BASE_URL + "/users/{userId}";
     public static final String HOMES_FIND_BY_ID = HOMES_BASE_URL + "/{homeId}";
-    public static final String HOMES_UPDATE_IMAGE = HOMES_BASE_URL + "/image";
+    public static final String HOMES_UPDATE_IMAGE = HOMES_BASE_URL + "/{homeId}/image";
     public static final String HOMES_CHANGE_STATUS = HOMES_BASE_URL + "/{homeId}/status/{status}";
     public static final String HOMES_FIND_ALL = HOMES_BASE_URL + "/overview";
     public static final String HOMES_FIND_BY_CITY = HOMES_BASE_URL + "/city";

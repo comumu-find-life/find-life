@@ -61,6 +61,7 @@ public interface HomeMapper {
     /**
      * 집 정보 수정
      */
+    @Mapping(target = "type", ignore = true)
     void updateHomeFromDto(HomeUpdateRequest dto, @MappingTarget HomeInfo entity);
 
     /**
@@ -73,7 +74,6 @@ public interface HomeMapper {
      * Home 게시글을 보여줄 DTO 변환
      */
 
-    @Mapping(target = "gender", ignore = true)
     @Mapping(target = "homeId", source = "home.id")
     @Mapping(target = "latitude", source = "home.homeAddress.latitude")
     @Mapping(target = "longitude", source = "home.homeAddress.longitude")
@@ -83,6 +83,8 @@ public interface HomeMapper {
     @Mapping(target = "providerName", source = "user.nickname")
     @Mapping(target = "rent", source = "home.homeInfo.rent")
     @Mapping(target = "bond", source = "home.homeInfo.bond")
+    @Mapping(target = "gender", source = "home.homeInfo.gender")
+    @Mapping(target = "type", source = "home.homeInfo.type")
     @Mapping(target = "bill", source = "home.homeInfo.bill")
     @Mapping(target = "bedroomCount", source = "home.homeInfo.bedroomCount")
     @Mapping(target = "bathRoomCount", source = "home.homeInfo.bathRoomCount")

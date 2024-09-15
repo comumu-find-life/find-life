@@ -139,6 +139,28 @@ public class HomeControllerIntegrationTest {
     }
 
     @Test
+    public void 집_게시물_이미지_추가등록_테스트() throws Exception {
+        // given
+        Home save = repository.save(createHome());
+        MockMultipartFile image1 = new MockMultipartFile("images", "image1.jpg", "image/jpeg", "image1".getBytes());
+        MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
+
+        // when
+        mockMvc.perform(MockMvcRequestBuilders.multipart(HOMES_UPDATE_IMAGE, save.getId())
+                        .file(image1)
+                        .file(image2)
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .with(request -> {
+                            request.setMethod("PATCH");
+                            return request;
+                        }))
+                // then
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
     @WithMockUser(roles = "PROVIDER")
     public void 집_주소_검색_테스트() throws Exception {
         // given
