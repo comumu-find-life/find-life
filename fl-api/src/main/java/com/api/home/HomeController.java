@@ -98,8 +98,8 @@ public class HomeController {
      * ex) DELETE /v1/api/homes/{homeId}/image?imageIds=1,2,3
      */
     @DeleteMapping(HOMES_UPDATE_IMAGE)
-    public ResponseEntity<?> deleteHomeImage(@PathVariable Long homeId, @RequestParam List<Long> imageIds) {
-        homeService.deleteHomeImage(homeId, imageIds);
+    public ResponseEntity<?> deleteHomeImage(@PathVariable Long homeId, @RequestParam List<String> imageUrls) {
+        homeService.deleteHomeImage(homeId, imageUrls);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.HOME_IMAGE_DELETE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

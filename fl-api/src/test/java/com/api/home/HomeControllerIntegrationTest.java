@@ -1,4 +1,5 @@
 package com.api.home;
+
 import com.api.config.TestConfig;
 import com.common.home.request.HomeAddressGeneratorRequest;
 import com.common.home.request.HomeGeneratorRequest;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.utils.LatLng;
 import com.service.home.impl.LocationServiceImpl;
+import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +45,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @SpringBootTest
@@ -73,6 +76,9 @@ public class HomeControllerIntegrationTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private EntityManager entityManager;
+
     private String token;
 
     @BeforeEach
@@ -98,7 +104,7 @@ public class HomeControllerIntegrationTest {
         MockMultipartFile image2 = new MockMultipartFile("images", "image2.jpg", "image/jpeg", "image2".getBytes());
 
         // when
-         mockMvc.perform(MockMvcRequestBuilders.multipart(HOMES_BASE_URL)
+        mockMvc.perform(MockMvcRequestBuilders.multipart(HOMES_BASE_URL)
                         .file(jsonFile)
                         .file(image1)
                         .file(image2)
@@ -109,7 +115,6 @@ public class HomeControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         Home home = repository.findById(1L).get();
-
 
 
         Assertions.assertThat(home.getHomeStatus()).isEqualTo(HomeStatus.FOR_SALE);
@@ -158,6 +163,34 @@ public class HomeControllerIntegrationTest {
                 // then
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        Assertions.assertThat(save.getImages().size()).isEqualTo(5);
+    }
+
+    @Test
+    public void 집_게시물_이미지_삭제_테스트() throws Exception {
+        // given
+        Home save = repository.save(createHome());
+
+        List<String> imageUrls = save.getImages().stream()
+                .map(homeImage -> homeImage.getImageUrl())
+                .collect(Collectors.toList());
+
+        // when
+        mockMvc.perform(delete(HOMES_UPDATE_IMAGE, save.getId())
+                        .param("imageUrls", String.join(",", imageUrls))
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        // 영속성 컨텍스트 초기화
+        entityManager.flush();
+        entityManager.clear();
+
+        // then
+        Home updatedHome = repository.findById(save.getId()).orElseThrow();
+        Assertions.assertThat(updatedHome.getImages().size()).isEqualTo(0);
     }
 
     @Test
@@ -188,7 +221,7 @@ public class HomeControllerIntegrationTest {
         repository.save(createHome());
 
 
-        ResultActions resultActions =  mockMvc.perform(get(HOMES_FIND_BY_USER_ID, userID)
+        ResultActions resultActions = mockMvc.perform(get(HOMES_FIND_BY_USER_ID, userID)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -198,7 +231,8 @@ public class HomeControllerIntegrationTest {
         String responseString = resultActions.andReturn().getResponse().getContentAsString();
         JsonNode root = objectMapper.readTree(responseString);
         JsonNode dataNode = root.path("data");
-        List<HomeOverviewResponse> responses = objectMapper.convertValue(dataNode, new TypeReference<>(){});
+        List<HomeOverviewResponse> responses = objectMapper.convertValue(dataNode, new TypeReference<>() {
+        });
 
 //        Assertions.assertThat(responses.size()).isEqualTo(3);
     }

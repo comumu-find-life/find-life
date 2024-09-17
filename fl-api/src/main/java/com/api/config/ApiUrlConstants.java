@@ -46,6 +46,7 @@ public class ApiUrlConstants {
     public static final String DEALS_COMPLETE_DEPOSIT = DEALS_BASE_URL + "/complete/deposit/{dealId}";
     public static final String DEALS_COMPLETE = DEALS_BASE_URL + "/complete/{dealId}";
     public static final String DEALS_REQUEST_COMPLETE_URL = DEALS_BASE_URL + "/request/done/{dealId}";
+    public static final String DEALS_DEPOSIT_CANCEL_URL = DEALS_BASE_URL + "/cancel/deposit/{dealId}";
     public static final String DEALS_CANCEL = DEALS_BASE_URL + "/cancel/{dealId}";
 }
 
