@@ -91,13 +91,12 @@ public class HomeService {
      * 집 이미지 삭제
      */
     @Transactional
-    public void deleteHomeImage(Long homeId, List<Long> ids) {
-        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME);
-        List<HomeImage> imagesToDelete = home.getImages().stream()
-                .filter(image -> ids.contains(image.getId()))
-                .collect(Collectors.toList());
-        home.getImages().removeAll(imagesToDelete);
-        homeImageRepository.deleteAll(imagesToDelete);
+    public void deleteHomeImage(Long homeId, List<String> imageUrls) {
+        imageUrls.stream()
+                .map(imageUrl -> homeImageRepository.findByImageUrl(imageUrl))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(homeImageRepository::delete);
     }
 
 

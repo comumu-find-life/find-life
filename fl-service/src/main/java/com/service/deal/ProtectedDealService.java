@@ -127,6 +127,16 @@ public class ProtectedDealService {
     }
 
     /**
+     * 입금 취소 메서드 by getter
+     */
+    @Transactional
+    public void cancelDeposit(Long dealId){
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
+        protectedDeal.setDepositCancelDateTime(LocalDateTime.now());
+        protectedDeal.setDealState(DealState.CANCEL_DEPOSIT);
+    }
+
+    /**
      * 거래 완료 메서드 by admin todo 삭제
      */
     @Transactional

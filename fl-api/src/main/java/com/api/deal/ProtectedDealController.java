@@ -23,14 +23,14 @@ import static com.api.config.ApiUrlConstants.*;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping()
+@RequestMapping
 public class ProtectedDealController {
 
     private final ProtectedDealService protectedDealService;
     private final DirectMessageRoomService directMessageRoomService;
 
     /**
-     * 안전거래 생성 API
+     * 안전거래 생성 API (By Provider)
      */
     @PostMapping(DEALS_SAVE)
     public ResponseEntity<?> saveDeal(@RequestBody ProtectedDealGeneratorRequest request) {
@@ -50,7 +50,7 @@ public class ProtectedDealController {
     }
 
     /**
-     * 안전거래 조회 API (By Provider)
+     * 안전 거래 조회 API (By Provider)
      */
     @PostMapping(DEALS_PROVIDER_READ)
     public ResponseEntity<?> findProtectedDealByProvider(@RequestBody ProtectedDealFindRequest request) {
@@ -60,7 +60,7 @@ public class ProtectedDealController {
     }
 
     /**
-     * 내 모든 안전거래 조회 API (By Getter)
+     * 내 모든 안전 거래 조회 API (By Getter)
      */
     @GetMapping(DEALS_FIND_ALL_BY_USER_ID)
     public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
@@ -88,6 +88,37 @@ public class ProtectedDealController {
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_REQUEST_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    /**
+     * 입금 취소 API (By GETTER)
+     */
+    @PatchMapping(DEALS_DEPOSIT_CANCEL_URL)
+    public ResponseEntity<?> cancelDepositDeal(@PathVariable Long dealId) {
+        protectedDealService.cancelDeposit(dealId);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_CANCELLED, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 거래 취소 API (By GETTER)
+     */
+    @PatchMapping(DEALS_CANCEL)
+    public ResponseEntity<?> cancelDeal(@PathVariable Long dealId){
+        protectedDealService.cancelDeal(dealId);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CANCELLED, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 입금 완료 API by admin (TODO 삭제 예정)
+     */
+    @PatchMapping(DEALS_COMPLETE_DEPOSIT)
+    public ResponseEntity<?> doneDeposit(@PathVariable Long dealId) {
+        protectedDealService.completeDeposit(dealId);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     /**
      * 거래 완료 API (By Admin TODO 삭제 예정)
      */
@@ -99,29 +130,5 @@ public class ProtectedDealController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 입금 완료 API (TODO 삭제 예정)
-     */
-    @PatchMapping(DEALS_COMPLETE_DEPOSIT)
-    public ResponseEntity<?> doneDeposit(@PathVariable Long dealId) {
-        protectedDealService.completeDeposit(dealId);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * (1) 입금전에 취소한 상황
-     * (2) 입금후에 취소한 상황
-     */
-
-    /**
-     * 거래 취소 API
-     */
-    @PatchMapping(DEALS_CANCEL)
-    public ResponseEntity<?> cancelDeal(@PathVariable Long dealId){
-        protectedDealService.cancelDeal(dealId);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CANCELLED, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
 }
