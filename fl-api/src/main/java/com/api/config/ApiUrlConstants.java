@@ -31,7 +31,8 @@ public class ApiUrlConstants {
     public static final String VERIFICATION_EMAIL_CODE_URL = USERS_BASE_URL + "/verification/email/confirm/{email}/{code}";
 
     public static final String USERS_FIND_BY_ID = USERS_BASE_URL + "/{userId}";
-    public static final String USERS_UPDATE = USERS_BASE_URL + "/{userId}";
+    public static final String USERS_UPDATE = USERS_BASE_URL;
+    public static final String USERS_IMAGE_UPDATE = USERS_BASE_URL + "/{userId}/image";
     public static final String USERS_GET_MY_USER_ID = USERS_BASE_URL + "/me/userId";
     public static final String USERS_GET_PROFILE = USERS_BASE_URL + "/profile/{userId}";
     public static final String USERS_FIND_LOGIN_USER = USERS_BASE_URL + "/user-info";
