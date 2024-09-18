@@ -1,6 +1,7 @@
 package com.service.user;
 
 import com.common.user.mapper.UserMapper;
+import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
@@ -58,13 +59,6 @@ public class UserService {
     }
 
     /**
-     * 회원가입시 인증 코드 전송 메서드
-     */
-    public void sendCheckCodeToEmail(String email){
-
-    }
-
-    /**
      * 회원 조회 메서드 by userId
      */
     public UserInformationResponse findById(Long id) {
@@ -80,21 +74,32 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-
-
-    public Long findUserIdByEmail() {
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(currentUsername), NOT_EXIT_USER_NICKNAME);
-        return user.getId();
-    }
-
-
     /**
      * 사용자 프로필 조회 메서드 by userId
      */
     public UserProfileResponse getUserProfile(Long id) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
         return userMapper.toProfile(user);
+    }
+
+    /**
+     * 사용자 프로필 수정
+     */
+    @Transactional
+    public void update(UserProfileUpdateRequest userProfileUpdateRequest){
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userProfileUpdateRequest.getUserId()), NOT_EXIT_USER_ID);
+        userMapper.updateUser(userProfileUpdateRequest, user);
+        userRepository.save(user);
+    }
+
+    /**
+     * 사용자 프로필 이미지 수정
+     */
+    @Transactional
+    public void updateImage(Long userId, MultipartFile image){
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID);
+        String profileUrl = uploadProfileImage(image);
+        user.setProfileUrl(profileUrl);
     }
 
     /**
