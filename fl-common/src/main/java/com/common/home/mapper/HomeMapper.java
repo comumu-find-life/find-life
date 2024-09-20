@@ -62,6 +62,12 @@ public interface HomeMapper {
      * 집 정보 수정
      */
     @Mapping(target = "type", ignore = true)
+    @Mapping(target = "bathroomType", ignore = true)
+    @Mapping(target = "minimumStay", ignore = true)
+    @Mapping(target = "residentType", ignore = true)
+    @Mapping(target = "isFurnished", ignore = true)
+    @Mapping(target = "canParking", ignore = true)
+    @Mapping(target = "residentCount", ignore = true)
     void updateHomeFromDto(HomeUpdateRequest dto, @MappingTarget HomeInfo entity);
 
     /**

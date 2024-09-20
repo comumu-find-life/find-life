@@ -23,6 +23,20 @@ public class ProtectedDealBuilder {
                 .build();
     }
 
+    public static ProtectedDeal createProtectedDealByDealState(Long homeId, DealState dealState){
+        return ProtectedDeal.builder()
+                .homeId(homeId)
+                .dmId(1L)
+                .randomDepositorName("RANDOM_STRING")
+                .getterId(2L)
+                .providerId(1L)
+                .deposit(2000)
+                .protectedDealDateTime(createProtectedDealDateTime())
+                .providerAccount(createProviderAccount())
+                .dealState(dealState)
+                .build();
+    }
+
     public static ProtectedDealDateTime createProtectedDealDateTime(){
         return ProtectedDealDateTime.builder()
                 .dealStartDateTime(LocalDateTime.of(2024,10,31,14,15))

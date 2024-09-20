@@ -38,26 +38,42 @@ public class ProtectedDealAdminService {
     private final ProtectedDealRepository dealRepository;
 
     /**
-     *
-     * @return
+     * 입금 신청된 모든 안전 거래 조회 메서드
      */
-    public List<ProtectedDealOverViewResponse> findAllBeforeDeposit() {
-        List<ProtectedDeal> allBeforeDeposit = dealRepository.findAllBeforeDeposit();
+    public List<ProtectedDealOverViewResponse> findAllRequestDeposit() {
+        List<ProtectedDeal> allBeforeDeposit = dealRepository.findAllRequestDeposit();
         List<ProtectedDealOverViewResponse> responses = new ArrayList<>();
         allBeforeDeposit.forEach(deal -> responses.add(protectedDealMapper.toAdminOverViewResponse(deal)));
         return responses;
     }
 
+    /**
+     * 안전 거래 단일 조회 메서드
+     */
     public ProtectedDealAdminResponse findById(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
         return mapToProtectedDealAdminResponse(protectedDeal);
     }
 
+    /**
+     * 입금 확인 메서드
+     */
     public void checkDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
         protectedDeal.setDealState(DealState.COMPLETE_DEPOSIT);
     }
 
+    /**
+     * 입금 취소 메서드
+     */
+    public void cancelDeposit(Long dealId){
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
+        protectedDeal.setDealState(DealState.CANCEL_DEPOSIT);
+    }
+
+    /**
+     * 거래 확정 요청된 모든 안전거래 조회 메서드
+     */
     public List<ProtectedDealOverViewResponse> findAllSubmitDeal() {
         List<ProtectedDeal> allSubmitDeal = dealRepository.findAllSubmitDeal();
         List<ProtectedDealOverViewResponse> responses = new ArrayList<>();
@@ -66,7 +82,7 @@ public class ProtectedDealAdminService {
     }
 
     /**
-     * 거래 확정 로직
+     * 거래 확정 메서드
      */
     public void completeDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), DEAL_NOT_FOUND);

@@ -6,7 +6,6 @@ import com.common.user.response.UserProfileResponse;
 import com.common.utils.SuccessResponse;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.LocationService;
 import jakarta.persistence.EntityManager;
@@ -23,14 +22,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 
 import static com.api.config.ApiUrlConstants.USERS_IMAGE_UPDATE;
 import static com.api.config.ApiUrlConstants.USERS_UPDATE;
-import static com.core.user.UserBuilder.USER_EMAIL;
 import static com.core.user.UserBuilder.createUser;
 import static com.core.user.request.UserRequestBuilder.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

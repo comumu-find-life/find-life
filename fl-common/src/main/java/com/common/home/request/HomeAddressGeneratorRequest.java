@@ -28,4 +28,8 @@ public class HomeAddressGeneratorRequest {
     // ex) 건물 번호 10
     private String streetCode;
 
+    private double latitude;
+
+    private double longitude;
+
 }
