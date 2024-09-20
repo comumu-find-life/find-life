@@ -33,6 +33,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.config.ApiUrlConstants.*;
+import static com.api.utils.TestUtils.extractDataListFromResponse;
 import static com.core.home.HomeBuilder.createHome;
 import static com.core.home.request.HomeRequestBuilder.*;
 import static com.core.user.UserBuilder.createUser;
@@ -228,11 +229,10 @@ public class HomeControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         //then
-        String responseString = resultActions.andReturn().getResponse().getContentAsString();
-        JsonNode root = objectMapper.readTree(responseString);
-        JsonNode dataNode = root.path("data");
-        List<HomeOverviewResponse> responses = objectMapper.convertValue(dataNode, new TypeReference<>() {
-        });
+
+        List<HomeOverviewResponse> responses1 = extractDataListFromResponse(resultActions, new TypeReference<>() {});
+
+
 
 //        Assertions.assertThat(responses.size()).isEqualTo(3);
     }

@@ -4,10 +4,17 @@ import com.core.api_core.user.model.Gender;
 import com.core.api_core.user.model.SignupType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+/**
+ * Admin 이 사용자를 조회할 데이터를 담은 DTO
+ */
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UserInformationByAdminResponse {
 

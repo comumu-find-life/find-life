@@ -1,10 +1,11 @@
 package com.common.deal.response;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ProtectedDealOverViewResponse {
 

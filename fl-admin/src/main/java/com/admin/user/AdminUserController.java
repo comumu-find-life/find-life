@@ -29,7 +29,7 @@ public class AdminUserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(USER)
+    @GetMapping(USERS)
     public ResponseEntity<?> findAllUsers() {
         List<UserInformationResponse> users = userService.findAll();
         SuccessResponse response = new SuccessResponse(true, "모든 회원 정보 조회 성공", users);
@@ -43,10 +43,13 @@ public class AdminUserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 회원 비 활성화 API
+     */
     @PatchMapping(USER_INACTIVE)
     public ResponseEntity<?> setUserInactive(@PathVariable Long userId){
         userService.setUserInactive(userId);
-        SuccessResponse response = new SuccessResponse(true, "회원 비활성화 성공", null);
+        SuccessResponse response = new SuccessResponse(true, "회원 비 활성화 성공", null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
