@@ -26,7 +26,6 @@ import static com.api.config.ApiUrlConstants.*;
 public class UserController {
 
     private final UserService userService;
-    private final UserRedisService userRedisService;
     private final JwtService jwtService;
 
     /**
@@ -65,7 +64,6 @@ public class UserController {
      * 사용자 프로필 수정 API
      */
     @PatchMapping(USERS_UPDATE)
-    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> updateUser(@RequestBody UserProfileUpdateRequest userProfileUpdateRequest){
         userService.update(userProfileUpdateRequest);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);

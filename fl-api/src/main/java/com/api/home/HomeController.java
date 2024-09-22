@@ -41,7 +41,6 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     /**
      * 집 주소 검색 (검증) api
      */
