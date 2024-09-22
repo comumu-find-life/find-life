@@ -9,9 +9,11 @@ import lombok.*;
  */
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "`user`")
 public class User extends BaseTimeEntity {
 
     @Id

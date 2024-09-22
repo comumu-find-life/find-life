@@ -10,6 +10,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 
+/**
+ * STOMP 소켓 통신 Controller
+ */
 @Controller
 @RequiredArgsConstructor
 public class DirectMessageController {
@@ -22,20 +25,9 @@ public class DirectMessageController {
      */
     @MessageMapping(value = "/chat/message")
     public void message(DirectMessageRequest dmDto) throws IllegalAccessException {
-        System.out.println(dmDto.getMessage());
-        System.out.println(dmDto.getSenderId());
-        System.out.println(dmDto.getReceiverId());
-        System.out.println(dmDto.getRoomId());
         DirectMessageResponse response = dmService.sendDM(dmDto);
         template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), response);
     }
 
-//    @MessageMapping(value = "/chat/deal/create")
-//    public void create
 
-//    @MessageMapping(value = "/dm/message")
-//    public void directMessage(DirectMessageRequest dmDto){
-//        template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), dmDto.getMessage());
-//        dmService.sendDM(dmDto);
-//    }
 }

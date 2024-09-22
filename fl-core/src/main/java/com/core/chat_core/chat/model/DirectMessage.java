@@ -33,6 +33,7 @@ public class DirectMessage {
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
 
+    private Long dealId;
     /**
      * 0 --> 일반 채팅 메시지
      * 1 --> 안전거래 시작 폼

@@ -11,7 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class HomeGeneratorRequest {
 
-
     private HomeAddressGeneratorRequest homeAddress;
 
     private Integer rent;
@@ -24,6 +23,7 @@ public class HomeGeneratorRequest {
     private Integer residentCount;
 
     private boolean dealSavable;
+    private boolean canParking;
 
     private String introduce;
 

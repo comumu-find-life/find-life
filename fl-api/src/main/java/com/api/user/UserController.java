@@ -1,9 +1,11 @@
 package com.api.user;
 
 import com.api.security.service.JwtService;
+import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
+import com.redis.user.service.UserRedisService;
 import com.service.user.UserService;
 import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +22,7 @@ import static com.api.config.ApiUrlConstants.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping()
+@RequestMapping
 public class UserController {
 
     private final UserService userService;
@@ -38,6 +40,16 @@ public class UserController {
     }
 
     /**
+     * 이메일 중복 확인 API
+     */
+    @GetMapping(USERS_CHECK_DUPLICATE_EMAIL)
+    public ResponseEntity<?> validateDuplicateEmail(String email){
+        boolean result = userService.validateDuplicateEmail(email);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.EMAIL_DUPLICATE_VERIFICATION_SUCCESS, result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
      * 본인 프로필 조회 api
      */
     @GetMapping(USERS_FIND_BY_ID)
@@ -48,9 +60,22 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 사용자 프로필 수정 API
+     */
     @PatchMapping(USERS_UPDATE)
-    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId){
+    public ResponseEntity<?> updateUser(@RequestBody UserProfileUpdateRequest userProfileUpdateRequest){
+        userService.update(userProfileUpdateRequest);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 사용자 프로필 사진 수정 API
+     */
+    @PatchMapping(USERS_IMAGE_UPDATE)
+    public ResponseEntity<?> updateUserImage(@PathVariable Long userId, @RequestPart(value = "image", required = false) MultipartFile image) {
+        userService.updateImage(userId, image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

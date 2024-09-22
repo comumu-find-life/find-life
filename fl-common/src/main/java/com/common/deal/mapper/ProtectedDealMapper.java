@@ -45,8 +45,8 @@ public interface ProtectedDealMapper {
             @Mapping(target = "dealCancellationDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCancellationDateTime())"),
             @Mapping(target = "address", expression = "java(home.getHomeAddress().parseAddress())"),
             @Mapping(target = "homeImage", expression = "java(home.getMainImage())"),
-            @Mapping(target = "rent", source = "home.rent"),
-            @Mapping(target = "bill", source = "home.bill")
+            @Mapping(target = "rent", expression = "java(home.getHomeInfo().getRent())"),
+            @Mapping(target = "bill", expression = "java(home.getHomeInfo().getBill())")
     })
     ProtectedDealByProviderResponse toProviderResponse(ProtectedDeal deal, Home home);
 
@@ -71,9 +71,9 @@ public interface ProtectedDealMapper {
             @Mapping(target = "dealCancellationDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCancellationDateTime())"),
             @Mapping(target = "address", expression = "java(home.getHomeAddress().parseAddress())"),
             @Mapping(target = "homeImage", expression = "java(home.getMainImage())"),
-            @Mapping(target = "rent", source = "home.rent"),
-            @Mapping(target = "bill", source = "home.bill"),
-            @Mapping(target = "bond", source = "home.bond")
+            @Mapping(target = "rent", expression = "java(home.getHomeInfo().getRent())"),
+            @Mapping(target = "bill", expression = "java(home.getHomeInfo().getBill())"),
+            @Mapping(target = "bond", expression = "java(home.getHomeInfo().getBond())")
     })
     ProtectedDealByGetterResponse toGetterResponse(ProtectedDeal deal, Home home);
 
@@ -92,10 +92,11 @@ public interface ProtectedDealMapper {
             @Mapping(target = "dealCancellationDateTime", expression = "java(deal.getProtectedDealDateTime().getDealCancellationDateTime())"),
             @Mapping(target = "address", expression = "java(home.getHomeAddress().parseAddress())"),
             @Mapping(target = "homeImage", expression = "java(home.getMainImage())"),
-            @Mapping(target = "rent", source = "home.rent"),
-            @Mapping(target = "bill", source = "home.bill")
+            @Mapping(target = "rent", expression = "java(home.getHomeInfo().getRent())"),
+            @Mapping(target = "bill", expression = "java(home.getHomeInfo().getBill())"),
     })
-    MyProtectedDealResponse toResponseV2(ProtectedDeal deal, Home home);
+
+    MyProtectedDealResponse toMyProtectedDealResponse(ProtectedDeal deal, Home home);
 
     ProtectedDealOverViewResponse toAdminOverViewResponse(ProtectedDeal entity);
 

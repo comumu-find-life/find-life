@@ -1,6 +1,7 @@
 package com.service.user;
 
 import com.common.user.mapper.UserMapper;
+import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
@@ -8,13 +9,15 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.service.file.FileService;
 import com.service.user.validation.UserServiceValidation;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 import static com.service.user.UserMessages.*;
 
@@ -47,6 +50,14 @@ public class UserService {
         return userRepository.save(user).getId();
     }
 
+    public boolean validateDuplicateEmail(String email){
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        if(byEmail.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
     /**
      * 회원 조회 메서드 by userId
      */
@@ -63,23 +74,32 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-
-
-    public Long findUserIdByEmail() {
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("THISTHIS == ");
-        System.out.println(currentUsername);
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(currentUsername), NOT_EXIT_USER_NICKNAME);
-        return user.getId();
-    }
-
-
     /**
      * 사용자 프로필 조회 메서드 by userId
      */
     public UserProfileResponse getUserProfile(Long id) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
         return userMapper.toProfile(user);
+    }
+
+    /**
+     * 사용자 프로필 수정
+     */
+    @Transactional
+    public void update(UserProfileUpdateRequest userProfileUpdateRequest){
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userProfileUpdateRequest.getUserId()), NOT_EXIT_USER_ID);
+        userMapper.updateUser(userProfileUpdateRequest, user);
+        userRepository.save(user);
+    }
+
+    /**
+     * 사용자 프로필 이미지 수정
+     */
+    @Transactional
+    public void updateImage(Long userId, MultipartFile image){
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID);
+        String profileUrl = uploadProfileImage(image);
+        user.setProfileUrl(profileUrl);
     }
 
     /**

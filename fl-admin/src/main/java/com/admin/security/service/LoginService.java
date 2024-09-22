@@ -3,8 +3,6 @@ package com.admin.security.service;
 import com.core.admin_core.user.model.AdminUser;
 import com.core.admin_core.user.repository.AdminUserRepository;
 import com.core.api_core.user.model.Role;
-import com.core.api_core.user.model.User;
-import com.core.api_core.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

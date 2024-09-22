@@ -1,8 +1,6 @@
 package com.common.home.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 
 @Getter
@@ -10,7 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@AllArgsConstructor
 public class HomeAddressGeneratorRequest {
 
     // ex) 3000 우편번호
@@ -30,5 +27,9 @@ public class HomeAddressGeneratorRequest {
 
     // ex) 건물 번호 10
     private String streetCode;
+
+    private double latitude;
+
+    private double longitude;
 
 }

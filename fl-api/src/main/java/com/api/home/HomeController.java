@@ -4,7 +4,6 @@ import com.common.home.request.*;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
 import com.common.utils.SuccessResponse;
-import com.core.api_core.home.model.HomeStatus;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.utils.LatLng;
@@ -14,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +26,6 @@ import static com.api.config.ApiUrlConstants.*;
 public class HomeController {
 
     private final HomeService homeService;
-    private final UserService userService;
     private final LocationService locationService;
 
     /**
@@ -38,15 +35,11 @@ public class HomeController {
     @PostMapping(HOMES_BASE_URL)
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeGeneratorRequest,
                                       @RequestPart("images") List<MultipartFile> images) throws IllegalAccessException {
-
-        Long userId = userService.findUserIdByEmail();
-        //주소 -> 위도, 경도 변환
         LatLng location = locationService.getLatLngFromAddress(homeGeneratorRequest.getHomeAddress());
-        Long homeId = homeService.save(homeGeneratorRequest, images, userId, location);
+        Long homeId = homeService.save(homeGeneratorRequest, images, location);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
     /**
      * 집 주소 검색 (검증) api
@@ -89,16 +82,24 @@ public class HomeController {
     }
 
     /**
-     * 집 이미지 수정 api
+     * 집 이미지 추가 등록 api
      */
     @PatchMapping(HOMES_UPDATE_IMAGE)
-    public ResponseEntity<?> updateHomeImage(@RequestParam("images") List<MultipartFile> images) {
+    public ResponseEntity<?> updateHomeImage(@PathVariable Long homeId, @RequestPart("images") List<MultipartFile> images) {
         // 이미지 처리 로직 추가
-        for (MultipartFile image : images) {
-            // 예: 이미지를 저장하거나 검증하는 코드 추가
-            System.out.println("Received image: " + image.getOriginalFilename());
-        }
+        homeService.updateHomeImages(homeId, images);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_IMAGE_UPDATE_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 집 이미지 삭제 API
+     * ex) DELETE /v1/api/homes/{homeId}/image?imageIds=1,2,3
+     */
+    @DeleteMapping(HOMES_UPDATE_IMAGE)
+    public ResponseEntity<?> deleteHomeImage(@PathVariable Long homeId, @RequestParam List<String> imageUrls) {
+        homeService.deleteHomeImage(homeId, imageUrls);
+        SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.HOME_IMAGE_DELETE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -176,13 +177,5 @@ public class HomeController {
         return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);
     }
 
-    /**
-     * 사용자1, 사용자2 에 포함된 집 게시글 모두 조회
-     */
-    @GetMapping(HOMES_FIND_DM_HOMES)
-    public ResponseEntity<?> findDmHomes(@PathVariable Long user1Id, @PathVariable Long user2Id) {
-        List<HomeOverviewResponse> byUserIds = homeService.findByUserIds(user1Id, user2Id);
-        SuccessResponse response = new SuccessResponse(true, "두명의 사용자 Id로 집 게시글 조회 성공", byUserIds);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+
 }

@@ -24,22 +24,12 @@ public class QHome extends EntityPathBase<Home> {
 
     public final com.core.base.model.QBaseTimeEntity _super = new com.core.base.model.QBaseTimeEntity(this);
 
-    public final NumberPath<Integer> bathRoomCount = createNumber("bathRoomCount", Integer.class);
-
-    public final NumberPath<Integer> bedroomCount = createNumber("bedroomCount", Integer.class);
-
-    public final NumberPath<Integer> bill = createNumber("bill", Integer.class);
-
-    public final NumberPath<Integer> bond = createNumber("bond", Integer.class);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDateTime = _super.createDateTime;
 
-    public final BooleanPath dealSavable = createBoolean("dealSavable");
-
-    public final EnumPath<com.core.api_core.user.model.Gender> gender = createEnum("gender", com.core.api_core.user.model.Gender.class);
-
     public final QHomeAddress homeAddress;
+
+    public final QHomeInfo homeInfo;
 
     public final EnumPath<HomeStatus> homeStatus = createEnum("homeStatus", HomeStatus.class);
 
@@ -47,18 +37,8 @@ public class QHome extends EntityPathBase<Home> {
 
     public final ListPath<HomeImage, QHomeImage> images = this.<HomeImage, QHomeImage>createList("images", HomeImage.class, QHomeImage.class, PathInits.DIRECT2);
 
-    public final StringPath introduce = createString("introduce");
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDateTime = _super.modifiedDateTime;
-
-    public final StringPath options = createString("options");
-
-    public final NumberPath<Integer> rent = createNumber("rent", Integer.class);
-
-    public final NumberPath<Integer> residentCount = createNumber("residentCount", Integer.class);
-
-    public final EnumPath<HomeType> type = createEnum("type", HomeType.class);
 
     public final NumberPath<Long> userIdx = createNumber("userIdx", Long.class);
 
@@ -83,6 +63,7 @@ public class QHome extends EntityPathBase<Home> {
     public QHome(Class<? extends Home> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.homeAddress = inits.isInitialized("homeAddress") ? new QHomeAddress(forProperty("homeAddress")) : null;
+        this.homeInfo = inits.isInitialized("homeInfo") ? new QHomeInfo(forProperty("homeInfo")) : null;
     }
 
 }

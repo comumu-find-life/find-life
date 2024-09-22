@@ -1,17 +1,6 @@
 package com.batch.user;
 
-import com.batch.chat.ApplicationDmFormRequest;
-import com.common.home.request.HomeGeneratorRequest;
-import com.common.user.response.UserProfileResponse;
-import com.common.utils.SuccessResponse;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService {

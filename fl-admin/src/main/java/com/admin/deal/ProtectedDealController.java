@@ -13,38 +13,42 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.admin.config.AdminApiUrls.*;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/admin/deals")
+@RequestMapping
 public class ProtectedDealController {
 
     private final ProtectedDealAdminService protectedDealAdminService;
     private final DirectMessageRoomService directMessageRoomService;
 
     /**
-     * 모든 신청 거래된 안전거래 조회
+     * 입금 신청된 안전거래 모두 조회 API
      */
-    @GetMapping("/before-deposit")
-    public ResponseEntity<?> findAllBeforeDeposit() {
-        List<ProtectedDealOverViewResponse> allBeforeDeposit = protectedDealAdminService.findAllBeforeDeposit();
+    @GetMapping(DEALS_REQUEST_DEPOSIT)
+    public ResponseEntity<?> findAllRequestDeposit() {
+        List<ProtectedDealOverViewResponse> allBeforeDeposit = protectedDealAdminService.findAllRequestDeposit();
         SuccessResponse response = new SuccessResponse(true, ProtectedDealSuccessMessages.FIND_ALL_BEFORE_DEPOSIT_SUCCESS, allBeforeDeposit);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * 입금 신청 단일 조회 API
+     * 안전거래 단일 조회 API
      */
-    @GetMapping("/{dealId}")
+    @GetMapping(DEAL_BY_ID)
     public ResponseEntity<?> findById(@PathVariable Long dealId) {
         ProtectedDealAdminResponse protectedDealAdminResponse = protectedDealAdminService.findById(dealId);
         SuccessResponse response = new SuccessResponse(true, ProtectedDealSuccessMessages.FIND_BY_ID_SUCCESS, protectedDealAdminResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     /**
-     * 입금 확인 API
+     * 입금 완료 API
+     * 해당 API 요청은 관리자(Admin) 이 입금이 완료 됨을 확인 후 사용한다.
      */
-    @PatchMapping("/{dealId}/confirm-deposit")
+    @PatchMapping(DEAL_CONFIRM_DEPOSIT)
     public ResponseEntity<?> checkDeposit(@PathVariable Long dealId) {
         protectedDealAdminService.checkDeposit(dealId);
         SuccessResponse response = new SuccessResponse(true, ProtectedDealSuccessMessages.CHECK_DEPOSIT_SUCCESS, null);
@@ -52,9 +56,20 @@ public class ProtectedDealController {
     }
 
     /**
-     * 거래 완료 신청된 모든 안전거래 조회 API
+     * 입금 신청 신청 취소 API
+     * 해당 API 는 관리자(Admin) 이 입금이 완료되지 않은 뒤 사용한다
      */
-    @GetMapping("/submit-completed")
+    @PatchMapping(DEAL_CANCEL_DEPOSIT)
+    public ResponseEntity<?> cancelDeposit(@PathVariable Long dealId){
+        protectedDealAdminService.cancelDeposit(dealId);
+        SuccessResponse response = new SuccessResponse(true, ProtectedDealSuccessMessages.CANCEL_DEPOSIT_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 거래 완료 신청 안전 거래 모두 조회 API
+     */
+    @GetMapping(DEAL_SUBMIT_COMPLETED)
     public ResponseEntity<?> findAllSubmitDeal() {
         List<ProtectedDealOverViewResponse> allSubmitDeal = protectedDealAdminService.findAllSubmitDeal();
         SuccessResponse response = new SuccessResponse(true, ProtectedDealSuccessMessages.FIND_ALL_SUBMIT_DEAL_SUCCESS, allSubmitDeal);
@@ -62,13 +77,14 @@ public class ProtectedDealController {
     }
 
     /**
-     * 거래 완료 API (해당 API 를 호출하면 최종 거래 성사임을 확정 지음)
+     * 거래 완료 API
      */
-    @PatchMapping("/{dealId}/complete")
+    @PatchMapping(DEAL_COMPLETE)
     public ResponseEntity<?> completeDeal(@PathVariable Long dealId, @RequestBody DirectMessageRequest directMessageRequest) {
         directMessageRoomService.sendDealCompletionMessage(directMessageRequest);
         protectedDealAdminService.completeDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, ProtectedDealSuccessMessages.COMPLETE_DEAL_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 }

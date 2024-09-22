@@ -19,6 +19,8 @@ public class QDirectMessage extends EntityPathBase<DirectMessage> {
 
     public static final QDirectMessage directMessage = new QDirectMessage("directMessage");
 
+    public final NumberPath<Long> dealId = createNumber("dealId", Long.class);
+
     public final EnumPath<com.core.api_core.deal.model.DealState> dealState = createEnum("dealState", com.core.api_core.deal.model.DealState.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);

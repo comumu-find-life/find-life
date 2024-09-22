@@ -31,6 +31,8 @@ public class LocationServiceTest {
         //when
         LatLng latLngFromAddress = locationService.getLatLngFromAddress(address);
 
+        System.out.println(latLngFromAddress.getLat());
+
         //then
     }
 

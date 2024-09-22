@@ -18,43 +18,41 @@ INSERT INTO home_address (home_address_id, state, city, post_code, detail_addres
 
 -- Home 1
 -- Home 1
-INSERT INTO home (rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (1000, 1, 1, 2, 3, TRUE, 'A_C,DESK,CHAIR', 10000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글1', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (TRUE,1000, 1, 1, 2, 3, TRUE, 'A_C,DESK,CHAIR', 10000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글1', 300000, 0);
 -- Home 2
-INSERT INTO home (rent, user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (2000, 1, 2, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글2', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (TRUE,2000, 1, 2, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글2', 300000, 0);
 
 -- Home 3
-INSERT INTO home ( rent,user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (3000, 1, 3, 2, 3, TRUE, 'A_C,DESK,CHAIR', 30000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글3', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (TRUE,3000, 1, 3, 2, 3, TRUE, 'A_C,DESK,CHAIR', 30000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글3', 300000, 0);
 
 -- Home 4
-INSERT INTO home ( rent, user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (4000,1, 4, 2, 3, TRUE, 'A_C,DESK,CHAIR', 40000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글4', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (TRUE,4000,1, 4, 2, 3, TRUE, 'A_C,DESK,CHAIR', 40000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글4', 300000, 0);
 
 -- Home 5
-INSERT INTO home (rent, user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (5000, 1, 5, 2, 3, TRUE, 'A_C,DESK,CHAIR', 50000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글5', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (TRUE,5000, 1, 5, 2, 3, TRUE, 'A_C,DESK,CHAIR', 50000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글5', 300000, 0);
 
 -- Home 6
-INSERT INTO home (rent, user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (6000, 1, 6, 2, 3, TRUE, 'A_C,DESK,CHAIR', 60000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글6', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (TRUE,6000, 1, 6, 2, 3, TRUE, 'A_C,DESK,CHAIR', 60000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글6', 300000, 0);
 
 -- Home 7
-INSERT INTO home (rent, user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (7000, 1, 7, 2, 3, TRUE, 'A_C,DESK,CHAIR', 70000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글7', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (TRUE,7000, 1, 7, 2, 3, TRUE, 'A_C,DESK,CHAIR', 70000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글7', 300000, 0);
 
 -- Home 8
-INSERT INTO home (rent, user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (8000, 1, 8, 2, 3, TRUE, 'A_C,DESK,CHAIR', 80000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글8', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (FALSE, 8000, 1, 8, 2, 3, TRUE, 'A_C,DESK,CHAIR', 80000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글8', 300000, 0);
 
 -- Home 9
-INSERT INTO home (rent, user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (9000, 1, 9, 2, 3, TRUE, 'A_C,DESK,CHAIR', 90000, 'FOR_SALE', 'MALE', 'HOME_STAY', '소개글9', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
+VALUES (FALSE, 9000, 1, 9, 2, 3, TRUE, 'A_C,DESK,CHAIR', 90000, 'FOR_SALE', 'MALE', 'HOME_STAY', '소개글9', 300000, 0);
 
 -- Home 10
-INSERT INTO home (rent, user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (10000, 1, 10, 2, 3, TRUE, 'A_C,DESK,CHAIR', 100000, 'FOR_SALE', 'MALE', 'HOME_STAY', '소개글10', 300000, 0);
 
 
 -- HomeImage
@@ -77,22 +75,5 @@ VALUES
 (8, 'url15'),
 (8, 'url16'),
 (9, 'url17'),
-(9, 'url18'),
-(10, 'url19'),
-(10, 'url20');
+(9, 'url18')
 
-
----- ProviderAccount 데이터 삽입
---INSERT INTO provider_account (provider_account_id, account, account_holder, bank_name) VALUES
---(1, '123-456-789', 'John Doe', 'Bank A'),
---(2, '987-654-321', 'Jane Smith', 'Bank B'),
---(3, '122-333-321', 'Doe Smith', 'Bank C'),
---(4, '653-654-321', 'GGG das', 'Bank D');
---
---
----- ProtectedDeal 데이터 삽입
---INSERT INTO protected_deal (create_date, provider_account_id, home_id, dm_id, getter_id, provider_id, deposit, deal_state) VALUES
---('2023-07-31T10:00:00', 1, 1, 1, 1, 2, 10000.0, 'BEFORE_DEPOSIT'),
---('2023-08-01T11:00:00', 2, 2, 2, 2, 3, 15000.0, 'DURING_DEPOSIT'),
---('2023-08-02T12:00:00', 3, 3, 3, 3, 4, 20000.0, 'DONE_DEPOSIT'),
---('2023-08-03T13:00:00', 4, 4, 4, 4, 5, 25000.0, 'FINISH');
