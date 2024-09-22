@@ -34,4 +34,7 @@ public class MyProtectedDealResponse {
     private double rent;
 
     private double bill;
+
+    private double bond;
+
 }
