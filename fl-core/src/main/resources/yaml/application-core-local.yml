@@ -1,5 +1,9 @@
 #로컬 환경 설정
 spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://sin1768:sinminseok12@cluster0.kngkt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      database: chat
   datasource:
     initialization-mode: always
     driver-class-name: com.mysql.cj.jdbc.Driver
