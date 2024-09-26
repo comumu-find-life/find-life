@@ -1,11 +1,9 @@
 package com.chatting.service;
 
 import com.common.chat.mapper.DirectMessageMapper;
-import com.common.chat.mapper.DirectMessageRoomMapper;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
 import com.common.utils.OptionalUtil;
-import com.core.api_core.chat.repository.DirectMessageRoomRepository;
 import com.core.chat_core.chat.model.DirectMessage;
 import com.core.chat_core.chat.repository.DirectMessageRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +24,11 @@ public class DirectMessageService {
      */
     public DirectMessageResponse sendDM(DirectMessageRequest dmDto) throws IllegalAccessException {
         try {
+            System.out.println("###");
             DirectMessage directMessage = mapper.toDirectMessage(dmDto);
+            System.out.println("111");
             DirectMessage save = dmRepository.save(directMessage);
+            System.out.println("333");
             return mapper.toDirectMessageResponse(save);
         } catch (Exception e) {
             throw new IllegalAccessException(e.getMessage());
@@ -35,7 +36,7 @@ public class DirectMessageService {
     }
 
     public DirectMessage getLastMessage(Long user1Id, Long user2Id) {
-        return  OptionalUtil.getOrElseThrow(dmRepository.findLastMessageMyUserIds(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
+        return  OptionalUtil.getOrElseThrow(dmRepository.findLastMessageByUserIds(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
 
     }
 

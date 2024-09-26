@@ -12,7 +12,6 @@ import com.core.api_core.deal.model.DealState;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.core.chat_core.chat.model.DirectMessage;
-import com.core.chat_core.chat.repository.DirectMessageRepository;
 import com.service.user.UserService;
 import com.common.utils.OptionalUtil;
 import jakarta.transaction.Transactional;
@@ -34,7 +33,6 @@ public class DirectMessageRoomService {
 
     private final UserService userService;
     private final UserRepository userRepository;
-    private final DirectMessageRepository directMessageRepository;
     private final DirectMessageRoomRepository directMessageRoomRepository;
     private final DirectMessageRoomMapper directMessageRoomMapper;
 
