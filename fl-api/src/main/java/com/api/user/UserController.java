@@ -1,8 +1,10 @@
 package com.api.user;
 
 import com.api.security.service.JwtService;
+import com.common.user.request.UserAccountRequest;
 import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
+import com.common.user.response.UserAccountResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
 import com.redis.user.service.UserRedisService;
@@ -57,6 +59,26 @@ public class UserController {
     public ResponseEntity<?> findById(@PathVariable Long userId) {
         UserInformationResponse byId = userService.findById(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_RETRIEVE_SUCCESS, byId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 계좌 정보 등록 api
+     */
+    @PatchMapping(USER_ACCOUNT_REGISTER_URL)
+    public ResponseEntity<?> registerAccount(@RequestBody UserAccountRequest userAccountRequest, @PathVariable Long userId){
+        userService.setUserAccount(userAccountRequest, userId);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_REGISTER_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 계좌 정보 조회 api
+     */
+    @GetMapping(USER_ACCOUNT_REGISTER_URL)
+    public ResponseEntity<?> findUserAccount(@PathVariable Long userId){
+        UserAccountResponse userAccountById = userService.findUserAccountById(userId);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_FIND_SUCCESS, userAccountById);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

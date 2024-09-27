@@ -23,11 +23,6 @@ public class DirectMessageApiController {
         dmService.sendDM(directMessageDto);
     }
 
-//    @GetMapping("/dm")
-//    public List<DirectMessageResponse> getDmLogs(@RequestParam Long user1Id, @RequestParam Long user2Id) {
-//        return dmService.findRecentChatLog(user1Id, user2Id);
-//    }
-
     /**
      * 두 사용자가 주고 받은 채팅 정보 모두 조회
      */

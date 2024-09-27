@@ -32,6 +32,7 @@ public class ApiUrlConstants {
 
     public static final String USERS_FIND_BY_ID = USERS_BASE_URL + "/{userId}";
     public static final String USERS_UPDATE = USERS_BASE_URL;
+    public static final String USER_ACCOUNT_REGISTER_URL = USERS_BASE_URL + "/{userId}/account";
     public static final String USERS_IMAGE_UPDATE = USERS_BASE_URL + "/{userId}/image";
     public static final String USERS_GET_MY_USER_ID = USERS_BASE_URL + "/me/userId";
     public static final String USERS_GET_PROFILE = USERS_BASE_URL + "/profile/{userId}";
