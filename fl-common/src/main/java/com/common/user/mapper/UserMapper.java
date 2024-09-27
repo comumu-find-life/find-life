@@ -1,11 +1,14 @@
 package com.common.user.mapper;
 
+import com.common.user.request.UserAccountRequest;
 import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
+import com.common.user.response.UserAccountResponse;
 import com.common.user.response.UserInformationByAdminResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
 import com.core.api_core.user.model.User;
+import com.core.api_core.user.model.UserAccount;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -29,6 +32,10 @@ public interface UserMapper {
     UserInformationByAdminResponse toAdminResponse(User user);
 
     UserProfileResponse toProfile(User user);
+
+    UserAccount toUserAccount(UserAccountRequest userAccountRequest);
+
+    UserAccountResponse toUserAccountResponse(UserAccount userAccount);
 
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "role", ignore = true)

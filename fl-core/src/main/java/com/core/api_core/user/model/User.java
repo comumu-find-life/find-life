@@ -24,6 +24,9 @@ public class User extends BaseTimeEntity {
     //이메일 회원가입
     private String email;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserAccount userAccount;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -64,5 +67,6 @@ public class User extends BaseTimeEntity {
     public void setUserState(UserState userState){
         this.userState = userState;
     }
+
 
 }

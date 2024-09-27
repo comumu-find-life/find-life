@@ -1,11 +1,14 @@
 package com.service.user;
 
 import com.common.user.mapper.UserMapper;
+import com.common.user.request.UserAccountRequest;
 import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
+import com.common.user.response.UserAccountResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
 import com.core.api_core.user.model.User;
+import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserRepository;
 import com.service.file.FileService;
 import com.service.user.validation.UserServiceValidation;
@@ -110,6 +113,23 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    /**
+     * 사용자 계좌 등록
+     */
+    public void setUserAccount(UserAccountRequest userAccountRequest, Long userId) {
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID);
+        UserAccount userAccount = userMapper.toUserAccount(userAccountRequest);
+        userAccount.setUser(user);
+        user.setUserAccount(userAccount);
+    }
+
+    /**
+     * 사용자 계좌 정보 조회
+     */
+    public UserAccountResponse findUserAccountById(Long userId) {
+        UserAccount userAccount = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID).getUserAccount();
+        return userMapper.toUserAccountResponse(userAccount);
+    }
 
 
     private User createUser(UserSignupRequest dto, MultipartFile image) throws Exception {
