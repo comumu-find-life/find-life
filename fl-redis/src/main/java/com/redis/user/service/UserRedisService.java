@@ -22,8 +22,6 @@ public class UserRedisService {
 
     private static final String REFRESH_TOKEN_KEY = "RefreshToken::";
 
-
-
     private final UserRepository userRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 

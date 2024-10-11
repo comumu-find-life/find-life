@@ -33,6 +33,8 @@ public class ApiUrlConstants {
     public static final String USERS_FIND_BY_ID = USERS_BASE_URL + "/{userId}";
     public static final String USERS_UPDATE = USERS_BASE_URL;
     public static final String USER_ACCOUNT_REGISTER_URL = USERS_BASE_URL + "/{userId}/account";
+    public static final String USER_ACCOUNT_EXIST_URL = USERS_BASE_URL + "/{userId}/account/exist";
+    public static final String USER_POINT_CHARGE_URL = USERS_BASE_URL + "/{userId}/point";
     public static final String USERS_IMAGE_UPDATE = USERS_BASE_URL + "/{userId}/image";
     public static final String USERS_GET_MY_USER_ID = USERS_BASE_URL + "/me/userId";
     public static final String USERS_GET_PROFILE = USERS_BASE_URL + "/profile/{userId}";
@@ -40,16 +42,16 @@ public class ApiUrlConstants {
 
     // 안전거래 API URL
     public static final String DEALS_BASE_URL = BASE_API_URL + "/deals";
-    public static final String DEALS_SAVE = DEALS_BASE_URL;
+    public static final String DEALS_REQUEST = DEALS_BASE_URL;
+    public static final String DEALS_START_VALIDATED = DEALS_BASE_URL + "/validate/start";
     public static final String DEALS_GETTER_READ = DEALS_BASE_URL + "/read/getter";
-    public static final String DEALS_PROVIDER_READ = DEALS_BASE_URL + "/read/provider";
     public static final String DEALS_FIND_ALL_BY_USER_ID = DEALS_BASE_URL + "/users/{userId}";
-    public static final String DEALS_REQUEST_DEPOSIT = DEALS_BASE_URL + "/request/deposit/{dealId}";
+    public static final String DEALS_ACCEPT_REQUEST = DEALS_BASE_URL + "/accept/{dealId}";
     public static final String DEALS_COMPLETE_DEPOSIT = DEALS_BASE_URL + "/complete/deposit/{dealId}";
     public static final String DEALS_COMPLETE = DEALS_BASE_URL + "/complete/{dealId}";
-    public static final String DEALS_REQUEST_COMPLETE_URL = DEALS_BASE_URL + "/request/done/{dealId}";
-    public static final String DEALS_DEPOSIT_CANCEL_URL = DEALS_BASE_URL + "/cancel/deposit/{dealId}";
-    public static final String DEALS_CANCEL = DEALS_BASE_URL + "/cancel/{dealId}";
+    public static final String DEALS_REQUEST_COMPLETE_URL = DEALS_BASE_URL + "/{dealId}/complete";
+    public static final String DEALS_CANCEL_BEFORE_URL = DEALS_BASE_URL + "/{dealId}/cancel/before";
+    public static final String DEALS_CANCEL_AFTER = DEALS_BASE_URL + "/{dealId}/cancel/after";
 }
 
 

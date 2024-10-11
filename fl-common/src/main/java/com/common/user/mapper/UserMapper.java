@@ -3,16 +3,18 @@ package com.common.user.mapper;
 import com.common.user.request.UserAccountRequest;
 import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
-import com.common.user.response.UserAccountResponse;
-import com.common.user.response.UserInformationByAdminResponse;
-import com.common.user.response.UserInformationResponse;
-import com.common.user.response.UserProfileResponse;
+import com.common.user.response.*;
+import com.core.api_core.user.model.PointChargeHistory;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * (componentMode = 'spring') 을 안하면 빈 등록이 안된다. 꼭 해주자.
@@ -24,6 +26,7 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "profileUrl", ignore = true)
+//    @Mapping(target = "userAccount", ignore = true)
     @Mapping(target = "userState", expression = "java(com.core.api_core.user.model.UserState.ACTIVE)")
     User toEntity(UserSignupRequest dto);
 
@@ -33,8 +36,13 @@ public interface UserMapper {
 
     UserProfileResponse toProfile(User user);
 
-    UserAccount toUserAccount(UserAccountRequest userAccountRequest);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "point", expression = "java(0)")
+    @Mapping(target = "userId", source = "userId")
+    @Mapping(target = "chargeHistories", ignore = true)
+    UserAccount toUserAccount(UserAccountRequest userAccountRequest, Long userId);
 
+    @Mapping(target = "chargeHistories", source = "userAccount.chargeHistories", qualifiedByName = "mapChargeHistories")
     UserAccountResponse toUserAccountResponse(UserAccount userAccount);
 
     @Mapping(target = "email", ignore = true)
@@ -45,7 +53,18 @@ public interface UserMapper {
     @Mapping(target = "phoneNumber", ignore = true)
     @Mapping(target = "userState", ignore = true)
     @Mapping(target = "nationality", ignore = true)
+    @Mapping(target = "signupType", ignore = true)
     void updateUser(UserProfileUpdateRequest userProfileUpdateRequest, @MappingTarget User user);
 
 
+    @Named("mapChargeHistories")
+    default List<PointChargeHistoryResponse> mapImageUrls(List<PointChargeHistory> pointChargeHistories){
+        return pointChargeHistories.stream().map(pointChargeHistory -> {
+            return  PointChargeHistoryResponse.builder()
+                    .chargeAmount(pointChargeHistory.getChargeAmount())
+                    .chargeDate(pointChargeHistory.getChargeDate())
+                    .build();
+        }).collect(Collectors.toList());
+
+    }
 }

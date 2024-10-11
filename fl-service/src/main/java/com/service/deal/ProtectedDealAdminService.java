@@ -56,11 +56,11 @@ public class ProtectedDealAdminService {
     }
 
     /**
-     * 입금 확인 메서드
+     * 거래 수락 메서드 (By Getter)
      */
     public void checkDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
-        protectedDeal.setDealState(DealState.COMPLETE_DEPOSIT);
+        protectedDeal.setDealState(DealState.ACCEPT_DEAL);
     }
 
     /**
@@ -68,7 +68,7 @@ public class ProtectedDealAdminService {
      */
     public void cancelDeposit(Long dealId){
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
-        protectedDeal.setDealState(DealState.CANCEL_DEPOSIT);
+        protectedDeal.setDealState(DealState.CANCEL_BEFORE_DEAL);
     }
 
     /**
@@ -87,7 +87,6 @@ public class ProtectedDealAdminService {
     public void completeDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), DEAL_NOT_FOUND);
         //todo cms 에서 입금하는 로직 구현
-        protectedDeal.setDealCompleteDateTime(LocalDateTime.now());
         protectedDeal.setDealState(DealState.COMPLETE_DEAL);
     }
 

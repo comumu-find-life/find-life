@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
+import static com.core.api_core.user.model.PointChargeHistory.createHistory;
+
 @Entity
 @Getter
 @Setter
@@ -17,18 +19,17 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long userId;
+
+    private String depositorName;
+
     private String bsb;
 
     private String accountNumber;
 
     private Integer point;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    // UserAccount와 PointChargeHistory는 1:N 관계
-    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PointChargeHistory> chargeHistories;
 
     // 포인트 충전 기록을 추가하는 메서드
@@ -36,4 +37,19 @@ public class UserAccount {
         this.chargeHistories.add(history);
         history.setUserAccount(this);
     }
+
+    public void registerPointChargeHistory(int chargeAmount){
+        PointChargeHistory history = createHistory(this, chargeAmount);
+        chargeHistories.add(history);
+    }
+
+    public void decreasePoint(int point){
+        this.point -= point;
+    }
+
+    public void increasePoint(int point){
+        this.point += point;
+    }
+
+
 }

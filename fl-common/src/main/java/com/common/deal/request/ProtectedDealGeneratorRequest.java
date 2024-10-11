@@ -14,13 +14,7 @@ public class ProtectedDealGeneratorRequest {
     private Long homeId;
 
     private Long dmId;
-
     //계약금
     private double deposit;
 
-    private String account;
-
-    private String accountHolder;
-
-    private String bankName;
 }

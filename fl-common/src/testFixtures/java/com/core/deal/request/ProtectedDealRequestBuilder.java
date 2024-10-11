@@ -7,14 +7,11 @@ public class ProtectedDealRequestBuilder {
 
     public static ProtectedDealGeneratorRequest createProtectedDealGeneratorRequest() {
         return ProtectedDealGeneratorRequest.builder()
-                .getterId(1L)
-                .providerId(2L)
+                .getterId(2L)
+                .providerId(1L)
                 .homeId(1L)
                 .dmId(1L)
                 .deposit(10000)
-                .account("123-123-123")
-                .accountHolder("minseok")
-                .bankName("bankName")
                 .build();
     }
 

@@ -7,7 +7,6 @@ import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserAccountResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
-import com.redis.user.service.UserRedisService;
 import com.service.user.UserService;
 import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,7 +64,7 @@ public class UserController {
     /**
      * 계좌 정보 등록 api
      */
-    @PatchMapping(USER_ACCOUNT_REGISTER_URL)
+    @PostMapping(USER_ACCOUNT_REGISTER_URL)
     public ResponseEntity<?> registerAccount(@RequestBody UserAccountRequest userAccountRequest, @PathVariable Long userId){
         userService.setUserAccount(userAccountRequest, userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_REGISTER_SUCCESS, null);
@@ -79,6 +78,26 @@ public class UserController {
     public ResponseEntity<?> findUserAccount(@PathVariable Long userId){
         UserAccountResponse userAccountById = userService.findUserAccountById(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_FIND_SUCCESS, userAccountById);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 계좌 등록 여부 검증 api
+     */
+    @GetMapping(USER_ACCOUNT_EXIST_URL)
+    public ResponseEntity<?> validateAccountExist(@PathVariable Long userId){
+        boolean result = userService.isExistAccount(userId);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_EXIST_SUCCESS, result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 포인트 충전 api
+     */
+    @PostMapping(USER_POINT_CHARGE_URL)
+    public ResponseEntity<?> chargePoint(@PathVariable Long userId, @RequestBody Integer point){
+        userService.chargePoint(userId, point);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.CHARGE_POINT_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -127,7 +146,6 @@ public class UserController {
     }
 
     @GetMapping(USERS_FIND_LOGIN_USER)
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserInformationResponse> findLoginUser() {
         // 현재 인증된 사용자 정보 가져오기
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -16,23 +16,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableJpaRepositories(basePackages = {"com.core.chat_core.chat.repository","com.core.api_core.chat.repository"})
 @EnableMongoRepositories(basePackages = {"com.chatting.entity", "com.core.chat_core.chat.repository"})
 @EntityScan(basePackages = { "com.core.chat_core.chat.model", "com.core.api_core.chat.model", "com.core.api_core.user.model"})
-public class ChattingApplication implements CommandLineRunner{
+public class ChattingApplication {
 
-    @Autowired
-    private MongoUserRepository mongoUserRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(ChattingApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        System.out.println("-------------CREATE GROCERY ITEMS------\n");
-        MongoUser minseok = MongoUser.builder()
-                .id("1")
-                .name("minseok")
-                .price(1000.0)
-                .build();
-        mongoUserRepository.save(minseok);
-    }
+
 }

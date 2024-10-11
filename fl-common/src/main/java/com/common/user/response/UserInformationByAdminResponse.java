@@ -22,7 +22,7 @@ public class UserInformationByAdminResponse {
 
     private String email;
 
-    private String nickName;
+    private String nickname;
 
     private String profileUrl;
 

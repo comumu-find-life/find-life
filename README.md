@@ -98,3 +98,50 @@
 
 ### Fcm 알림 기능
 - [ ] 채팅 연락이 왔을때
+
+------------
+
+## 안전 거래 로직 정리 
+
+DealState 
+
+REQUEST_DEAL // 거래 요청
+ACCEPT_DEAL // 거래 수락
+CANCEL_DEAL // 거래 취소 (거래 수락 전 취소)
+CANCEL_DURING_DEAL //  (거래 수락 후 취소)
+COMPLETE_DEAL // 거래 완료
+
+API 리스트
+- 안전 거래 생성 요청 API
+- 안전 거래 취소 API 
+- 안전 거래 생성 수락 API - point getter 차감
+- 안전 거래 중단 API - point getter 에게 반환
+- 안전 거래 완료 API - point provider 에게 전달
+
+- 거래 시작 시간
+- 거래 완료 시간
+- 거래 전 취소 시간
+- 거래 후 취소 시간
+
+
+
+
+(1) provider 가 안전 거래 생성을 요청한다. ()
+   - 거래금/ 보증금 을 입력해 안전 거래 생성을 요청 한다.
+   - provider 의 계좌 등록이 되어 있어야 한다.
+
+(1-1) 해당 순서 에선 getter 혹은 provider 가 안전 거래를 삭제할 수 있습니다.
+
+(2) getter(세입자) 가 안전 거래를 수락 한다.
+  - getter 의 계좌 등록이 되어 있어야 한다.
+  - getter 의 point 가 거래 금액 만큼 있어야 한다.
+  - getter 의 point 가 차감 된다.
+
+(3) getter 가 거래를 취소 한다. 
+  - 거래 취소는 getter 만 할 수 있다.
+  - 거래 취소시 getter 에게 포인트를 되돌려준다.
+  - 거래 취소시 거래 취소 횟수를 증가시킨다.
+
+(4) getter 가 거래를 완료한다.
+  - provider 의 포인트를 증가시킨다.
+  - provider, getter 의 거래 성공 횟수를 증가시킨다.
