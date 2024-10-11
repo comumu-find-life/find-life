@@ -29,5 +29,13 @@ public class PointChargeHistory {
     private UserAccount userAccount;
 
     // 기타 필요한 정보 (예: 결제 방법, 결제 상태 등)도 추가 가능
-    private String paymentMethod;
+
+    // 팩토리 메서드
+    static public PointChargeHistory createHistory(UserAccount userAccount, int chargeAmount) {
+        PointChargeHistory history = new PointChargeHistory();
+        history.setUserAccount(userAccount);
+        history.setChargeAmount(chargeAmount);
+        history.setChargeDate(LocalDateTime.now());  // 현재 시간으로 충전 일자 설정
+        return history;
+    }
 }

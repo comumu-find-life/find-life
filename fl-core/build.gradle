@@ -37,9 +37,10 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-
     testImplementation 'com.h2database:h2'
     testFixturesRuntimeOnly("com.h2database:h2")
+
+    implementation 'com.paypal.sdk:rest-api-sdk:1.14.0'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'junit:junit:4.13.1'

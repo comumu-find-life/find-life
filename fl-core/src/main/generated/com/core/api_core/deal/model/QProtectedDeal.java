@@ -29,7 +29,7 @@ public class QProtectedDeal extends EntityPathBase<ProtectedDeal> {
 
     public final EnumPath<DealState> dealState = createEnum("dealState", DealState.class);
 
-    public final NumberPath<Double> deposit = createNumber("deposit", Double.class);
+    public final NumberPath<Integer> deposit = createNumber("deposit", Integer.class);
 
     public final NumberPath<Long> dmId = createNumber("dmId", Long.class);
 
@@ -44,11 +44,9 @@ public class QProtectedDeal extends EntityPathBase<ProtectedDeal> {
 
     public final QProtectedDealDateTime protectedDealDateTime;
 
-    public final QProviderAccount providerAccount;
-
     public final NumberPath<Long> providerId = createNumber("providerId", Long.class);
 
-    public final StringPath randomDepositorName = createString("randomDepositorName");
+    public final StringPath secretKey = createString("secretKey");
 
     public QProtectedDeal(String variable) {
         this(ProtectedDeal.class, forVariable(variable), INITS);
@@ -69,7 +67,6 @@ public class QProtectedDeal extends EntityPathBase<ProtectedDeal> {
     public QProtectedDeal(Class<? extends ProtectedDeal> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.protectedDealDateTime = inits.isInitialized("protectedDealDateTime") ? new QProtectedDealDateTime(forProperty("protectedDealDateTime")) : null;
-        this.providerAccount = inits.isInitialized("providerAccount") ? new QProviderAccount(forProperty("providerAccount")) : null;
     }
 
 }

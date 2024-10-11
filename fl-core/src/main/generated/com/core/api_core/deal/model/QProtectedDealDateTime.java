@@ -19,21 +19,15 @@ public class QProtectedDealDateTime extends EntityPathBase<ProtectedDealDateTime
 
     public static final QProtectedDealDateTime protectedDealDateTime = new QProtectedDealDateTime("protectedDealDateTime");
 
-    public final DateTimePath<java.time.LocalDateTime> dealCancellationDateTime = createDateTime("dealCancellationDateTime", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> cancelAt = createDateTime("cancelAt", java.time.LocalDateTime.class);
 
-    public final DateTimePath<java.time.LocalDateTime> dealCompletionDateTime = createDateTime("dealCompletionDateTime", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> completeAt = createDateTime("completeAt", java.time.LocalDateTime.class);
 
-    public final DateTimePath<java.time.LocalDateTime> dealCompletionRequestDateTime = createDateTime("dealCompletionRequestDateTime", java.time.LocalDateTime.class);
-
-    public final DateTimePath<java.time.LocalDateTime> dealStartDateTime = createDateTime("dealStartDateTime", java.time.LocalDateTime.class);
-
-    public final DateTimePath<java.time.LocalDateTime> depositCancelDateTime = createDateTime("depositCancelDateTime", java.time.LocalDateTime.class);
-
-    public final DateTimePath<java.time.LocalDateTime> depositCompletionDateTime = createDateTime("depositCompletionDateTime", java.time.LocalDateTime.class);
-
-    public final DateTimePath<java.time.LocalDateTime> depositRequestDateTime = createDateTime("depositRequestDateTime", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> createAt = createDateTime("createAt", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final DateTimePath<java.time.LocalDateTime> startAt = createDateTime("startAt", java.time.LocalDateTime.class);
 
     public QProtectedDealDateTime(String variable) {
         super(ProtectedDealDateTime.class, forVariable(variable));

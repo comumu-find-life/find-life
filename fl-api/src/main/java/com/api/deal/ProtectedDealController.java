@@ -1,11 +1,10 @@
 package com.api.deal;
 
-import com.common.chat.request.DirectMessageRequest;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.MyProtectedDealResponse;
-import com.common.deal.response.ProtectedDealByGetterResponse;
-import com.common.deal.response.ProtectedDealByProviderResponse;
+import com.common.deal.response.ProtectedDealGeneratorResponse;
+import com.common.deal.response.ProtectedDealResponse;
 import com.common.utils.SuccessResponse;
 import com.service.chat.DirectMessageRoomService;
 import com.service.deal.ProtectedDealService;
@@ -30,34 +29,15 @@ public class ProtectedDealController {
     private final DirectMessageRoomService directMessageRoomService;
 
     /**
-     * 안전거래 생성 API (By Provider)
-     */
-    @PostMapping(DEALS_SAVE)
-    public ResponseEntity<?> saveDeal(@RequestBody ProtectedDealGeneratorRequest request) {
-        Long dealId = protectedDealService.save(request);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, dealId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 안전거래 조회 API (By Getter)
+     * 안전 거래 조회 API
      */
     @PostMapping(DEALS_GETTER_READ)
     public ResponseEntity<?> findProtectedDealByGetter(@RequestBody ProtectedDealFindRequest request) {
-        List<ProtectedDealByGetterResponse> protectedDealResponse = protectedDealService.findByGetterDealInformation( request);
+        List<ProtectedDealResponse> protectedDealResponse = protectedDealService.findProtectedDeal( request);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 안전 거래 조회 API (By Provider)
-     */
-    @PostMapping(DEALS_PROVIDER_READ)
-    public ResponseEntity<?> findProtectedDealByProvider(@RequestBody ProtectedDealFindRequest request) {
-        List<ProtectedDealByProviderResponse> protectedDealResponse = protectedDealService.findByProviderDealInformation( request);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     /**
      * 내 모든 안전 거래 조회 API (By Getter)
@@ -70,63 +50,52 @@ public class ProtectedDealController {
     }
 
     /**
-     * 입금 신청 API (By GETTER)
+     * 안전 거래 생성 요청 API (By Provider)
      */
-    @PostMapping(DEALS_REQUEST_DEPOSIT)
-    public ResponseEntity<?> requestDeposit(@PathVariable Long dealId) {
-        protectedDealService.requestDeposit(dealId);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_REQUESTED, null);
+    @PostMapping(DEALS_REQUEST)
+    public ResponseEntity<?> requestDeal(@RequestBody ProtectedDealGeneratorRequest request) throws Exception {
+        ProtectedDealGeneratorResponse secretKey = protectedDealService.requestProtectedDeal(request);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, secretKey);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * 거래 완료 신청 API (By GETTER)
+     * 안전 거래 생성 수락 API (By GETTER)
+     */
+    @PostMapping(DEALS_ACCEPT_REQUEST)
+    public ResponseEntity<?> acceptDeal(@PathVariable Long dealId) throws Exception {
+        String secretKey = protectedDealService.acceptPrtectedDeal(dealId);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_REQUESTED, secretKey);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 안전 거래 완료 API (By GETTER)
      */
     @PatchMapping(DEALS_REQUEST_COMPLETE_URL)
-    public ResponseEntity<?> requestCompleteDeal(@PathVariable Long dealId) {
-        protectedDealService.requestCompleteDeal(dealId);
+    public ResponseEntity<?> requestCompleteDeal(@PathVariable Long dealId, @RequestBody String secretKey) throws Exception {
+        protectedDealService.requestCompleteDeal(dealId, secretKey);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_REQUEST_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * 입금 취소 API (By GETTER)
+     * 안전 거래 생성 전 취소 API (By GETTER)
      */
-    @PatchMapping(DEALS_DEPOSIT_CANCEL_URL)
-    public ResponseEntity<?> cancelDepositDeal(@PathVariable Long dealId) {
-        protectedDealService.cancelDeposit(dealId);
+    @PatchMapping(DEALS_CANCEL_BEFORE_URL)
+    public ResponseEntity<?> cancelBeforeDeal(@PathVariable Long dealId) {
+        protectedDealService.cancelBeforeDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_CANCELLED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * 거래 취소 API (By GETTER)
+     * 안전 거래 생성 후 취소 API (By GETTER)
      */
-    @PatchMapping(DEALS_CANCEL)
-    public ResponseEntity<?> cancelDeal(@PathVariable Long dealId){
-        protectedDealService.cancelDeal(dealId);
+    @PatchMapping(DEALS_CANCEL_AFTER)
+    public ResponseEntity<?> cancelAfterDeal(@PathVariable Long dealId){
+        protectedDealService.cancelAfterDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CANCELLED, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 입금 완료 API by admin (TODO 삭제 예정)
-     */
-    @PatchMapping(DEALS_COMPLETE_DEPOSIT)
-    public ResponseEntity<?> doneDeposit(@PathVariable Long dealId) {
-        protectedDealService.completeDeposit(dealId);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_DONE, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 거래 완료 API (By Admin TODO 삭제 예정)
-     */
-    @PatchMapping(DEALS_COMPLETE)
-    public ResponseEntity<?> completeDeal(@PathVariable Long dealId, @RequestBody DirectMessageRequest directMessageRequest){
-        directMessageRoomService.sendDealCompletionMessage(directMessageRequest);
-        protectedDealService.completeDeal(dealId);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

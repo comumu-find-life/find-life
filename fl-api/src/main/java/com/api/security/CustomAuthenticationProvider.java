@@ -22,18 +22,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
 
         UserDetails user = customUserDetailsService.loadUserByUsername(username);
-//
-//        System.out.println(user.getId());
-//        System.out.println(user.getId());
-//        System.out.println(user.getId());
-//        System.out.println(user.getId());
 
-//        if (user == null || !user.getPassword().equals(password)) {
-//            throw new UsernameNotFoundException("Invalid username or password");
-//        }
-//        if (user == null || passwordEncoder.matches(password, user.getPassword())) {
-//            throw new UsernameNotFoundException("Invalid username or password");
-//        }
         CustomUserDetails customUserDetails = (CustomUserDetails) user;
 
         return new UsernamePasswordAuthenticationToken(customUserDetails, password, customUserDetails.getAuthorities());

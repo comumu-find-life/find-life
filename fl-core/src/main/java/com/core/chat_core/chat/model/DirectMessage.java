@@ -37,6 +37,7 @@ public class DirectMessage {
      * 1 --> 안전거래 시작 폼
      * 2 --> 안전거래 진행 중 품
      * 3 --> 안전거래 완료 폼
+     * 4 --> 안전거래 취소 폼
      */
     private int isDeal;
 

@@ -15,6 +15,9 @@ dependencies {
     //redis
     //implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    //paypal sdk
+    implementation 'com.paypal.sdk:rest-api-sdk:1.14.0'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

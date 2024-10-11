@@ -5,19 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserAccountResponse {
+public class PointChargeHistoryResponse {
 
-    private String bsb;
+    private Integer chargeAmount;
 
-    private String accountNumber;
-
-    private Integer point;
-
-    private List<PointChargeHistoryResponse> chargeHistories;
+    private LocalDateTime chargeDate;
 }
