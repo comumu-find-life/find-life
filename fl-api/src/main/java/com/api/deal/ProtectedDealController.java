@@ -26,10 +26,9 @@ import static com.api.config.ApiUrlConstants.*;
 public class ProtectedDealController {
 
     private final ProtectedDealService protectedDealService;
-    private final DirectMessageRoomService directMessageRoomService;
 
     /**
-     * 안전 거래 조회 API
+     * 안전 거래 단일 조회 API
      */
     @PostMapping(DEALS_GETTER_READ)
     public ResponseEntity<?> findProtectedDealByGetter(@RequestBody ProtectedDealFindRequest request) {
@@ -54,8 +53,8 @@ public class ProtectedDealController {
      */
     @PostMapping(DEALS_REQUEST)
     public ResponseEntity<?> requestDeal(@RequestBody ProtectedDealGeneratorRequest request) throws Exception {
-        ProtectedDealGeneratorResponse secretKey = protectedDealService.requestProtectedDeal(request);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, secretKey);
+        ProtectedDealGeneratorResponse protectedDeal = protectedDealService.requestProtectedDeal(request);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, protectedDeal);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -64,7 +63,7 @@ public class ProtectedDealController {
      */
     @PostMapping(DEALS_ACCEPT_REQUEST)
     public ResponseEntity<?> acceptDeal(@PathVariable Long dealId) throws Exception {
-        String secretKey = protectedDealService.acceptPrtectedDeal(dealId);
+        String secretKey = protectedDealService.acceptProtectedDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_REQUESTED, secretKey);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

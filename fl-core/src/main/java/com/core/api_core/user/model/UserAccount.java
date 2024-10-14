@@ -38,16 +38,23 @@ public class UserAccount {
         history.setUserAccount(this);
     }
 
-    public void registerPointChargeHistory(int chargeAmount){
+    public void registerPointChargeHistory(int chargeAmount) {
         PointChargeHistory history = createHistory(this, chargeAmount);
         chargeHistories.add(history);
     }
 
-    public void decreasePoint(int point){
+    public boolean validatePointsSufficiency(int amount) {
+        if (this.point - amount < 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public void decreasePoint(int point) {
         this.point -= point;
     }
 
-    public void increasePoint(int point){
+    public void increasePoint(int point) {
         this.point += point;
     }
 

@@ -16,7 +16,6 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
-import com.service.user.UserMessages;
 import com.service.utils.SecretKeyUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,7 @@ public class ProtectedDealService {
     private final ProtectedDealMapper mapper;
 
     /**
-     * 안전 거래 생성 요청 메서드
+     * 안전 거래 생성 요청 메서드 (by provider)
      */
     public ProtectedDealGeneratorResponse requestProtectedDeal(ProtectedDealGeneratorRequest request) throws Exception {
         // SecretKey 생성
@@ -52,11 +51,8 @@ public class ProtectedDealService {
         Long dealId = protectedDealRepository.save(deal).getId();
         User provider = OptionalUtil.getOrElseThrow(userRepository.findById(request.getProviderId()), NOT_EXIT_USER_ID);
         String encryptedSecretKey = SecretKeyUtil.encrypt(secretKey, provider.getEmail());
-        ProtectedDealGeneratorResponse build = ProtectedDealGeneratorResponse.builder()
-                .dealId(dealId)
-                .secretKey(encryptedSecretKey)
-                .build();
-        return build;
+        ProtectedDealGeneratorResponse protectedDealGeneratorResponse = mapper.toGeneratorResponse(dealId, encryptedSecretKey);
+        return protectedDealGeneratorResponse;
     }
 
     /**
@@ -67,14 +63,14 @@ public class ProtectedDealService {
         List<MyProtectedDealResponse> response = new ArrayList<>();
         allByUserId.stream()
                 .forEach(protectedDeal -> {
-                    Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), "존재하지 않는 집 ID 입니다.");
+                    Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
                     response.add(mapper.toMyProtectedDealResponse(protectedDeal, home));
                 });
         return response;
     }
 
     /**
-     * 안전거래 조회 메서드 by Getter (DTO 로 조회)
+     * 안전거래 조회 메서드 by Getter
      */
     public List<ProtectedDealResponse> findProtectedDeal(ProtectedDealFindRequest request) {
         List<ProtectedDealResponse> responses = new ArrayList<>();
@@ -84,20 +80,20 @@ public class ProtectedDealService {
                     Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
                     responses.add(mapper.toGetterResponse(protectedDeal, home));
                 });
-         return responses;
+        return responses;
     }
 
 
     /**
-     * 안전 거래 수락 by getter
+     * 안전 거래 수락 by getter 암호키 반환
      */
     @Transactional
-    public String acceptPrtectedDeal(Long dealId) throws Exception {
+    public String acceptProtectedDeal(Long dealId) throws Exception {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIT_USER_ID);
 
         UserAccount userAccount = userAccountRepository.findByUserId(getter.getId()).get();
-        validatePointsSufficiency(userAccount.getPoint(), protectedDeal.getDeposit());
+        validatePointsSufficiency(userAccount, protectedDeal.getDeposit());
 
         //세입자(getter) 포인트 차감
         userAccount.decreasePoint(protectedDeal.getDeposit());
@@ -117,10 +113,11 @@ public class ProtectedDealService {
 
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
 
+        System.out.println("111");
         validateGetterSecretKey(protectedDeal, secretKey);
-
+        System.out.println("222");
         //집주인(provider) 포인트 증가
-        UserAccount userAccount  = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
+        UserAccount userAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
         userAccount.increasePoint(protectedDeal.getDeposit());
 
         protectedDeal.getProtectedDealDateTime().setCompleteAt(LocalDateTime.now());
@@ -131,12 +128,11 @@ public class ProtectedDealService {
      * 안전 거래 생성 전 취소 메서드
      */
     @Transactional
-    public void cancelBeforeDeal(Long dealId){
+    public void cancelBeforeDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         protectedDeal.getProtectedDealDateTime().setCancelAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.CANCEL_BEFORE_DEAL);
     }
-
 
     /**
      * 안전 거래 생성 후 취소 메서드 (by getter)
@@ -153,8 +149,8 @@ public class ProtectedDealService {
         protectedDeal.setDealState(DealState.CANCEL_DURING_DEAL);
     }
 
-    private void validatePointsSufficiency(Integer userPoint, Integer deposit) throws IllegalAccessException {
-        if(userPoint < deposit){
+    private void validatePointsSufficiency(UserAccount userAccount, Integer deposit) throws IllegalAccessException {
+        if (!userAccount.validatePointsSufficiency(deposit)) {
             throw new IllegalAccessException("임차인의 포인트가 부족합니다.");
         }
     }
@@ -162,14 +158,27 @@ public class ProtectedDealService {
     private void validateGetterSecretKey(ProtectedDeal protectedDeal, String secretKey) throws Exception {
         String protectedDealSecretKey = protectedDeal.getSecretKey();
         User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIT_USER_ID);
-        String getterSecretKey = SecretKeyUtil.decrypt(secretKey, getter.getEmail());
 
-        if(!protectedDealSecretKey.equals(getterSecretKey)){
-            throw new IllegalAccessException("secretKey 가 일치하지 않습니다.");
+        // Trim 및 큰따옴표 제거
+        String cleanedSecretKey = cleanSecretKey(secretKey);
+
+        // 복호화 후 이메일 검증
+        String getterEmail = SecretKeyUtil.decrypt(protectedDealSecretKey, cleanedSecretKey);
+
+        if (!getter.getEmail().equals(getterEmail)) {
+            throw new IllegalAccessException("올바르지 않은 암호키: 인증 실패");
         }
-
     }
 
+    // 비밀키를 트림하고 큰따옴표 제거하는 메서드
+    private String cleanSecretKey(String secretKey) {
+        String trimmedKey = secretKey.trim();
+        // 큰따옴표로 감싸져 있으면 제거
+        if (trimmedKey.startsWith("\"") && trimmedKey.endsWith("\"")) {
+            return trimmedKey.substring(1, trimmedKey.length() - 1);
+        }
+        return trimmedKey;
+    }
 
 
 }
