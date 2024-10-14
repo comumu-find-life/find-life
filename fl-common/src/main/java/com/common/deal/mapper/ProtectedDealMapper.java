@@ -2,6 +2,7 @@ package com.common.deal.mapper;
 
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.MyProtectedDealResponse;
+import com.common.deal.response.ProtectedDealGeneratorResponse;
 import com.common.deal.response.ProtectedDealResponse;
 import com.common.deal.response.ProtectedDealOverViewResponse;
 import com.core.api_core.deal.model.ProtectedDeal;
@@ -70,6 +71,10 @@ public interface ProtectedDealMapper {
     MyProtectedDealResponse toMyProtectedDealResponse(ProtectedDeal deal, Home home);
 
     ProtectedDealOverViewResponse toAdminOverViewResponse(ProtectedDeal entity);
+
+    @Mapping(target = "secretKey", source = "secretKey")
+    @Mapping(target = "dealId", source = "dealId")
+    ProtectedDealGeneratorResponse toGeneratorResponse(Long dealId, String secretKey);
 
 //    default ProviderAccount toProviderAccount(ProtectedDealGeneratorRequest request) {
 //        return ProviderAccount.builder()
