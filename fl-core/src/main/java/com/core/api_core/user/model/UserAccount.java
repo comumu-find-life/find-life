@@ -43,11 +43,10 @@ public class UserAccount {
         chargeHistories.add(history);
     }
 
-    public boolean validatePointsSufficiency(int amount) {
+    public void validatePointsSufficiency(int amount) throws IllegalAccessException {
         if (this.point - amount < 0) {
-            return false;
+            throw new IllegalAccessException("포인트가 부족합니다.");
         }
-        return true;
     }
 
     public void decreasePoint(int point) {

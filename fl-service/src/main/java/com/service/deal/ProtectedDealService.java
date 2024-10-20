@@ -93,9 +93,8 @@ public class ProtectedDealService {
         User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIT_USER_ID);
 
         UserAccount userAccount = userAccountRepository.findByUserId(getter.getId()).get();
-        validatePointsSufficiency(userAccount, protectedDeal.getDeposit());
+        userAccount.validatePointsSufficiency(protectedDeal.getDeposit());
 
-        //세입자(getter) 포인트 차감
         userAccount.decreasePoint(protectedDeal.getDeposit());
 
         protectedDeal.setDealState(DealState.ACCEPT_DEAL);
@@ -110,16 +109,11 @@ public class ProtectedDealService {
      */
     @Transactional
     public void requestCompleteDeal(Long dealId, String secretKey) throws Exception {
-
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
-
-        System.out.println("111");
         validateGetterSecretKey(protectedDeal, secretKey);
-        System.out.println("222");
         //집주인(provider) 포인트 증가
         UserAccount userAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
         userAccount.increasePoint(protectedDeal.getDeposit());
-
         protectedDeal.getProtectedDealDateTime().setCompleteAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.COMPLETE_DEAL);
     }
@@ -149,22 +143,18 @@ public class ProtectedDealService {
         protectedDeal.setDealState(DealState.CANCEL_DURING_DEAL);
     }
 
-    private void validatePointsSufficiency(UserAccount userAccount, Integer deposit) throws IllegalAccessException {
-        if (!userAccount.validatePointsSufficiency(deposit)) {
-            throw new IllegalAccessException("임차인의 포인트가 부족합니다.");
-        }
-    }
+//    private void validatePointsSufficiency(UserAccount userAccount, Integer deposit) throws IllegalAccessException {
+//        if (!userAccount.validatePointsSufficiency(deposit)) {
+//            throw new IllegalAccessException("임차인의 포인트가 부족합니다.");
+//        }
+//    }
 
     private void validateGetterSecretKey(ProtectedDeal protectedDeal, String secretKey) throws Exception {
         String protectedDealSecretKey = protectedDeal.getSecretKey();
         User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIT_USER_ID);
-
-        // Trim 및 큰따옴표 제거
         String cleanedSecretKey = cleanSecretKey(secretKey);
-
         // 복호화 후 이메일 검증
         String getterEmail = SecretKeyUtil.decrypt(protectedDealSecretKey, cleanedSecretKey);
-
         if (!getter.getEmail().equals(getterEmail)) {
             throw new IllegalAccessException("올바르지 않은 암호키: 인증 실패");
         }
