@@ -43,15 +43,17 @@ public class ApiUrlConstants {
     // 안전거래 API URL
     public static final String DEALS_BASE_URL = BASE_API_URL + "/deals";
     public static final String DEALS_REQUEST = DEALS_BASE_URL;
-    public static final String DEALS_START_VALIDATED = DEALS_BASE_URL + "/validate/start";
     public static final String DEALS_GETTER_READ = DEALS_BASE_URL + "/read/getter";
     public static final String DEALS_FIND_ALL_BY_USER_ID = DEALS_BASE_URL + "/users/{userId}";
     public static final String DEALS_ACCEPT_REQUEST = DEALS_BASE_URL + "/accept/{dealId}";
-    public static final String DEALS_COMPLETE_DEPOSIT = DEALS_BASE_URL + "/complete/deposit/{dealId}";
-    public static final String DEALS_COMPLETE = DEALS_BASE_URL + "/complete/{dealId}";
     public static final String DEALS_REQUEST_COMPLETE_URL = DEALS_BASE_URL + "/{dealId}/complete";
     public static final String DEALS_CANCEL_BEFORE_URL = DEALS_BASE_URL + "/{dealId}/cancel/before";
     public static final String DEALS_CANCEL_AFTER = DEALS_BASE_URL + "/{dealId}/cancel/after";
+
+    //포인트 API URL
+    public static final String POINT_BASE_URL = BASE_API_URL + "/points";
+    public static final String POINT_CHARGE_PAYPAL = BASE_API_URL + "/charge/paypal";
+    public static final String WITH_DRAW_URL = BASE_API_URL + "/with-draw";
 }
 
 
