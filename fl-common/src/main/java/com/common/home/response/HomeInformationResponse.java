@@ -1,17 +1,19 @@
 package com.common.home.response;
 
-import com.core.api_core.home.model.HomeInfo;
 import com.core.api_core.home.model.HomeType;
 import com.core.api_core.user.model.Gender;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class HomeInformationResponse {
-
     /**
      *  집주인 정보
      */
@@ -54,5 +56,8 @@ public class HomeInformationResponse {
 
     private double longitude;
 
-    private HomeInfo homeInfo;
+    private boolean canParking;
+
+    // DTO 는 도메인과 완전히 분리 되어야해.
+//    private HomeInfo homeInfo;
 }

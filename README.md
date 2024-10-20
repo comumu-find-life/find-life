@@ -23,7 +23,6 @@
 ### 프로젝트 구조
 
 - fl-api : 사용자 요청을 처리하는 모듈
-- fl-authority : spring security, oauth 등 접근 보안, 권한을 관리하는 모듈
 - fl-batch : spring batch 처리를 위한 모듈
 - fl-chatting : 웹 소켓으로 구현한 채팅 기능을 관리하는 모듈
 - fl-common : 프로젝트 전역으로 사용할 수 있는 Utils 성 기능을 관리하는 모듈
@@ -33,13 +32,6 @@
 - 
 **모듈 관계도**
 <img src="https://github.com/comumu-find-life/find-life/assets/55183314/c630f453-5ee6-4898-a5c7-2d38af77108b" width="700" height="800">
-
-
-
-
-**주의 할점 :** 
-- fl-core 모듈 내부에서 기능을 구현할때 너무 많은 역할을 담당 x 서비스가 커질 수록 core 안에서 비니지스 로직이 흐를 수 있음
-- dto 변환은 fl-service 모듈 내부에서 처리
 
 
 ----
@@ -106,3 +98,50 @@
 
 ### Fcm 알림 기능
 - [ ] 채팅 연락이 왔을때
+
+------------
+
+## 안전 거래 로직 정리 
+
+DealState 
+
+REQUEST_DEAL // 거래 요청
+ACCEPT_DEAL // 거래 수락
+CANCEL_DEAL // 거래 취소 (거래 수락 전 취소)
+CANCEL_DURING_DEAL //  (거래 수락 후 취소)
+COMPLETE_DEAL // 거래 완료
+
+API 리스트
+- 안전 거래 생성 요청 API
+- 안전 거래 취소 API 
+- 안전 거래 생성 수락 API - point getter 차감
+- 안전 거래 중단 API - point getter 에게 반환
+- 안전 거래 완료 API - point provider 에게 전달
+
+- 거래 시작 시간
+- 거래 완료 시간
+- 거래 전 취소 시간
+- 거래 후 취소 시간
+
+
+
+
+(1) provider 가 안전 거래 생성을 요청한다. ()
+   - 거래금/ 보증금 을 입력해 안전 거래 생성을 요청 한다.
+   - provider 의 계좌 등록이 되어 있어야 한다.
+
+(1-1) 해당 순서 에선 getter 혹은 provider 가 안전 거래를 삭제할 수 있습니다.
+
+(2) getter(세입자) 가 안전 거래를 수락 한다.
+  - getter 의 계좌 등록이 되어 있어야 한다.
+  - getter 의 point 가 거래 금액 만큼 있어야 한다.
+  - getter 의 point 가 차감 된다.
+
+(3) getter 가 거래를 취소 한다. 
+  - 거래 취소는 getter 만 할 수 있다.
+  - 거래 취소시 getter 에게 포인트를 되돌려준다.
+  - 거래 취소시 거래 취소 횟수를 증가시킨다.
+
+(4) getter 가 거래를 완료한다.
+  - provider 의 포인트를 증가시킨다.
+  - provider, getter 의 거래 성공 횟수를 증가시킨다.

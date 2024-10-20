@@ -11,8 +11,9 @@ import com.core.api_core.chat.repository.DirectMessageRoomRepository;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
+import com.core.chat_core.chat.model.DirectMessage;
 import com.service.user.UserService;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,15 +68,18 @@ public class DirectMessageRoomService {
     }
 
     /**
-     * 로그인된 유저의 채팅방 목록 조회
-     * todo 마지막 메시지 입력
+     * 자신이 속한 채팅방 리스트 조회 메서드
      */
-    public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser() {
-        Long userId = getLoggedInUserId();
+    public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser(Long userId) {
+
         List<DirectMessageRoom> rooms = directMessageRoomRepository.findByUser1IdOrUser2Id(userId);
 
         return rooms.stream()
-                .map(room -> toDirectMessageRoomListResponse(room, userId))
+                .map(room -> {
+                    User otherUser = (room.getUser1().getId().equals(userId)) ? room.getUser2() : room.getUser1();
+                    DirectMessage lastMessage = getLastMessage(userId, otherUser.getId());
+                    return directMessageRoomMapper.toDirectMessageRoomListResponse(room, lastMessage, otherUser);
+                })
                 .collect(Collectors.toList());
     }
 
@@ -146,19 +150,10 @@ public class DirectMessageRoomService {
         restTemplate.postForObject(url, messageRequest, Object.class);
     }
 
-    /**
-     * DirectMessageRoomListResponse 생성 메서드
-     */
-    private DirectMessageRoomListResponse toDirectMessageRoomListResponse(DirectMessageRoom room, Long userId) {
-        User otherUser = (room.getUser1().getId().equals(userId)) ? room.getUser2() : room.getUser1();
-        return DirectMessageRoomListResponse.builder()
-                .id(room.getId())
-                .progressHomeId(room.getProgressHomeId())
-                .userId(otherUser.getId())
-                .userNickname(otherUser.getNickname())
-                .userProfileUrl(otherUser.getProfileUrl())
-                .lastMessage("TEST MESSAGE")
-                .build();
+    private DirectMessage getLastMessage(Long user1Id, Long user2Id) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = chatUrl + "/dm/last/information?user1Id=" + user1Id + "&user2Id=" + user2Id;
+        return restTemplate.getForObject(url, DirectMessage.class);
     }
 
     /**

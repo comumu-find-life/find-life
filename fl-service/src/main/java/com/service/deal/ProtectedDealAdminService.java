@@ -11,11 +11,10 @@ import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
 import com.core.api_core.home.model.Home;
-import com.core.api_core.home.reposiotry.HomeRepository;
+import com.core.api_core.home.repository.HomeRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
-import com.service.chat.DirectMessageRoomService;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,33 +32,48 @@ public class ProtectedDealAdminService {
 
     private final ProtectedDealMapper protectedDealMapper;
     private final HomeMapper homeMapper;
-    //private final DirectMessageRoomService directMessageRoomService;
     private final UserMapper userMapper;
     private final HomeRepository homeRepository;
     private final UserRepository userRepository;
     private final ProtectedDealRepository dealRepository;
 
     /**
-     *
-     * @return
+     * 입금 신청된 모든 안전 거래 조회 메서드
      */
-    public List<ProtectedDealOverViewResponse> findAllBeforeDeposit() {
-        List<ProtectedDeal> allBeforeDeposit = dealRepository.findAllBeforeDeposit();
+    public List<ProtectedDealOverViewResponse> findAllRequestDeposit() {
+        List<ProtectedDeal> allBeforeDeposit = dealRepository.findAllRequestDeposit();
         List<ProtectedDealOverViewResponse> responses = new ArrayList<>();
         allBeforeDeposit.forEach(deal -> responses.add(protectedDealMapper.toAdminOverViewResponse(deal)));
         return responses;
     }
 
+    /**
+     * 안전 거래 단일 조회 메서드
+     */
     public ProtectedDealAdminResponse findById(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
         return mapToProtectedDealAdminResponse(protectedDeal);
     }
 
+    /**
+     * 거래 수락 메서드 (By Getter)
+     */
     public void checkDeposit(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
-        protectedDeal.setDealState(DealState.COMPLETE_DEPOSIT);
+        protectedDeal.setDealState(DealState.ACCEPT_DEAL);
     }
 
+    /**
+     * 입금 취소 메서드
+     */
+    public void cancelDeposit(Long dealId){
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), ProtectedDealMessages.DEAL_NOT_FOUND);
+        protectedDeal.setDealState(DealState.CANCEL_BEFORE_DEAL);
+    }
+
+    /**
+     * 거래 확정 요청된 모든 안전거래 조회 메서드
+     */
     public List<ProtectedDealOverViewResponse> findAllSubmitDeal() {
         List<ProtectedDeal> allSubmitDeal = dealRepository.findAllSubmitDeal();
         List<ProtectedDealOverViewResponse> responses = new ArrayList<>();
@@ -68,12 +82,11 @@ public class ProtectedDealAdminService {
     }
 
     /**
-     * 거래 확정 로직
+     * 거래 확정 메서드
      */
     public void completeDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(dealRepository.findById(dealId), DEAL_NOT_FOUND);
         //todo cms 에서 입금하는 로직 구현
-        protectedDeal.setDealCompleteDateTime(LocalDateTime.now());
         protectedDeal.setDealState(DealState.COMPLETE_DEAL);
     }
 

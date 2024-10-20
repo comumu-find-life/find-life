@@ -5,21 +5,25 @@ import com.common.home.request.HomeGeneratorRequest;
 import com.common.home.request.HomeUpdateRequest;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
+import com.common.user.response.UserInformationResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
 import com.core.api_core.home.model.HomeImage;
 import com.core.api_core.home.model.HomeStatus;
-import com.core.api_core.home.reposiotry.HomeRepository;
+import com.core.api_core.home.repository.HomeImageRepository;
+import com.core.api_core.home.repository.HomeRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.service.file.FileService;
 import com.service.home.utils.LatLng;
-import com.service.utils.OptionalUtil;
+import com.service.user.UserService;
+import com.common.utils.OptionalUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,24 +44,20 @@ public class HomeService {
 
     private final FileService fileService;
     private final HomeRepository homeRepository;
+    private final UserService userService;
     private final UserRepository userRepository;
     private final HomeMapper homeMapper;
+    private final HomeImageRepository homeImageRepository;
 
     /**
      * 집 게시글 등록
      */
-
-
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
-        Home home = homeMapper.toEntity(homeCreateDto);
-
+        Home home = homeMapper.toEntity(homeCreateDto, getLoggedInUserId());
         //이미지, 위치 정보 저장
-        log.info("homeCreateDto.getGender()");
-        log.info(homeCreateDto.getGender() + "");
         if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
             home.setImages(generateHomeImages(home, files));
         }
-
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
@@ -69,18 +69,36 @@ public class HomeService {
     public Long update(HomeUpdateRequest homeUpdateDto) {
         Home home = homeRepository.findById(homeUpdateDto.getHomeId())
                 .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_HOME));
-
-        // Home 엔티티를 업데이트
-        homeMapper.updateHomeFromDto(homeUpdateDto, home);
-        // 기존 HomeAddress를 가져와서 업데이트
+        homeMapper.updateHomeFromDto(homeUpdateDto, home.getHomeInfo());
         HomeAddress homeAddress = home.getHomeAddress();
         homeMapper.updateAddressFromDto(homeUpdateDto.getHomeAddress(), homeAddress);
-
-        // 변경 사항 저장
         homeRepository.save(home);
-
         return home.getId();
     }
+
+    /**
+     * 새로운 집 이미지 추가
+     */
+    @Transactional
+    public void updateHomeImages(Long homeId, List<MultipartFile> files) {
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME);
+        if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
+            home.addImages(generateHomeImages(home, files));
+        }
+    }
+
+    /**
+     * 집 이미지 삭제
+     */
+    @Transactional
+    public void deleteHomeImage(Long homeId, List<String> imageUrls) {
+        imageUrls.stream()
+                .map(imageUrl -> homeImageRepository.findByImageUrl(imageUrl))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(homeImageRepository::delete);
+    }
+
 
     /**
      * 집 게시글 단일 조회(집 정보 + 작성자 정보) 로직
@@ -104,21 +122,14 @@ public class HomeService {
         return response;
     }
 
-    public List<HomeOverviewResponse> findByUserIds(Long user1Id, Long user2Id) {
-        List<Home> homes = homeRepository.findByUserIds(user1Id, user2Id);
-        List<HomeOverviewResponse> response = new ArrayList<>();
-        homes.stream().forEach(home -> {
-            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), NOT_EXIT_USER_ID);
-            response.add(homeMapper.toSimpleHomeDto(home, user));
-        });
-        return response;
-    }
 
-
+    /**
+     * 자신의 집 게시물 모두 조회 메서드
+     */
     public List<HomeOverviewResponse> findByUserId(Long userIdx) {
         List<HomeOverviewResponse> response = new ArrayList<>();
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), NOT_EXIT_USER_ID);
-        List<Home> homes = homeRepository.findByUserIdx(userIdx);
+        List<Home> homes = homeRepository.findByUserId(userIdx);
         homes.stream().forEach(home -> {
             response.add(homeMapper.toSimpleHomeDto(home, user));
         });
@@ -162,8 +173,10 @@ public class HomeService {
         return listResponse;
     }
 
+    /**
+     * 집 게시물 페이징 조회
+     */
     public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
-//        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize)).getContent();
         List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize, Sort.by("createDate").descending())).getContent();
         List<HomeOverviewResponse> listResponse = homes.stream()
                 .map(home -> {
@@ -185,6 +198,9 @@ public class HomeService {
         homeRepository.save(home);
     }
 
+    /**
+     * 집 게시물 url 생성 && 서버 업로드
+     */
     private List<HomeImage> generateHomeImages(Home home, List<MultipartFile> files) {
         List<HomeImage> response = new ArrayList<>();
         for (MultipartFile file : files) {
@@ -198,5 +214,10 @@ public class HomeService {
         return response;
     }
 
+    private Long getLoggedInUserId() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserInformationResponse user = userService.findByEmail(email);
+        return user.getId();
+    }
 
 }

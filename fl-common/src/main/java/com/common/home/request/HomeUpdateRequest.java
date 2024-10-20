@@ -11,7 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class HomeUpdateRequest {
     private Long homeId;
-    //private List<String> images;
     private HomeAddressGeneratorRequest homeAddress;
     private Integer bathRoomCount;
     private boolean dealSavable;
@@ -23,5 +22,4 @@ public class HomeUpdateRequest {
     private Integer bill;
     private Integer rent;
     private String options;
-
 }

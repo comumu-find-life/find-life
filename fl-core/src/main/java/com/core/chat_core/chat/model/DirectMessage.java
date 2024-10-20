@@ -1,25 +1,23 @@
 package com.core.chat_core.chat.model;
 
-
 import com.core.api_core.deal.model.DealState;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "chat_message")
 public class DirectMessage {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name = "direct_message_id")
-    private Long id;
+    private String id;
 
     @Column(name = "sender_id")
     private Long senderId;
@@ -33,11 +31,13 @@ public class DirectMessage {
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
 
+    private Long dealId;
     /**
      * 0 --> 일반 채팅 메시지
      * 1 --> 안전거래 시작 폼
      * 2 --> 안전거래 진행 중 품
      * 3 --> 안전거래 완료 폼
+     * 4 --> 안전거래 취소 폼
      */
     private int isDeal;
 

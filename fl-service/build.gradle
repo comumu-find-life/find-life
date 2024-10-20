@@ -15,14 +15,15 @@ dependencies {
     //redis
     //implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    //paypal sdk
+    implementation 'com.paypal.sdk:rest-api-sdk:1.14.0'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation 'com.google.code.gson:gson:2.8.8'
 
-
-    // Map Struct
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'

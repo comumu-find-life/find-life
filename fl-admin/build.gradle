@@ -8,29 +8,23 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
+
 
 dependencies {
+    implementation 'org.projectlombok:lombok:1.18.20'
     implementation project(':fl-core')
     //implementation project(':fl-authority')
     implementation project(':fl-service')
 
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
-    //implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
+    testImplementation project(':fl-core')
+    testImplementation(testFixtures(project(":fl-core"))) // 공통된 코드를 사용하기 위한
+    testImplementation(testFixtures(project(":fl-common"))) // 공통된 코드를 사용하기 위한
+
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation 'junit:junit:4.13.1'
 
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
     //security 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-security'

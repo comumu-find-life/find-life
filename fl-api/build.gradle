@@ -10,18 +10,17 @@ repositories {
 
 dependencies {
     implementation project(':fl-core')
-    //implementation project(':fl-authority')
     implementation project(':fl-service')
 
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
-    //implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
+    testImplementation project(':fl-core')
+    testImplementation(testFixtures(project(":fl-core"))) // 공통된 코드를 사용하기 위한
+    testImplementation(testFixtures(project(":fl-common"))) // 공통된 코드를 사용하기 위한
+    testRuntimeOnly(testFixtures(project(":fl-core")))
+    implementation 'org.springframework.data:spring-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
-    implementation 'junit:junit:4.13.1'
-
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     //security 라이브러리

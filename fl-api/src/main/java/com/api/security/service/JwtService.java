@@ -7,13 +7,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
@@ -133,13 +133,13 @@ public class JwtService {
     }
 
     //  토큰 유효성을 검사하는 메서드
-    public boolean isTokenValid(String token) {
+    public void isTokenValid(String token) throws AuthenticationException {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
-            return true;
         } catch (Exception e) {
             log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
-            return false;
+//            return false;
+            throw new AuthenticationException("유효하지 않은 토큰입니다.");
         }
     }
 

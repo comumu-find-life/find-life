@@ -20,12 +20,10 @@ public class MyProtectedDealResponse {
 
     private double totalPrice;
 
-    private LocalDateTime dealStartDateTime;
-    private LocalDateTime depositRequestDateTime;
-    private LocalDateTime depositCompletionDateTime;
-    private LocalDateTime dealCompletionRequestDateTime;
-    private LocalDateTime dealCompletionDateTime;
-    private LocalDateTime dealCancellationDateTime;
+    private LocalDateTime createAt;
+    private LocalDateTime startAt;
+    private LocalDateTime cancelAt;
+    private LocalDateTime completeAt;
 
     private String address;
 
@@ -34,4 +32,7 @@ public class MyProtectedDealResponse {
     private double rent;
 
     private double bill;
+
+    private double bond;
+
 }

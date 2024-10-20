@@ -34,17 +34,22 @@ public class DirectMessageController {
     }
 
 
+    /**
+     * 채팅방 상세 정보 조회 API
+     */
     @GetMapping(DM_FIND_ROOM_INFO)
-    public ResponseEntity<DirectMessageRoomInfoResponse> findDmRoomInfo(@PathVariable Long dmRoomId) {
-        return ResponseEntity.ok(dmService.getDirectMessageRoomById(dmRoomId));
+    public ResponseEntity<?> findDmRoomInfo(@PathVariable Long dmRoomId) {
+        DirectMessageRoomInfoResponse directMessageRoomById = dmService.getDirectMessageRoomById(dmRoomId);
+        SuccessResponse response = new SuccessResponse(true,DM_INFORMATION_FIND_MESSAGE ,directMessageRoomById);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
      * 자신의 모든 채팅 목록 조회
      */
     @GetMapping(DM_FIND_ALL_ROOMS)
-    public ResponseEntity<?> findAllDmRooms() {
-        List<DirectMessageRoomListResponse> dmRoomsByLoginUserId = dmService.getDirectMessageRoomsByUser();
+    public ResponseEntity<?> findAllDmRooms(@PathVariable Long userId) {
+        List<DirectMessageRoomListResponse> dmRoomsByLoginUserId = dmService.getDirectMessageRoomsByUser(userId);
         SuccessResponse response = new SuccessResponse(true, DM_LIST_FIND_MESSAGE, dmRoomsByLoginUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

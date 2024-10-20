@@ -2,7 +2,7 @@ package com.service.aspect;
 
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
-import com.service.utils.OptionalUtil;
+import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

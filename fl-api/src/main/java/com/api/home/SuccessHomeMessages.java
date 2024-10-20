@@ -3,6 +3,7 @@ package com.api.home;
 public class SuccessHomeMessages {
     public static final String HOME_POST_SUCCESS = "집 게시글 등록 성공";
     public static final String ADDRESS_VALIDATION_SUCCESS = "주소 반환 성공";
+    public static final String HOME_IMAGE_DELETE_SUCCESS = "집 이미지 삭제 성공";
     public static final String USER_POSTS_RETRIEVE_SUCCESS = "내 게시글 조회 성공";
     public static final String HOME_RETRIEVE_SUCCESS = "집 게시글 조회 성공";
     public static final String HOME_UPDATE_SUCCESS = "집 게시글 수정 성공";

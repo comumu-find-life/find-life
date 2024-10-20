@@ -16,7 +16,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'java-test-fixtures'
+//    apply plugin: 'java-test-fixtures'
 
     repositories {
         mavenCentral()
@@ -37,6 +37,10 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
+
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+//        testImplementation 'com.h2database:h2'
+//        runtimeOnly 'com.h2database:h2'
     }
 
     bootJar { enabled = false }
@@ -56,7 +60,6 @@ project(':fl-api') {
 project(':fl-admin') {
     dependencies {
         implementation project(':fl-common')
-        implementation project(':fl-redis')
         implementation project(':fl-service')
     }
 }
