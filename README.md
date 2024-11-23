@@ -104,7 +104,7 @@
 
 |거래 완료1|거래 완료2|거래 완료3|거래 완료4|거래 목록|
 |:---:|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/1f51c1ae-a0cb-4185-9204-32770e59079d" width="200"/>|<img src="https://github.com/user-attachments/assets/e6d54231-827f-4edd-bc15-1e73701eca4b" width="200"/>|<img src="https://github.com/user-attachments/assets/efe08ef8-09be-4b74-b419-01d0f84a56eb" width="200"/>|<img src="https://github.com/user-attachments/assets/889b72fb-73bd-451e-8e85-c3dd5f115b98" width="200"/>|<img src="https://github.com/user-attachments/assets/c11676b9-016e-4e71-b2d9-d5f4bed6dea9" width="200"/>|
+|<img src="https://github.com/user-attachments/assets/e6d54231-827f-4edd-bc15-1e73701eca4b" width="200"/>|<img src="https://github.com/user-attachments/assets/1f51c1ae-a0cb-4185-9204-32770e59079d" width="200"/>|<img src="https://github.com/user-attachments/assets/efe08ef8-09be-4b74-b419-01d0f84a56eb" width="200"/>|<img src="https://github.com/user-attachments/assets/889b72fb-73bd-451e-8e85-c3dd5f115b98" width="200"/>|<img src="https://github.com/user-attachments/assets/c11676b9-016e-4e71-b2d9-d5f4bed6dea9" width="200"/>|
 
 **기능 설명**
 ```
