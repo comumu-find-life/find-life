@@ -41,6 +41,7 @@ public class ApiUrlConstants {
     public static final String USERS_FIND_LOGIN_USER = USERS_BASE_URL + "/user-info";
 
     // 안전거래 API URL
+
     public static final String DEALS_BASE_URL = BASE_API_URL + "/deals";
     public static final String DEALS_REQUEST = DEALS_BASE_URL;
     public static final String DEALS_GETTER_READ = DEALS_BASE_URL + "/read/getter";
@@ -52,8 +53,12 @@ public class ApiUrlConstants {
 
     //포인트 API URL
     public static final String POINT_BASE_URL = BASE_API_URL + "/points";
-    public static final String POINT_CHARGE_PAYPAL = BASE_API_URL + "/charge/paypal";
-    public static final String WITH_DRAW_URL = BASE_API_URL + "/with-draw";
+    public static final String POINT_CHARGE_PAYPAL = POINT_BASE_URL + "/charge/paypal";
+    public static final String APPLY_WITH_DRAW_URL = POINT_BASE_URL + "/apply/with-draw";
+    public static final String APPLY_DEPOSIT_URL = POINT_BASE_URL + "/apply/deposit";
+
+    //admin 만
+    public static final String CHARGE_POINT_URL = POINT_BASE_URL + "/charge/{userId}";
 }
 
 

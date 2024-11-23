@@ -18,39 +18,39 @@ INSERT INTO home_address (home_address_id, state, city, post_code, detail_addres
 
 -- Home 1
 -- Home 1
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (TRUE,1000, 1, 1, 2, 3, TRUE, 'A_C,DESK,CHAIR', 10000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글1', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (TRUE,1000, 1, 1, 2, 3, TRUE, 'A_C,DESK,CHAIR', 10000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글1', 300000);
 -- Home 2
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (TRUE,2000, 1, 2, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글2', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (TRUE,2000, 1, 2, 2, 3, TRUE, 'A_C,DESK,CHAIR', 20000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글2', 300000);
 
 -- Home 3
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (TRUE,3000, 1, 3, 2, 3, TRUE, 'A_C,DESK,CHAIR', 30000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글3', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (TRUE,3000, 1, 3, 2, 3, TRUE, 'A_C,DESK,CHAIR', 30000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글3', 300000);
 
 -- Home 4
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (TRUE,4000,1, 4, 2, 3, TRUE, 'A_C,DESK,CHAIR', 40000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글4', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (TRUE,4000,1, 4, 2, 3, TRUE, 'A_C,DESK,CHAIR', 40000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글4', 300000);
 
 -- Home 5
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (TRUE,5000, 1, 5, 2, 3, TRUE, 'A_C,DESK,CHAIR', 50000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글5', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (TRUE,5000, 1, 5, 2, 3, TRUE, 'A_C,DESK,CHAIR', 50000, 'FOR_SALE', 'MALE', 'WHOLE_PROPERTY_RENT', '소개글5', 300000);
 
 -- Home 6
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (TRUE,6000, 1, 6, 2, 3, TRUE, 'A_C,DESK,CHAIR', 60000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글6', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (TRUE,6000, 1, 6, 2, 3, TRUE, 'A_C,DESK,CHAIR', 60000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글6', 300000);
 
 -- Home 7
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (TRUE,7000, 1, 7, 2, 3, TRUE, 'A_C,DESK,CHAIR', 70000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글7', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (TRUE,7000, 1, 7, 2, 3, TRUE, 'A_C,DESK,CHAIR', 70000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글7', 300000);
 
 -- Home 8
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (FALSE, 8000, 1, 8, 2, 3, TRUE, 'A_C,DESK,CHAIR', 80000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글8', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (FALSE, 8000, 1, 8, 2, 3, TRUE, 'A_C,DESK,CHAIR', 80000, 'FOR_SALE', 'MALE', 'SHARED_ROOM', '소개글8', 30000);
 
 -- Home 9
-INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill, view_count)
-VALUES (FALSE, 9000, 1, 9, 2, 3, TRUE, 'A_C,DESK,CHAIR', 90000, 'FOR_SALE', 'MALE', 'HOME_STAY', '소개글9', 300000, 0);
+INSERT INTO home (can_parking, rent,  user_idx, home_address_id, bath_room_count, bedroom_count, deal_savable, options, bond, home_status, gender, type, introduce, bill)
+VALUES (FALSE, 9000, 1, 9, 2, 3, TRUE, 'A_C,DESK,CHAIR', 90000, 'FOR_SALE', 'MALE', 'HOME_STAY', '소개글9', 300000);
 
 -- Home 10
 

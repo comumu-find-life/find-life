@@ -10,7 +10,7 @@ public class SecretKeyUtil {
     // AES 비밀키 생성
     public static String generateSecretKey() throws Exception {
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(128); // 128비트 AES 키 생성
+        keyGen.init(128);
         SecretKey secretKey = keyGen.generateKey();
         return Base64.getEncoder().encodeToString(secretKey.getEncoded());
     }

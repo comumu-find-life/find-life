@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.util.List;
 
-import static com.core.api_core.user.model.PointChargeHistory.createHistory;
+import static com.core.api_core.user.model.PointHistory.createHistory;
 
 @Entity
 @Getter
@@ -14,6 +14,7 @@ import static com.core.api_core.user.model.PointChargeHistory.createHistory;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAccount {
+    private static final String ERROR_NOT_ENOUGH_POINT = "포인트가 부족합니다.";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,23 +31,21 @@ public class UserAccount {
     private Integer point;
 
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<PointChargeHistory> chargeHistories;
+    private List<PointHistory> chargeHistories;
 
-    // 포인트 충전 기록을 추가하는 메서드
-    public void addChargeHistory(PointChargeHistory history) {
-        this.chargeHistories.add(history);
-        history.setUserAccount(this);
-    }
-
-    public void registerPointChargeHistory(int chargeAmount) {
-        PointChargeHistory history = createHistory(this, chargeAmount);
+    public void registerPointChargeHistory(int chargeAmount, ChargeType chargeType) {
+        PointHistory history = createHistory(this, chargeAmount, chargeType);
         chargeHistories.add(history);
     }
 
     public void validatePointsSufficiency(int amount) throws IllegalAccessException {
-        if (this.point - amount < 0) {
-            throw new IllegalAccessException("포인트가 부족합니다.");
+        if (!isEnoughPoint(amount)) {
+            throw new IllegalAccessException(ERROR_NOT_ENOUGH_POINT);
         }
+    }
+
+    private boolean isEnoughPoint(int amount){
+        return this.point - amount >= 0;
     }
 
     public void decreasePoint(int point) {

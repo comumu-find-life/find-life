@@ -7,6 +7,7 @@ import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserAccountResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
+import com.core.api_core.user.model.ChargeType;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
@@ -147,14 +148,13 @@ public class UserService {
     /**
      * 포인트 충전
      */
-    public void chargePoint(Long userId, Integer point) {
-        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
-        // 포인트 충전
-        userAccount.setPoint(point);
-        // 충전 내역 저장
-        userAccount.registerPointChargeHistory(point);
-
-    }
+//    public void chargePoint(Long userId, Integer point) {
+//        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
+//        // 포인트 충전
+//        userAccount.setPoint(point);
+//        // 충전 내역 저장
+//        userAccount.registerPointChargeHistory(point, ChargeType.DEPOSIT);
+//    }
 
 
     private User createUser(UserSignupRequest dto, MultipartFile image) throws Exception {

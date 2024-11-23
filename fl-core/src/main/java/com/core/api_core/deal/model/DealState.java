@@ -10,6 +10,4 @@ public enum DealState {
     CANCEL_BEFORE_DEAL, // 거래 수락 전 취소
     CANCEL_DURING_DEAL, // 거래 수락 후 취소
     COMPLETE_DEAL, // 거래 완료
-
-
 }

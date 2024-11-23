@@ -23,7 +23,6 @@ public class Home extends BaseTimeEntity {
 
     private Long userIdx;
 
-    //집 사진
     @JsonIgnore
     @OneToMany(mappedBy = "home", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<HomeImage> images;
@@ -39,12 +38,6 @@ public class Home extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private HomeStatus homeStatus;
 
-    //조회수
-    private Integer viewCount;
-
-    /**
-     * 연관관계 등록 메서드
-     */
     public void setLatLng(double lat, double lng) {
         homeAddress.setLatLnd(lat, lng);
     }

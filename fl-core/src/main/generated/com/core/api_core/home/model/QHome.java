@@ -42,8 +42,6 @@ public class QHome extends EntityPathBase<Home> {
 
     public final NumberPath<Long> userIdx = createNumber("userIdx", Long.class);
 
-    public final NumberPath<Integer> viewCount = createNumber("viewCount", Integer.class);
-
     public QHome(String variable) {
         this(Home.class, forVariable(variable), INITS);
     }
