@@ -94,12 +94,12 @@ public class UserController {
     /**
      * 포인트 충전 api
      */
-    @PostMapping(USER_POINT_CHARGE_URL)
-    public ResponseEntity<?> chargePoint(@PathVariable Long userId, @RequestBody Integer point){
-        userService.chargePoint(userId, point);
-        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.CHARGE_POINT_SUCCESS, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @PostMapping(USER_POINT_CHARGE_URL)
+//    public ResponseEntity<?> chargePoint(@PathVariable Long userId, @RequestBody Integer point){
+//        userService.chargePoint(userId, point);
+//        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.CHARGE_POINT_SUCCESS, null);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 
     /**
      * 사용자 프로필 수정 API

@@ -1,5 +1,6 @@
 package com.common.user.response;
 
+import com.core.api_core.user.model.ChargeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,4 +17,6 @@ public class PointChargeHistoryResponse {
     private Integer chargeAmount;
 
     private LocalDateTime chargeDate;
+
+    private ChargeType chargeType;
 }
