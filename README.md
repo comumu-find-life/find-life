@@ -46,11 +46,13 @@ Frontend : Flutter
 
 |등록 시작|이미지 등록|주소 등록|주소 검증|가격 등록|
 |:---:|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/100f996c-0680-4463-b97a-441787d8a94d" width="200"/>|<img src="https://github.com/user-attachments/assets/b187d7bb-f4b9-4469-887b-090a8f2b7ebc" width="200"/>|<img src="https://github.com/user-attachments/assets/c9f2eaa3-05fa-47b1-a31b-9d777c8ac923" width="200"/>|<img src="https://github.com/user-attachments/assets/1d21236a-d7d1-4b5e-ac92-5b92cedd97c2" width="200"/>|<img src="https://github.com/user-attachments/assets/319d9bbe-9991-49b4-bbe6-52a3c9344de6" width="200"/>|
+|<img src="https://github.com/user-attachments/assets/100f996c-0680-4463-b97a-441787d8a94d" width="200"/>|<img src="https://github.com/user-attachments/assets/b187d7bb-f4b9-4469-887b-090a8f2b7ebc" width="200"/>|<img src="https://github.com/user-attachments/assets/c9f2eaa3-05fa-47b1-a31b-9d777c8ac923" width="200"/>|<img src="https://github.com/user-attachments/assets/319d9bbe-9991-49b4-bbe6-52a3c9344de6" width="200"/>|<img src="https://github.com/user-attachments/assets/1d21236a-d7d1-4b5e-ac92-5b92cedd97c2" width="200"/>|
 
 
 |상세정보 등록1|상세정보 등록2|등록 완료|
 |:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/e81e36f9-8eab-4ece-a034-303281f2e0d2" width="200"/>|<img src="https://github.com/user-attachments/assets/1daaba46-a649-42e4-b584-1ca79b16f69d" width="200"/>|<img src="https://github.com/user-attachments/assets/bac0af26-cfb8-46f7-a2f3-9885be5f9a6a" width="200"/>|
+
 
 **안전 거래 기능**
 
