@@ -60,21 +60,12 @@
 
 
 <details>
-  <summary><b>📍 포인트 충전 기능 - 전체 보기</b></summary>
-  
-|거래 #1|Screen #2|
-|:---:|:---:|
-|<img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="200"/>|<img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="200"/>|
-
-
-
+  <summary><b>📍 안전 거래 동작 과정 - 전체 보기</b></summary>
+  <img src="https://github.com/user-attachments/assets/47d42ac7-def0-4627-ac2d-3e2206f5dd3a" width="600" height="800"/>
 </details>
 
 <details>
-  <summary><b>📍 안전 거래 기능 - 전체 보기</b></summary>
-  
-  **안전거래 동작과정**
-  <img src="https://github.com/user-attachments/assets/47d42ac7-def0-4627-ac2d-3e2206f5dd3a" width="600" height="800"/>
+  <summary><b>📍 안전 거래 화면 - 전체 보기</b></summary>
   
 |거래생성0|거래생성1|거래생성2|거래생성3|거래생성4|
 |:---:|:---:|:---:|:---:|:---:|
@@ -87,6 +78,18 @@
 |거래 완료1|거래 완료2|거래 완료3|거래 완료4|거래 목록|
 |:---:|:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/1f51c1ae-a0cb-4185-9204-32770e59079d" width="200"/>|<img src="https://github.com/user-attachments/assets/e6d54231-827f-4edd-bc15-1e73701eca4b" width="200"/>|<img src="https://github.com/user-attachments/assets/efe08ef8-09be-4b74-b419-01d0f84a56eb" width="200"/>|<img src="https://github.com/user-attachments/assets/889b72fb-73bd-451e-8e85-c3dd5f115b98" width="200"/>|<img src="https://github.com/user-attachments/assets/c11676b9-016e-4e71-b2d9-d5f4bed6dea9" width="200"/>|
+
+</details>
+
+
+<details>
+  <summary><b>📍 포인트 충전 기능 - 전체 보기</b></summary>
+  
+|거래 #1|Screen #2|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="200"/>|<img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="200"/>|
+
+
 
 </details>
 
