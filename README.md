@@ -35,7 +35,7 @@ Frontend : Flutter
 **집 게시글 조회 기능**
 |Screen #1|Screen #2|
 |:---:|:---:|
-|<img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="200"/>|<img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="200"/>|
+|<img src="https://github.com/user-attachments/assets/93780742-9e11-4839-b258-6165eb578643" width="200"/>|<img src="https://github.com/user-attachments/assets/1bf1eca2-1cfa-45b3-b03d-5bc28be3fd39" width="200"/>|
 
 **집 게시글 등록 기능**
 
