@@ -4,9 +4,7 @@ import com.core.base.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-/**
- * 애그리거트 루트
- */
+
 @Entity
 @Getter
 @Setter
@@ -21,11 +19,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    //이메일 회원가입
     private String email;
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    private UserAccount userAccount;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -53,7 +47,7 @@ public class User extends BaseTimeEntity {
     private SignupType signupType;
 
     private String nationality;
-    //자기 소개글
+
     private String introduce;
 
     public void passwordEncode(String encodePassword) {
@@ -67,10 +61,5 @@ public class User extends BaseTimeEntity {
     public void setUserState(UserState userState){
         this.userState = userState;
     }
-
-//    public void setPoint(Integer point){
-//        userAccount.setPoint(point);
-//    }
-
 
 }

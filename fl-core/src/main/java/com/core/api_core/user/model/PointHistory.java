@@ -1,6 +1,5 @@
 package com.core.api_core.user.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PointChargeHistory {
+public class PointHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,21 +20,22 @@ public class PointChargeHistory {
     private Integer chargeAmount;
 
     // 충전 일자
-    private LocalDateTime chargeDate;
+    private LocalDateTime historyDateTime;
 
-    // 연관 관계 설정: 여러 기록이 하나의 UserAccount에 연결됨
+    @Enumerated(EnumType.STRING)
+    private ChargeType chargeType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;
 
-    // 기타 필요한 정보 (예: 결제 방법, 결제 상태 등)도 추가 가능
 
-    // 팩토리 메서드
-    static public PointChargeHistory createHistory(UserAccount userAccount, int chargeAmount) {
-        PointChargeHistory history = new PointChargeHistory();
+    static PointHistory createHistory(UserAccount userAccount, int chargeAmount, ChargeType chargeType) {
+        PointHistory history = new PointHistory();
         history.setUserAccount(userAccount);
         history.setChargeAmount(chargeAmount);
-        history.setChargeDate(LocalDateTime.now());  // 현재 시간으로 충전 일자 설정
+        history.setHistoryDateTime(LocalDateTime.now());
+        history.setChargeType(chargeType);
         return history;
     }
 }

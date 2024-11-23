@@ -6,7 +6,6 @@ import com.common.deal.response.MyProtectedDealResponse;
 import com.common.deal.response.ProtectedDealGeneratorResponse;
 import com.common.deal.response.ProtectedDealResponse;
 import com.common.utils.SuccessResponse;
-import com.service.chat.DirectMessageRoomService;
 import com.service.deal.ProtectedDealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -57,6 +56,7 @@ public class ProtectedDealController {
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, protectedDeal);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     /**
      * 안전 거래 생성 수락 API (By GETTER)

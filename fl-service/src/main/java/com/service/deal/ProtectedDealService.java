@@ -143,11 +143,6 @@ public class ProtectedDealService {
         protectedDeal.setDealState(DealState.CANCEL_DURING_DEAL);
     }
 
-//    private void validatePointsSufficiency(UserAccount userAccount, Integer deposit) throws IllegalAccessException {
-//        if (!userAccount.validatePointsSufficiency(deposit)) {
-//            throw new IllegalAccessException("임차인의 포인트가 부족합니다.");
-//        }
-//    }
 
     private void validateGetterSecretKey(ProtectedDeal protectedDeal, String secretKey) throws Exception {
         String protectedDealSecretKey = protectedDeal.getSecretKey();

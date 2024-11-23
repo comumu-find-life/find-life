@@ -4,7 +4,7 @@ import com.common.user.request.UserAccountRequest;
 import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.*;
-import com.core.api_core.user.model.PointChargeHistory;
+import com.core.api_core.user.model.PointHistory;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import org.mapstruct.Mapper;
@@ -58,11 +58,12 @@ public interface UserMapper {
 
 
     @Named("mapChargeHistories")
-    default List<PointChargeHistoryResponse> mapImageUrls(List<PointChargeHistory> pointChargeHistories){
+    default List<PointChargeHistoryResponse> mapImageUrls(List<PointHistory> pointChargeHistories) {
         return pointChargeHistories.stream().map(pointChargeHistory -> {
-            return  PointChargeHistoryResponse.builder()
+            return PointChargeHistoryResponse.builder()
                     .chargeAmount(pointChargeHistory.getChargeAmount())
-                    .chargeDate(pointChargeHistory.getChargeDate())
+                    .chargeType(pointChargeHistory.getChargeType())
+                    .chargeDate(pointChargeHistory.getHistoryDateTime())
                     .build();
         }).collect(Collectors.toList());
 
