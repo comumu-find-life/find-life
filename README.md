@@ -32,12 +32,11 @@ Frontend : Flutter
 
 ## 기능 소개
 
-**집 게시글 조회 기능1**
+**집 게시글 조회 기능**
 |메인화면|집 리스트|맵 클러스터|필터링|API 주소 검색|
 |:---:|:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/93780742-9e11-4839-b258-6165eb578643" width="200"/>|<img src="https://github.com/user-attachments/assets/1bf1eca2-1cfa-45b3-b03d-5bc28be3fd39" width="200"/>|<img src="https://github.com/user-attachments/assets/d84937b8-fea5-48dd-8abf-37c0ab1c490c" width="200"/>|<img src="https://github.com/user-attachments/assets/b58e4d1b-7c9a-47a2-a41c-8b9ba64ac89f" width="200"/>|<img src="https://github.com/user-attachments/assets/01bb6b2b-4f2a-49b8-935c-7cfb34cdec7b" width="200"/>
 
-**집 게시글 조회 기능2**
 |상세 화면1|상세 화면2| 대화 전송|
 |:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/bdb029f3-5edd-4314-a781-d640f49d6ce0" width="200"/>|<img src="https://github.com/user-attachments/assets/a9a2cb03-8075-4ca8-86b6-9e8bed7fa595" width="200"/>|<img src="https://github.com/user-attachments/assets/9ece2fab-65b9-499c-a156-0f39ac28723a" width="200"/>
@@ -45,9 +44,13 @@ Frontend : Flutter
 
 **집 게시글 등록 기능**
 
-|Screen #1|Screen #2|
-|:---:|:---:|
-|<img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="200"/>|<img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="200"/>|
+|등록 시작|이미지 등록|주소 등록|주소 검증|가격 등록|
+|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/100f996c-0680-4463-b97a-441787d8a94d" width="200"/>|<img src="https://github.com/user-attachments/assets/b187d7bb-f4b9-4469-887b-090a8f2b7ebc" width="200"/>|<img src="https://github.com/user-attachments/assets/c9f2eaa3-05fa-47b1-a31b-9d777c8ac923" width="200"/>|<img src="https://github.com/user-attachments/assets/1d21236a-d7d1-4b5e-ac92-5b92cedd97c2" width="200"/>|<img src="https://github.com/user-attachments/assets/319d9bbe-9991-49b4-bbe6-52a3c9344de6" width="200"/>|
+
+
+|상세정보 등록1|상세정보 등록2|등록 완료|
+|:---:|:---:|:---:|
 
 **안전 거래 기능**
 
