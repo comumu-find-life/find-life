@@ -33,9 +33,9 @@ Frontend : Flutter
 ## 기능 소개
 
 **집 게시글 조회 기능**
-|Screen #1|Screen #2|
-|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/93780742-9e11-4839-b258-6165eb578643" width="200"/>|<img src="https://github.com/user-attachments/assets/1bf1eca2-1cfa-45b3-b03d-5bc28be3fd39" width="200"/>|
+|메인화면 #1| 집 리스트#2| 맵 클러스터#3| 필터링#4| API 주소 검색#5|
+|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/93780742-9e11-4839-b258-6165eb578643" width="200"/>|<img src="https://github.com/user-attachments/assets/1bf1eca2-1cfa-45b3-b03d-5bc28be3fd39" width="200"/>|<img src="https://github.com/user-attachments/assets/d84937b8-fea5-48dd-8abf-37c0ab1c490c" width="200"/>|<img src="https://github.com/user-attachments/assets/b58e4d1b-7c9a-47a2-a41c-8b9ba64ac89f" width="200"/>|<img src="https://github.com/user-attachments/assets/01bb6b2b-4f2a-49b8-935c-7cfb34cdec7b" width="200"/>
 
 **집 게시글 등록 기능**
 
