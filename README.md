@@ -72,6 +72,9 @@
 
 <details>
   <summary><b>📍 안전 거래 기능 - 전체 보기</b></summary>
+  <br />
+  **안전거래 동작과정**
+  <img src="https://github.com/user-attachments/assets/47d42ac7-def0-4627-ac2d-3e2206f5dd3a" width="300"/>
   
 |거래생성0|거래생성1|거래생성2|거래생성3|거래생성4|
 |:---:|:---:|:---:|:---:|:---:|
