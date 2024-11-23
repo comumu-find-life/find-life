@@ -70,6 +70,19 @@
 |:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/e81e36f9-8eab-4ece-a034-303281f2e0d2" width="200"/>|<img src="https://github.com/user-attachments/assets/1daaba46-a649-42e4-b584-1ca79b16f69d" width="200"/>|<img src="https://github.com/user-attachments/assets/bac0af26-cfb8-46f7-a2f3-9885be5f9a6a" width="200"/>|
 
+
+**기능 설명**
+```
+등록 시작 - 집 게시물 등록을 시작한다.
+이미지 등록 - 집 사진을 등록한다. (최소 한장, 최대 10장)
+주소 등록 - 호주 주소 양식에 맞춰 주소를 등록한다.
+주소 검증 - 입력한 주소가 맞는지 검증한다.
+가격 등록 - 렌트비, 보증금, 공과금을 입력한다.
+상세 정보 등록 1 - 집의 상세 정보를 등록한다. (ex. 집 형태, 성별, 침대, 화장실, 인원)
+상세 정보 등록 2 - 집의 상세 정보를 등록한다. (ex. 주차 여부, 옵션)
+등록 완료 - 등록 완료를 알린다.
+```
+
 </details>
 
 
@@ -81,7 +94,7 @@
 <details>
   <summary><b>📍 안전 거래 화면 - 전체 보기</b></summary>
   
-|거래생성0|거래생성1|거래생성2|거래생성3|거래생성4|
+|거래생성1|거래생성2|거래생성3|거래생성4|거래생성5|
 |:---:|:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/cfa2b75b-448f-4d30-8d4b-d99f4216cdf3" width="200"/>|<img src="https://github.com/user-attachments/assets/e9a48f22-1c4b-440d-8a3f-c30d7a928858" width="200"/>|<img src="https://github.com/user-attachments/assets/26da86c9-3cce-4732-b7c8-70d5597a04d7" width="200"/>|<img src="https://github.com/user-attachments/assets/1a2f78eb-fc00-4185-b24c-0c55dc341049" width="200"/>|<img src="https://github.com/user-attachments/assets/cfa2b75b-448f-4d30-8d4b-d99f4216cdf3" width="200"/>|
 
@@ -93,6 +106,14 @@
 |:---:|:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/1f51c1ae-a0cb-4185-9204-32770e59079d" width="200"/>|<img src="https://github.com/user-attachments/assets/e6d54231-827f-4edd-bc15-1e73701eca4b" width="200"/>|<img src="https://github.com/user-attachments/assets/efe08ef8-09be-4b74-b419-01d0f84a56eb" width="200"/>|<img src="https://github.com/user-attachments/assets/889b72fb-73bd-451e-8e85-c3dd5f115b98" width="200"/>|<img src="https://github.com/user-attachments/assets/c11676b9-016e-4e71-b2d9-d5f4bed6dea9" width="200"/>|
 
+**기능 설명**
+```
+[안전 거래 생성]
+거래 생성1 - 임대인이 "Deal" 버튼을 눌러 안전거래를 생성한다.
+거래 생성2 - 임대인이 "계약금"을 입력한다.
+거래 생성3 - 안전거래 정보를 확인 후 생성한다.
+거래 생성4 - 안전거래 생성이 완료되면 채팅 화면 위젯으로 나타난다.
+```
 </details>
 
 
