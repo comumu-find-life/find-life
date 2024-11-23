@@ -35,6 +35,7 @@ Frontend : Flutter
 
 <details>
   <summary><b>📍 집 게시글 조회 기능 - 전체 보기</b></summary>
+  
 |메인화면|집 리스트|맵 클러스터|필터링|API 주소 검색|
 |:---:|:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/93780742-9e11-4839-b258-6165eb578643" width="200"/>|<img src="https://github.com/user-attachments/assets/1bf1eca2-1cfa-45b3-b03d-5bc28be3fd39" width="200"/>|<img src="https://github.com/user-attachments/assets/d84937b8-fea5-48dd-8abf-37c0ab1c490c" width="200"/>|<img src="https://github.com/user-attachments/assets/b58e4d1b-7c9a-47a2-a41c-8b9ba64ac89f" width="200"/>|<img src="https://github.com/user-attachments/assets/01bb6b2b-4f2a-49b8-935c-7cfb34cdec7b" width="200"/>
@@ -57,13 +58,17 @@ Frontend : Flutter
 
 </details>
 
-**안전 거래 기능**
 
+<details>
+  <summary><b>📍 안전 거래 기능 - 전체 보기</b></summary>
+  
 |Screen #1|Screen #2|
 |:---:|:---:|
 |<img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="200"/>|<img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="200"/>|
 
 
+
+</details>
 
 <br />
 
