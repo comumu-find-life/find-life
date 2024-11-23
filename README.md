@@ -32,7 +32,9 @@ Frontend : Flutter
 
 ## 기능 소개
 
-**집 게시글 조회 기능**
+
+<details>
+  <summary><b>📍 집 게시글 조회 기능 - 전체 보기</b></summary>
 |메인화면|집 리스트|맵 클러스터|필터링|API 주소 검색|
 |:---:|:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/93780742-9e11-4839-b258-6165eb578643" width="200"/>|<img src="https://github.com/user-attachments/assets/1bf1eca2-1cfa-45b3-b03d-5bc28be3fd39" width="200"/>|<img src="https://github.com/user-attachments/assets/d84937b8-fea5-48dd-8abf-37c0ab1c490c" width="200"/>|<img src="https://github.com/user-attachments/assets/b58e4d1b-7c9a-47a2-a41c-8b9ba64ac89f" width="200"/>|<img src="https://github.com/user-attachments/assets/01bb6b2b-4f2a-49b8-935c-7cfb34cdec7b" width="200"/>
@@ -40,10 +42,10 @@ Frontend : Flutter
 |상세 화면1|상세 화면2| 대화 전송|
 |:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/bdb029f3-5edd-4314-a781-d640f49d6ce0" width="200"/>|<img src="https://github.com/user-attachments/assets/a9a2cb03-8075-4ca8-86b6-9e8bed7fa595" width="200"/>|<img src="https://github.com/user-attachments/assets/9ece2fab-65b9-499c-a156-0f39ac28723a" width="200"/>
-
+</details>
 
 <details>
-  <summary>📍 집 게시글 등록 기능 - 전체 보기/숨기기</summary>
+  <summary><b>📍 집 게시글 등록 기능 - 전체 보기</b></summary>
 
 |등록 시작|이미지 등록|주소 등록|주소 검증|가격 등록|
 |:---:|:---:|:---:|:---:|:---:|
