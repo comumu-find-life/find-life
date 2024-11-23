@@ -23,8 +23,8 @@
 
 ### ⚙ 기술 스택
 
-**Backend** : `Spring Boot`, "JPA", "QueryDSL"
-**Database** : `MySQL`, `MongoDB`
+**Backend** : `Spring Boot`, "JPA", "QueryDSL"  
+**Database** : `MySQL`, `MongoDB`  
 **Frontend** : `Flutter`  
 
 
