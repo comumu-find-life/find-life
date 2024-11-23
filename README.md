@@ -98,9 +98,9 @@
 |:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/cfa2b75b-448f-4d30-8d4b-d99f4216cdf3" width="200"/>|<img src="https://github.com/user-attachments/assets/e9a48f22-1c4b-440d-8a3f-c30d7a928858" width="200"/>|<img src="https://github.com/user-attachments/assets/26da86c9-3cce-4732-b7c8-70d5597a04d7" width="200"/>|<img src="https://github.com/user-attachments/assets/1a2f78eb-fc00-4185-b24c-0c55dc341049" width="200"/>|
 
-|거래수락1|거래수락2|거래수락3|거래수락4|거래수락5|
-|:---:|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/75b6f83a-bec0-45f9-9822-ce2f68acd622" width="200"/>|<img src="https://github.com/user-attachments/assets/c9af18b7-8606-4b82-8fbf-75e45782ed4d" width="200"/>|<img src="https://github.com/user-attachments/assets/093afd8c-7ae9-4940-ae52-7044fcffa7ed" width="200"/>|<img src="https://github.com/user-attachments/assets/75b6f83a-bec0-45f9-9822-ce2f68acd622" width="200"/>|<img src="https://github.com/user-attachments/assets/c9af18b7-8606-4b82-8fbf-75e45782ed4d" width="200"/>|
+|거래수락1|거래수락2|거래수락3|
+|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/75b6f83a-bec0-45f9-9822-ce2f68acd622" width="200"/>|<img src="https://github.com/user-attachments/assets/c9af18b7-8606-4b82-8fbf-75e45782ed4d" width="200"/>|<img src="https://github.com/user-attachments/assets/093afd8c-7ae9-4940-ae52-7044fcffa7ed" width="200"/>|
 
 |거래 완료1|거래 완료2|거래 완료3|거래 완료4|거래 목록|
 |:---:|:---:|:---:|:---:|:---:|
@@ -117,15 +117,18 @@
 ```
 [거래 수락]
   거래 수락1 - 임차인은 생성된 안전 거래를 조회한다.
-  거래 수락2 - 임차인은 거래 정보를 확인 후 수락한다.
+  거래 수락2 - 임차인은 거래 정보를 확인 후 수락한다.(임차인 포인트 차감)
   거래 수락3 - 임차인이 거래를 수락하면 채팅 화면 위젯으로 나타난다.
 ```
 ```
-[안전 거래 생성]
-  거래 생성1 - 임대인이 "Deal" 버튼을 눌러 안전거래를 생성한다.
-  거래 생성2 - 임대인이 "계약금"을 입력한다.
-  거래 생성3 - 안전거래 정보를 확인 후 생성한다.
-  거래 생성4 - 안전거래 생성이 완료되면 채팅 화면 위젯으로 나타난다.
+[거래 완료]
+  거래 완료1 - 임차인과 임대인이 실제로 만나 거래가 성사되면, 임차인은 거래 완료 버튼을 누른다.(임대인 포인트 증가)
+  거래 완료2 - 거래 완료 위젯이 채팅 화면으로 나타난다.
+  거래 완료3 - 완료된 거래 정보를 조회한다.
+  거래 완료3 - 완료된 거래 정보를 조회한다.
+  거래 목록 - 마이페이지에서 완료된 거래 정보를 조회한다.
+
+
 ```
 </details>
 
