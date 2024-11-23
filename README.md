@@ -25,9 +25,9 @@
 
 ## ⚙ 기술 스택
 
-Backend : Spring Boot
-Database : MySQL, MongoDB, Redis
-Frontend : Flutter
+**Backend** : `Spring Boot`  
+**Database** : `MySQL`, `MongoDB`, `Redis`  
+**Frontend** : `Flutter`  
 
 
 ## 기능 소개
@@ -60,15 +60,33 @@ Frontend : Flutter
 
 
 <details>
-  <summary><b>📍 안전 거래 기능 - 전체 보기</b></summary>
+  <summary><b>📍 포인트 충전 기능 - 전체 보기</b></summary>
   
-|Screen #1|Screen #2|
+|거래 #1|Screen #2|
 |:---:|:---:|
 |<img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="200"/>|<img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="200"/>|
 
 
 
 </details>
+
+<details>
+  <summary><b>📍 안전 거래 기능 - 전체 보기</b></summary>
+  
+|거래생성0|거래생성1|거래생성2|거래생성3|거래생성4|
+|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/cfa2b75b-448f-4d30-8d4b-d99f4216cdf3" width="200"/>|<img src="https://github.com/user-attachments/assets/e9a48f22-1c4b-440d-8a3f-c30d7a928858" width="200"/>|<img src="https://github.com/user-attachments/assets/26da86c9-3cce-4732-b7c8-70d5597a04d7" width="200"/>|<img src="https://github.com/user-attachments/assets/1a2f78eb-fc00-4185-b24c-0c55dc341049" width="200"/>|<img src="https://github.com/user-attachments/assets/cfa2b75b-448f-4d30-8d4b-d99f4216cdf3" width="200"/>|
+
+|거래수락1|거래수락2|거래수락3|거래수락4|거래수락5|
+|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/75b6f83a-bec0-45f9-9822-ce2f68acd622" width="200"/>|<img src="https://github.com/user-attachments/assets/c9af18b7-8606-4b82-8fbf-75e45782ed4d" width="200"/>|<img src="https://github.com/user-attachments/assets/093afd8c-7ae9-4940-ae52-7044fcffa7ed" width="200"/>|<img src="https://github.com/user-attachments/assets/75b6f83a-bec0-45f9-9822-ce2f68acd622" width="200"/>|<img src="https://github.com/user-attachments/assets/c9af18b7-8606-4b82-8fbf-75e45782ed4d" width="200"/>|
+
+|거래 완료1|거래 완료2|거래 완료3|거래 완료4|거래 목록|
+|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/1f51c1ae-a0cb-4185-9204-32770e59079d" width="200"/>|<img src="https://github.com/user-attachments/assets/e6d54231-827f-4edd-bc15-1e73701eca4b" width="200"/>|<img src="https://github.com/user-attachments/assets/efe08ef8-09be-4b74-b419-01d0f84a56eb" width="200"/>|<img src="https://github.com/user-attachments/assets/889b72fb-73bd-451e-8e85-c3dd5f115b98" width="200"/>|<img src="https://github.com/user-attachments/assets/c11676b9-016e-4e71-b2d9-d5f4bed6dea9" width="200"/>|
+
+</details>
+
 
 <br />
 
