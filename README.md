@@ -2,7 +2,7 @@
 <div align="center">
 
 <!-- logo -->
-## 호주 집 렌트 사기 방지를 위한 서비스 (개인 프로젝트)
+## 호주 집 렌트 사기 방지를 위한 서비스
 
 </div> 
 
@@ -26,6 +26,19 @@
 **Backend** : `Spring Boot`, "JPA", "QueryDSL"  
 **Database** : `MySQL`, `MongoDB`  
 **Frontend** : `Flutter`  
+
+<br />
+
+### 💁‍♂️ 참여 인원 && 기여도  
+
+**Backend** : 2명(본인 포함)  
+**Frontend** : 1명(본인 포함)  
+
+**기여도**   
+**Backend** : 기여도(80%)  
+**Front** : 기여도(100%)  
+
+<br />
 
 
 ### 기능 소개
