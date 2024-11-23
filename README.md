@@ -85,10 +85,9 @@
 <details>
   <summary><b>📍 포인트 충전 기능 - 전체 보기</b></summary>
   
-|거래 #1|Screen #2|
-|:---:|:---:|
-|<img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="200"/>|<img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="200"/>|
-
+|계좌 등록|포인트 충전|입출금 내역|
+|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/f9e06a13-d5d3-4589-a194-9ac39b195d6b" width="200"/>|<img src="https://github.com/user-attachments/assets/0889bd2a-2e34-43af-89b9-4fa34bcc691e" width="200"/>|<img src="https://github.com/user-attachments/assets/bf230286-092f-42b4-9844-b65540d94052" width="200"/>|
 
 
 </details>
