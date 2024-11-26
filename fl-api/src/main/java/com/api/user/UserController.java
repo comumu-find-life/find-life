@@ -54,7 +54,6 @@ public class UserController {
      * 본인 프로필 조회 api
      */
     @GetMapping(USERS_FIND_BY_ID)
-    @PreAuthorize("hasAnyRole(ROLE_GETTER, ROLE_GETTER)")
     public ResponseEntity<?> findById(@PathVariable Long userId) {
         UserInformationResponse byId = userService.findById(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_RETRIEVE_SUCCESS, byId);
@@ -82,6 +81,16 @@ public class UserController {
     }
 
     /**
+     * 계좌 정보 수정 api
+     */
+    @PatchMapping(USER_ACCOUNT_REGISTER_URL)
+    public ResponseEntity<?> updateAccount(@RequestBody UserAccountRequest userAccountRequest, @PathVariable Long userId){
+        userService.updateAccount(userAccountRequest, userId);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_UPDATE_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
      * 계좌 등록 여부 검증 api
      */
     @GetMapping(USER_ACCOUNT_EXIST_URL)
@@ -90,16 +99,6 @@ public class UserController {
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_EXIST_SUCCESS, result);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-    /**
-     * 포인트 충전 api
-     */
-//    @PostMapping(USER_POINT_CHARGE_URL)
-//    public ResponseEntity<?> chargePoint(@PathVariable Long userId, @RequestBody Integer point){
-//        userService.chargePoint(userId, point);
-//        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.CHARGE_POINT_SUCCESS, null);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
 
     /**
      * 사용자 프로필 수정 API
@@ -129,7 +128,6 @@ public class UserController {
     public ResponseEntity<?> getMyUserId(HttpServletRequest request) {
         String accessToken  = jwtService.extractAccessToken(request).get();
         String email = jwtService.extractEmail(accessToken).get();
-        // String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Long userId = userService.findByEmail(email).getId();
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_USER_ID_RETRIEVE_SUCCESS, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -147,7 +145,6 @@ public class UserController {
 
     @GetMapping(USERS_FIND_LOGIN_USER)
     public ResponseEntity<UserInformationResponse> findLoginUser() {
-        // 현재 인증된 사용자 정보 가져오기
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserInformationResponse userInfo = userService.findByEmail(email);
         return ResponseEntity.ok(userInfo);

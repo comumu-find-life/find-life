@@ -2,7 +2,7 @@ package com.common.chat.mapper;
 
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
-import com.core.chat_core.chat.model.DirectMessage;
+import com.core.api_core.chat.model.DirectMessage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

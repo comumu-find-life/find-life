@@ -1,34 +1,58 @@
 package com.chatting.service;
 
 import com.common.chat.mapper.DirectMessageMapper;
+import com.common.chat.mapper.DirectMessageRoomMapper;
+import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
+import com.common.chat.response.DirectMessageRoomListResponse;
 import com.common.utils.OptionalUtil;
-import com.core.chat_core.chat.model.DirectMessage;
-import com.core.chat_core.chat.repository.DirectMessageRepository;
+import com.core.api_core.chat.model.DirectMessageRoom;
+import com.core.api_core.chat.repository.DirectMessageRoomRepository;
+import com.core.api_core.user.model.User;
+import com.core.api_core.user.repository.UserRepository;
+import com.core.api_core.chat.model.DirectMessage;
+import com.core.api_core.chat.repository.repository.DirectMessageRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.chatting.service.DirectMessageHandler.createDirectMessageRequest;
 
 @Service
 @RequiredArgsConstructor
 public class DirectMessageService {
 
+    private final UserRepository userRepository;
+    private final DirectMessageRoomRepository directMessageRoomRepository;
     private final DirectMessageRepository dmRepository;
     private final DirectMessageMapper mapper;
+    private final DirectMessageRoomMapper directMessageRoomMapper;
 
     /**
-     * 채팅 전송 service
+     * 채팅방 생성
+     */
+    @Transactional
+    public Long createDirectMessageRoom(DirectMessageApplicationRequest request) throws IllegalAccessException {
+        Long receiverId = request.getReceiverId();
+        Long senderId = request.getSenderId();
+        Long roomId = saveOrUpdateDirectMessageRoom(Math.min(senderId, receiverId), Math.max(senderId, receiverId), request);
+        DirectMessageRequest directMessageRequest = createDirectMessageRequest(request.getMessage(), senderId, receiverId);
+        sendDM(directMessageRequest);
+        return roomId;
+    }
+
+    /**
+     * 채팅 전송
      */
     public DirectMessageResponse sendDM(DirectMessageRequest dmDto) throws IllegalAccessException {
         try {
-            System.out.println("###");
             DirectMessage directMessage = mapper.toDirectMessage(dmDto);
-            System.out.println("111");
             DirectMessage save = dmRepository.save(directMessage);
-            System.out.println("333");
             return mapper.toDirectMessageResponse(save);
         } catch (Exception e) {
             throw new IllegalAccessException(e.getMessage());
@@ -36,27 +60,59 @@ public class DirectMessageService {
     }
 
     public DirectMessage getLastMessage(Long user1Id, Long user2Id) {
-        return  OptionalUtil.getOrElseThrow(dmRepository.findLastMessageByUserIds(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
+        return OptionalUtil.getOrElseThrow(dmRepository.findLastMessageByUserIds(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
 
     }
 
     /**
-     * 최근 대화 불러오기 (채팅방 입장시)
+     * 자신이 속한 채팅방 리스트 조회 메서드
      */
-    public List<DirectMessageResponse> findRecentChatLog(Long user1Id, Long user2Id) {
-        List<DirectMessage> dmLogs = dmRepository.findDirectMessageByUserIds(user1Id, user2Id);
+    public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser(Long userId) {
 
-        List<DirectMessageResponse> dmLogDtos = dmLogs.stream()
-                .map(dm -> mapper.toDirectMessageResponse(dm))
+        List<DirectMessageRoom> rooms = directMessageRoomRepository.findByUser1IdOrUser2Id(userId);
+
+        return rooms.stream()
+                .map(room -> {
+                    User otherUser = (room.getUser1().getId().equals(userId)) ? room.getUser2() : room.getUser1();
+                    DirectMessage lastMessage = getLastMessage(userId, otherUser.getId());
+                    return directMessageRoomMapper.toDirectMessageRoomListResponse(room, lastMessage, otherUser);
+                })
                 .collect(Collectors.toList());
-        return dmLogDtos;
     }
 
+    /**
+     * 안전거래 완료 메시지 전송 기능
+     */
+    @Transactional
+    public void sendDealCompletionMessage(DirectMessageRequest request) throws IllegalAccessException {
+        DirectMessageRequest dealCompletionMessage = DirectMessageHandler.createDealCompletionMessage(request);
+        sendDM(dealCompletionMessage);
+    }
+
+
+    /**
+     * 두명 사용자의 채팅 내역 조회 메서드
+     */
     public List<DirectMessageResponse> findChatHistory(Long user1Id, Long user2Id) {
         List<DirectMessage> dmLogs = dmRepository.findDirectMessageByUserIds(user1Id, user2Id);
         List<DirectMessageResponse> dmLogDtos = dmLogs.stream()
                 .map(dm -> mapper.toDirectMessageResponse(dm))
                 .collect(Collectors.toList());
         return dmLogDtos;
+    }
+
+
+
+    private Long saveOrUpdateDirectMessageRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest request) {
+        Optional<DirectMessageRoom> directMessageRoom = directMessageRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
+        if (directMessageRoom.isEmpty()) {
+            User user1 = userRepository.findById(user1Id).orElseThrow(() -> new IllegalArgumentException("User not found: " + user1Id));
+            User user2 = userRepository.findById(user2Id).orElseThrow(() -> new IllegalArgumentException("User not found: " + user2Id));
+            DirectMessageRoom newRoom = DirectMessageHandler.createDirectMessageRoom(user1, user2, request.getRoomId());
+            return directMessageRoomRepository.save(newRoom).getId();
+        }
+        DirectMessageRoom room = directMessageRoom.get();
+        room.setProgressHomeId(request.getRoomId());
+        return room.getId();
     }
 }

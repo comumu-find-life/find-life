@@ -36,7 +36,6 @@ public class ProtectedDealController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     /**
      * 내 모든 안전 거래 조회 API (By Getter)
      */
@@ -48,11 +47,11 @@ public class ProtectedDealController {
     }
 
     /**
-     * 안전 거래 생성 요청 API (By Provider)
+     * 안전 거래 생성 API (By Provider)
      */
-    @PostMapping(DEALS_REQUEST)
-    public ResponseEntity<?> requestDeal(@RequestBody ProtectedDealGeneratorRequest request) throws Exception {
-        ProtectedDealGeneratorResponse protectedDeal = protectedDealService.requestProtectedDeal(request);
+    @PostMapping(DEALS_SAVE)
+    public ResponseEntity<?> saveProtectedDeal(@RequestBody ProtectedDealGeneratorRequest request) throws Exception {
+        ProtectedDealGeneratorResponse protectedDeal = protectedDealService.saveProtectedDeal(request);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_CREATED, protectedDeal);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

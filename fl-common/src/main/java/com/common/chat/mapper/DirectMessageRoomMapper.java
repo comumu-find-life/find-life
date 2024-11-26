@@ -4,7 +4,7 @@ import com.common.chat.response.DirectMessageRoomInfoResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
 import com.core.api_core.chat.model.DirectMessageRoom;
 import com.core.api_core.user.model.User;
-import com.core.chat_core.chat.model.DirectMessage;
+import com.core.api_core.chat.model.DirectMessage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

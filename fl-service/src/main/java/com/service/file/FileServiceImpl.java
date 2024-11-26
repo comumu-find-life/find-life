@@ -25,13 +25,6 @@ public class FileServiceImpl implements FileService {
                 DateTimeFormatter.ofPattern("yyyyMMdd");
         String createdDate = now.format(dateTimeFormatter);
         String uuid = UUID.randomUUID().toString();
-
-        log.info(file.getOriginalFilename());
-        log.info("file.getOriginalFilename()");
-        log.info("file.getOriginalFilename()");
-        log.info("file.getOriginalFilename()");
-        log.info("file.getOriginalFilename()");
-
         String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         return createdDate + File.separator + uuid + ext;
     }

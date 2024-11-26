@@ -19,10 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
 
     private final RedisTemplate<String, Object> redisTemplate;
-
-    /**
-     * key 와 value 를 Redis 에 저장한다. 데이터 만료 기간 설정을 하고 싶다면 세번째 파라미터로 Duration 객체를 전달한다.
-     */
+    
     public <T> void setValues(String key, T data) {
         ValueOperations<String, Object> values = redisTemplate.opsForValue();
         values.set(key, data);

@@ -1,6 +1,6 @@
-package com.core.chat_core.chat.repository;
+package com.core.api_core.chat.repository;
 
-import com.core.chat_core.chat.model.DirectMessage;
+import com.core.api_core.chat.model.DirectMessage;
 
 import java.util.List;
 import java.util.Optional;

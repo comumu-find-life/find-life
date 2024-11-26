@@ -1,7 +1,7 @@
 //package com.core.chat_core.chat.repository;
 //
 //
-//import com.core.chat_core.chat.model.DirectMessage;
+//import com.core.api_core.chat.model.DirectMessage;
 //import com.core.config.TestConfig;
 //import org.assertj.core.api.Assertions;
 //import org.junit.jupiter.api.Test;
