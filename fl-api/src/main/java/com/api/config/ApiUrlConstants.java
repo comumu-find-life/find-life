@@ -18,7 +18,6 @@ public class ApiUrlConstants {
 
     // 채팅 API URL
     public static final String DM_BASE_URL = BASE_API_URL + "/dm";
-    public static final String DM_FIND_ROOM_INFO = DM_BASE_URL + "/dm-rooms/{dmRoomId}";
     public static final String DM_FIND_ALL_ROOMS = DM_BASE_URL + "/dm-rooms/users/{userId}";
 
     // 사용자 API URL
@@ -34,7 +33,6 @@ public class ApiUrlConstants {
     public static final String USERS_UPDATE = USERS_BASE_URL;
     public static final String USER_ACCOUNT_REGISTER_URL = USERS_BASE_URL + "/{userId}/account";
     public static final String USER_ACCOUNT_EXIST_URL = USERS_BASE_URL + "/{userId}/account/exist";
-    public static final String USER_POINT_CHARGE_URL = USERS_BASE_URL + "/{userId}/point";
     public static final String USERS_IMAGE_UPDATE = USERS_BASE_URL + "/{userId}/image";
     public static final String USERS_GET_MY_USER_ID = USERS_BASE_URL + "/me/userId";
     public static final String USERS_GET_PROFILE = USERS_BASE_URL + "/profile/{userId}";
@@ -43,7 +41,7 @@ public class ApiUrlConstants {
     // 안전거래 API URL
 
     public static final String DEALS_BASE_URL = BASE_API_URL + "/deals";
-    public static final String DEALS_REQUEST = DEALS_BASE_URL;
+    public static final String DEALS_SAVE = DEALS_BASE_URL;
     public static final String DEALS_GETTER_READ = DEALS_BASE_URL + "/read/getter";
     public static final String DEALS_FIND_ALL_BY_USER_ID = DEALS_BASE_URL + "/users/{userId}";
     public static final String DEALS_ACCEPT_REQUEST = DEALS_BASE_URL + "/accept/{dealId}";

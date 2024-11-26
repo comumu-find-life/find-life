@@ -4,9 +4,6 @@ import com.api.config.TestConfig;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.ProtectedDealResponse;
-import com.common.utils.SuccessResponse;
-import com.core.api_core.deal.model.DealState;
-import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.repository.HomeRepository;
@@ -14,7 +11,6 @@ import com.core.api_core.user.repository.UserRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.common.utils.OptionalUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +23,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.api.config.ApiUrlConstants.*;
-import static com.api.deal.SuccessProtectedDealMessages.DEAL_CREATED;
 import static com.api.utils.JsonUtil.extractDataFromResult;
 import static com.core.deal.ProtectedDealBuilder.createProtectedDeal;
 import static com.core.deal.request.ProtectedDealRequestBuilder.*;
@@ -81,7 +76,7 @@ public class ProtectedDealIntegrationTest {
         ProtectedDealGeneratorRequest protectedDealGeneratorRequest = createProtectedDealGeneratorRequest();
 
         //when
-        ResultActions resultActions = mockMvc.perform(post(DEALS_REQUEST)
+        ResultActions resultActions = mockMvc.perform(post(DEALS_SAVE)
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(protectedDealGeneratorRequest)))

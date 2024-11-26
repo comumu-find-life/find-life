@@ -42,9 +42,9 @@ public class ProtectedDealService {
     private final ProtectedDealMapper mapper;
 
     /**
-     * 안전 거래 생성 요청 메서드 (by provider)
+     * 안전 거래 생성 메서드 (by provider)
      */
-    public ProtectedDealGeneratorResponse requestProtectedDeal(ProtectedDealGeneratorRequest request) throws Exception {
+    public ProtectedDealGeneratorResponse saveProtectedDeal(ProtectedDealGeneratorRequest request) throws Exception {
         // SecretKey 생성
         String secretKey = generateSecretKey();
         ProtectedDeal deal = mapper.toEntity(request, secretKey);
@@ -110,8 +110,6 @@ public class ProtectedDealService {
     @Transactional
     public void requestCompleteDeal(Long dealId, String secretKey) throws Exception {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
-        validateGetterSecretKey(protectedDeal, secretKey);
-        //집주인(provider) 포인트 증가
         UserAccount userAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
         userAccount.increasePoint(protectedDeal.getDeposit());
         protectedDeal.getProtectedDealDateTime().setCompleteAt(LocalDateTime.now());
@@ -142,28 +140,4 @@ public class ProtectedDealService {
         protectedDeal.getProtectedDealDateTime().setCancelAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.CANCEL_DURING_DEAL);
     }
-
-
-    private void validateGetterSecretKey(ProtectedDeal protectedDeal, String secretKey) throws Exception {
-        String protectedDealSecretKey = protectedDeal.getSecretKey();
-        User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIT_USER_ID);
-        String cleanedSecretKey = cleanSecretKey(secretKey);
-        // 복호화 후 이메일 검증
-        String getterEmail = SecretKeyUtil.decrypt(protectedDealSecretKey, cleanedSecretKey);
-        if (!getter.getEmail().equals(getterEmail)) {
-            throw new IllegalAccessException("올바르지 않은 암호키: 인증 실패");
-        }
-    }
-
-    // 비밀키를 트림하고 큰따옴표 제거하는 메서드
-    private String cleanSecretKey(String secretKey) {
-        String trimmedKey = secretKey.trim();
-        // 큰따옴표로 감싸져 있으면 제거
-        if (trimmedKey.startsWith("\"") && trimmedKey.endsWith("\"")) {
-            return trimmedKey.substring(1, trimmedKey.length() - 1);
-        }
-        return trimmedKey;
-    }
-
-
 }

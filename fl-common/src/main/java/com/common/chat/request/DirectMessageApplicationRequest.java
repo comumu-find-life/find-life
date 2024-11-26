@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class DirectMessageApplicationRequest {
+    private Long senderId;
     private String message;
     private Long receiverId;
     private Long roomId;

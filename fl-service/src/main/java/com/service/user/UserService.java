@@ -145,18 +145,6 @@ public class UserService {
         return userMapper.toUserAccountResponse(userAccount);
     }
 
-    /**
-     * 포인트 충전
-     */
-//    public void chargePoint(Long userId, Integer point) {
-//        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
-//        // 포인트 충전
-//        userAccount.setPoint(point);
-//        // 충전 내역 저장
-//        userAccount.registerPointChargeHistory(point, ChargeType.DEPOSIT);
-//    }
-
-
     private User createUser(UserSignupRequest dto, MultipartFile image) throws Exception {
         User user = userMapper.toEntity(dto);
         // 프로필 사진이 있을 때 프로필 URL 설정
@@ -179,4 +167,8 @@ public class UserService {
         user.passwordEncode(encodedPassword);
     }
 
+    public void updateAccount(UserAccountRequest userAccountRequest, Long userId) {
+        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
+        userMapper.updateUserAccount(userAccountRequest, userAccount);
+    }
 }

@@ -56,6 +56,12 @@ public interface UserMapper {
     @Mapping(target = "signupType", ignore = true)
     void updateUser(UserProfileUpdateRequest userProfileUpdateRequest, @MappingTarget User user);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "userId", ignore = true)
+    @Mapping(target = "point", ignore = true)
+    @Mapping(target = "chargeHistories", ignore = true)
+    void updateUserAccount(UserAccountRequest userAccountRequest, @MappingTarget UserAccount userAccount);
+
 
     @Named("mapChargeHistories")
     default List<PointChargeHistoryResponse> mapImageUrls(List<PointHistory> pointChargeHistories) {

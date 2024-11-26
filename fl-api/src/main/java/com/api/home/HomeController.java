@@ -144,22 +144,11 @@ public class HomeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * city 이름으로 집 조회 api (Path)
-     * [Sol]
-     */
-    @GetMapping(HOMES_FIND_BY_CITY_PATH)
-    public ResponseEntity<?> findByCityPath(@PathVariable String city) {
-        List<HomeOverviewResponse> homes = homeService.findByCity(city);
-        SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     /**
      * 찜 목록 조회 api
      */
     @GetMapping(HOMES_FIND_FAVORITE)
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> findFavoriteHomes(@RequestParam List<Long> homeIds) {
         List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.FAVORITE_HOMES_RETRIEVE_SUCCESS, favoriteHomes);
@@ -170,7 +159,6 @@ public class HomeController {
      * 집 게시글 삭제 api
      */
     @DeleteMapping(HOMES_DELETE)
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> delete(@PathVariable Long homeId) {
         homeService.delete(homeId);
         return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);

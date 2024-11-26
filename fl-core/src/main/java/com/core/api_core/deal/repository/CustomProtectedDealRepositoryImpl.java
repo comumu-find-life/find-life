@@ -32,7 +32,7 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
                         qProtectedDeal.providerId.eq(providerId),
                         qProtectedDeal.homeId.eq(homeId),
                         qProtectedDeal.dmId.eq(dmId))
-                .fetch();  // fetch()를 사용하여 모든 결과를 반환
+                .fetch();
     }
 
     @Override

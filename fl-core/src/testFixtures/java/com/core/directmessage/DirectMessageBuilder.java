@@ -4,7 +4,7 @@ import com.core.api_core.chat.model.DirectMessageRoom;
 import com.core.api_core.user.model.Gender;
 import com.core.api_core.user.model.Role;
 import com.core.api_core.user.model.User;
-import com.core.chat_core.chat.model.DirectMessage;
+import com.core.api_core.chat.model.DirectMessage;
 
 import java.time.LocalDateTime;
 

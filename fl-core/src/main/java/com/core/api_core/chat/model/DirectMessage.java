@@ -1,4 +1,4 @@
-package com.core.chat_core.chat.model;
+package com.core.api_core.chat.model;
 
 import com.core.api_core.deal.model.DealState;
 import jakarta.persistence.*;

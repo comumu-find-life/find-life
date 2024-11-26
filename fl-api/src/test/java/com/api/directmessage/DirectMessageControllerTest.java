@@ -6,7 +6,7 @@ import com.core.api_core.chat.model.DirectMessageRoom;
 import com.core.api_core.chat.repository.DirectMessageRoomRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
-import com.core.chat_core.chat.repository.DirectMessageRepository;
+import com.core.api_core.chat.repository.repository.DirectMessageRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
