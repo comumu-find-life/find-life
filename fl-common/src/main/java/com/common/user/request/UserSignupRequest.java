@@ -11,8 +11,6 @@ import lombok.Getter;
 public class UserSignupRequest {
     private String email;
 
-    private Role role;
-
     private String nickname;
 
     private String password;

@@ -29,7 +29,7 @@ public class HomeController {
     private final LocationService locationService;
 
     /**
-     * 집 게시글 등록 api
+     * 집 게시글 등록 - api
      */
     @PostMapping(HOMES_BASE_URL)
     public ResponseEntity<?> saveHome(@RequestPart HomeGeneratorRequest homeGeneratorRequest,

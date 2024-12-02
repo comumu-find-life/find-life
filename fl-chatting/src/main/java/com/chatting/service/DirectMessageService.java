@@ -12,7 +12,7 @@ import com.core.api_core.chat.repository.DirectMessageRoomRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.core.api_core.chat.model.DirectMessage;
-import com.core.api_core.chat.repository.repository.DirectMessageRepository;
+import com.core.api_core.chat.repository.DirectMessageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

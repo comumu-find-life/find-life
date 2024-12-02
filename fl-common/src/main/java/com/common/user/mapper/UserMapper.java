@@ -46,7 +46,6 @@ public interface UserMapper {
     UserAccountResponse toUserAccountResponse(UserAccount userAccount);
 
     @Mapping(target = "email", ignore = true)
-    @Mapping(target = "role", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "profileUrl", ignore = true)
     @Mapping(target = "brith", ignore = true)

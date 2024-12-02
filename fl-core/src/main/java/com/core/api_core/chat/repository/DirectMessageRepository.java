@@ -1,4 +1,4 @@
-package com.core.api_core.chat.repository.repository;
+package com.core.api_core.chat.repository;
 
 
 import com.core.api_core.chat.model.DirectMessage;

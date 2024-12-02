@@ -39,23 +39,28 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * 회원가입 메서드
+     * 이메일 회원가입 메서드
      */
     public Long signUp(UserSignupRequest dto, MultipartFile image) throws Exception {
-        // 검증
         validation.validateSignUp(dto.getEmail(), dto.getNickname());
-
-        // User 객체 생성
         User user = createUser(dto, image);
-
-        // 비밀번호 인코딩 및 설정
         encodeAndSetPassword(user, dto.getPassword());
-
-
-        // 사용자 저장 및 ID 반환
         return userRepository.save(user).getId();
     }
 
+    /**
+     * 구글 계정 회원가입 메서드
+     */
+    public Long signUpGoogleAccount(UserSignupRequest dto, MultipartFile image) throws Exception {
+        validation.validateSignUp(dto.getEmail(), dto.getNickname());
+        User user = createUser(dto, image);
+        return userRepository.save(user).getId();
+    }
+
+
+    /**
+     * 이메일 중복 확인 메서드
+     */
     public boolean validateDuplicateEmail(String email){
         Optional<User> byEmail = userRepository.findByEmail(email);
         if(byEmail.isEmpty()){
@@ -147,7 +152,6 @@ public class UserService {
 
     private User createUser(UserSignupRequest dto, MultipartFile image) throws Exception {
         User user = userMapper.toEntity(dto);
-        // 프로필 사진이 있을 때 프로필 URL 설정
         if (image != null) {
             String profileUrl = uploadProfileImage(image);
             user.setProfileUrl(profileUrl);

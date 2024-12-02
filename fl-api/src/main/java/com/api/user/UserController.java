@@ -32,7 +32,7 @@ public class UserController {
     /**
      * 회원가입 api
      */
-    @PostMapping(USERS_SIGN_UP)
+    @PostMapping(USERS_SIGN_UP_EMAIL)
     public ResponseEntity<?> signUp(@RequestPart UserSignupRequest userSignupRequest,
                                     @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
         Long userId = userService.signUp(userSignupRequest, image);
@@ -40,6 +40,13 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping(USERS_SIGN_UP_GOOGLE)
+    public ResponseEntity<?> signUpGoogle(@RequestPart UserSignupRequest userSignupRequest,
+                                    @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
+        Long userId = userService.signUp(userSignupRequest, image);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     /**
      * 이메일 중복 확인 API
      */

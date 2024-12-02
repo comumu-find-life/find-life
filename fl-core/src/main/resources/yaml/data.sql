@@ -1,7 +1,7 @@
 -- User 데이터 삽입 쿼리
-INSERT INTO user (email, role, nickname, password, profile_url, brith, phone_number, job, gender, nationality) VALUES
-('user1@example.com', 'PROVIDER', 'user1', 'password1', NULL, 1990, '01012345678', 'Engineer', 'MALE', 'Korean'),
-('user2@example.com', 'GETTER', 'user2', 'password2', NULL, 1985, '01023456789', 'Teacher', 'FEMALE', 'Korean');
+INSERT INTO user (email, nickname, password, profile_url, brith, phone_number, job, gender, nationality) VALUES
+('user1@example.com', 'user1', 'password1', NULL, 1990, '01012345678', 'Engineer', 'MALE', 'Korean'),
+('user2@example.com', 'user2', 'password2', NULL, 1985, '01023456789', 'Teacher', 'FEMALE', 'Korean');
 
 INSERT INTO home_address (home_address_id, state, city, post_code, detail_address, street_name, street_code, latitude, longitude) VALUES
 (1, 'NSW', 'Sydney', 2000, '401', 'George St', '1', -33.8688, 151.2093),

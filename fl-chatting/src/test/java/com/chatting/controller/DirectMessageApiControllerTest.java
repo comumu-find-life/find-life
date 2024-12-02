@@ -3,7 +3,7 @@ package com.chatting.controller;
 import com.chatting.config.TestConfig;
 import com.common.chat.response.DirectMessageResponse;
 import com.core.api_core.chat.model.DirectMessage;
-import com.core.api_core.chat.repository.repository.DirectMessageRepository;
+import com.core.api_core.chat.repository.DirectMessageRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

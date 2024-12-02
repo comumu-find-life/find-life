@@ -29,7 +29,6 @@ public class PointHistory {
     @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;
 
-
     static PointHistory createHistory(UserAccount userAccount, int chargeAmount, ChargeType chargeType) {
         PointHistory history = new PointHistory();
         history.setUserAccount(userAccount);

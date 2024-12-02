@@ -2,7 +2,6 @@ package com.api.point;
 
 import com.api.user.SuccessUserMessages;
 import com.common.utils.SuccessResponse;
-import com.service.point.PaypalService;
 import com.service.point.PointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,19 +18,8 @@ import static com.api.point.SuccessPointMessages.*;
 @RequiredArgsConstructor
 public class PointController {
 
-    private final PaypalService paypalService;
     private final PointService pointService;
 
-    /**
-     * 페이팔 포인트 충전 api
-     */
-    @PostMapping(POINT_CHARGE_PAYPAL)
-    public ResponseEntity<String> createPaymentByPaypal(@RequestParam String total, @RequestParam String currency) {
-        String approvalUrl = paypalService.createPayment(total, currency);
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        pointService.chargePoint(email, Integer.parseInt(total));
-        return ResponseEntity.ok(approvalUrl);
-    }
 
 
     /**

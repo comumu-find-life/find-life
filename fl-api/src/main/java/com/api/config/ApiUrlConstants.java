@@ -3,6 +3,7 @@ package com.api.config;
 public class ApiUrlConstants {
     public static final String BASE_API_URL = "/v1/api";
 
+    public static final String GOOGLE_LOGIN_URL = BASE_API_URL + "/google";
     // 집 게시글 API URL
     public static final String HOMES_BASE_URL = BASE_API_URL + "/homes";
     public static final String HOMES_VALIDATE_ADDRESS = HOMES_BASE_URL + "/address/validate";
@@ -22,7 +23,8 @@ public class ApiUrlConstants {
 
     // 사용자 API URL
     public static final String USERS_BASE_URL = BASE_API_URL + "/users";
-    public static final String USERS_SIGN_UP = USERS_BASE_URL + "/sign-up";
+    public static final String USERS_SIGN_UP_EMAIL = USERS_BASE_URL + "/sign-up";
+    public static final String USERS_SIGN_UP_GOOGLE = USERS_BASE_URL + "/sign-up/google";
     public static final String USERS_CHECK_DUPLICATE_EMAIL = USERS_BASE_URL + "/verification/email/{email}";
 
     // 이메일 API URL
