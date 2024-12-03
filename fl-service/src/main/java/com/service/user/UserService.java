@@ -1,6 +1,7 @@
 package com.service.user;
 
 import com.common.user.mapper.UserMapper;
+import com.common.user.request.GoogleAuthRequest;
 import com.common.user.request.UserAccountRequest;
 import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Optional;
 
 import static com.service.user.UserMessages.*;
@@ -148,6 +151,10 @@ public class UserService {
         //todo 날짜순 정렬
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
         return userMapper.toUserAccountResponse(userAccount);
+    }
+
+    public boolean isExistAccountByEmail(String email){
+        return userRepository.findByEmail(email).isPresent();
     }
 
     private User createUser(UserSignupRequest dto, MultipartFile image) throws Exception {

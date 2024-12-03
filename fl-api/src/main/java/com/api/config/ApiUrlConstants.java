@@ -4,6 +4,7 @@ public class ApiUrlConstants {
     public static final String BASE_API_URL = "/v1/api";
 
     public static final String GOOGLE_LOGIN_URL = BASE_API_URL + "/google";
+    public static final String APPLE_LOGIN_URL = BASE_API_URL + "/apple";
     // 집 게시글 API URL
     public static final String HOMES_BASE_URL = BASE_API_URL + "/homes";
     public static final String HOMES_VALIDATE_ADDRESS = HOMES_BASE_URL + "/address/validate";

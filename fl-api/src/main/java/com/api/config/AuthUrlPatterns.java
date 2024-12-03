@@ -18,6 +18,7 @@ public final class AuthUrlPatterns {
 
     public static final String[] POST_AUTH_WHITELIST = {
             ROOT_URL + "/google",
+            ROOT_URL + "/apple",
             ROOT_URL + "/users/profile/{userId}",
             ROOT_URL + "/users/sign-up",
             ROOT_URL + "/users/sign-up/google",

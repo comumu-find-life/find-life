@@ -1,8 +1,6 @@
 package com.service.user;
 
 import com.common.user.request.GoogleAuthRequest;
-import com.core.api_core.user.model.User;
-import com.core.api_core.user.repository.UserRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -15,14 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
-import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class GoogleAuthService {
-
-    private final UserRepository userRepository;
 
     @Value("${oauth.android-client-id}")
     private String androidClientId;
@@ -30,10 +24,6 @@ public class GoogleAuthService {
     @Value("${oauth.ios-client-id}")
     private String iosClientId;
 
-    public boolean isExistGoogleAccount(GoogleAuthRequest request) throws GeneralSecurityException, IOException {
-        String email = getGoogleEmail(request);
-        return userRepository.findByEmail(email).isPresent();
-    }
 
     public String getGoogleEmail(GoogleAuthRequest request) throws GeneralSecurityException, IOException {
         GoogleIdTokenVerifier verifier = createVerifier(request);
