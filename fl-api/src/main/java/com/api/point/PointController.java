@@ -1,7 +1,10 @@
 package com.api.point;
 
 import com.api.user.SuccessUserMessages;
+import com.common.point.request.PaymentRequest;
 import com.common.utils.SuccessResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.service.point.PaypalService;
 import com.service.point.PointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +21,27 @@ import static com.api.point.SuccessPointMessages.*;
 @RequiredArgsConstructor
 public class PointController {
 
+    private final PaypalService paypalService;
     private final PointService pointService;
 
-
+    /**
+     * 페이팔 결제 확인 후 포인트 충전 api
+     */
+    @PostMapping(CHARGE_POINT_BY_PAYPAL)
+    public ResponseEntity<?> paymentSuccess(@RequestBody PaymentRequest request) throws JsonProcessingException {
+        boolean isPayment = paypalService.verifyPayment(request);
+        if(isPayment){
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            pointService.chargePoint(email, request.getAmount());
+            SuccessResponse response = new SuccessResponse(true, CHARGE_SUCCESS, null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        SuccessResponse response = new SuccessResponse(true, CHARGE_FAILED, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     /**
      * 입금 신청 api
-     * 계좌로 포인트 충전 api
      */
     @PostMapping(APPLY_DEPOSIT_URL)
     public ResponseEntity<?> applyDeposit(@RequestParam Integer price) throws IllegalAccessException {

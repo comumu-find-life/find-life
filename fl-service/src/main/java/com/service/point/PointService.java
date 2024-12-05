@@ -51,7 +51,7 @@ public class PointService {
     public void chargePoint(String email, Integer point) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
-        userAccount.setPoint(point);
+        userAccount.increasePoint(point);
         userAccount.registerPointChargeHistory(point, ChargeType.DEPOSIT);
     }
 

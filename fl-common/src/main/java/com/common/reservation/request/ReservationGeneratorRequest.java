@@ -1,12 +1,13 @@
-package com.common.deal.request;
+package com.common.reservation.request;
 
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
-public class ProtectedDealGeneratorRequest {
-
+public class ReservationGeneratorRequest {
     private Long getterId;
 
     private Long providerId;
@@ -16,4 +17,6 @@ public class ProtectedDealGeneratorRequest {
     private Long dmId;
 
     private double deposit;
+
+    private LocalDateTime localDateTime;
 }
