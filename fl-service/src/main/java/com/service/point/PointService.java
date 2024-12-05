@@ -27,8 +27,6 @@ public class PointService {
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
         userAccount.validatePointsSufficiency(amount);
         userAccount.decreasePoint(amount);
-        //TODO 송금 로직 구현
-
         userAccount.registerPointChargeHistory(userAccount.getPoint(), ChargeType.WITHDRAW);
         return userAccount.getPoint();
     }
@@ -40,18 +38,13 @@ public class PointService {
         userAccount.registerPointChargeHistory(point, ChargeType.APPLY_WITHDRAW);
     }
 
-    // 계좌 송금 후 입금 신청 (by getter)
-    public void applyDepositByAccount(String email, Integer point){
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
-        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
-        userAccount.registerPointChargeHistory(point, ChargeType.APPLY_DEPOSIT);
-    }
 
     //포인트 충전
     public void chargePoint(String email, Integer point) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
         userAccount.increasePoint(point);
+        //입금 내역 저장
         userAccount.registerPointChargeHistory(point, ChargeType.DEPOSIT);
     }
 

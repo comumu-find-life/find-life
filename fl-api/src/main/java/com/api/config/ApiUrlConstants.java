@@ -14,7 +14,6 @@ public class ApiUrlConstants {
     public static final String HOMES_CHANGE_STATUS = HOMES_BASE_URL + "/{homeId}/status/{status}";
     public static final String HOMES_FIND_ALL = HOMES_BASE_URL + "/overview";
     public static final String HOMES_FIND_BY_CITY = HOMES_BASE_URL + "/city";
-    public static final String HOMES_FIND_BY_CITY_PATH = HOMES_BASE_URL + "/cities/{city}";
     public static final String HOMES_FIND_FAVORITE = HOMES_BASE_URL + "/favorite";
     public static final String HOMES_DELETE = HOMES_BASE_URL + "/{homeId}";
 
@@ -58,12 +57,9 @@ public class ApiUrlConstants {
     //포인트 API URL
     public static final String POINT_BASE_URL = BASE_API_URL + "/points";
     public static final String CHARGE_POINT_BY_PAYPAL = POINT_BASE_URL +"/paypal/payment-success";
-    public static final String POINT_CHARGE_PAYPAL = POINT_BASE_URL + "/charge/paypal";
     public static final String APPLY_WITH_DRAW_URL = POINT_BASE_URL + "/apply/with-draw";
-    public static final String APPLY_DEPOSIT_URL = POINT_BASE_URL + "/apply/deposit";
 
     //admin 만
-    public static final String CHARGE_POINT_URL = POINT_BASE_URL + "/charge/{userId}";
 }
 
 

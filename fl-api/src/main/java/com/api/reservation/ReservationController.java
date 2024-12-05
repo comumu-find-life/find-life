@@ -28,31 +28,4 @@ public class ReservationController {
         SuccessResponse response = new SuccessResponse(true, "", reserveId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-//    /**
-//     * 거래 성사 (by provider)
-//     */
-//    @PostMapping
-//    public ResponseEntity<?> complete(){
-//        SuccessResponse response = new SuccessResponse(true, "", null);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-//
-//    /**
-//     * 거래 취소 (by getter) 예치금 일부만 돌려줌
-//     */
-//    @PostMapping
-//    public ResponseEntity<?> cancelByGetter(){
-//        SuccessResponse response = new SuccessResponse(true, "", null);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-//
-//    /**
-//     * 거래 취소 (by provider) 예치금 전부 다시 돌려줌
-//     */
-//    @PostMapping
-//    public ResponseEntity<?> cancelByProvider(){
-//        SuccessResponse response = new SuccessResponse(true, "", null);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
 }

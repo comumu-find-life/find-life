@@ -40,6 +40,9 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 구글 계정 생성 API
+     */
     @PostMapping(USERS_SIGN_UP_GOOGLE)
     public ResponseEntity<?> signUpGoogle(@RequestPart UserSignupRequest userSignupRequest,
                                     @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
@@ -64,46 +67,6 @@ public class UserController {
     public ResponseEntity<?> findById(@PathVariable Long userId) {
         UserInformationResponse byId = userService.findById(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_RETRIEVE_SUCCESS, byId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 계좌 정보 등록 api
-     */
-    @PostMapping(USER_ACCOUNT_REGISTER_URL)
-    public ResponseEntity<?> registerAccount(@RequestBody UserAccountRequest userAccountRequest, @PathVariable Long userId){
-        userService.setUserAccount(userAccountRequest, userId);
-        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_REGISTER_SUCCESS, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 계좌 정보 조회 api
-     */
-    @GetMapping(USER_ACCOUNT_REGISTER_URL)
-    public ResponseEntity<?> findUserAccount(@PathVariable Long userId){
-        UserAccountResponse userAccountById = userService.findUserAccountById(userId);
-        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_FIND_SUCCESS, userAccountById);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 계좌 정보 수정 api
-     */
-    @PatchMapping(USER_ACCOUNT_REGISTER_URL)
-    public ResponseEntity<?> updateAccount(@RequestBody UserAccountRequest userAccountRequest, @PathVariable Long userId){
-        userService.updateAccount(userAccountRequest, userId);
-        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_UPDATE_SUCCESS, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 계좌 등록 여부 검증 api
-     */
-    @GetMapping(USER_ACCOUNT_EXIST_URL)
-    public ResponseEntity<?> validateAccountExist(@PathVariable Long userId){
-        boolean result = userService.isExistAccount(userId);
-        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_EXIST_SUCCESS, result);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
