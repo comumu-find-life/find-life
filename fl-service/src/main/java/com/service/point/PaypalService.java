@@ -19,19 +19,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PaypalService {
 
-    @Value("${paypal.base-url}")
-    private String paypalBaseUrl;
-
     @Value("${paypal.client-id}")
     private String clientId;
 
     @Value("${paypal.secret}")
     private String clientSecret;
 
+    @Value("${paypal.mode}")
+    private String mode;
+
+    private static final String PAYPAL_API_URL = "https://api.sandbox.paypal.com/v1/payments/payment/";
 
     public boolean verifyPayment(PaymentRequest request) throws JsonProcessingException {
         String accessToken = getAccessToken();
-        String url = paypalBaseUrl + request.getPaymentId() + "/execute";
+        String url = PAYPAL_API_URL + request.getPaymentId() + "/execute";
         Map<String, String> paymentDetails = new HashMap<>();
         paymentDetails.put("payer_id", request.getPayerId());
         HttpHeaders headers = new HttpHeaders();
