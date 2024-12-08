@@ -14,5 +14,5 @@ public class PaymentRequest {
 
     private final String token;
 
-    private final int amount;
+    private final double amount;
 }

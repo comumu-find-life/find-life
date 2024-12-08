@@ -22,6 +22,7 @@ public class ProtectedDealResponse {
     private LocalDateTime startAt;
     private LocalDateTime cancelAt;
     private LocalDateTime completeAt;
+    private LocalDateTime dealAt;
     private String address;
     private String homeImage;
     private double rent;

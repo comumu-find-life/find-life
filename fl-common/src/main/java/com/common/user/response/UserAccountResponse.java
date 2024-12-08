@@ -17,7 +17,7 @@ public class UserAccountResponse {
 
     private String accountNumber;
 
-    private Integer point;
+    private double point;
 
     private List<PointChargeHistoryResponse> chargeHistories;
 }

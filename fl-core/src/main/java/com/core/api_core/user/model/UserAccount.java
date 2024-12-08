@@ -14,6 +14,7 @@ import static com.core.api_core.user.model.PointHistory.createHistory;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAccount {
+
     private static final String ERROR_NOT_ENOUGH_POINT = "포인트가 부족합니다.";
 
     @Id
@@ -28,31 +29,31 @@ public class UserAccount {
 
     private String accountNumber;
 
-    private Integer point;
+    private double point;
 
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PointHistory> chargeHistories;
 
-    public void registerPointChargeHistory(int chargeAmount, ChargeType chargeType) {
+    public void registerPointChargeHistory(double chargeAmount, ChargeType chargeType) {
         PointHistory history = createHistory(this, chargeAmount, chargeType);
         chargeHistories.add(history);
     }
 
-    public void validatePointsSufficiency(int amount) throws IllegalAccessException {
+    public void validatePointsSufficiency(double amount) throws IllegalAccessException {
         if (!isEnoughPoint(amount)) {
             throw new IllegalAccessException(ERROR_NOT_ENOUGH_POINT);
         }
     }
 
-    private boolean isEnoughPoint(int amount){
+    private boolean isEnoughPoint(double amount){
         return this.point - amount >= 0;
     }
 
-    public void decreasePoint(int point) {
+    public void decreasePoint(double point) {
         this.point -= point;
     }
 
-    public void increasePoint(int point) {
+    public void increasePoint(double point) {
         this.point += point;
     }
 

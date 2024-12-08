@@ -2,7 +2,6 @@ package com.api.deal;
 
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
-import com.common.deal.response.MyProtectedDealResponse;
 import com.common.deal.response.ProtectedDealGeneratorResponse;
 import com.common.deal.response.ProtectedDealResponse;
 import com.common.utils.SuccessResponse;
@@ -41,7 +40,7 @@ public class ProtectedDealController {
      */
     @GetMapping(DEALS_FIND_ALL_BY_USER_ID)
     public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
-        List<MyProtectedDealResponse> allByUserId = protectedDealService.findAllByUserId(userId);
+        List<ProtectedDealResponse> allByUserId = protectedDealService.findAllByUserId(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED_FOR_USER, allByUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -71,8 +70,8 @@ public class ProtectedDealController {
      * 안전 거래 완료 API (By GETTER)
      */
     @PatchMapping(DEALS_REQUEST_COMPLETE_URL)
-    public ResponseEntity<?> requestCompleteDeal(@PathVariable Long dealId, @RequestBody String secretKey) throws Exception {
-        protectedDealService.requestCompleteDeal(dealId, secretKey);
+    public ResponseEntity<?> requestCompleteDeal(@PathVariable Long dealId) {
+        protectedDealService.requestCompleteDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_REQUEST_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

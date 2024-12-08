@@ -17,7 +17,7 @@ public class PointHistory {
     private Long id;
 
     // 충전 금액
-    private Integer chargeAmount;
+    private double chargeAmount;
 
     // 충전 일자
     private LocalDateTime historyDateTime;
@@ -29,7 +29,7 @@ public class PointHistory {
     @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;
 
-    static PointHistory createHistory(UserAccount userAccount, int chargeAmount, ChargeType chargeType) {
+    static PointHistory createHistory(UserAccount userAccount, double chargeAmount, ChargeType chargeType) {
         PointHistory history = new PointHistory();
         history.setUserAccount(userAccount);
         history.setChargeAmount(chargeAmount);

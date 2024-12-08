@@ -1,14 +1,12 @@
 package com.service.user;
 
 import com.common.user.mapper.UserMapper;
-import com.common.user.request.GoogleAuthRequest;
 import com.common.user.request.UserAccountRequest;
 import com.common.user.request.UserProfileUpdateRequest;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserAccountResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
-import com.core.api_core.user.model.ChargeType;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
@@ -22,8 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Optional;
 
 import static com.service.user.UserMessages.*;

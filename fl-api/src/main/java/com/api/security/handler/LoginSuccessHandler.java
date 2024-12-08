@@ -1,11 +1,11 @@
 package com.api.security.handler;
 
 import com.api.security.service.JwtService;
+import com.core.api_core.user.repository.UserRepository;
 import com.redis.user.service.UserRedisService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;

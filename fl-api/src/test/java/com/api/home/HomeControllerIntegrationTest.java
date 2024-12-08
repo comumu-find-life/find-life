@@ -11,7 +11,6 @@ import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.repository.HomeRepository;
 import com.core.api_core.user.repository.UserRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.home.utils.LatLng;
 import com.service.home.impl.LocationServiceImpl;

@@ -3,6 +3,7 @@ package com.redis.user.service;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,9 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
-import static com.redis.utils.EmailCodeGenerator.generateVerificationCode;
 
 @Transactional
 @Service
@@ -22,6 +20,7 @@ public class UserRedisService {
 
     private static final String REFRESH_TOKEN_KEY = "RefreshToken::";
 
+    @Autowired
     private final UserRepository userRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 

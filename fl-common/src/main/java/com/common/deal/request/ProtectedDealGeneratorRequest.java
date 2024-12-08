@@ -3,6 +3,8 @@ package com.common.deal.request;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 public class ProtectedDealGeneratorRequest {
@@ -16,4 +18,6 @@ public class ProtectedDealGeneratorRequest {
     private Long dmId;
 
     private double deposit;
+
+    private LocalDateTime dealAt;
 }

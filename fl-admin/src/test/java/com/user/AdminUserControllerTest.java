@@ -1,11 +1,8 @@
 package com.user;
 
 import com.admin.AdminApplication;
-import com.common.home.response.HomeOverviewResponse;
 import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserInformationResponse;
-import com.common.user.response.UserProfileResponse;
-import com.common.utils.SuccessResponse;
 import com.core.admin_core.user.repository.AdminUserRepository;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserState;
@@ -26,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 

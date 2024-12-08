@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PointChargeHistoryResponse {
 
-    private Integer chargeAmount;
+    private double chargeAmount;
 
     private LocalDateTime chargeDate;
 

@@ -37,7 +37,7 @@ public interface UserMapper {
     UserProfileResponse toProfile(User user);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "point", expression = "java(0)")
+    @Mapping(target = "point", expression = "java(0.0)")
     @Mapping(target = "userId", source = "userId")
     @Mapping(target = "chargeHistories", ignore = true)
     UserAccount toUserAccount(UserAccountRequest userAccountRequest, Long userId);

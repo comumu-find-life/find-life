@@ -9,8 +9,10 @@ repositories {
 }
 
 dependencies {
+
     implementation project(':fl-core')
     implementation project(':fl-service')
+    implementation project(':fl-redis')
     testImplementation project(':fl-core')
     testImplementation(testFixtures(project(":fl-core")))
     testImplementation(testFixtures(project(":fl-common")))

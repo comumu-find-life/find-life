@@ -3,7 +3,6 @@ package com.service.deal;
 import com.common.deal.mapper.ProtectedDealMapper;
 import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
-import com.common.deal.response.MyProtectedDealResponse;
 import com.common.deal.response.ProtectedDealGeneratorResponse;
 import com.common.deal.response.ProtectedDealResponse;
 import com.core.api_core.deal.model.DealState;
@@ -58,13 +57,13 @@ public class ProtectedDealService {
     /**
      * 내 안전 거래 조회 메서드
      */
-    public List<MyProtectedDealResponse> findAllByUserId(Long userId) {
+    public List<ProtectedDealResponse> findAllByUserId(Long userId) {
         List<ProtectedDeal> allByUserId = protectedDealRepository.findAllByUserId(userId);
-        List<MyProtectedDealResponse> response = new ArrayList<>();
+        List<ProtectedDealResponse> response = new ArrayList<>();
         allByUserId.stream()
                 .forEach(protectedDeal -> {
                     Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
-                    response.add(mapper.toMyProtectedDealResponse(protectedDeal, home));
+                    response.add(mapper.toResponse(protectedDeal, home));
                 });
         return response;
     }
@@ -78,7 +77,7 @@ public class ProtectedDealService {
         protectedDeals.stream()
                 .forEach(protectedDeal -> {
                     Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
-                    responses.add(mapper.toGetterResponse(protectedDeal, home));
+                    responses.add(mapper.toResponse(protectedDeal, home));
                 });
         return responses;
     }
@@ -94,9 +93,7 @@ public class ProtectedDealService {
 
         UserAccount userAccount = userAccountRepository.findByUserId(getter.getId()).get();
         userAccount.validatePointsSufficiency(protectedDeal.getDeposit());
-
-        userAccount.decreasePoint(protectedDeal.getDeposit());
-
+        userAccount.decreasePoint(protectedDeal.calculateTotalPrice());
         protectedDeal.setDealState(DealState.ACCEPT_DEAL);
         protectedDeal.getProtectedDealDateTime().setStartAt(LocalDateTime.now());
 
@@ -108,10 +105,10 @@ public class ProtectedDealService {
      * 거래 완료 메서드 by getter
      */
     @Transactional
-    public void requestCompleteDeal(Long dealId, String secretKey) throws Exception {
+    public void requestCompleteDeal(Long dealId)  {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         UserAccount userAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
-        userAccount.increasePoint(protectedDeal.getDeposit());
+        userAccount.increasePoint(protectedDeal.calculateTotalPrice());
         protectedDeal.getProtectedDealDateTime().setCompleteAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.COMPLETE_DEAL);
     }

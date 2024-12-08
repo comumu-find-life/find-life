@@ -30,4 +30,6 @@ public class ProtectedDealDateTime {
     //거래 완료 시간
     private LocalDateTime completeAt;
 
+    //거래 날짜
+    private LocalDateTime dealAt;
 }

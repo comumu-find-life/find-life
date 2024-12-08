@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Builder
@@ -16,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ProtectedDeal extends BaseTimeEntity {
 
-    private static final double chargeRate = 0.03;
+    private static final double feeRate = 0.05;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +34,7 @@ public class ProtectedDeal extends BaseTimeEntity {
     private Long providerId;
 
     //보증금 or 계약금
-    private int deposit;
+    private double deposit;
 
     private String secretKey;
 
@@ -53,13 +51,13 @@ public class ProtectedDeal extends BaseTimeEntity {
     }
 
     // 최종 결제 금액 계산 메서드
-    public double calculateFinalPayPrice() {
-        return deposit - calculateCharge();
+    public double calculateTotalPrice() {
+        return deposit + calculateFee();
     }
 
     // 수수료 계산 메서드
-    public double calculateCharge() {
-        return deposit * chargeRate;
+    public double calculateFee() {
+        return deposit * feeRate;
     }
 
 }

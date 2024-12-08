@@ -3,6 +3,7 @@ package com.api.security.filter;
 import com.api.security.exception.InvalidTokenException;
 import com.api.security.service.JwtService;
 import com.core.api_core.user.model.User;
+import com.core.api_core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.common.utils.SuccessResponse;
 import com.redis.user.service.UserRedisService;
@@ -72,7 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .ifPresent(email -> {
                             try {
                                 // 예외가 발생할 수 있는 부분을 try-catch로 처리
-                                userRedisService.validateRefreshToken(email, refreshToken);
+                                //userRepositoryuserRepository.validateRefreshToken(email, refreshToken);
                                 String reIssuedRefreshToken = reIssueRefreshToken(email);
                                 jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(email), reIssuedRefreshToken);
                             } catch (Exception e) {

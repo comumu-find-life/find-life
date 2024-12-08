@@ -22,7 +22,7 @@ public class PointService {
     private final UserAccountRepository userAccountRepository;
 
     //포인트 출금
-    public Integer withdraw(String email, int amount) throws IllegalAccessException {
+    public double withdraw(String email, int amount) throws IllegalAccessException {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
         userAccount.validatePointsSufficiency(amount);
@@ -40,7 +40,7 @@ public class PointService {
 
 
     //포인트 충전
-    public void chargePoint(String email, Integer point) {
+    public void chargePoint(String email, double point) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
         userAccount.increasePoint(point);
