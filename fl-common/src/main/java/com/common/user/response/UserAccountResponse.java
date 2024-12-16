@@ -13,7 +13,11 @@ import java.util.List;
 @Builder
 public class UserAccountResponse {
 
+    private String depositorName;
+
     private String bsb;
+
+    private String swiftCode;
 
     private String accountNumber;
 

@@ -23,14 +23,4 @@ public class DirectMessageHandler {
                 .build();
     }
 
-    public static DirectMessageRequest createDealCompletionMessage(DirectMessageRequest request) {
-        return DirectMessageRequest.builder()
-                .message("DEAL MESSAGE")
-                .receiverId(request.getReceiverId())
-                .isDeal(3)
-                .senderId(request.getSenderId())
-                .dealState(DealState.COMPLETE_DEAL)
-                .roomId(request.getRoomId())
-                .build();
-    }
 }

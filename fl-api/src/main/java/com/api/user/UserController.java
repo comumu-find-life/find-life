@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +55,7 @@ public class UserController {
      * 이메일 중복 확인 API
      */
     @GetMapping(USERS_CHECK_DUPLICATE_EMAIL)
-    public ResponseEntity<?> validateDuplicateEmail(String email){
+    public ResponseEntity<?> validateDuplicateEmail(@PathVariable String email){
         boolean result = userService.validateDuplicateEmail(email);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.EMAIL_DUPLICATE_VERIFICATION_SUCCESS, result);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -112,13 +113,5 @@ public class UserController {
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.PROFILE_RETRIEVE_SUCCESS, userProfile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-    @GetMapping(USERS_FIND_LOGIN_USER)
-    public ResponseEntity<UserInformationResponse> findLoginUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserInformationResponse userInfo = userService.findByEmail(email);
-        return ResponseEntity.ok(userInfo);
-    }
-
 
 }

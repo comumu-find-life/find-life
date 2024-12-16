@@ -1,5 +1,6 @@
 package com.api.point;
 
+import org.springframework.ui.Model;
 import com.common.point.request.PaymentRequest;
 import com.common.utils.SuccessResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,4 +50,5 @@ public class PointController {
         SuccessResponse response = new SuccessResponse(true, APPLY_WITH_DRAW, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 }

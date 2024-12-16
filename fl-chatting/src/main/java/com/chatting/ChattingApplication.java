@@ -13,11 +13,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = {"com.core.api_core.chat.model", "com.core.api_core.chat.repository"})
 @EntityScan(basePackages = { "com.core.chat_core.chat.model", "com.core.api_core.chat.model", "com.core.api_core.user.model"})
 public class ChattingApplication {
-
-
     public static void main(String[] args) {
         SpringApplication.run(ChattingApplication.class, args);
     }
-
-
 }

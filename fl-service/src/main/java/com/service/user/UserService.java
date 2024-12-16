@@ -62,10 +62,7 @@ public class UserService {
      */
     public boolean validateDuplicateEmail(String email){
         Optional<User> byEmail = userRepository.findByEmail(email);
-        if(byEmail.isEmpty()){
-            return false;
-        }
-        return true;
+        return byEmail.isEmpty();
     }
 
     /**
@@ -100,6 +97,16 @@ public class UserService {
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(userProfileUpdateRequest.getUserId()), NOT_EXIT_USER_ID);
         userMapper.updateUser(userProfileUpdateRequest, user);
         userRepository.save(user);
+    }
+
+
+    /**
+     * 사용자 계좌 정보 수정
+     */
+    public void updateAccount(UserAccountRequest userAccountRequest, String email) {
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
+        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
+        userMapper.updateUserAccount(userAccountRequest, userAccount);
     }
 
     /**
@@ -172,10 +179,5 @@ public class UserService {
     private void encodeAndSetPassword(User user, String password) {
         String encodedPassword = passwordEncoder.encode(password);
         user.passwordEncode(encodedPassword);
-    }
-
-    public void updateAccount(UserAccountRequest userAccountRequest, Long userId) {
-        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
-        userMapper.updateUserAccount(userAccountRequest, userAccount);
     }
 }

@@ -55,6 +55,7 @@ public interface UserMapper {
     @Mapping(target = "signupType", ignore = true)
     void updateUser(UserProfileUpdateRequest userProfileUpdateRequest, @MappingTarget User user);
 
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "userId", ignore = true)
     @Mapping(target = "point", ignore = true)

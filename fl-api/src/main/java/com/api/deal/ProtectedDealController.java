@@ -36,7 +36,7 @@ public class ProtectedDealController {
     }
 
     /**
-     * 내 모든 안전 거래 조회 API (By Getter)
+     * 내 모든 안전 거래 조회 API
      */
     @GetMapping(DEALS_FIND_ALL_BY_USER_ID)
     public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
@@ -61,8 +61,8 @@ public class ProtectedDealController {
      */
     @PostMapping(DEALS_ACCEPT_REQUEST)
     public ResponseEntity<?> acceptDeal(@PathVariable Long dealId) throws Exception {
-        String secretKey = protectedDealService.acceptProtectedDeal(dealId);
-        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_REQUESTED, secretKey);
+        protectedDealService.acceptProtectedDeal(dealId);
+        SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEPOSIT_REQUESTED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

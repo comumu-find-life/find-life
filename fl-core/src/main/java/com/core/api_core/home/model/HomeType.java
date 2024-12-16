@@ -9,7 +9,6 @@ public enum HomeType {
     PRIVATE_ROOM(),
     HOME_STAY(),
     STUDIO(), //(원룸)
-    STUDENT_ACCOMMODATION(),
     ONE_BED_FLAT();
 
 //    private final String value;

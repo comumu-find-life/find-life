@@ -38,6 +38,10 @@ public class Home extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private HomeStatus homeStatus;
 
+    public boolean canSell(){
+        return HomeStatus.FOR_SALE == this.homeStatus;
+    }
+
     public void setLatLng(double lat, double lng) {
         homeAddress.setLatLnd(lat, lng);
     }

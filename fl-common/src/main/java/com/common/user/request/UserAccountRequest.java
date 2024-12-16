@@ -13,5 +13,7 @@ public class UserAccountRequest {
 
     private String bsb;
 
+    private String swiftCode;
+
     private String accountNumber;
 }

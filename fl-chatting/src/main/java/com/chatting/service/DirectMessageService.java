@@ -80,14 +80,6 @@ public class DirectMessageService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 안전거래 완료 메시지 전송 기능
-     */
-    @Transactional
-    public void sendDealCompletionMessage(DirectMessageRequest request) throws IllegalAccessException {
-        DirectMessageRequest dealCompletionMessage = DirectMessageHandler.createDealCompletionMessage(request);
-        sendDM(dealCompletionMessage);
-    }
 
 
     /**

@@ -23,13 +23,15 @@ public class UserAccount {
 
     private Long userId;
 
+    private double point;
+
     private String depositorName;
+
+    private String swiftCode;
 
     private String bsb;
 
     private String accountNumber;
-
-    private double point;
 
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PointHistory> chargeHistories;

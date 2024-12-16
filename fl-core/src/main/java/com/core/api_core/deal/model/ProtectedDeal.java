@@ -36,8 +36,6 @@ public class ProtectedDeal extends BaseTimeEntity {
     //보증금 or 계약금
     private double deposit;
 
-    private String secretKey;
-
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "protected_deal_time_id")

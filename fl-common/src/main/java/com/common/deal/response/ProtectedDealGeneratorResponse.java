@@ -11,7 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProtectedDealGeneratorResponse {
 
-    private String secretKey;
-
     private Long dealId;
 }

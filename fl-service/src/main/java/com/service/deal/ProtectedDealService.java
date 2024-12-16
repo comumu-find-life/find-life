@@ -9,6 +9,7 @@ import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
 import com.core.api_core.home.model.Home;
+import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.repository.HomeRepository;
 import com.common.utils.OptionalUtil;
 import com.core.api_core.user.model.User;
@@ -44,13 +45,11 @@ public class ProtectedDealService {
      * 안전 거래 생성 메서드 (by provider)
      */
     public ProtectedDealGeneratorResponse saveProtectedDeal(ProtectedDealGeneratorRequest request) throws Exception {
-        // SecretKey 생성
-        String secretKey = generateSecretKey();
-        ProtectedDeal deal = mapper.toEntity(request, secretKey);
+        ProtectedDeal deal = mapper.toEntity(request);
         Long dealId = protectedDealRepository.save(deal).getId();
-        User provider = OptionalUtil.getOrElseThrow(userRepository.findById(request.getProviderId()), NOT_EXIT_USER_ID);
-        String encryptedSecretKey = SecretKeyUtil.encrypt(secretKey, provider.getEmail());
-        ProtectedDealGeneratorResponse protectedDealGeneratorResponse = mapper.toGeneratorResponse(dealId, encryptedSecretKey);
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(request.getHomeId()), NOT_EXIST_HOME_ID);
+        home.setHomeStatus(HomeStatus.DURING_SELL);
+        ProtectedDealGeneratorResponse protectedDealGeneratorResponse = mapper.toGeneratorResponse(dealId);
         return protectedDealGeneratorResponse;
     }
 
@@ -84,20 +83,17 @@ public class ProtectedDealService {
 
 
     /**
-     * 안전 거래 수락 by getter 암호키 반환
+     * 안전 거래 수락 by getter
      */
     @Transactional
-    public String acceptProtectedDeal(Long dealId) throws Exception {
+    public void acceptProtectedDeal(Long dealId) throws Exception {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIT_USER_ID);
-
         UserAccount userAccount = userAccountRepository.findByUserId(getter.getId()).get();
-        userAccount.validatePointsSufficiency(protectedDeal.getDeposit());
+        userAccount.validatePointsSufficiency(protectedDeal.calculateTotalPrice());
         userAccount.decreasePoint(protectedDeal.calculateTotalPrice());
         protectedDeal.setDealState(DealState.ACCEPT_DEAL);
         protectedDeal.getProtectedDealDateTime().setStartAt(LocalDateTime.now());
-
-        return SecretKeyUtil.encrypt(protectedDeal.getSecretKey(), getter.getEmail());
     }
 
 
@@ -108,7 +104,9 @@ public class ProtectedDealService {
     public void requestCompleteDeal(Long dealId)  {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         UserAccount userAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
-        userAccount.increasePoint(protectedDeal.calculateTotalPrice());
+        userAccount.increasePoint(protectedDeal.getDeposit());
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
+        home.setHomeStatus(HomeStatus.SOLD_OUT);
         protectedDeal.getProtectedDealDateTime().setCompleteAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.COMPLETE_DEAL);
     }
@@ -119,6 +117,8 @@ public class ProtectedDealService {
     @Transactional
     public void cancelBeforeDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
+        home.setHomeStatus(HomeStatus.FOR_SALE);
         protectedDeal.getProtectedDealDateTime().setCancelAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.CANCEL_BEFORE_DEAL);
     }
@@ -129,11 +129,10 @@ public class ProtectedDealService {
     @Transactional
     public void cancelAfterDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
-
-        //세입자 (getter) 포인트 증가
-        UserAccount userAccount = userAccountRepository.findByUserId(protectedDeal.getGetterId()).get();
-        userAccount.increasePoint(protectedDeal.getDeposit());
-
+        UserAccount getterAccount = userAccountRepository.findByUserId(protectedDeal.getGetterId()).get();
+        getterAccount.increasePoint(protectedDeal.getDeposit());
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
+        home.setHomeStatus(HomeStatus.FOR_SALE);
         protectedDeal.getProtectedDealDateTime().setCancelAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.CANCEL_DURING_DEAL);
     }

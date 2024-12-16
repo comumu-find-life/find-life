@@ -7,6 +7,8 @@ import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import static com.api.config.ApiUrlConstants.USER_ACCOUNT_EXIST_URL;
@@ -43,7 +45,8 @@ public class AccountController {
      */
     @PatchMapping(USER_ACCOUNT_REGISTER_URL)
     public ResponseEntity<?> updateAccount(@RequestBody UserAccountRequest userAccountRequest, @PathVariable Long userId){
-        userService.updateAccount(userAccountRequest, userId);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        userService.updateAccount(userAccountRequest, email);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_ACCOUNT_UPDATE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

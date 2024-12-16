@@ -3,6 +3,7 @@ package com.core.api_core.home.model;
 public enum HomeStatus {
     SOLD_OUT("판매 완료"),
     SELL_STOP("판매 중단"),
+    DURING_SELL("임차인과 거래중"),
     FOR_SALE("판매 중");
 
     private final String description;

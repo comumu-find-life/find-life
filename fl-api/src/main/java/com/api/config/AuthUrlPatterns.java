@@ -14,6 +14,7 @@ public final class AuthUrlPatterns {
             ROOT_URL + "/dm/**",
             ROOT_URL + "/homes/overview",
             ROOT_URL + "/users/profile/**",
+            ROOT_URL + "/users/verification/email/**",
     };
 
     public static final String[] POST_AUTH_WHITELIST = {

@@ -22,8 +22,7 @@ public interface ProtectedDealMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "dealState", expression = "java(com.core.api_core.deal.model.DealState.REQUEST_DEAL)")
     @Mapping(target = "protectedDealDateTime", expression = "java(createProtectedDealDateTime(request.getDealAt()))") // Set current time
-    @Mapping(target = "secretKey", source = "secretKey")
-    ProtectedDeal toEntity(ProtectedDealGeneratorRequest request, String secretKey);
+    ProtectedDeal toEntity(ProtectedDealGeneratorRequest request);
 
 
     default ProtectedDealDateTime createProtectedDealDateTime(LocalDateTime dealAt) {
@@ -56,9 +55,8 @@ public interface ProtectedDealMapper {
 
     ProtectedDealOverViewResponse toAdminOverViewResponse(ProtectedDeal entity);
 
-    @Mapping(target = "secretKey", source = "secretKey")
     @Mapping(target = "dealId", source = "dealId")
-    ProtectedDealGeneratorResponse toGeneratorResponse(Long dealId, String secretKey);
+    ProtectedDealGeneratorResponse toGeneratorResponse(Long dealId);
 
 //    default ProviderAccount toProviderAccount(ProtectedDealGeneratorRequest request) {
 //        return ProviderAccount.builder()
