@@ -32,6 +32,8 @@ public class User extends BaseTimeEntity {
 
     private Integer phoneNumber;
 
+    private String fcmToken;
+
     private String job;
 
     @Enumerated(EnumType.STRING)

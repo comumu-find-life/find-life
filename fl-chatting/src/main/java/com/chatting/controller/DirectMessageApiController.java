@@ -1,17 +1,20 @@
 package com.chatting.controller;
 
 import com.chatting.service.DirectMessageService;
+import com.chatting.service.FCMService;
 import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
 import com.common.utils.SuccessResponse;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.chatting.config.ApiUrlConstants.*;
@@ -24,10 +27,18 @@ import static com.chatting.controller.SuccessDirectMessages.*;
 public class DirectMessageApiController {
 
     private final DirectMessageService dmService;
-
+    private final FCMService fcmService;
     /**
      * 첫 채팅 전송 API
      */
+
+    @PostMapping("/test")
+    public ResponseEntity<?> test() throws FirebaseMessagingException, IOException {
+        fcmService.sendNotification("fEE1_nBp30qNqNk6Erj2_-:APA91bH8jp7UoXIsThBfRHwbXfpxd_4-S4xS68l3FvL2IpYois-5Hw6XTCHXecOYDitxZg6IhsXwqq9FtS10z7TCgyuLg21c6IqUtr9octULi5ZkyR2dNYc", "title", "body");
+        SuccessResponse response = new SuccessResponse(true, "테스트", null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping(DM_SEND_FIRST_URL)
     public ResponseEntity<?> createDirectMessageRoom(@RequestBody DirectMessageApplicationRequest dmDto) throws IllegalAccessException {
         Long roomId = dmService.createDirectMessageRoom(dmDto);

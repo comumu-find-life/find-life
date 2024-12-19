@@ -48,16 +48,6 @@ public class UserService {
     }
 
     /**
-     * 구글 계정 회원가입 메서드
-     */
-    public Long signUpGoogleAccount(UserSignupRequest dto, MultipartFile image) throws Exception {
-        validation.validateSignUp(dto.getEmail(), dto.getNickname());
-        User user = createUser(dto, image);
-        return userRepository.save(user).getId();
-    }
-
-
-    /**
      * 이메일 중복 확인 메서드
      */
     public boolean validateDuplicateEmail(String email){
@@ -141,10 +131,7 @@ public class UserService {
      */
     public boolean isExistAccount(Long userId){
         Optional<UserAccount> userAccount = userAccountRepository.findByUserId(userId);
-        if(userAccount.isEmpty()){
-            return  false;
-        }
-        return true;
+        return !userAccount.isEmpty();
     }
 
     /**
@@ -179,5 +166,13 @@ public class UserService {
     private void encodeAndSetPassword(User user, String password) {
         String encodedPassword = passwordEncoder.encode(password);
         user.passwordEncode(encodedPassword);
+    }
+
+    @Transactional
+    public void updateFcmToken(final String email, final String fcmToken) {
+        System.out.println("setfcm = " + fcmToken);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
+        System.out.println("email = " + email);
+        user.setFcmToken(fcmToken);
     }
 }

@@ -26,17 +26,13 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 import static com.api.config.AuthUrlPatterns.GET_AUTH_WHITELIST;
 import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;
 
-/**
- * 인증은 CustomJsonUsernamePasswordAuthenticationFilter 에서 authenticate()로 인증된 사용자로 처리
- * JwtAuthenticationProcessingFilter 는 AccessToken, RefreshToken 재발급
- */
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class ApiSecurityConfig {
 
     private final UserRedisService redisService;
-    //private final UserRepository userRepository;
     private final JwtService jwtService;
     private final ObjectMapper objectMapper;
     private final CustomUserDetailsService userDetailsService;

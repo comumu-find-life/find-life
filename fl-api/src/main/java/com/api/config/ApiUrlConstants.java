@@ -26,6 +26,7 @@ public class ApiUrlConstants {
     public static final String USERS_SIGN_UP_EMAIL = USERS_BASE_URL + "/sign-up";
     public static final String USERS_SIGN_UP_GOOGLE = USERS_BASE_URL + "/sign-up/google";
     public static final String USERS_CHECK_DUPLICATE_EMAIL = USERS_BASE_URL + "/verification/email/{email}";
+    public static final String USERS_FCM_TOKEN_REGISTER = USERS_BASE_URL + "/fcm";
 
     // 이메일 API URL
     public static final String SEND_EMAIL_URL = USERS_BASE_URL+"/verification/email/send/{email}";

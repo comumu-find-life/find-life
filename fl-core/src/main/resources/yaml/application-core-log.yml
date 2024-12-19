@@ -1,6 +1,7 @@
 #로그 관련 설정
 
 spring:
+
   servlet:
     multipart:
       max-file-size: 1000MB
@@ -9,6 +10,8 @@ spring:
   logging:
     level:
       me.selvernine: DEBUG
+      com.google.firebase: DEBUG
+      com.google.api: DEBUG
   jpa:
 
     properties:

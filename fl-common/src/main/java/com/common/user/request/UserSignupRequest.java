@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserSignupRequest {
+    private String fcmToken;
+
     private String email;
 
     private String nickname;

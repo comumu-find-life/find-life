@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.15'  // google-services 플러그인 의존성 추가
+    }
+}
+
 plugins {
     id 'java'
 }
@@ -5,6 +15,7 @@ plugins {
 version 'unspecified'
 
 repositories {
+    google()
     mavenCentral()
 }
 
@@ -28,10 +39,15 @@ dependencies {
 
     testImplementation 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
-
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+//    implementation 'com.google.firebase:firebase-admin:6.15.0' //firebase
+    implementation 'com.google.firebase:firebase-admin:9.2.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
 }
 
 test {
     useJUnitPlatform()
 }
+
+// google-services 플러그인 적용 - build.gradle 파일 맨 아래에 위치해야 함
+apply plugin: 'com.google.gms.google-services'

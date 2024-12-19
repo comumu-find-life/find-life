@@ -27,6 +27,7 @@ import static com.chatting.service.DirectMessageHandler.createDirectMessageReque
 @RequiredArgsConstructor
 public class DirectMessageService {
 
+    private final FCMService fcmService;
     private final UserRepository userRepository;
     private final DirectMessageRoomRepository directMessageRoomRepository;
     private final DirectMessageRepository dmRepository;
@@ -53,6 +54,13 @@ public class DirectMessageService {
         try {
             DirectMessage directMessage = mapper.toDirectMessage(dmDto);
             DirectMessage save = dmRepository.save(directMessage);
+            //FCM 전송
+            User receiver = userRepository.findById(dmDto.getReceiverId()).get();
+            User sender = userRepository.findById(dmDto.getSenderId()).get();
+            String fcmToken = receiver.getFcmToken();
+            System.out.println("111");
+            fcmService.sendNotification(fcmToken, sender.getNickname(), dmDto.getMessage());
+            System.out.println("222");
             return mapper.toDirectMessageResponse(save);
         } catch (Exception e) {
             throw new IllegalAccessException(e.getMessage());
@@ -81,7 +89,6 @@ public class DirectMessageService {
     }
 
 
-
     /**
      * 두명 사용자의 채팅 내역 조회 메서드
      */
@@ -92,7 +99,6 @@ public class DirectMessageService {
                 .collect(Collectors.toList());
         return dmLogDtos;
     }
-
 
 
     private Long saveOrUpdateDirectMessageRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest request) {

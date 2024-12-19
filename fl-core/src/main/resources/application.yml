@@ -4,4 +4,5 @@ spring:
       - 'classpath:/yaml/application-core-dev.yml'
       - 'classpath:/yaml/application-core-log.yml'
       - 'classpath:/yaml/application-core-local.yml'
-
+  profiles:
+    active: default

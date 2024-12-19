@@ -26,7 +26,6 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "profileUrl", ignore = true)
-//    @Mapping(target = "userAccount", ignore = true)
     @Mapping(target = "userState", expression = "java(com.core.api_core.user.model.UserState.ACTIVE)")
     User toEntity(UserSignupRequest dto);
 
