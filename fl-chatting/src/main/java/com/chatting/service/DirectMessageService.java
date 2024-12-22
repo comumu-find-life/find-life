@@ -54,13 +54,11 @@ public class DirectMessageService {
         try {
             DirectMessage directMessage = mapper.toDirectMessage(dmDto);
             DirectMessage save = dmRepository.save(directMessage);
-            //FCM 전송
             User receiver = userRepository.findById(dmDto.getReceiverId()).get();
             User sender = userRepository.findById(dmDto.getSenderId()).get();
             String fcmToken = receiver.getFcmToken();
-            System.out.println("111");
+            //채팅 알림 전송
             fcmService.sendNotification(fcmToken, sender.getNickname(), dmDto.getMessage());
-            System.out.println("222");
             return mapper.toDirectMessageResponse(save);
         } catch (Exception e) {
             throw new IllegalAccessException(e.getMessage());

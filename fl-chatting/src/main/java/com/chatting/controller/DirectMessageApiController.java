@@ -28,17 +28,20 @@ public class DirectMessageApiController {
 
     private final DirectMessageService dmService;
     private final FCMService fcmService;
-    /**
-     * 첫 채팅 전송 API
-     */
 
+    /**
+     * todo 삭제
+     */
     @PostMapping("/test")
-    public ResponseEntity<?> test() throws FirebaseMessagingException, IOException {
-        fcmService.sendNotification("fEE1_nBp30qNqNk6Erj2_-:APA91bH8jp7UoXIsThBfRHwbXfpxd_4-S4xS68l3FvL2IpYois-5Hw6XTCHXecOYDitxZg6IhsXwqq9FtS10z7TCgyuLg21c6IqUtr9octULi5ZkyR2dNYc", "title", "body");
+    public ResponseEntity<?> test(@RequestBody String token) throws FirebaseMessagingException, IOException, IllegalAccessException {
+        fcmService.sendNotification("cx-zeLCET3GDubXd-DJR6-:APA91bEJhxXchiXsWPSnFdbmvQSX_wrbt6Ren5rCLJPg5DVwLge8bzw7wfUltSxJnkxEZJ3ne9MHu1idKPHU1IjNiLTwUPvu9eNrbAt3PjN0DOTTCXRzo34", "title", "body");
         SuccessResponse response = new SuccessResponse(true, "테스트", null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 첫 채팅 전송 API
+     */
     @PostMapping(DM_SEND_FIRST_URL)
     public ResponseEntity<?> createDirectMessageRoom(@RequestBody DirectMessageApplicationRequest dmDto) throws IllegalAccessException {
         Long roomId = dmService.createDirectMessageRoom(dmDto);

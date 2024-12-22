@@ -4,15 +4,11 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Configuration
 public class FirebaseConfig {
@@ -24,7 +20,7 @@ public class FirebaseConfig {
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(refreshToken))
-                .setProjectId("comumu2024-5dd03") // 명시적으로 프로젝트 ID 설정
+                .setProjectId("comumu2024-5dd03")
                 .build();
 
         FirebaseApp app;
