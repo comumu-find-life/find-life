@@ -3,6 +3,7 @@ package com.core.api_core.deal.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,4 +33,9 @@ public class ProtectedDealDateTime {
 
     //거래 날짜
     private LocalDateTime dealAt;
+
+    public boolean isToday() {
+        LocalDate today = LocalDate.now();
+        return dealAt != null && dealAt.toLocalDate().isEqual(today);
+    }
 }

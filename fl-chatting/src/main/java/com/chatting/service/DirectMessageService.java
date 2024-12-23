@@ -6,6 +6,7 @@ import com.common.chat.request.DirectMessageApplicationRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
+import com.common.fcm.FCMHelper;
 import com.common.utils.OptionalUtil;
 import com.core.api_core.chat.model.DirectMessageRoom;
 import com.core.api_core.chat.repository.DirectMessageRoomRepository;
@@ -27,7 +28,7 @@ import static com.chatting.service.DirectMessageHandler.createDirectMessageReque
 @RequiredArgsConstructor
 public class DirectMessageService {
 
-    private final FCMService fcmService;
+    private final FCMHelper fcmService;
     private final UserRepository userRepository;
     private final DirectMessageRoomRepository directMessageRoomRepository;
     private final DirectMessageRepository dmRepository;
@@ -57,7 +58,6 @@ public class DirectMessageService {
             User receiver = userRepository.findById(dmDto.getReceiverId()).get();
             User sender = userRepository.findById(dmDto.getSenderId()).get();
             String fcmToken = receiver.getFcmToken();
-            //채팅 알림 전송
             fcmService.sendNotification(fcmToken, sender.getNickname(), dmDto.getMessage());
             return mapper.toDirectMessageResponse(save);
         } catch (Exception e) {
@@ -74,9 +74,7 @@ public class DirectMessageService {
      * 자신이 속한 채팅방 리스트 조회 메서드
      */
     public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser(Long userId) {
-
         List<DirectMessageRoom> rooms = directMessageRoomRepository.findByUser1IdOrUser2Id(userId);
-
         return rooms.stream()
                 .map(room -> {
                     User otherUser = (room.getUser1().getId().equals(userId)) ? room.getUser2() : room.getUser1();

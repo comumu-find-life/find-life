@@ -1,13 +1,13 @@
-package com.chatting.service;
+package com.common.fcm;
 
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @RequiredArgsConstructor
-public class FCMService {
+public class FCMHelper {
+
 
     private final FirebaseMessaging firebaseMessaging;
 

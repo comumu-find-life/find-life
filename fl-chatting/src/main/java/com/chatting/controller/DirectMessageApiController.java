@@ -1,13 +1,11 @@
 package com.chatting.controller;
 
 import com.chatting.service.DirectMessageService;
-import com.chatting.service.FCMService;
 import com.common.chat.request.DirectMessageApplicationRequest;
-import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
+import com.common.fcm.FCMHelper;
 import com.common.utils.SuccessResponse;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,13 +25,13 @@ import static com.chatting.controller.SuccessDirectMessages.*;
 public class DirectMessageApiController {
 
     private final DirectMessageService dmService;
-    private final FCMService fcmService;
+    private final FCMHelper fcmService;
 
     /**
      * todo 삭제
      */
     @PostMapping("/test")
-    public ResponseEntity<?> test(@RequestBody String token) throws FirebaseMessagingException, IOException, IllegalAccessException {
+    public ResponseEntity<?> test(@RequestBody String token) throws IllegalAccessException {
         fcmService.sendNotification("cx-zeLCET3GDubXd-DJR6-:APA91bEJhxXchiXsWPSnFdbmvQSX_wrbt6Ren5rCLJPg5DVwLge8bzw7wfUltSxJnkxEZJ3ne9MHu1idKPHU1IjNiLTwUPvu9eNrbAt3PjN0DOTTCXRzo34", "title", "body");
         SuccessResponse response = new SuccessResponse(true, "테스트", null);
         return new ResponseEntity<>(response, HttpStatus.OK);

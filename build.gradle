@@ -69,6 +69,7 @@ project(':fl-batch') {
     dependencies {
         implementation project(':fl-common')
         implementation project(':fl-core')
+        implementation project(':fl-service')
     }
 }
 
@@ -82,6 +83,7 @@ project(':fl-chatting') {
     dependencies {
         implementation project(':fl-core')
         implementation project(':fl-common')
+//        implementation project(':fl-service')
     }
 }
 project(':fl-common') {

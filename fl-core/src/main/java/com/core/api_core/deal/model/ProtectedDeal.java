@@ -58,4 +58,7 @@ public class ProtectedDeal extends BaseTimeEntity {
         return deposit * feeRate;
     }
 
+    public boolean isDealToday(){
+        return protectedDealDateTime.isToday();
+    }
 }

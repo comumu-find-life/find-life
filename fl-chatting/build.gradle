@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+//    implementation project(':fl-service')
     testImplementation project(':fl-core')
     testImplementation(testFixtures(project(":fl-core"))) // 공통된 코드를 사용하기 위한
     testImplementation(testFixtures(project(":fl-common"))) // 공통된 코드를 사용하기 위한
@@ -41,8 +42,8 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 //    implementation 'com.google.firebase:firebase-admin:6.15.0' //firebase
-    implementation 'com.google.firebase:firebase-admin:9.2.0'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+//    implementation 'com.google.firebase:firebase-admin:9.2.0'
+//    implementation 'com.google.firebase:firebase-messaging:22.0.0'
 }
 
 test {
