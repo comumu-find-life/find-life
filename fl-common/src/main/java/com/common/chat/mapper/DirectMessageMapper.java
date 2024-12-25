@@ -16,6 +16,7 @@ public interface DirectMessageMapper {
      * DirectMessageRequest --> DirectMessage
      */
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isRead", expression = "java(false)")
     @Mapping(target = "sentAt", expression = "java(java.time.LocalDateTime.now())")
     DirectMessage toDirectMessage(DirectMessageRequest request);
 

@@ -3,6 +3,7 @@ package com.chatting.service;
 import com.common.chat.mapper.DirectMessageMapper;
 import com.common.chat.mapper.DirectMessageRoomMapper;
 import com.common.chat.request.DirectMessageApplicationRequest;
+import com.common.chat.request.DirectMessageReadRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
@@ -65,9 +66,16 @@ public class DirectMessageService {
         }
     }
 
+    @Transactional
+    public void updateMessageReadStatus(String messageId) {
+        DirectMessage message = dmRepository.findById(messageId)
+                .orElseThrow(() -> new IllegalArgumentException("Message not found: " + messageId));
+        message.setRead(true);
+        dmRepository.save(message);
+    }
+
     public DirectMessage getLastMessage(Long user1Id, Long user2Id) {
         return OptionalUtil.getOrElseThrow(dmRepository.findLastMessageByUserIds(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
-
     }
 
     /**
@@ -79,7 +87,8 @@ public class DirectMessageService {
                 .map(room -> {
                     User otherUser = (room.getUser1().getId().equals(userId)) ? room.getUser2() : room.getUser1();
                     DirectMessage lastMessage = getLastMessage(userId, otherUser.getId());
-                    return directMessageRoomMapper.toDirectMessageRoomListResponse(room, lastMessage, otherUser);
+                    int notReadCount = dmRepository.countNotReadMessage(userId, otherUser.getId());
+                    return directMessageRoomMapper.toDirectMessageRoomListResponse(room, lastMessage, otherUser, notReadCount);
                 })
                 .collect(Collectors.toList());
     }
@@ -96,6 +105,13 @@ public class DirectMessageService {
         return dmLogDtos;
     }
 
+    /**
+     * 채팅 읽음 처리 메서드
+     */
+    @Transactional
+    public void checkReadMessages(DirectMessageReadRequest directMessageReadRequest){
+        dmRepository.markMessagesAsRead(directMessageReadRequest.getSenderId(), directMessageReadRequest.getReceiverId());
+    }
 
     private Long saveOrUpdateDirectMessageRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest request) {
         Optional<DirectMessageRoom> directMessageRoom = directMessageRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);

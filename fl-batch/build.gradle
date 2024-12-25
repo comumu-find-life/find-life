@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.15'  // google-services 플러그인 의존성 추가
+    }
+}
+
 plugins {
     id 'java'
 }
@@ -5,14 +15,15 @@ plugins {
 version 'unspecified'
 
 repositories {
+    google()
     mavenCentral()
 }
 
 dependencies {
-
+    implementation 'com.google.firebase:firebase-admin:9.2.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
     implementation project(':fl-core')
     implementation project(':fl-common')
-    implementation project(':fl-service')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -31,3 +42,5 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+apply plugin: 'com.google.gms.google-services'

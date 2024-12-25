@@ -5,6 +5,7 @@ import com.common.deal.request.ProtectedDealFindRequest;
 import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.ProtectedDealGeneratorResponse;
 import com.common.deal.response.ProtectedDealResponse;
+import com.common.fcm.FCMHelper;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
@@ -16,7 +17,6 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
-import com.service.utils.SecretKeyUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +28,13 @@ import java.util.List;
 import static com.service.deal.ProtectedDealMessages.DEAL_NOT_FOUND;
 import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
 import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
-import static com.service.utils.SecretKeyUtil.generateSecretKey;
 
 @Transactional
 @Service
 @RequiredArgsConstructor
 public class ProtectedDealService {
 
+    private final FCMHelper fcmHelper;
     private final ProtectedDealRepository protectedDealRepository;
     private final UserAccountRepository userAccountRepository;
     private final UserRepository userRepository;
@@ -101,14 +101,16 @@ public class ProtectedDealService {
      * 거래 완료 메서드 by getter
      */
     @Transactional
-    public void requestCompleteDeal(Long dealId)  {
+    public void completeDeal(Long dealId) throws IllegalAccessException {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
-        UserAccount userAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
-        userAccount.increasePoint(protectedDeal.getDeposit());
+        User provider = userRepository.findById(protectedDeal.getProviderId()).get();
+        UserAccount providerAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
+        providerAccount.increasePoint(protectedDeal.getDeposit());
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
         home.setHomeStatus(HomeStatus.SOLD_OUT);
         protectedDeal.getProtectedDealDateTime().setCompleteAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.COMPLETE_DEAL);
+        sendCompleteFCM(provider.getFcmToken());
     }
 
     /**
@@ -135,5 +137,9 @@ public class ProtectedDealService {
         home.setHomeStatus(HomeStatus.FOR_SALE);
         protectedDeal.getProtectedDealDateTime().setCancelAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.CANCEL_DURING_DEAL);
+    }
+
+    private void sendCompleteFCM(String fcmToken) throws IllegalAccessException {
+        fcmHelper.sendNotification(fcmToken, "The transaction has been completed", "the deposit has been paid. Please check it on MyPage.");
     }
 }

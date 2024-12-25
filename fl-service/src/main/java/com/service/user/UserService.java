@@ -89,7 +89,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-
     /**
      * 사용자 계좌 정보 수정
      */

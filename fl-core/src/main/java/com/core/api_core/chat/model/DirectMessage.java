@@ -41,6 +41,8 @@ public class DirectMessage {
      */
     private int isDeal;
 
+    private boolean isRead;
+
     @Enumerated(EnumType.STRING)
     private DealState dealState;
 

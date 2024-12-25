@@ -1,15 +1,7 @@
-server:
-  port: 8081
-
 spring:
-  profiles:
-    include: shared
-
-domain:
-  api: http://localhost:8080/v1/api
-  login: http://localhost:8080/v1/api/users/login
-  user: http://localhost:8080/v1/api/users/user-info
-  home: http://localhost:8080/v1/api/homes
-  home-city: http://localhost:8080/v1/api/homes/cities
-  dm-room:
-    list: http://localhost:8080/v1/api/dm/dm-rooms
+  config:
+    import:
+      - 'classpath:/yaml/application-core-dev.yml'
+      - 'classpath:/yaml/application-core-log.yml'
+server:
+  port: 8083

@@ -70,8 +70,8 @@ public class ProtectedDealController {
      * 안전 거래 완료 API (By GETTER)
      */
     @PatchMapping(DEALS_REQUEST_COMPLETE_URL)
-    public ResponseEntity<?> requestCompleteDeal(@PathVariable Long dealId) {
-        protectedDealService.requestCompleteDeal(dealId);
+    public ResponseEntity<?> requestCompleteDeal(@PathVariable Long dealId) throws IllegalAccessException {
+        protectedDealService.completeDeal(dealId);
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_REQUEST_COMPLETED, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

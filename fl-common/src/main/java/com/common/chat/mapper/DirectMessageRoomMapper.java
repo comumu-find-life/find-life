@@ -29,7 +29,8 @@ public interface DirectMessageRoomMapper {
     @Mapping(target = "progressHomeId",expression = "java(room.getProgressHomeId())")
     @Mapping(target = "lastMessage" ,expression = "java(lastMessage.getMessage())")
     @Mapping(target = "lastSendDateTime",expression = "java(lastMessage.getSentAt())")
-    DirectMessageRoomListResponse toDirectMessageRoomListResponse(DirectMessageRoom room, DirectMessage lastMessage, User otherUser);
+    @Mapping(target = "notReadCount", expression = "java(notReadCount)")
+    DirectMessageRoomListResponse toDirectMessageRoomListResponse(DirectMessageRoom room, DirectMessage lastMessage, User otherUser, int notReadCount);
 
 
 }

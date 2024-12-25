@@ -18,4 +18,5 @@ public class DirectMessageRoomListResponse {
     private Long progressHomeId;
     private String lastMessage;
     private LocalDateTime lastSendDateTime;
+    private int notReadCount;
 }

@@ -61,4 +61,9 @@ public class ProtectedDeal extends BaseTimeEntity {
     public boolean isDealToday(){
         return protectedDealDateTime.isToday();
     }
+
+    public boolean isPossibleAutoComplete(){
+        //5일이 지났는데 아직 거래중인 경우
+        return protectedDealDateTime.isFiveDaysPassed() && (dealState.equals(DealState.ACCEPT_DEAL));
+    }
 }

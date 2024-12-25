@@ -9,4 +9,6 @@ public interface CustomChatMessageRepository {
 
     Optional<DirectMessage> findLastMessageByUserIds(Long user1Id, Long user2Id);
     List<DirectMessage> findDirectMessageByUserIds(Long user1Id, Long user2Id);
+    int countNotReadMessage(Long senderId, Long receiverId);
+    void markMessagesAsRead(Long senderId, Long receiverId);
 }

@@ -38,4 +38,9 @@ public class ProtectedDealDateTime {
         LocalDate today = LocalDate.now();
         return dealAt != null && dealAt.toLocalDate().isEqual(today);
     }
+
+    public boolean isFiveDaysPassed() {
+        LocalDate today = LocalDate.now();
+        return dealAt != null && dealAt.toLocalDate().isBefore(today.minusDays(5));
+    }
 }
