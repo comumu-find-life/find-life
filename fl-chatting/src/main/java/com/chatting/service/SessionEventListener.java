@@ -28,7 +28,7 @@ public class SessionEventListener {
         System.out.println("Disconnect Listener");
 
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String sessionId = headerAccessor.getSessionId(); // 세션 ID만 추출
+        String sessionId = headerAccessor.getSessionId();
 
         // 세션 정보 조회
         Long roomId = sessionManager.getRoomId(sessionId);

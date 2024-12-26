@@ -45,7 +45,8 @@ public class ProtectedDealScheduler {
 
         todayDeals.forEach(deal -> {
             try {
-                dealCompletionService.completeDeal(deal);
+                String providerFcmToken = dealCompletionService.completeDeal(deal);
+                notificationService.sendAutoCompleteDealNotification(providerFcmToken);
             } catch (Exception e) {
                 handleError(e);
             }
@@ -53,8 +54,6 @@ public class ProtectedDealScheduler {
     }
 
     private void handleError(Exception e) {
-        // 예외 처리 로직: 에러 로깅 또는 별도의 처리 방법을 구현
-        System.err.println("Error: " + e.getMessage());
         e.printStackTrace();
     }
 }

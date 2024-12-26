@@ -33,7 +33,6 @@ public class DirectMessageController {
 
         // 읽음 여부 업데이트
         if(isReceiverInRoom) {
-            System.out.println("User in room");
             dmService.updateMessageReadStatus(response.getId());
         }
 

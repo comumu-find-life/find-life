@@ -58,6 +58,9 @@ public class DirectMessageApiController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 모두 읽음 표시
+     */
     @PostMapping(DM_CHECK_READ_URL)
     public ResponseEntity<?> checkReadMessage(@RequestBody DirectMessageReadRequest directMessageReadRequest){
         dmService.checkReadMessages(directMessageReadRequest);

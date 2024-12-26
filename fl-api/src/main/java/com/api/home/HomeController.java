@@ -93,7 +93,6 @@ public class HomeController {
 
     /**
      * 집 이미지 삭제 API
-     * ex) DELETE /v1/api/homes/{homeId}/image?imageIds=1,2,3
      */
     @DeleteMapping(HOMES_UPDATE_IMAGE)
     public ResponseEntity<?> deleteHomeImage(@PathVariable Long homeId, @RequestParam List<String> imageUrls) {
@@ -124,17 +123,7 @@ public class HomeController {
     }
 
     /**
-     * 집 게시글 페이징 조회 api
-     * ex) /homes?page=0&size=10
-     */
-    @GetMapping
-    public ResponseEntity<?> findByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        List<HomeOverviewResponse> allByPage = homeService.findAllByPage(page, size);
-        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.PAGE_HOMES_RETRIEVE_SUCCESS, allByPage);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
+     * TODO 리책토링
      * city 이름으로 집 조회 api
      */
     @GetMapping(HOMES_FIND_BY_CITY)
@@ -146,6 +135,7 @@ public class HomeController {
 
 
     /**
+     * TODO 리책토링
      * 찜 목록 조회 api
      */
     @GetMapping(HOMES_FIND_FAVORITE)

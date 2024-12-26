@@ -15,29 +15,23 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
 
 @Service
 @RequiredArgsConstructor
 public class DealCompletionService {
 
-    private final NotificationService notificationService;
     private final UserAccountRepository userAccountRepository;
     private final UserRepository userRepository;
     private final HomeRepository homeRepository;
 
-    public void completeDeal(ProtectedDeal protectedDeal) throws IllegalAccessException {
-        UserAccount userAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId())
-                .orElseThrow(() -> new IllegalArgumentException("User Account not found for provider ID"));
-        User providerAccount = userRepository.findById(protectedDeal.getProviderId())
-                .orElseThrow(() -> new IllegalArgumentException("Provider not found"));
-        userAccount.increasePoint(protectedDeal.getDeposit());
-        Home home = homeRepository.findById(protectedDeal.getHomeId())
-                .orElseThrow(() -> new IllegalArgumentException(NOT_EXIST_HOME_ID));
+    public String completeDeal(ProtectedDeal protectedDeal) {
+        UserAccount providerAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
+        User provider = userRepository.findById(protectedDeal.getProviderId()).get();
+        providerAccount.increasePoint(protectedDeal.getDeposit());
+        Home home = homeRepository.findById(protectedDeal.getHomeId()).get();
         home.setHomeStatus(HomeStatus.SOLD_OUT);
         protectedDeal.setDealState(DealState.COMPLETE_DEAL);
         protectedDeal.getProtectedDealDateTime().setCompleteAt(LocalDateTime.now());
-        // FCM 알림 전송
-        notificationService.sendAutoCompleteDealNotification(providerAccount.getFcmToken());
+        return provider.getFcmToken();
     }
 }
