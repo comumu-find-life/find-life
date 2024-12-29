@@ -204,11 +204,9 @@ public class UserService {
      */
     @Transactional
     public void completeWithDraw(Long userAccountId, Long pointHistoryId, String token){
-        System.out.println("secretToken = " + secretToken);
         if(!token.equals(secretToken)){
             throw new IllegalArgumentException("권한이 없습니다.");
         }
-        System.out.println("ASDAS");
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userAccountId), NOT_EXIT_USER_ID);
         PointHistory pointHistory = userAccount.getChargeHistories().stream()
                 .filter(history -> history.getId() == pointHistoryId)

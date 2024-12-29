@@ -23,12 +23,9 @@ repositories {
 }
 
 dependencies {
-
     implementation 'com.google.firebase:firebase-admin:9.2.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
-
     testFixturesImplementation project(':fl-core')
-
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
