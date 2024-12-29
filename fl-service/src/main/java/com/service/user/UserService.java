@@ -176,6 +176,7 @@ public class UserService {
     public void updateFcmToken(final String email, final String fcmToken) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         user.setFcmToken(fcmToken);
+
     }
 
     /**
