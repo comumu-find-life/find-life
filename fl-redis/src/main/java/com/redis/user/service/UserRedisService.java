@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserRedisService {
 
-    private static final String REFRESH_TOKEN_KEY = "RefreshToken::";
 
     @Autowired
     private final UserRepository userRepository;
@@ -39,15 +38,6 @@ public class UserRedisService {
     public Optional<User> findUserByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user;
-    }
-
-    public void validateRefreshToken(String email, String refreshToken) {
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        String rf = (String) values.get(REFRESH_TOKEN_KEY + email);
-        String trimmedRF = rf.substring(1, rf.length() - 1);
-        if (rf == null || !trimmedRF.equals(refreshToken)) {
-            throw new IllegalArgumentException("RefreshToken 검증 실패");
-        }
     }
 
 

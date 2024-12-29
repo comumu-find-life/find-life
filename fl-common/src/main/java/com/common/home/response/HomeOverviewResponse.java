@@ -28,5 +28,4 @@ public class HomeOverviewResponse {
         private Long userIdx;
         private String userName;
         private HomeStatus homeStatus;
-//        private LocalDateTime createDate;
 }

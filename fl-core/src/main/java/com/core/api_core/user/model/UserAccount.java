@@ -1,5 +1,6 @@
 package com.core.api_core.user.model;
 
+import com.core.exception.InsufficientPointsException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,13 +42,13 @@ public class UserAccount {
         chargeHistories.add(history);
     }
 
-    public void validatePointsSufficiency(double amount) throws IllegalAccessException {
+    public void validatePointsSufficiency(double amount) throws InsufficientPointsException {
         if (!isEnoughPoint(amount)) {
-            throw new IllegalAccessException(ERROR_NOT_ENOUGH_POINT);
+            throw new InsufficientPointsException(ERROR_NOT_ENOUGH_POINT);
         }
     }
 
-    private boolean isEnoughPoint(double amount){
+    public boolean isEnoughPoint(double amount){
         return this.point - amount >= 0;
     }
 

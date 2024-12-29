@@ -1,6 +1,7 @@
 package com.redis.user.service;
 
 
+import com.core.exception.InvalidDataException;
 import com.redis.user.entity.VerificationCode;
 import com.redis.user.repository.VerificationCodeRepository;
 import jakarta.mail.MessagingException;
@@ -61,7 +62,7 @@ public class EmailRedisService {
 
             mailSender.send(message);
         } catch (MessagingException e) {
-            throw new RuntimeException("이메일 전송 중 오류가 발생했습니다.", e);
+            throw new InvalidDataException(e.getMessage());
         }
     }
 

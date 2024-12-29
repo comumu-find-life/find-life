@@ -1,6 +1,7 @@
 package com.service.user;
 
 import com.common.user.request.GoogleAuthRequest;
+import com.core.exception.InvalidOAuthTokenException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -30,7 +31,7 @@ public class GoogleAuthService {
         GoogleIdToken googleIdToken = verifier.verify(request.getIdToken());
 
         if (googleIdToken == null) {
-            throw new IllegalArgumentException("Invalid ID token");
+            throw new InvalidOAuthTokenException("Invalid ID token");
         }
 
         return googleIdToken.getPayload().getEmail();

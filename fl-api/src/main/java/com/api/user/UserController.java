@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,14 +29,14 @@ public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
-
+    private final PasswordEncoder passwordEncoder;
     /**
      * 회원가입 api
      */
     @PostMapping(USERS_SIGN_UP_EMAIL)
     public ResponseEntity<?> signUp(@RequestPart UserSignupRequest userSignupRequest,
                                     @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
-        Long userId = userService.signUp(userSignupRequest, image);
+        Long userId = userService.signUp(userSignupRequest,passwordEncoder.encode(userSignupRequest.getPassword()), image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -46,7 +47,7 @@ public class UserController {
     @PostMapping(USERS_SIGN_UP_GOOGLE)
     public ResponseEntity<?> signUpGoogle(@RequestPart UserSignupRequest userSignupRequest,
                                     @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
-        Long userId = userService.signUp(userSignupRequest, image);
+        Long userId = userService.signUp(userSignupRequest, "",image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

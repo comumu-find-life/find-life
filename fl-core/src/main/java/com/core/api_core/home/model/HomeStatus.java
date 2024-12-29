@@ -18,7 +18,7 @@ public enum HomeStatus {
                 return homeStatus;
             }
         }
-        throw new IllegalArgumentException("No enum constant for status: " + status);
+        return null;
     }
 
 

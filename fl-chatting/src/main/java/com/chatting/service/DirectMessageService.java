@@ -7,6 +7,7 @@ import com.common.chat.request.DirectMessageReadRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
+import com.common.exception.FcmException;
 import com.common.fcm.FCMHelper;
 import com.common.utils.OptionalUtil;
 import com.core.api_core.chat.model.DirectMessageRoom;
@@ -62,7 +63,7 @@ public class DirectMessageService {
             fcmService.sendNotification(fcmToken, sender.getNickname(), dmDto.getMessage());
             return mapper.toDirectMessageResponse(save);
         } catch (Exception e) {
-            throw new IllegalAccessException(e.getMessage());
+            throw new FcmException(e.getMessage());
         }
     }
 

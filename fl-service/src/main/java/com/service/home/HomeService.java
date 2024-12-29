@@ -22,6 +22,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -45,16 +46,15 @@ public class HomeService {
     private final FileService fileService;
     private final HomeRepository homeRepository;
     private final UserService userService;
-    private final UserRepository userRepository;
     private final HomeMapper homeMapper;
     private final HomeImageRepository homeImageRepository;
 
     /**
      * 집 게시글 등록
      */
+    @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
         Home home = homeMapper.toEntity(homeCreateDto, getLoggedInUserId());
-        //이미지, 위치 정보 저장
         if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
             home.setImages(generateHomeImages(home, files));
         }
@@ -91,7 +91,7 @@ public class HomeService {
      * 집 이미지 삭제
      */
     @Transactional
-    public void deleteHomeImage(Long homeId, List<String> imageUrls) {
+    public void deleteHomeImage(List<String> imageUrls) {
         imageUrls.stream()
                 .map(imageUrl -> homeImageRepository.findByImageUrl(imageUrl))
                 .filter(Optional::isPresent)
@@ -101,101 +101,26 @@ public class HomeService {
 
 
     /**
-     * 집 게시글 단일 조회(집 정보 + 작성자 정보) 로직
-     */
-    public HomeInformationResponse findById(Long id) {
-        Home entity = OptionalUtil.getOrElseThrow(homeRepository.findById(id), NOT_EXIST_HOME_ID);
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(entity.getUserIdx()), NOT_EXIT_USER_ID);
-        return homeMapper.toHomeInformation(entity, user);
-    }
-
-    /**
-     * 모든 집 게시글 조회
-     */
-    public List<HomeOverviewResponse> findAllHomes() {
-        List<HomeOverviewResponse> response = new ArrayList<>();
-        List<Home> homes = homeRepository.findAllSellHome();
-        homes.stream().forEach(home -> {
-            User user = OptionalUtil.getOrElseThrow(userRepository.findById(home.getUserIdx()), NOT_EXIT_USER_ID);
-            response.add(homeMapper.toSimpleHomeDto(home, user));
-        });
-        return response;
-    }
-
-
-    /**
-     * 자신의 집 게시물 모두 조회 메서드
-     */
-    public List<HomeOverviewResponse> findByUserId(Long userIdx) {
-        List<HomeOverviewResponse> response = new ArrayList<>();
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), NOT_EXIT_USER_ID);
-        List<Home> homes = homeRepository.findByUserId(userIdx);
-        homes.stream().forEach(home -> {
-            response.add(homeMapper.toSimpleHomeDto(home, user));
-        });
-        return response;
-    }
-
-    /**
-     * 찜 목록 게시글 조회
-     */
-    public List<HomeOverviewResponse> findFavoriteHomes(List<Long> homeIds) {
-        return homeIds.stream()
-                .map(homeRepository::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(home -> {
-                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException(NOT_EXIT_USER_ID + home.getUserIdx()));
-                    return homeMapper.toSimpleHomeDto(home, user);
-                })
-                .collect(Collectors.toList());
-    }
-
-    /**
      * 집 게시글 삭제
+     * 캐시 무효화: 집 게시글이 삭제되면 전체 집 목록 캐시를 삭제
      */
-    public void delete(Long id) {
-        Optional<Home> entity = homeRepository.findById(id);
-        homeRepository.delete(entity.get());
+    @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
+    public void delete(Long homeId) {
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME);
+        homeRepository.delete(home);
     }
 
-    /**
-     * city 이름으로 모든 집 조회
-     */
-    public List<HomeOverviewResponse> findByCity(String cityName) {
-        List<Home> homes = homeRepository.findByCity(cityName);
-        List<HomeOverviewResponse> listResponse = homes.stream()
-                .map(home -> {
-                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException(NOT_EXIT_USER_ID + home.getUserIdx()));
-                    return homeMapper.toSimpleHomeDto(home, user);
-                })
-                .collect(Collectors.toList());
-        return listResponse;
-    }
-
-    /**
-     * 집 게시물 페이징 조회
-     */
-    public List<HomeOverviewResponse> findAllByPage(int pageNumber, int pageSize) {
-        List<Home> homes = homeRepository.findAll(toPageRequest(pageNumber, pageSize, Sort.by("createDate").descending())).getContent();
-        List<HomeOverviewResponse> listResponse = homes.stream()
-                .map(home -> {
-                    User user = userRepository.findById(home.getUserIdx()).orElseThrow(() -> new EntityNotFoundException(NOT_EXIT_USER_ID + home.getUserIdx()));
-                    return homeMapper.toSimpleHomeDto(home, user);
-                })
-                .collect(Collectors.toList());
-        return listResponse;
-    }
 
     /**
      * 집 게시글 상태 변경 (판매 완료, 재판매)
+     * 캐시 무효화: 상태 변경 시 전체 집 목록 캐시를 삭제
      */
     @Transactional
+    @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
     public void changeStatus(Long homeId, String status) {
         HomeStatus homeStatus = HomeStatus.fromString(status);
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME_ID);
         home.setStatus(homeStatus);
-        homeRepository.save(home);
     }
 
     /**

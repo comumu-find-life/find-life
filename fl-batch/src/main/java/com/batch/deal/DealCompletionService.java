@@ -2,7 +2,6 @@ package com.batch.deal;
 
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
-import com.core.api_core.deal.repository.ProtectedDealRepository;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.repository.HomeRepository;

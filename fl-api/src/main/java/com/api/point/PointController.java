@@ -1,5 +1,6 @@
 package com.api.point;
 
+import com.core.exception.InsufficientPointsException;
 import org.springframework.ui.Model;
 import com.common.point.request.PaymentRequest;
 import com.common.utils.SuccessResponse;
@@ -44,7 +45,7 @@ public class PointController {
      * 출금 신청 api
      */
     @PostMapping(APPLY_WITH_DRAW_URL)
-    public ResponseEntity<?> applyWithDraw(@RequestParam Integer price) throws IllegalAccessException {
+    public ResponseEntity<?> applyWithDraw(@RequestParam Integer price) throws InsufficientPointsException {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         pointService.applyWithDraw(email, price);
         SuccessResponse response = new SuccessResponse(true, APPLY_WITH_DRAW, null);

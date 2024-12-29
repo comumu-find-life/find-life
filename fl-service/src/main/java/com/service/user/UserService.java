@@ -7,20 +7,28 @@ import com.common.user.request.UserSignupRequest;
 import com.common.user.response.UserAccountResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
+import com.common.user.response.WithDrawHistoryResponse;
+import com.core.api_core.user.model.ChargeType;
+import com.core.api_core.user.model.PointHistory;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
+import com.core.exception.InvalidDataException;
 import com.service.file.FileService;
 import com.service.user.validation.UserServiceValidation;
 import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.service.user.UserMessages.*;
 
@@ -35,15 +43,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserAccountRepository userAccountRepository;
     private final UserServiceValidation validation;
-    private final PasswordEncoder passwordEncoder;
+    @Value("${admin.token}")
+    private String secretToken;
 
     /**
      * 이메일 회원가입 메서드
      */
-    public Long signUp(UserSignupRequest dto, MultipartFile image) throws Exception {
+    public Long signUp(UserSignupRequest dto,String encodePassword, MultipartFile image) throws Exception {
         validation.validateSignUp(dto.getEmail(), dto.getNickname());
-        User user = createUser(dto, image);
-        encodeAndSetPassword(user, dto.getPassword());
+        User user = createUser(dto, encodePassword, image);
+        //encodeAndSetPassword(user, dto.getPassword());
         return userRepository.save(user).getId();
     }
 
@@ -137,7 +146,6 @@ public class UserService {
      * 사용자 계좌 정보 조회
      */
     public UserAccountResponse findUserAccountById(Long userId) {
-        //todo 날짜순 정렬
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
         return userMapper.toUserAccountResponse(userAccount);
     }
@@ -146,8 +154,9 @@ public class UserService {
         return userRepository.findByEmail(email).isPresent();
     }
 
-    private User createUser(UserSignupRequest dto, MultipartFile image) throws Exception {
+    private User createUser(UserSignupRequest dto, String password,MultipartFile image) throws Exception {
         User user = userMapper.toEntity(dto);
+        user.passwordEncode(password);
         if (image != null) {
             String profileUrl = uploadProfileImage(image);
             user.setProfileUrl(profileUrl);
@@ -162,16 +171,50 @@ public class UserService {
         return url;
     }
 
-    private void encodeAndSetPassword(User user, String password) {
-        String encodedPassword = passwordEncoder.encode(password);
-        user.passwordEncode(encodedPassword);
-    }
 
     @Transactional
     public void updateFcmToken(final String email, final String fcmToken) {
-        System.out.println("setfcm = " + fcmToken);
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
-        System.out.println("email = " + email);
         user.setFcmToken(fcmToken);
+    }
+
+    /**
+     * 출금 신청된 정보 조회 메서드 (by admin)
+     */
+    public List<WithDrawHistoryResponse> findWithDraws() {
+        return userAccountRepository.findAll().stream()
+                .flatMap(userAccount -> userAccount.getChargeHistories().stream()
+                        .filter(pointHistory -> pointHistory.getChargeType().equals(ChargeType.APPLY_WITHDRAW))
+                        .map(pointHistory -> WithDrawHistoryResponse.builder()
+                                .userAccountId(userAccount.getUserId())
+                                .pointHistoryId(pointHistory.getId())
+                                .accountNumber(userAccount.getAccountNumber())
+                                .bsb(userAccount.getBsb())
+                                .chargeAmount(pointHistory.getChargeAmount())
+                                .chargeType(pointHistory.getChargeType())
+                                .depositorName(userAccount.getDepositorName())
+                                .historyDateTime(pointHistory.getHistoryDateTime())
+                                .swiftCode(userAccount.getSwiftCode())
+                                .build()))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 환전 완료
+     */
+    @Transactional
+    public void completeWithDraw(Long userAccountId, Long pointHistoryId, String token){
+        System.out.println("secretToken = " + secretToken);
+        if(!token.equals(secretToken)){
+            throw new IllegalArgumentException("권한이 없습니다.");
+        }
+        System.out.println("ASDAS");
+        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userAccountId), NOT_EXIT_USER_ID);
+        PointHistory pointHistory = userAccount.getChargeHistories().stream()
+                .filter(history -> history.getId() == pointHistoryId)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException());
+        pointHistory.setChargeType(ChargeType.WITHDRAW);
+        //fcm 알림 기능 구현
     }
 }

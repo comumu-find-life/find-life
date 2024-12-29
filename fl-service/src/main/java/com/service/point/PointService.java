@@ -6,6 +6,7 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
+import com.core.exception.InsufficientPointsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class PointService {
     private final UserAccountRepository userAccountRepository;
 
     //포인트 출금
-    public double withdraw(String email, int amount) throws IllegalAccessException {
+    public double withdraw(String email, int amount) throws InsufficientPointsException  {
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
         userAccount.validatePointsSufficiency(amount);
@@ -32,10 +33,13 @@ public class PointService {
     }
 
     //포인트 출금 신청
-    public void applyWithDraw(String email, Integer point){
+    public void applyWithDraw(String email, Integer point) throws InsufficientPointsException {
+
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
+        userAccount.validatePointsSufficiency(point);
         userAccount.registerPointChargeHistory(point, ChargeType.APPLY_WITHDRAW);
+        userAccount.decreasePoint(point);
     }
 
 

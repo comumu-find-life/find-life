@@ -62,7 +62,7 @@ public interface UserMapper {
     void updateUserAccount(UserAccountRequest userAccountRequest, @MappingTarget UserAccount userAccount);
 
     @Named("mapChargeHistories")
-    default List<PointChargeHistoryResponse> mapImageUrls(List<PointHistory> pointChargeHistories) {
+    default List<PointChargeHistoryResponse> mapChargeHistories(List<PointHistory> pointChargeHistories) {
         return pointChargeHistories.stream().map(pointChargeHistory -> {
             return PointChargeHistoryResponse.builder()
                     .chargeAmount(pointChargeHistory.getChargeAmount())

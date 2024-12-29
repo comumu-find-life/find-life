@@ -2,35 +2,30 @@ package com.core.admin_core.user.model;
 
 import com.core.base.model.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
+import jakarta.persistence.*;
+
 @Getter
-@Builder
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-public class AdminUser extends BaseTimeEntity {
+@Entity
+public class AdminUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long id;
 
-    private String email;
+    @Column(unique = true, nullable = false)
+    private String username;
 
-    private String password;
+    @Column(nullable = false)
+    private String password; // 암호화 없이 저장
 
-    private String refreshToken; // 리프레시 토큰
-
-    public void passwordEncode(String encodePassword) {
-        this.password = encodePassword;
-    }
-
-    public void updateRefreshToken(String updateRefreshToken) {
-        this.refreshToken = updateRefreshToken;
-    }
-
+    @Column(nullable = false)
+    private String role; // 예: "ADMIN"
 }

@@ -27,6 +27,7 @@ public class CustomHomeRepositoryImpl implements com.core.api_core.home.reposito
     @Override
     public List<Home> findByCity(String cityName) {
         List<Home> homes = query.selectFrom(qHome)
+                .where(qHome.homeStatus.eq(HomeStatus.FOR_SALE))
                 .where(qHome.homeAddress.city.like("%" + cityName +"%"))
                 .fetch();
 

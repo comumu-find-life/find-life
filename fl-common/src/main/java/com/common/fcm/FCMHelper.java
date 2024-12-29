@@ -1,5 +1,6 @@
 package com.common.fcm;
 
+import com.core.exception.FcmException;
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,16 +9,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FCMHelper {
 
-
     private final FirebaseMessaging firebaseMessaging;
 
-    public void sendNotification(String token, String title, String body) throws IllegalAccessException {
+    public void sendNotification(String token, String title, String body) {
         try {
             Message message = createMessage(token, title, body);
             firebaseMessaging.send(message);
         } catch (FirebaseMessagingException ex) {
-            System.out.println("ex =" + ex.getMessage());
-            throw new IllegalAccessException("fcm 전송 실패");
+            throw new FcmException("fcm 전송 실패");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.service.home.impl;
 
 import com.common.home.request.HomeAddressGeneratorRequest;
+import com.core.exception.InvalidDataException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.service.home.LocationService;
@@ -17,9 +18,8 @@ import static com.service.home.utils.LocationUtil.toStringAddress;
 @Service
 public class LocationServiceImpl implements LocationService {
 
-    private static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
     private static final String GEOCODING_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String API_KEY = "AIzaSyD1vqgptIQgYusty2ot4ofOabWD6Zpfnf0";
+    private static final String API_KEY = "AIzaSyAGbRORBSSue-RttB2NMhwbqQLrBFD8J6E";
     private static final String ADDRESS_PATTERN = "%s?address=%s&key=%s";
 
     private final RestTemplate restTemplate;
@@ -47,6 +47,7 @@ public class LocationServiceImpl implements LocationService {
 
         // Google Geocoding API 호출
         String response = restTemplate.getForObject(uri, String.class);
+        System.out.println(response);
         System.out.println("Response = " + toStringAddress(homeAddressDto));
 
         // JSON 파싱
@@ -69,9 +70,9 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
-    private void validateAddress(JsonObject jsonObject) throws IllegalAccessException {
+    private void validateAddress(JsonObject jsonObject)  {
         if(jsonObject.size() == 0){
-            throw new IllegalAccessException("존재하지 않는 주소입니다.");
+            throw new InvalidDataException("존재하지 않는 주소입니다.");
         }
     }
 

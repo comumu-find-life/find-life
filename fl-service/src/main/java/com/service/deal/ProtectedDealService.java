@@ -44,7 +44,7 @@ public class ProtectedDealService {
     /**
      * 안전 거래 생성 메서드 (by provider)
      */
-    public ProtectedDealGeneratorResponse saveProtectedDeal(ProtectedDealGeneratorRequest request) throws Exception {
+    public ProtectedDealGeneratorResponse saveProtectedDeal(ProtectedDealGeneratorRequest request) {
         ProtectedDeal deal = mapper.toEntity(request);
         Long dealId = protectedDealRepository.save(deal).getId();
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(request.getHomeId()), NOT_EXIST_HOME_ID);
@@ -138,6 +138,8 @@ public class ProtectedDealService {
         protectedDeal.getProtectedDealDateTime().setCancelAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.CANCEL_DURING_DEAL);
     }
+
+
 
     private void sendCompleteFCM(String fcmToken) throws IllegalAccessException {
         fcmHelper.sendNotification(fcmToken, "The transaction has been completed", "the deposit has been paid. Please check it on MyPage.");

@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+//        classpath 'com.google.gms:google-services:4.3.15'  // google-services 플러그인 의존성 추가
+    }
+}
+
+
 plugins {
     id 'java'
 }
@@ -5,39 +16,32 @@ plugins {
 version 'unspecified'
 
 repositories {
+    google()
     mavenCentral()
 }
 
 
 
 dependencies {
+    implementation 'com.google.firebase:firebase-admin:9.2.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'org.springframework.data:spring-data-redis'
     implementation 'org.projectlombok:lombok:1.18.20'
+
     implementation project(':fl-core')
-    //implementation project(':fl-authority')
+    implementation project(':fl-redis')
     implementation project(':fl-service')
 
     testImplementation project(':fl-core')
-    testImplementation(testFixtures(project(":fl-core"))) // 공통된 코드를 사용하기 위한
-    testImplementation(testFixtures(project(":fl-common"))) // 공통된 코드를 사용하기 위한
+    testImplementation(testFixtures(project(":fl-core")))
+    testImplementation(testFixtures(project(":fl-common")))
 
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    //security 라이브러리
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-    //jwt 라이브러리
-    implementation group: 'com.auth0', name: 'java-jwt', version: '3.16.0'
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
-    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
 
 }
 

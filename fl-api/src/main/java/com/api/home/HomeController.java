@@ -4,6 +4,7 @@ import com.common.home.request.*;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
 import com.common.utils.SuccessResponse;
+import com.service.home.HomeQueryService;
 import com.service.home.HomeService;
 import com.service.home.LocationService;
 import com.service.home.utils.LatLng;
@@ -25,6 +26,7 @@ import static com.api.config.ApiUrlConstants.*;
 @RequiredArgsConstructor
 public class HomeController {
 
+    private final HomeQueryService homeQueryService;
     private final HomeService homeService;
     private final LocationService locationService;
 
@@ -55,7 +57,7 @@ public class HomeController {
      */
     @GetMapping(HOMES_FIND_BY_USER_ID)
     public ResponseEntity<?> findByUserId(@PathVariable Long userId) {
-        List<HomeOverviewResponse> homes = homeService.findByUserId(userId);
+        List<HomeOverviewResponse> homes = homeQueryService.findByUserId(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.USER_POSTS_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -65,7 +67,7 @@ public class HomeController {
      */
     @GetMapping(HOMES_FIND_BY_ID)
     public ResponseEntity<?> findById(@PathVariable Long homeId) {
-        HomeInformationResponse homeInformationResponse = homeService.findById(homeId);
+        HomeInformationResponse homeInformationResponse = homeQueryService.findById(homeId);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_RETRIEVE_SUCCESS, homeInformationResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -96,7 +98,7 @@ public class HomeController {
      */
     @DeleteMapping(HOMES_UPDATE_IMAGE)
     public ResponseEntity<?> deleteHomeImage(@PathVariable Long homeId, @RequestParam List<String> imageUrls) {
-        homeService.deleteHomeImage(homeId, imageUrls);
+        homeService.deleteHomeImage(imageUrls);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.HOME_IMAGE_DELETE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -117,18 +119,17 @@ public class HomeController {
      */
     @GetMapping(HOMES_FIND_ALL)
     public ResponseEntity<?> findAll() {
-        List<HomeOverviewResponse> allHomes = homeService.findAllHomes();
+        List<HomeOverviewResponse> allHomes = homeQueryService.findAllHomes();
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.ALL_HOMES_RETRIEVE_SUCCESS, allHomes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * TODO 리책토링
      * city 이름으로 집 조회 api
      */
     @GetMapping(HOMES_FIND_BY_CITY)
     public ResponseEntity<?> findByCity(@RequestParam String city) {
-        List<HomeOverviewResponse> homes = homeService.findByCity(city);
+        List<HomeOverviewResponse> homes = homeQueryService.findByCity(city);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.CITY_HOMES_RETRIEVE_SUCCESS, homes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -140,7 +141,7 @@ public class HomeController {
      */
     @GetMapping(HOMES_FIND_FAVORITE)
     public ResponseEntity<?> findFavoriteHomes(@RequestParam List<Long> homeIds) {
-        List<HomeOverviewResponse> favoriteHomes = homeService.findFavoriteHomes(homeIds);
+        List<HomeOverviewResponse> favoriteHomes = homeQueryService.findFavoriteHomes(homeIds);
         SuccessResponse<Object> response = new SuccessResponse<>(true, SuccessHomeMessages.FAVORITE_HOMES_RETRIEVE_SUCCESS, favoriteHomes);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
