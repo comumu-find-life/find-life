@@ -29,17 +29,7 @@ public class DirectMessageApiController {
     private final FCMHelper fcmService;
 
     /**
-     * todo 삭제
-     */
-    @PostMapping("/test")
-    public ResponseEntity<?> test(@RequestBody String token) throws IllegalAccessException {
-        fcmService.sendNotification("ex2ePZth7UP7jERExgXVwM:APA91bG8iurSUOdzxmYm9liHAriU8PrU5e14fRORcW5X-YiS3c4z86M8-sPV3zPX_ZEmdt5VuQKIFXIQ9horKqq80uo0j3hv61va2_6KqXI4o-cvCh0bxX8", "title", "body");
-        SuccessResponse response = new SuccessResponse(true, "테스트", null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 첫 채팅 전송 API
+     * 첫 채팅 전송 API (채팅방 생성)
      */
     @PostMapping(DM_SEND_FIRST_URL)
     public ResponseEntity<?> createDirectMessageRoom(@RequestBody DirectMessageApplicationRequest dmDto) throws IllegalAccessException {

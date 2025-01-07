@@ -11,16 +11,16 @@ public class FCMHelper {
 
     private final FirebaseMessaging firebaseMessaging;
 
-    public void sendNotification(String token, String title, String body) {
+    public void sendNotification(FCMState fcmState, String token, String title, String body) {
         try {
-            Message message = createMessage(token, title, body);
+            Message message = createMessage(fcmState, token, title, body);
             firebaseMessaging.send(message);
         } catch (FirebaseMessagingException ex) {
             throw new FcmException("fcm 전송 실패");
         }
     }
 
-    private Message createMessage(String token, String title, String body){
+    private Message createMessage(FCMState fcmState, String token, String title, String body) {
         return Message.builder()
                 .setToken(token)
                 .setNotification(Notification.builder()
@@ -35,14 +35,24 @@ public class FCMHelper {
                                         .setBody(body)
                                         .build()
                                 )
-                                .setContentAvailable(true)
+                                .setContentAvailable(true) // iOS 백그라운드 처리를 위한 키 추가
+                                .setMutableContent(true)  // iOS 푸시 내용 변경 가능 설정
                                 .build()
                         )
+                        // iOS용 데이터 추가
+                        .putHeader("apns-push-type", "alert") // 푸시 유형 설정 (필수)
+                        .putHeader("apns-priority", "10")    // 우선 순위 설정
+                        .putCustomData("isSave", fcmState.getValue()) // 데이터 추가
+                        .putCustomData("title", title)
+                        .putCustomData("body", body)
                         .build()
                 )
-                .putData("title", title) // Android 데이터 추가
+                // Android용 데이터 추가
+                .putData("title", title)
                 .putData("body", body)
+                .putData("isSave", fcmState.getValue())
                 .build();
     }
+
 
 }

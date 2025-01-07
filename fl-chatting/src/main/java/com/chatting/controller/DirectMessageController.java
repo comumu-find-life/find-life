@@ -35,7 +35,6 @@ public class DirectMessageController {
         if(isReceiverInRoom) {
             dmService.updateMessageReadStatus(response.getId());
         }
-
         // 웹소켓 전송
         template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), response);
     }

@@ -39,11 +39,9 @@ public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProce
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
-        // application/json 형식이 아니면 예외 발생
         if (request.getContentType() == null || (!request.getContentType().equals(CONTENT_TYPE) && !request.getContentType().startsWith(CONTENT_TYPE))) {
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
-
 
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
 

@@ -7,8 +7,8 @@ import com.common.chat.request.DirectMessageReadRequest;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
 import com.common.chat.response.DirectMessageRoomListResponse;
-import com.common.exception.FcmException;
 import com.common.fcm.FCMHelper;
+import com.common.fcm.FCMState;
 import com.common.utils.OptionalUtil;
 import com.core.api_core.chat.model.DirectMessageRoom;
 import com.core.api_core.chat.repository.DirectMessageRoomRepository;
@@ -16,8 +16,10 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.core.api_core.chat.model.DirectMessage;
 import com.core.api_core.chat.repository.DirectMessageRepository;
+import com.core.exception.FcmException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,14 +55,14 @@ public class DirectMessageService {
     /**
      * 채팅 전송
      */
-    public DirectMessageResponse sendDM(DirectMessageRequest dmDto) throws IllegalAccessException {
+    public DirectMessageResponse sendDM(DirectMessageRequest dmDto)  {
         try {
             DirectMessage directMessage = mapper.toDirectMessage(dmDto);
             DirectMessage save = dmRepository.save(directMessage);
             User receiver = userRepository.findById(dmDto.getReceiverId()).get();
             User sender = userRepository.findById(dmDto.getSenderId()).get();
             String fcmToken = receiver.getFcmToken();
-            fcmService.sendNotification(fcmToken, sender.getNickname(), dmDto.getMessage());
+            fcmService.sendNotification(FCMState.NOT_SAVE, fcmToken, sender.getNickname(), dmDto.getMessage());
             return mapper.toDirectMessageResponse(save);
         } catch (Exception e) {
             throw new FcmException(e.getMessage());
@@ -68,6 +70,7 @@ public class DirectMessageService {
     }
 
     @Transactional
+    @Async
     public void updateMessageReadStatus(String messageId) {
         DirectMessage message = dmRepository.findById(messageId)
                 .orElseThrow(() -> new IllegalArgumentException("Message not found: " + messageId));

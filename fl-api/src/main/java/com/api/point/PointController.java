@@ -52,4 +52,22 @@ public class PointController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping(CHARGE_POINT_SUCCESS_REDIRECT_URL)
+    public ResponseEntity<String> paymentSuccess(
+            @RequestParam("paymentId") String paymentId,
+            @RequestParam("PayerID") String payerID,
+            @RequestParam("token") String token) {
+
+        // 성공 처리 로직
+        System.out.println("CALL!");
+        return ResponseEntity.ok("Payment Successful!");
+    }
+
+    @GetMapping(CHARGE_POINT_CANCEL_REDIRECT_URL)
+    public ResponseEntity<String> paymentCancel() {
+        // 결제 취소 처리 로직
+        System.out.println("CALL2!");
+        return ResponseEntity.ok("Payment Cancelled!");
+    }
+
 }

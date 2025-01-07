@@ -1,12 +1,14 @@
 package com.service.home.impl;
 
 import com.common.home.request.HomeAddressGeneratorRequest;
+import com.core.exception.GoogleLocationException;
 import com.core.exception.InvalidDataException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.service.home.LocationService;
 import com.service.home.utils.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,10 +20,13 @@ import static com.service.home.utils.LocationUtil.toStringAddress;
 @Service
 public class LocationServiceImpl implements LocationService {
 
-    private static final String GEOCODING_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String API_KEY = "AIzaSyAGbRORBSSue-RttB2NMhwbqQLrBFD8J6E";
-    private static final String ADDRESS_PATTERN = "%s?address=%s&key=%s";
+    @Value("${map.api-url}")
+    private String GEOCODING_API_URL;
 
+    @Value("${map.api-key}")
+    private String API_KEY;
+
+    private static final String ADDRESS_PATTERN = "%s?address=%s&key=%s";
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -41,32 +46,22 @@ public class LocationServiceImpl implements LocationService {
      * 2015 : 우편번호
      */
     @Override
-    public LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto) throws IllegalAccessException {
+    public LatLng getLatLngFromAddress(HomeAddressGeneratorRequest homeAddressDto)  {
         String url = String.format(ADDRESS_PATTERN, GEOCODING_API_URL, toStringAddress(homeAddressDto), API_KEY);
         URI uri = URI.create(url);
-
-        // Google Geocoding API 호출
         String response = restTemplate.getForObject(uri, String.class);
-        System.out.println(response);
-        System.out.println("Response = " + toStringAddress(homeAddressDto));
-
-        // JSON 파싱
         JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
-        // jsonObject 출력
         validateAddress(jsonObject);
         try {
             JsonObject location = jsonObject.getAsJsonArray("results").get(0)
                     .getAsJsonObject().getAsJsonObject("geometry")
                     .getAsJsonObject("location");
-
-
             double lat = location.get("lat").getAsDouble();
             double lng = location.get("lng").getAsDouble();
 
-            // LatLng 객체 생성 후 반환
             return new LatLng(lat, lng);
         } catch (Exception e) {
-            return new LatLng(1.12, 1.12);
+            throw new GoogleLocationException("주소 조회 실패");
         }
     }
 

@@ -6,6 +6,7 @@ import com.common.deal.request.ProtectedDealGeneratorRequest;
 import com.common.deal.response.ProtectedDealGeneratorResponse;
 import com.common.deal.response.ProtectedDealResponse;
 import com.common.fcm.FCMHelper;
+import com.common.fcm.FCMState;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
@@ -18,6 +19,7 @@ import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,6 +87,7 @@ public class ProtectedDealService {
     /**
      * 안전 거래 수락 by getter
      */
+    @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
     @Transactional
     public void acceptProtectedDeal(Long dealId) throws Exception {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
@@ -100,6 +103,7 @@ public class ProtectedDealService {
     /**
      * 거래 완료 메서드 by getter
      */
+    @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
     @Transactional
     public void completeDeal(Long dealId) throws IllegalAccessException {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
@@ -141,7 +145,7 @@ public class ProtectedDealService {
 
 
 
-    private void sendCompleteFCM(String fcmToken) throws IllegalAccessException {
-        fcmHelper.sendNotification(fcmToken, "The transaction has been completed", "the deposit has been paid. Please check it on MyPage.");
+    private void sendCompleteFCM(String fcmToken) {
+        fcmHelper.sendNotification(FCMState.SAVE, fcmToken, "The transaction has been completed", "the deposit has been paid. Please check it on MyPage.");
     }
 }

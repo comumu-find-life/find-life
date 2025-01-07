@@ -10,15 +10,4 @@ public enum HomeType {
     HOME_STAY(),
     STUDIO(), //(원룸)
     ONE_BED_FLAT();
-
-//    private final String value;
-//
-//    HomeType(String value) {
-//        this.value = value;
-//    }
-//
-//    @JsonValue
-//    public String getValue() {
-//        return value;
-//    }
 }

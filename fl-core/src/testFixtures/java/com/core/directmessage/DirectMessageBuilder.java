@@ -31,7 +31,7 @@ public class DirectMessageBuilder {
                 .id(1L)
                 .email("getter@naver.com")
                 .nickname("getter") //
-                .role(Role.GETTER)
+                //.role(Role.GETTER)
                 .password(encodePassword) //
                 .job("student")
                 .profileUrl("url")
@@ -47,7 +47,7 @@ public class DirectMessageBuilder {
                 .id(2L)
                 .email("getter@naver.com")
                 .nickname("getter") //
-                .role(Role.GETTER)
+                //.role(Role.GETTER)
                 .password(encodePassword) //
                 .job("student")
                 .profileUrl("url")

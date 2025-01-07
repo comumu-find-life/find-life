@@ -58,6 +58,8 @@ public class ApiUrlConstants {
     //포인트 API URL
     public static final String POINT_BASE_URL = BASE_API_URL + "/points";
     public static final String CHARGE_POINT_BY_PAYPAL = POINT_BASE_URL +"/paypal/payment-success";
+    public static final String CHARGE_POINT_SUCCESS_REDIRECT_URL = POINT_BASE_URL +"/paypal/success";
+    public static final String CHARGE_POINT_CANCEL_REDIRECT_URL = POINT_BASE_URL +"/paypal/cancel";
     public static final String APPLY_WITH_DRAW_URL = POINT_BASE_URL + "/apply/with-draw";
 
     //admin 만

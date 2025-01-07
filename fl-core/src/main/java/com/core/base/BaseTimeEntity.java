@@ -1,4 +1,4 @@
-package com.core.base.model;
+package com.core.base;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
