@@ -5,6 +5,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+# 민감한 키 파일 무시
+fl-core/src/main/resources/yaml/serviceAccountKey.json
+fl-core/src/main/resources/comumu2024-5dd03-firebase-adminsdk-uxngb-f131ead259.json
+
 ### STS ###
 .apt_generated
 .classpath
