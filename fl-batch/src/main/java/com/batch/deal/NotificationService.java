@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import static com.batch.deal.FcmMessages.*;
 
-
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
