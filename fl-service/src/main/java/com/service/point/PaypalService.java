@@ -22,7 +22,7 @@ public class PaypalService {
     @Value("${paypal.client-id}")
     private String clientId;
 
-    @Value("${paypal.secret}")
+    @Value("${paypal.client-secret}")
     private String clientSecret;
 
     @Value("${paypal.mode}")

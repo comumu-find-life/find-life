@@ -14,7 +14,7 @@ public class FirebaseConfig {
 
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
-        ClassPathResource resource = new ClassPathResource("comumu2024-5dd03-firebase-adminsdk-uxngb-f131ead259.json");
+        ClassPathResource resource = new ClassPathResource("firebase-key.json");
         InputStream refreshToken = resource.getInputStream();
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(refreshToken))
