@@ -17,7 +17,6 @@ public class FirebaseConfig {
     FirebaseMessaging firebaseMessaging() throws IOException {
         ClassPathResource resource = new ClassPathResource("comumu2024-5dd03-firebase-adminsdk-uxngb-f131ead259.json");
         InputStream refreshToken = resource.getInputStream();
-
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(refreshToken))
                 .setProjectId("comumu2024-5dd03")
