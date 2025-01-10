@@ -1,7 +1,0 @@
-spring:
-  config:
-    import:
-      - 'classpath:/yaml/application-core-dev.yml'
-      - 'classpath:/yaml/application-core-log.yml'
-server:
-  port: 8083
