@@ -49,12 +49,18 @@ public class User extends BaseTimeEntity {
 
     private String introduce;
 
+    private String refreshToken;
+
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
     }
 
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
+    }
+
+    public void setRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
     }
 
     public void setUserState(UserState userState){

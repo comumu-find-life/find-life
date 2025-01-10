@@ -6,9 +6,9 @@ import com.api.security.filter.JwtAuthenticationFilter;
 import com.api.security.handler.LoginFailureHandler;
 import com.api.security.handler.LoginSuccessHandler;
 import com.api.security.service.JwtService;
+import com.api.security.service.TokenCustomService;
 import com.core.api_core.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redis.user.service.UserRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,9 @@ import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;
 @RequiredArgsConstructor
 public class ApiSecurityConfig {
 
-    private final UserRedisService redisService;
+    //private final UserRedisService redisService;
+    private final TokenCustomService tokenCustomService;
+    private final UserRepository userRepository;
     private final JwtService jwtService;
     private final ObjectMapper objectMapper;
     private final CustomUserDetailsService userDetailsService;
@@ -78,12 +80,12 @@ public class ApiSecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationProcessingFilter() {
-        return new JwtAuthenticationFilter(jwtService, redisService);
+        return new JwtAuthenticationFilter(tokenCustomService, jwtService, userRepository);
     }
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, redisService);
+        return new LoginSuccessHandler(jwtService, userRepository);
     }
 
     @Bean

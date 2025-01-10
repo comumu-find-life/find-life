@@ -2,11 +2,12 @@ package com.api.security.filter;
 
 import com.api.security.exception.InvalidTokenException;
 import com.api.security.service.JwtService;
+import com.api.security.service.TokenCustomService;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
+import com.core.exception.NoDataException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.common.utils.SuccessResponse;
-import com.redis.user.service.UserRedisService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,9 +21,12 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -30,8 +34,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String NO_CHECK_URL = "/login";
 
+    private final TokenCustomService tokenCustomService;
     private final JwtService jwtService;
-    private final UserRedisService userRedisService;
+    private final UserRepository userRepository;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     @Override
@@ -41,23 +46,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         try {
-            String refreshToken = jwtService.extractRefreshToken(request)
-                    .filter(token -> {
-                        try {
-                            jwtService.isTokenValid(token);
-                            return true;
-                        } catch (Exception e) {
-                            return false;
-                        }
-                    })
-                    .orElse(null);
+            Optional<String> refreshToken = jwtService.extractRefreshToken(request);
 
-            if (refreshToken != null) {
-                checkRefreshTokenAndReIssueAccessToken(refreshToken, request, response);
+            if (refreshToken.isPresent()) {
+                System.out.println("refresh Token Not Empty");
+                checkRefreshTokenAndReIssueAccessToken(refreshToken.get(), request, response);
                 return;
             }
 
-            if (refreshToken == null) {
+            if (refreshToken.isEmpty()) {
+                System.out.println("refresh Token Empty");
                 checkAccessTokenAndAuthentication(request, response, filterChain);
             }
 
@@ -68,25 +66,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // refreshToken 이 있을때 refreshToken, accessToken 둘다 재발급
     public void checkRefreshTokenAndReIssueAccessToken(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
-        jwtService.extractAccessToken(request)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> {
-                            try {
-                                // 예외가 발생할 수 있는 부분을 try-catch로 처리
-                                //userRepositoryuserRepository.validateRefreshToken(email, refreshToken);
-                                String reIssuedRefreshToken = reIssueRefreshToken(email);
-                                jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(email), reIssuedRefreshToken);
-                            } catch (Exception e) {
-                                log.error("토큰 재발급 중 오류 발생: {}", e.getMessage());
-                                throw new InvalidTokenException("유효하지 않은 Refresh token 입니다.");
-                            }
-                        }));
-    }
-
-    private String reIssueRefreshToken(String email) {
-        String reIssuedRefreshToken = jwtService.createRefreshToken();
-        userRedisService.saveUserCaching(email, reIssuedRefreshToken);
-        return reIssuedRefreshToken;
+        try {
+            tokenCustomService.processRefreshToken(refreshToken, response);
+        }catch (Exception e){
+            throw new NoDataException(e.getMessage());
+        }
     }
 
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
@@ -97,7 +81,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         // isTokenValid 호출 시 예외 처리
                         jwtService.isTokenValid(accessToken);
                         jwtService.extractEmail(accessToken)
-                                .ifPresent(email -> userRedisService.findUserByEmail(email)
+                                .ifPresent(email -> userRepository.findByEmail(email)
                                         .ifPresent(this::saveAuthentication));
                     } catch (Exception e) {
                         log.error("액세스 토큰 유효성 검사 실패: {}", e.getMessage());

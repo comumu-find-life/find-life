@@ -12,9 +12,9 @@ public class WithDrawHistoryResponse {
     private Long userAccountId;
     private Long pointHistoryId;
     private String depositorName;
-    private String swiftCode;
-    private String bsb;
-    private String accountNumber;
+    private String paypalInformation;
+//    private String bsb;
+//    private String accountNumber;
     private double chargeAmount;
     private LocalDateTime historyDateTime;
     private ChargeType chargeType;

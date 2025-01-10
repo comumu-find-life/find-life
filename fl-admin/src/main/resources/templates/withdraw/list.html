@@ -13,9 +13,7 @@
         <thead>
         <tr>
             <th>예금주</th>
-            <th>계좌번호</th>
-            <th>BSB</th>
-            <th>SWIFT 코드</th>
+            <th>페이팔 입금 정보</th>
             <th>출금 금액</th>
             <th>출금 유형</th>
             <th>출금 신청 일시</th>
@@ -25,9 +23,7 @@
         <tbody>
         <tr th:each="withdraw : ${withdraws}">
             <td th:text="${withdraw.depositorName}"></td>
-            <td th:text="${withdraw.accountNumber}"></td>
-            <td th:text="${withdraw.bsb}"></td>
-            <td th:text="${withdraw.swiftCode}"></td>
+            <td th:text="${withdraw.paypalInformation}"></td>
             <td th:text="${withdraw.chargeAmount}"></td>
             <td th:text="${withdraw.chargeType}"></td>
             <td th:text="${withdraw.historyDateTime}"></td>

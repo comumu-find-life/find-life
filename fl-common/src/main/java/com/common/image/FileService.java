@@ -1,11 +1,8 @@
-package com.service.file;
+package com.common.image;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 public interface FileService {
-
     String toUrls(MultipartFile file);
 
     void fileUpload(MultipartFile file, String url);

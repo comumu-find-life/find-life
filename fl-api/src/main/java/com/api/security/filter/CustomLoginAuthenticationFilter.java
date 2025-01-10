@@ -42,19 +42,11 @@ public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProce
         if (request.getContentType() == null || (!request.getContentType().equals(CONTENT_TYPE) && !request.getContentType().startsWith(CONTENT_TYPE))) {
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
-
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
-
         Map<String, String> usernamePasswordMap = objectMapper.readValue(messageBody, Map.class);
-
-        //요청받은 messageBody 는 json 형식이므로 ObjectMapper 로 email 과 password 를 추출한다.
         String email = usernamePasswordMap.get(USERNAME_KEY);
         String password = usernamePasswordMap.get(PASSWORD_KEY);
-
-        //인증 처리 대상이 될 UsernamePasswordAuthenticationToken 객체를 email 과 password 로 만든다.
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);//principal 과 credentials 전달
-
-        // attemptAuthentication 메서드에서 인증 처리 객체를 반환하면 LoginService 의 loadUserByUsername 이 동작한다.
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 

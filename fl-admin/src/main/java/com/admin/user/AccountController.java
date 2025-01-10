@@ -18,7 +18,6 @@ public class AccountController {
     // 리스트 페이지
     @GetMapping
     public String list(HttpSession session, Model model) {
-
         model.addAttribute("withdraws", userService.findWithDraws());
         return "withdraw/list";
     }

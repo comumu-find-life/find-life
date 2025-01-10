@@ -66,6 +66,7 @@ public class Oauth2Controller {
     private LoginResponse createLoginResponse(String email) {
         String accessToken = jwtService.createAccessToken(email);
         String refreshToken = jwtService.createRefreshToken();
+        userService.updateRefreshToken(email, refreshToken);
         return LoginResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

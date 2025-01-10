@@ -136,7 +136,6 @@ public class HomeController {
 
 
     /**
-     * TODO 리책토링
      * 찜 목록 조회 api
      */
     @GetMapping(HOMES_FIND_FAVORITE)

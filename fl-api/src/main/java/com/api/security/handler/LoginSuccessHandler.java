@@ -1,8 +1,8 @@
 package com.api.security.handler;
 
 import com.api.security.service.JwtService;
+import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
-import com.redis.user.service.UserRedisService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Slf4j
@@ -18,9 +19,10 @@ import jakarta.servlet.http.HttpServletRequest;
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtService jwtService;
-    private final UserRedisService userRedisService;
+    private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) {
         String email = extractUsername(authentication);
@@ -28,8 +30,8 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
-        userRedisService.saveRefreshToken(email, refreshToken);
-        userRedisService.findUserByEmail(email);
+        User user = userRepository.findByEmail(email).get();
+        user.setRefreshToken(refreshToken);
     }
 
 

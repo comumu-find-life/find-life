@@ -30,6 +30,7 @@ public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+
     /**
      * 회원가입 api
      */
@@ -38,6 +39,12 @@ public class UserController {
                                     @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
         Long userId = userService.signUp(userSignupRequest,passwordEncoder.encode(userSignupRequest.getPassword()), image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(USERS_RE_LOGIN)
+    public ResponseEntity<?> reLogin(){
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -21,21 +21,15 @@ public class ProtectedDeal extends BaseTimeEntity {
     @Column(name = "protected_deal_id")
     private Long id;
 
-    // 집 게시글 ID
     private Long homeId;
 
-    // 채팅방 ID
     private Long dmId;
 
-    // 세입자 ID
     private Long getterId;
 
-    // 집주인 ID
     private Long providerId;
 
-    //보증금 or 계약금
     private double deposit;
-
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "protected_deal_time_id")
@@ -48,14 +42,12 @@ public class ProtectedDeal extends BaseTimeEntity {
         this.dealState = state;
     }
 
-    // 최종 결제 금액 계산 메서드
     public double calculateTotalPrice() {
         return deposit + calculateFee();
     }
 
-    // 수수료 계산 메서드
     public double calculateFee() {
-        return deposit * feeRate;
+        return Math.round(deposit * feeRate * 100.0) / 100.0;
     }
 
     public boolean isDealToday(){
@@ -63,7 +55,6 @@ public class ProtectedDeal extends BaseTimeEntity {
     }
 
     public boolean isPossibleAutoComplete(){
-        //5일이 지났는데 아직 거래중인 경우
         return protectedDealDateTime.isFiveDaysPassed() && (dealState.equals(DealState.ACCEPT_DEAL));
     }
 }

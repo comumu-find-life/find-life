@@ -1,5 +1,6 @@
 package com.service.user;
 
+import com.common.image.FileService;
 import com.common.user.mapper.UserMapper;
 import com.common.user.request.UserAccountRequest;
 import com.common.user.request.UserProfileUpdateRequest;
@@ -14,24 +15,19 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
-import com.core.exception.InvalidDataException;
-import com.service.file.FileService;
 import com.service.user.validation.UserServiceValidation;
 import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.service.user.UserMessages.*;
-
 
 @Service
 @Transactional
@@ -125,6 +121,11 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    @Transactional
+    public void updateRefreshToken(String email, String refreshToken){
+        userRepository.findByEmail(email).get().setRefreshToken(refreshToken);
+    }
+
     /**
      * 사용자 계좌 등록
      */
@@ -189,13 +190,11 @@ public class UserService {
                         .map(pointHistory -> WithDrawHistoryResponse.builder()
                                 .userAccountId(userAccount.getUserId())
                                 .pointHistoryId(pointHistory.getId())
-                                .accountNumber(userAccount.getAccountNumber())
-                                .bsb(userAccount.getBsb())
+                                .paypalInformation(userAccount.getPaypalInformation())
                                 .chargeAmount(pointHistory.getChargeAmount())
                                 .chargeType(pointHistory.getChargeType())
                                 .depositorName(userAccount.getDepositorName())
                                 .historyDateTime(pointHistory.getHistoryDateTime())
-                                .swiftCode(userAccount.getSwiftCode())
                                 .build()))
                 .collect(Collectors.toList());
     }

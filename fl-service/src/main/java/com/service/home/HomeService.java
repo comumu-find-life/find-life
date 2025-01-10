@@ -3,8 +3,7 @@ package com.service.home;
 import com.common.home.mapper.HomeMapper;
 import com.common.home.request.HomeGeneratorRequest;
 import com.common.home.request.HomeUpdateRequest;
-import com.common.home.response.HomeInformationResponse;
-import com.common.home.response.HomeOverviewResponse;
+import com.common.image.FileService;
 import com.common.user.response.UserInformationResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
@@ -12,9 +11,6 @@ import com.core.api_core.home.model.HomeImage;
 import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.repository.HomeImageRepository;
 import com.core.api_core.home.repository.HomeRepository;
-import com.core.api_core.user.model.User;
-import com.core.api_core.user.repository.UserRepository;
-import com.service.file.FileService;
 import com.service.home.utils.LatLng;
 import com.service.user.UserService;
 import com.common.utils.OptionalUtil;
@@ -23,7 +19,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,12 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.service.home.HomeMessages.NOT_EXIST_HOME;
 import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
-import static com.service.home.utils.HomeUtil.*;
-import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
 
 @Slf4j
 @Service
@@ -56,12 +48,12 @@ public class HomeService {
     public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
         Home home = homeMapper.toEntity(homeCreateDto, getLoggedInUserId());
         if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
-            home.setImages(generateHomeImages(home, files));
+            home.setImages(uploadHomeImages(home, files));
         }
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
-
+    
     /**
      * 집 게시글 수정
      */
@@ -83,7 +75,7 @@ public class HomeService {
     public void updateHomeImages(Long homeId, List<MultipartFile> files) {
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME);
         if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
-            home.addImages(generateHomeImages(home, files));
+            home.addImages(uploadHomeImages(home, files));
         }
     }
 
@@ -126,7 +118,7 @@ public class HomeService {
     /**
      * 집 게시물 url 생성 && 서버 업로드
      */
-    private List<HomeImage> generateHomeImages(Home home, List<MultipartFile> files) {
+    private List<HomeImage> uploadHomeImages(Home home, List<MultipartFile> files) {
         List<HomeImage> response = new ArrayList<>();
         for (MultipartFile file : files) {
             String url = fileService.toUrls(file);

@@ -11,9 +11,5 @@ public class UserAccountRequest {
 
     private String depositorName;
 
-    private String bsb;
-
-    private String swiftCode;
-
-    private String accountNumber;
+    private String paypalInformation;
 }
