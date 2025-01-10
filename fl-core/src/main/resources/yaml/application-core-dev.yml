@@ -17,7 +17,7 @@ spring:
           starttls:
             enable: true # 7
 
-
+ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
 paypal:
   client-id: AbvvFpoZvfxrYZnnHQqIov974vjtxD6zfjZ5MPMMk0nCDnSPhZlJVCpnJICyEEeUWfTDrfayKpIy1lIa
   client-secret: EEokBvdWXAfprqEy8QZXk8B0dKAiOAVcS0HOugWFmLgqRhuEna4aSuzAFWX_6DrIAr-V6dubtEJ5AwUf
