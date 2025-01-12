@@ -173,17 +173,31 @@
 
 
 <details>
-  <summary><b>📍 포인트 충전 기능 - 전체 보기</b></summary>
+  <summary><b>📍 안전거래 가이드 - 전체 보기</b></summary>
   
-|계좌 등록|포인트 충전|입출금 내역|
-|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/f9e06a13-d5d3-4589-a194-9ac39b195d6b" width="200"/>|<img src="https://github.com/user-attachments/assets/0889bd2a-2e34-43af-89b9-4fa34bcc691e" width="200"/>|<img src="https://github.com/user-attachments/assets/bf230286-092f-42b4-9844-b65540d94052" width="200"/>|
+|안내 화면1|안내 화면2|안내 화면3|안내 화면1|
+|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/b46c33c7-9a77-43e6-9282-13a062b469d8" width="200"/>|<img src="https://github.com/user-attachments/assets/b92a0f22-680c-4e5c-a428-1bb4d6df9b46" width="200"/>|<img src="https://github.com/user-attachments/assets/0c091b3e-8e40-4df4-80b7-cf0a6f550f31" width="200"/>|<img src="https://github.com/user-attachments/assets/10704f16-2311-4a58-bbf4-b3fc90d6649b" width="200"/>
+
+
+
+</details>
+
+<details>
+  <summary><b>📍 포인트 관련 기능 - 전체 보기</b></summary>
+  
+|포인트 내역|Paypal 정보 수정|포인트 충전|Paypal 정보 등록|Paypal WebView|출금|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/25f260cd-6200-4641-bc3b-ca557cf85610" width="200"/>|<img src="https://github.com/user-attachments/assets/e57ad6bc-7f78-4efe-8265-ab01b4d58295" width="200"/>|<img src="https://github.com/user-attachments/assets/9327ba01-7509-48a9-92c3-d0f250e1b1ae" width="200"/>|<img src="https://github.com/user-attachments/assets/4cb2262a-b72e-4b0d-89db-bb23d808c265" width="200"/>|<img src="https://github.com/user-attachments/assets/6033715f-af3e-4857-89e7-28ad22a7a30c" width="200"/>|<img src="https://github.com/user-attachments/assets/d28b2b89-ba0b-4dd3-9407-a0096024f731" width="200"/>
 
 ```
-[거래 완료]
-  계좌 등록 - 계좌 정보가 등록한다.
-  포인트 충전 - 포인트를 충전한다. (Paypal or 계좌이제)
-  입출금 내역 - 포인트 입출금 내역을 조회한다.
+[포인트]
+  포인트 내역 - 포인트 입,출금 내역을 조회한다.
+  Paypal 정보수정 - 자신의 Paypal 정보를 수정한다.
+  포인트 충전 - 포인트를 충전한다.
+  Paypal 정보 등록 - 자신의 Paypal 정보를 등록한다.
+  Paypal WebView - 포인트 충전은 Paypal 을 통해 진행된다
+  출금 - 자신이 보유한 포인트를 출금한다.
 ```
 
 </details>
@@ -193,6 +207,9 @@
 
 ### 🗂️ ERD
 ----
+<img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="500" height="650"/>
+
+
 <br />
 
 ### 🛠️ 프로젝트 아키텍쳐
