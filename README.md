@@ -25,9 +25,9 @@
 ### ⚙ 기술 스택
 ----
 
-**Backend** : `Spring Boot`, `JPA`, `QueryDSL` 
-**Database** : `MySQL`, `MongoDB`, `Redis` 
-**Frontend** : `Flutter`  
+**Backend** : `Spring Boot`, `JPA`, `QueryDSL`        
+**Database** : `MySQL`, `MongoDB`, `Redis`           
+**Frontend** : `Flutter`              
 
 <br />
 
