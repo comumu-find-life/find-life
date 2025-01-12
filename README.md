@@ -134,14 +134,6 @@
 |:---:|:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/c735bd21-8bb4-4a78-b65f-eee66ccb1d20" width="200"/>|<img src="https://github.com/user-attachments/assets/ba1c8683-2e7d-4346-b7a8-4f635b9a025a" width="200"/>|<img src="https://github.com/user-attachments/assets/2cae77eb-9bd1-4904-804f-3723e1c2c0aa" width="200"/>|<img src="https://github.com/user-attachments/assets/20ede429-f967-4836-85c3-6244bbf9e86d" width="200"/>|<img src="https://github.com/user-attachments/assets/807c5deb-8231-4708-98cd-a3f2bcd14740" width="200"/>|
 
-|거래수락1|거래수락2|거래수락3|
-|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/75b6f83a-bec0-45f9-9822-ce2f68acd622" width="200"/>|<img src="https://github.com/user-attachments/assets/c9af18b7-8606-4b82-8fbf-75e45782ed4d" width="200"/>|<img src="https://github.com/user-attachments/assets/093afd8c-7ae9-4940-ae52-7044fcffa7ed" width="200"/>|
-
-|거래 완료1|거래 완료2|거래 완료3|거래 완료4|거래 목록|
-|:---:|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/e6d54231-827f-4edd-bc15-1e73701eca4b" width="200"/>|<img src="https://github.com/user-attachments/assets/1f51c1ae-a0cb-4185-9204-32770e59079d" width="200"/>|<img src="https://github.com/user-attachments/assets/efe08ef8-09be-4b74-b419-01d0f84a56eb" width="200"/>|<img src="https://github.com/user-attachments/assets/889b72fb-73bd-451e-8e85-c3dd5f115b98" width="200"/>|<img src="https://github.com/user-attachments/assets/c11676b9-016e-4e71-b2d9-d5f4bed6dea9" width="200"/>|
-
 **기능 설명**
 ```
 [안전 거래 생성]
@@ -151,19 +143,31 @@
   거래 생성2 - 거래 정보를 확인 후 생성한다.
   거래 생성3 - 안전거래 생성이 완료되면 채팅 화면 위젯으로 나타난다.
 ```
+
+|거래수락1|거래수락2|거래수락3|거래수락4|
+|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/422d245d-e375-40f3-8980-037783ca6bd6" width="200"/>|<img src="https://github.com/user-attachments/assets/fffd1f75-4a93-45cc-b072-bb765f40bc7c" width="200"/>|<img src="https://github.com/user-attachments/assets/ae2be066-964b-4f21-bfa8-48666705a8c3" width="200"/>|<img src="https://github.com/user-attachments/assets/a676ba01-b1c0-4e2b-bcf2-ca74059a85e1" width="200"/>
+
 ```
 [거래 수락]
   거래 수락1 - 임차인은 생성된 안전 거래를 조회한다.
-  거래 수락2 - 임차인은 거래 정보를 확인 후 수락한다.(임차인 포인트 차감)
-  거래 수락3 - 임차인이 거래를 수락하면 채팅 화면 위젯으로 나타난다.
+  거래 수락2 - 임차인은 거래 정보를 확인 한다.
+  거래 수락3 - 임차인은 거래 정보를 수락한다.(임차인 포인트 차감)
+  거래 수락4 - 임차인이 거래를 수락하면 채팅 화면 위젯으로 나타난다.
 ```
+
+|거래 완료1|거래 완료2|거래 완료3|거래 목록|거래 정보|
+|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/2d84b0a6-c1ef-4776-a3f3-567c6ebb6877" width="200"/>|<img src="https://github.com/user-attachments/assets/abcb4fb0-7140-44b6-8c16-1fefa323df50" width="200"/>|<img src="https://github.com/user-attachments/assets/783fedc3-31fe-42dd-be06-e878334aadde" width="200"/>|<img src="https://github.com/user-attachments/assets/839989d5-7750-4391-8d63-f2080c170344" width="200"/>|<img src="https://github.com/user-attachments/assets/f3efbdec-71dd-45fe-98ce-91358462cf66" width="200"/>|
+
+
 ```
 [거래 완료]
-  거래 완료1 - 진행중인 거래 위젯을 클릭한다.
-  거래 완료2 - 임차인과 임대인이 실제로 만나 거래가 성사되면, 임차인은 거래 완료 버튼을 누른다.(임대인 포인트 증가)
-  거래 완료3 - 완료된 거래 내역을 조회한다.
-  거래 완료4 - 거래 완료 위젯이 채팅 화면으로 나타난다.
-  거래 목록 - 마이페이지에서 완료된 거래 정보를 조회한다.
+  거래 완료1 - 임차인과 임대인이 실제로 만나 거래가 성사되면, 임차인은 거래 완료 버튼을 누른다.
+  거래 완료2 - 임차인은 거래 완료 버튼을 누른다.(임대인 포인트 증가)
+  거래 완료3 - 거래가 완료되면 채팅 위젯으로 나타난다.
+  거래 목록1 - 완료된 거래 내역은 마이페이지에서 조회가 가능하다.
+  거래 정보 - 거래 내역을 조회한다.
 ```
 </details>
 
