@@ -49,27 +49,48 @@
 
 
 <details>
-  <summary><b>📍 집 게시글 조회 기능 - 전체 보기</b></summary>
+  <summary><b>📍 메인화면 - 전체 보기</b></summary>
   
 |메인화면|찜 목록|지도 검색|채팅방|마이페이지|
 |:---:|:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/1b2dc5af-f4fd-47cd-8dbd-acac21fd71ea" width="200"/>|<img src="https://github.com/user-attachments/assets/ac0d39ac-b0c0-49f7-a125-5b1a8143ac9b" width="200"/>|<img src="https://github.com/user-attachments/assets/f643cf71-ecf1-4a2c-91fb-216a6bda2c8d" width="200"/>|<img src="https://github.com/user-attachments/assets/9348cc84-2562-46b4-b791-23eca3b9c3f9" width="200"/>|<img src="https://github.com/user-attachments/assets/599de358-24d9-43fc-886a-d47527c4e762" width="200"/>
 
 
-|상세 화면1|상세 화면2| 대화 전송|
-|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/bdb029f3-5edd-4314-a781-d640f49d6ce0" width="200"/>|<img src="https://github.com/user-attachments/assets/a9a2cb03-8075-4ca8-86b6-9e8bed7fa595" width="200"/>|<img src="https://github.com/user-attachments/assets/9ece2fab-65b9-499c-a156-0f39ac28723a" width="200"/>
 
 **기능 설명**
 ```
 메인화면 - 호주의 대도시를 리스트로 만들어 클릭시 해당 지역의 게시물을 조회한다.
-집 리스트 - 게시된 집 게시물을 조회한다.
-맵 클러스트 - Google Map 을 연동해 Cluster 기능을 구현했다. 줌인,아웃으로 집 조회가 가능한다.
-필터링 - 조회하고자 하는 집 정보를 필터링한다.
-주소 검색 - Google Map API 를 연동해 글자 이벤트가 발생하는 즉시 주소를 조회한다.
-상세 화면1 - 집 게시물의 상세 정보를 조회한다.
-상세 화면2 - 집 게시물의 상세 정보를 조회한다.
-대화 전송 - 하단의 Send Message 버튼을 눌러 임대인과의 대화를 시작한다.
+찜 목록 - 찜 목록을 관리한다.
+지도 검색 - Google Map 을 연동해 Cluster 기능을 구현했다. 줌인,아웃으로 집 조회가 가능하다.
+채팅방 - 자신의 채팅 목록을 조회한다.
+마이페이지 - 자신의 정보를 조회한다.
+
+```
+
+</details>
+
+
+<details>
+  <summary><b>📍 집 게시글 조회 - 전체 보기</b></summary>
+  
+|맵 검색|필터링|주소 검색|리스트 목록|
+|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/5956f026-fa73-4dd2-a3e0-c11cc77ba4e8" width="200"/>|<img src="https://github.com/user-attachments/assets/1fb81c90-1810-4ca2-af96-4a14e9cc38d3" width="200"/>|<img src="https://github.com/user-attachments/assets/8d330cac-ec04-4165-ab6c-0d47b8e2fd61" width="200"/>|<img src="https://github.com/user-attachments/assets/f826885c-90b4-4cf7-9ede-bc57daa555bb" width="200"/>
+
+|집 정보1|집 정보2|집 정보3|
+|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/2dceb108-580a-4127-9e71-477c47ab6d83" width="200"/>|<img src="https://github.com/user-attachments/assets/616d291c-6c1e-4ecc-b2f3-b557a488bcd7" width="200"/>|<img src="https://github.com/user-attachments/assets/8a68555b-72fb-4a79-b54f-042cc42c273e" width="200"/>
+
+
+
+**기능 설명**
+```
+맵 검색 - Google Map 을 연동해 Cluster 기능을 구현했다. 줌인,아웃으로 집 조회가 가능하다.
+필터링 - 찾고자 하는 집 정보를 필터링한다.
+주소 검색 - Google Api 와 연동해 도시(city) 와 주(state)를 조회한다.
+리스트 목록 - 집 목록을 리스트 형식으로 조회한다.
+집 정보1~3 - 집 정보를 조회한다.
+
 ```
 
 </details>
