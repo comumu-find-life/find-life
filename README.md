@@ -25,8 +25,8 @@
 ### ⚙ 기술 스택
 ----
 
-**Backend** : `Spring Boot`, "JPA", "QueryDSL"  
-**Database** : `MySQL`, `MongoDB`  
+**Backend** : `Spring Boot`, `JPA`, `QueryDSL` 
+**Database** : `MySQL`, `MongoDB`, `Redis` 
 **Frontend** : `Flutter`  
 
 <br />
@@ -34,11 +34,11 @@
 ### 💁‍♂️ 참여 인원 && 기여도 
 ----
 
-**Backend** : 2명(본인 포함)  
+**Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)
 **Frontend** : 1명(본인 포함)  
 
 **기여도**   
-**Backend** : 기여도(80%)  
+**Backend** : 기여도(90%)  
 **Front** : 기여도(100%)  
 
 <br />
@@ -128,11 +128,11 @@
 </details>
 
 <details>
-  <summary><b>📍 안전 거래 화면 - 전체 보기</b></summary>
+  <summary><b>📍 채팅 && 안전 거래 화면 - 전체 보기</b></summary>
   
-|거래생성1|거래생성2|거래생성3|거래생성4|
-|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/cfa2b75b-448f-4d30-8d4b-d99f4216cdf3" width="200"/>|<img src="https://github.com/user-attachments/assets/e9a48f22-1c4b-440d-8a3f-c30d7a928858" width="200"/>|<img src="https://github.com/user-attachments/assets/26da86c9-3cce-4732-b7c8-70d5597a04d7" width="200"/>|<img src="https://github.com/user-attachments/assets/1a2f78eb-fc00-4185-b24c-0c55dc341049" width="200"/>|
+|임대인 채팅1|임대인 채팅2|거래 생성1|거래 생성2|거래 생성3|
+|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/c735bd21-8bb4-4a78-b65f-eee66ccb1d20" width="200"/>|<img src="https://github.com/user-attachments/assets/ba1c8683-2e7d-4346-b7a8-4f635b9a025a" width="200"/>|<img src="https://github.com/user-attachments/assets/2cae77eb-9bd1-4904-804f-3723e1c2c0aa" width="200"/>|<img src="https://github.com/user-attachments/assets/20ede429-f967-4836-85c3-6244bbf9e86d" width="200"/>|<img src="https://github.com/user-attachments/assets/807c5deb-8231-4708-98cd-a3f2bcd14740" width="200"/>|
 
 |거래수락1|거래수락2|거래수락3|
 |:---:|:---:|:---:|
@@ -145,10 +145,11 @@
 **기능 설명**
 ```
 [안전 거래 생성]
-  거래 생성1 - 임대인이 "Deal" 버튼을 눌러 안전거래를 생성한다.
-  거래 생성2 - 임대인이 "계약금"을 입력한다.
-  거래 생성3 - 안전거래 정보를 확인 후 생성한다.
-  거래 생성4 - 안전거래 생성이 완료되면 채팅 화면 위젯으로 나타난다.
+  임대인 채팅1 - 자신에게 온 채팅을 조회한다.
+  임대인 채팅2 - 상단에 있는 "Deal" 버튼을 눌러 안전거래를 생성한다.
+  거래 생성1 - 계약금(Deposit) 과 거래 날짜,시간을 지정한다.
+  거래 생성2 - 거래 정보를 확인 후 생성한다.
+  거래 생성3 - 안전거래 생성이 완료되면 채팅 화면 위젯으로 나타난다.
 ```
 ```
 [거래 수락]
