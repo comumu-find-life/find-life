@@ -3,7 +3,9 @@ package com.common.image;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileService {
-    String toUrls(MultipartFile file);
+    String toUrls(final MultipartFile file);
 
-    void fileUpload(MultipartFile file, String url);
+    void fileUpload(final MultipartFile file, final String url);
+
+    void deleteFile(final String fileName);
 }

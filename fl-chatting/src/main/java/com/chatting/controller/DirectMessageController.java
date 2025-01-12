@@ -11,9 +11,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 
-/**
- * STOMP 소켓 통신 Controller
- */
 @Controller
 @RequiredArgsConstructor
 public class DirectMessageController {
@@ -24,18 +21,12 @@ public class DirectMessageController {
 
 
     @MessageMapping(value = "/chat/message")
-    public void message(DirectMessageRequest dmDto) throws IllegalAccessException {
-        // 메시지 저장
+    public void message(final DirectMessageRequest dmDto)  {
         DirectMessageResponse response = dmService.sendDM(dmDto);
-
-        // 수신자가 채팅방에 있는지 확인
         boolean isReceiverInRoom = sessionManager.isUserInRoom(dmDto.getRoomId(), dmDto.getReceiverId());
-
-        // 읽음 여부 업데이트
         if(isReceiverInRoom) {
             dmService.updateMessageReadStatus(response.getId());
         }
-        // 웹소켓 전송
         template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), response);
     }
 

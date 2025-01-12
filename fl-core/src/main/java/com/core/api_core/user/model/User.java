@@ -63,8 +63,4 @@ public class User extends BaseTimeEntity {
         this.refreshToken = refreshToken;
     }
 
-    public void setUserState(UserState userState){
-        this.userState = userState;
-    }
-
 }

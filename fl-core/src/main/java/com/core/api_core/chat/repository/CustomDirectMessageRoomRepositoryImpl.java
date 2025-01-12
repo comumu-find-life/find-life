@@ -43,4 +43,15 @@ public class CustomDirectMessageRoomRepositoryImpl implements CustomDirectMessag
                         .or(directMessageRoom.user2.id.eq(userId)))
                 .fetch();
     }
+
+    @Override
+    public void deleteAllByUserId(Long userId) {
+        QDirectMessageRoom directMessageRoom = QDirectMessageRoom.directMessageRoom;
+
+        queryFactory
+                .delete(directMessageRoom)
+                .where(directMessageRoom.user1.id.eq(userId)
+                        .or(directMessageRoom.user2.id.eq(userId)))
+                .execute();
+    }
 }

@@ -26,48 +26,32 @@ import static com.chatting.controller.SuccessDirectMessages.*;
 public class DirectMessageApiController {
 
     private final DirectMessageService dmService;
-    private final FCMHelper fcmService;
 
-    /**
-     * 첫 채팅 전송 API (채팅방 생성)
-     */
     @PostMapping(DM_SEND_FIRST_URL)
-    public ResponseEntity<?> createDirectMessageRoom(@RequestBody DirectMessageApplicationRequest dmDto) throws IllegalAccessException {
+    public ResponseEntity<?> createDirectMessageRoom(@RequestBody final DirectMessageApplicationRequest dmDto) throws IllegalAccessException {
         Long roomId = dmService.createDirectMessageRoom(dmDto);
         SuccessResponse response = new SuccessResponse(true, DIRECT_MESSAGE_ROOM_CREATE_SUCCESS, roomId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 두 사용자가 주고 받은 채팅 정보 모두 조회 API
-     */
     @GetMapping(DM_HISTORY_URL)
-    public ResponseEntity<?> findDirectMessageHistory(@RequestParam Long user1Id, @RequestParam Long user2Id) {
+    public ResponseEntity<?> findDirectMessageHistory(@RequestParam final Long user1Id, @RequestParam final Long user2Id) {
         List<DirectMessageResponse> chatHistory = dmService.findChatHistory(user1Id, user2Id);
         SuccessResponse response = new SuccessResponse(true, DIRECT_MESSAGE_HISTORY_FIND_SUCCESS, chatHistory);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 모두 읽음 표시
-     */
     @PostMapping(DM_CHECK_READ_URL)
-    public ResponseEntity<?> checkReadMessage(@RequestBody DirectMessageReadRequest directMessageReadRequest){
+    public ResponseEntity<?> checkReadMessage(@RequestBody final DirectMessageReadRequest directMessageReadRequest){
         dmService.checkReadMessages(directMessageReadRequest);
         SuccessResponse response = new SuccessResponse(true, "", null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 자신의 모든 채팅 목록 조회
-     */
     @GetMapping(DM_FIND_ALL_ROOMS)
-    public ResponseEntity<?> findDirectMessageList(@PathVariable Long userId){
-        //todo 각 채팅방 별로 읽지 않은 메시지 개수 조회
+    public ResponseEntity<?> findDirectMessageList(@PathVariable final Long userId){
         List<DirectMessageRoomListResponse> directMessageRoomsByUser = dmService.getDirectMessageRoomsByUser(userId);
         SuccessResponse response = new SuccessResponse(true, DIRECT_MESSAGE_LIST_FIND_SUCCESS, directMessageRoomsByUser);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-
 }

@@ -22,7 +22,6 @@ public class UserBuilder {
                 .id(5L)
                 .email(USER_EMAIL)
                 .nickname(USER_NICKNAME) //
-                .role(USER_ROLE)
                 .password(encodePassword) //
                 .job(USER_JOB)
                 .profileUrl(USER_PROFILE_URL)

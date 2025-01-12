@@ -1,7 +1,6 @@
 package com.api.point;
 
 import com.core.exception.InsufficientPointsException;
-import org.springframework.ui.Model;
 import com.common.point.request.PaymentRequest;
 import com.common.utils.SuccessResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,11 +24,8 @@ public class PointController {
     private final PaypalService paypalService;
     private final PointService pointService;
 
-    /**
-     * 페이팔 결제 확인 후 포인트 충전 api
-     */
     @PostMapping(CHARGE_POINT_BY_PAYPAL)
-    public ResponseEntity<?> paymentSuccess(@RequestBody PaymentRequest request) throws JsonProcessingException {
+    public ResponseEntity<?> paymentSuccess(@RequestBody final  PaymentRequest request) throws JsonProcessingException {
         boolean isPayment = paypalService.verifyPayment(request);
         if(isPayment){
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -41,33 +37,27 @@ public class PointController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 출금 신청 api
-     */
+
     @PostMapping(APPLY_WITH_DRAW_URL)
-    public ResponseEntity<?> applyWithDraw(@RequestParam Integer price) throws InsufficientPointsException {
+    public ResponseEntity<?> applyWithDraw(@RequestParam final Integer price) throws InsufficientPointsException {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         pointService.applyWithDraw(email, price);
         SuccessResponse response = new SuccessResponse(true, APPLY_WITH_DRAW, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(CHARGE_POINT_SUCCESS_REDIRECT_URL)
-    public ResponseEntity<String> paymentSuccess(
-            @RequestParam("paymentId") String paymentId,
-            @RequestParam("PayerID") String payerID,
-            @RequestParam("token") String token) {
-
-        // 성공 처리 로직
-        System.out.println("CALL!");
-        return ResponseEntity.ok("Payment Successful!");
-    }
-
-    @GetMapping(CHARGE_POINT_CANCEL_REDIRECT_URL)
-    public ResponseEntity<String> paymentCancel() {
-        // 결제 취소 처리 로직
-        System.out.println("CALL2!");
-        return ResponseEntity.ok("Payment Cancelled!");
-    }
+//    @GetMapping(CHARGE_POINT_SUCCESS_REDIRECT_URL)
+//    public ResponseEntity<String> paymentSuccess(
+//            @RequestParam("paymentId") String paymentId,
+//            @RequestParam("PayerID") String payerID,
+//            @RequestParam("token") String token) {
+//
+//        return ResponseEntity.ok("Payment Successful!");
+//    }
+//
+//    @GetMapping(CHARGE_POINT_CANCEL_REDIRECT_URL)
+//    public ResponseEntity<String> paymentCancel() {
+//        return ResponseEntity.ok("Payment Cancelled!");
+//    }
 
 }

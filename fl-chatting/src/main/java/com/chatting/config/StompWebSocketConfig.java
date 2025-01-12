@@ -9,32 +9,28 @@ import org.springframework.web.socket.config.annotation.*;
 @Configuration
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-
     @Value("${domain.base}")
     private String baseUrl;
 
-    // /dm
     @Value("${domain.chat.directMessage}")
     private String dmUrl;
 
-    // /pub
     @Value("${domain.chat.publish}")
     private String pub;
 
-    // /sub
     @Value("${domain.chat.subscribe}")
     private String sub;
 
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
+    public void registerStompEndpoints(final StompEndpointRegistry registry) {
         registry.addEndpoint(dmUrl)
                 .setAllowedOrigins(baseUrl)
                 .withSockJS();
     }
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
+    public void configureMessageBroker(final MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes(pub);
         registry.enableSimpleBroker(sub);
     }

@@ -26,7 +26,7 @@ public class S3Service implements FileService{
     }
 
     @Override
-    public String toUrls(MultipartFile file) {
+    public String toUrls(final MultipartFile file) {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter =
                 DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -35,9 +35,10 @@ public class S3Service implements FileService{
         String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         return createdDate + File.separator + uuid + ext;
     }
+
     @Async
     @Override
-    public void fileUpload(MultipartFile file, String fileName) {
+    public void fileUpload(final MultipartFile file,final String fileName) {
         try {
             InputStream inputStream = file.getInputStream();
             ObjectMetadata metadata = new ObjectMetadata();
@@ -46,6 +47,17 @@ public class S3Service implements FileService{
             System.out.println("Image uploaded successfully:" + fileName);
         } catch (IOException e) {
             System.out.println("Failed to upload image: :"  + file.getOriginalFilename() + e);
+        }
+    }
+
+    @Override
+    @Async
+    public void deleteFile(final String fileName) {
+        try {
+            amazonS3.deleteObject(bucketName, fileName);
+            System.out.println("Image deleted successfully: " + fileName);
+        } catch (Exception e) {
+            System.out.println("Failed to delete image: " + fileName + " " + e);
         }
     }
 }

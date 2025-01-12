@@ -10,12 +10,9 @@ import org.springframework.data.redis.core.RedisHash;
 import java.io.Serializable;
 
 
-/**
- * RedisHash 는 해당 클래스가 Redis 에 해시 형태로 저장될 엔티티임을 나타냄
- */
 @Getter
 @AllArgsConstructor
-@RedisHash(value = "VerificationCode", timeToLive = 300) // TTL: 5분
+@RedisHash(value = "VerificationCode", timeToLive = 300)
 public class VerificationCode implements Serializable {
 
     @Id

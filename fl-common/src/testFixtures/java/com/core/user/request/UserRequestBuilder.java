@@ -19,7 +19,6 @@ public class UserRequestBuilder {
                 .nickname(USER_NICKNAME)
                 .password(USER_PASSWORD)
                 .job(USER_JOB)
-                .role(USER_ROLE)
                 .brith(25)
                 .phoneNumber(01012341234)
                 .gender(Gender.MALE)

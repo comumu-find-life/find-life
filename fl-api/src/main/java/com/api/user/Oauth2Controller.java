@@ -35,11 +35,9 @@ public class Oauth2Controller {
     private final GoogleAuthService googleAuthService;
     private final JwtService jwtService;
 
-    /**
-     * Google 소셜 로그인
-     */
+
     @PostMapping(GOOGLE_LOGIN_URL)
-    public ResponseEntity<?> authenticateWithGoogle(@RequestBody GoogleAuthRequest request) throws GeneralSecurityException, IOException {
+    public ResponseEntity<?> authenticateWithGoogle(@RequestBody final GoogleAuthRequest request) throws GeneralSecurityException, IOException {
         String email = googleAuthService.getGoogleEmail(request);
         if (!userService.isExistAccountByEmail(email)) {
             SuccessResponse successResponse = new SuccessResponse(false, REQUEST_SIGN_UP_MESSAGE, email);
@@ -49,11 +47,9 @@ public class Oauth2Controller {
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
-    /**
-     * Apple 소셜 로그인
-     */
+
     @PostMapping(APPLE_LOGIN_URL)
-    public ResponseEntity<?> authenticateWithApple(@RequestBody String identityToken) throws IOException, ParseException, JOSEException {
+    public ResponseEntity<?> authenticateWithApple(@RequestBody final String identityToken) throws IOException, ParseException, JOSEException {
         String email = appleAuthService.getAppleEmail(identityToken);
         if (!userService.isExistAccountByEmail(email)) {
             SuccessResponse successResponse = new SuccessResponse(false, REQUEST_SIGN_UP_MESSAGE, email);
@@ -63,7 +59,7 @@ public class Oauth2Controller {
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
-    private LoginResponse createLoginResponse(String email) {
+    private LoginResponse createLoginResponse(final String email) {
         String accessToken = jwtService.createAccessToken(email);
         String refreshToken = jwtService.createRefreshToken();
         userService.updateRefreshToken(email, refreshToken);

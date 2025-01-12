@@ -50,7 +50,7 @@ public class ProtectedDealService {
         ProtectedDeal deal = mapper.toEntity(request);
         Long dealId = protectedDealRepository.save(deal).getId();
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(request.getHomeId()), NOT_EXIST_HOME_ID);
-        home.setHomeStatus(HomeStatus.DURING_SELL);
+//        home.setHomeStatus(HomeStatus.DURING_SELL);
         ProtectedDealGeneratorResponse protectedDealGeneratorResponse = mapper.toGeneratorResponse(dealId);
         return protectedDealGeneratorResponse;
     }

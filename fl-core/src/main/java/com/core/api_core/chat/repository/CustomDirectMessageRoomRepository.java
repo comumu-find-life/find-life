@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface CustomDirectMessageRoomRepository {
 
-    Optional<DirectMessageRoom> findByUser1IdAndUser2Id(Long user1Id, Long user2Id);
+    Optional<DirectMessageRoom> findByUser1IdAndUser2Id(final Long user1Id, final Long user2Id);
 
-    List<DirectMessageRoom> findByUser1IdOrUser2Id(Long userId);
+    List<DirectMessageRoom> findByUser1IdOrUser2Id(final Long userId);
+
+    void deleteAllByUserId(final Long userId);
 }

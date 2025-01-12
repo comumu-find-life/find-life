@@ -88,7 +88,10 @@ public class HomeService {
                 .map(imageUrl -> homeImageRepository.findByImageUrl(imageUrl))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .forEach(homeImageRepository::delete);
+                .forEach(homeImage -> {
+                    homeImageRepository.delete(homeImage); // DB에서 삭제
+                    fileService.deleteFile(homeImage.getImageUrl()); // S3에서 삭제
+                });
     }
 
 

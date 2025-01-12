@@ -1,5 +1,6 @@
 package com.common.home.response;
 
+import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.model.HomeType;
 import com.core.api_core.user.model.Gender;
 import lombok.AllArgsConstructor;
@@ -57,6 +58,8 @@ public class HomeInformationResponse {
     private double longitude;
 
     private boolean canParking;
+
+    private HomeStatus homeStatus;
 
     // DTO 는 도메인과 완전히 분리 되어야해.
 //    private HomeInfo homeInfo;

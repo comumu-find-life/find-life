@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.chatting.service.DirectMessageHandler.createDirectMessageRequest;
+import static com.chatting.service.DirectMessageHelper.createDirectMessageRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -39,11 +39,8 @@ public class DirectMessageService {
     private final DirectMessageMapper mapper;
     private final DirectMessageRoomMapper directMessageRoomMapper;
 
-    /**
-     * 채팅방 생성
-     */
     @Transactional
-    public Long createDirectMessageRoom(DirectMessageApplicationRequest request) throws IllegalAccessException {
+    public Long createDirectMessageRoom(final DirectMessageApplicationRequest request) {
         Long receiverId = request.getReceiverId();
         Long senderId = request.getSenderId();
         Long roomId = saveOrUpdateDirectMessageRoom(Math.min(senderId, receiverId), Math.max(senderId, receiverId), request);
@@ -52,10 +49,8 @@ public class DirectMessageService {
         return roomId;
     }
 
-    /**
-     * 채팅 전송
-     */
-    public DirectMessageResponse sendDM(DirectMessageRequest dmDto)  {
+
+    public DirectMessageResponse sendDM(final DirectMessageRequest dmDto)  {
         try {
             DirectMessage directMessage = mapper.toDirectMessage(dmDto);
             DirectMessage save = dmRepository.save(directMessage);
@@ -71,21 +66,17 @@ public class DirectMessageService {
 
     @Transactional
     @Async
-    public void updateMessageReadStatus(String messageId) {
-        DirectMessage message = dmRepository.findById(messageId)
-                .orElseThrow(() -> new IllegalArgumentException("Message not found: " + messageId));
+    public void updateMessageReadStatus(final String messageId) {
+        DirectMessage message = OptionalUtil.getOrElseThrow(dmRepository.findById(messageId), "Message not found");
         message.setRead(true);
         dmRepository.save(message);
     }
 
-    public DirectMessage getLastMessage(Long user1Id, Long user2Id) {
+    public DirectMessage getLastMessage(final Long user1Id, final Long user2Id) {
         return OptionalUtil.getOrElseThrow(dmRepository.findLastMessageByUserIds(user1Id, user2Id), "채팅 정보가 존재하지 않습니다.");
     }
 
-    /**
-     * 자신이 속한 채팅방 리스트 조회 메서드
-     */
-    public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser(Long userId) {
+    public List<DirectMessageRoomListResponse> getDirectMessageRoomsByUser(final Long userId) {
         List<DirectMessageRoom> rooms = directMessageRoomRepository.findByUser1IdOrUser2Id(userId);
         return rooms.stream()
                 .map(room -> {
@@ -98,10 +89,7 @@ public class DirectMessageService {
     }
 
 
-    /**
-     * 두명 사용자의 채팅 내역 조회 메서드
-     */
-    public List<DirectMessageResponse> findChatHistory(Long user1Id, Long user2Id) {
+    public List<DirectMessageResponse> findChatHistory(final Long user1Id, final Long user2Id) {
         List<DirectMessage> dmLogs = dmRepository.findDirectMessageByUserIds(user1Id, user2Id);
         List<DirectMessageResponse> dmLogDtos = dmLogs.stream()
                 .map(dm -> mapper.toDirectMessageResponse(dm))
@@ -109,20 +97,18 @@ public class DirectMessageService {
         return dmLogDtos;
     }
 
-    /**
-     * 채팅 읽음 처리 메서드
-     */
+
     @Transactional
-    public void checkReadMessages(DirectMessageReadRequest directMessageReadRequest){
+    public void checkReadMessages(final DirectMessageReadRequest directMessageReadRequest){
         dmRepository.markMessagesAsRead(directMessageReadRequest.getSenderId(), directMessageReadRequest.getReceiverId());
     }
 
-    private Long saveOrUpdateDirectMessageRoom(Long user1Id, Long user2Id, DirectMessageApplicationRequest request) {
+    private Long saveOrUpdateDirectMessageRoom(final Long user1Id, final Long user2Id, final DirectMessageApplicationRequest request) {
         Optional<DirectMessageRoom> directMessageRoom = directMessageRoomRepository.findByUser1IdAndUser2Id(user1Id, user2Id);
         if (directMessageRoom.isEmpty()) {
-            User user1 = userRepository.findById(user1Id).orElseThrow(() -> new IllegalArgumentException("User not found: " + user1Id));
-            User user2 = userRepository.findById(user2Id).orElseThrow(() -> new IllegalArgumentException("User not found: " + user2Id));
-            DirectMessageRoom newRoom = DirectMessageHandler.createDirectMessageRoom(user1, user2, request.getRoomId());
+            User user1 = OptionalUtil.getOrElseThrow(userRepository.findById(user1Id), "user not found");
+            User user2 = OptionalUtil.getOrElseThrow(userRepository.findById(user2Id), "user not found");
+            DirectMessageRoom newRoom = DirectMessageHelper.createDirectMessageRoom(user1, user2, request.getRoomId());
             return directMessageRoomRepository.save(newRoom).getId();
         }
         DirectMessageRoom room = directMessageRoom.get();

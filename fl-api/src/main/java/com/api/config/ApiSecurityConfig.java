@@ -32,7 +32,6 @@ import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;
 @RequiredArgsConstructor
 public class ApiSecurityConfig {
 
-    //private final UserRedisService redisService;
     private final TokenCustomService tokenCustomService;
     private final UserRepository userRepository;
     private final JwtService jwtService;

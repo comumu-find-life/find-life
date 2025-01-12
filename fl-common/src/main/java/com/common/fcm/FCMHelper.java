@@ -11,7 +11,7 @@ public class FCMHelper {
 
     private final FirebaseMessaging firebaseMessaging;
 
-    public void sendNotification(FCMState fcmState, String token, String title, String body) {
+    public void sendNotification(final FCMState fcmState, final String token, final String title, final String body) {
         try {
             Message message = createMessage(fcmState, token, title, body);
             firebaseMessaging.send(message);
@@ -20,7 +20,7 @@ public class FCMHelper {
         }
     }
 
-    private Message createMessage(FCMState fcmState, String token, String title, String body) {
+    private Message createMessage(final FCMState fcmState, final String token, final String title, final String body) {
         return Message.builder()
                 .setToken(token)
                 .setNotification(Notification.builder()
@@ -35,19 +35,17 @@ public class FCMHelper {
                                         .setBody(body)
                                         .build()
                                 )
-                                .setContentAvailable(true) // iOS 백그라운드 처리를 위한 키 추가
-                                .setMutableContent(true)  // iOS 푸시 내용 변경 가능 설정
+                                .setContentAvailable(true)
+                                .setMutableContent(true)
                                 .build()
                         )
-                        // iOS용 데이터 추가
-                        .putHeader("apns-push-type", "alert") // 푸시 유형 설정 (필수)
-                        .putHeader("apns-priority", "10")    // 우선 순위 설정
-                        .putCustomData("isSave", fcmState.getValue()) // 데이터 추가
+                        .putHeader("apns-push-type", "alert")
+                        .putHeader("apns-priority", "10")
+                        .putCustomData("isSave", fcmState.getValue())
                         .putCustomData("title", title)
                         .putCustomData("body", body)
                         .build()
                 )
-                // Android용 데이터 추가
                 .putData("title", title)
                 .putData("body", body)
                 .putData("isSave", fcmState.getValue())

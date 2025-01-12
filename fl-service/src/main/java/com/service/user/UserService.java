@@ -9,16 +9,20 @@ import com.common.user.response.UserAccountResponse;
 import com.common.user.response.UserInformationResponse;
 import com.common.user.response.UserProfileResponse;
 import com.common.user.response.WithDrawHistoryResponse;
+import com.core.api_core.chat.model.DirectMessageRoom;
+import com.core.api_core.chat.repository.DirectMessageRoomRepository;
 import com.core.api_core.user.model.ChargeType;
 import com.core.api_core.user.model.PointHistory;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
+import com.core.exception.InvalidDataException;
 import com.service.user.validation.UserServiceValidation;
 import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,18 +41,15 @@ public class UserService {
     private final UserMapper userMapper;
     private final FileService fileService;
     private final UserRepository userRepository;
+    private final DirectMessageRoomRepository directMessageRoomRepository;
     private final UserAccountRepository userAccountRepository;
     private final UserServiceValidation validation;
     @Value("${admin.token}")
     private String secretToken;
 
-    /**
-     * 이메일 회원가입 메서드
-     */
-    public Long signUp(UserSignupRequest dto,String encodePassword, MultipartFile image) throws Exception {
-        validation.validateSignUp(dto.getEmail(), dto.getNickname());
-        User user = createUser(dto, encodePassword, image);
-        //encodeAndSetPassword(user, dto.getPassword());
+    public Long signUp(UserSignupRequest userSignupRequest,String encodePassword, MultipartFile image) throws Exception {
+        validation.validateSignUp(userSignupRequest.getEmail(), userSignupRequest.getNickname());
+        User user = createUser(userSignupRequest, encodePassword, image);
         return userRepository.save(user).getId();
     }
 
@@ -109,6 +110,9 @@ public class UserService {
     @Transactional
     public void updateImage(Long userId, MultipartFile image){
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID);
+        if(!user.getProfileUrl().isEmpty()){
+            fileService.deleteFile(user.getProfileUrl());
+        }
         String profileUrl = uploadProfileImage(image);
         user.setProfileUrl(profileUrl);
     }
@@ -116,57 +120,57 @@ public class UserService {
     /**
      * 계정 삭제 메서드 by userId
      */
-    public void delete(Long id) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
+    @Transactional
+    @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
+    public void delete(final String email, final Long id) {
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_ID);
+        Optional<UserAccount> userAccount = userAccountRepository.findByUserId(user.getId());
+        if(userAccount.isPresent()){
+            userAccountRepository.delete(userAccount.get());
+        }
+        if(user.getId() != id){
+            throw new InvalidDataException("사용자 정보가 일치하지 않습니다.");
+        }
+        directMessageRoomRepository.deleteAllByUserId(user.getId());
         userRepository.delete(user);
     }
 
     @Transactional
-    public void updateRefreshToken(String email, String refreshToken){
+    public void updateRefreshToken(final String email, final String refreshToken){
         userRepository.findByEmail(email).get().setRefreshToken(refreshToken);
     }
 
-    /**
-     * 사용자 계좌 등록
-     */
-    public void setUserAccount(UserAccountRequest userAccountRequest, Long userId) {
+    public void setUserAccount(final UserAccountRequest userAccountRequest, final Long userId) {
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID);
         UserAccount userAccount = userMapper.toUserAccount(userAccountRequest, user.getId());
         userAccountRepository.save(userAccount);
     }
 
-    /**
-     * 사용자 계좌 등록 여부 확인 메서드
-     */
-    public boolean isExistAccount(Long userId){
+    public boolean isExistAccount(final Long userId){
         Optional<UserAccount> userAccount = userAccountRepository.findByUserId(userId);
         return !userAccount.isEmpty();
     }
 
-    /**
-     * 사용자 계좌 정보 조회
-     */
-    public UserAccountResponse findUserAccountById(Long userId) {
+    public UserAccountResponse findUserAccountById(final Long userId) {
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
         return userMapper.toUserAccountResponse(userAccount);
     }
 
-    public boolean isExistAccountByEmail(String email){
+    public boolean isExistAccountByEmail(final String email){
         return userRepository.findByEmail(email).isPresent();
     }
 
-    private User createUser(UserSignupRequest dto, String password,MultipartFile image) throws Exception {
+    private User createUser(UserSignupRequest dto, String password,MultipartFile image) {
         User user = userMapper.toEntity(dto);
         user.passwordEncode(password);
         if (image != null) {
             String profileUrl = uploadProfileImage(image);
             user.setProfileUrl(profileUrl);
         }
-
         return user;
     }
 
-    private String uploadProfileImage(MultipartFile image)  {
+    private String uploadProfileImage( final MultipartFile image)  {
         String url = fileService.toUrls(image);
         fileService.fileUpload(image, url);
         return url;

@@ -31,87 +31,61 @@ public class UserController {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * 회원가입 api
-     */
     @PostMapping(USERS_SIGN_UP_EMAIL)
-    public ResponseEntity<?> signUp(@RequestPart UserSignupRequest userSignupRequest,
-                                    @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
+    public ResponseEntity<?> signUp(@RequestPart final  UserSignupRequest userSignupRequest,
+                                    @RequestPart(value = "image", required = false) final MultipartFile image) throws Exception {
         Long userId = userService.signUp(userSignupRequest,passwordEncoder.encode(userSignupRequest.getPassword()), image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(USERS_RE_LOGIN)
-    public ResponseEntity<?> reLogin(){
-        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * 구글 계정 생성 API
-     */
     @PostMapping(USERS_SIGN_UP_GOOGLE)
-    public ResponseEntity<?> signUpGoogle(@RequestPart UserSignupRequest userSignupRequest,
-                                    @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
+    public ResponseEntity<?> signUpGoogle(@RequestPart final UserSignupRequest userSignupRequest,
+                                    @RequestPart(value = "image", required = false) final MultipartFile image) throws Exception {
         Long userId = userService.signUp(userSignupRequest, "",image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    /**
-     * 이메일 중복 확인 API
-     */
+
     @GetMapping(USERS_CHECK_DUPLICATE_EMAIL)
-    public ResponseEntity<?> validateDuplicateEmail(@PathVariable String email){
+    public ResponseEntity<?> validateDuplicateEmail(@PathVariable final String email){
         boolean result = userService.validateDuplicateEmail(email);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.EMAIL_DUPLICATE_VERIFICATION_SUCCESS, result);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PatchMapping(USERS_FCM_TOKEN_REGISTER)
-    public ResponseEntity<?> registerFcmToken(@RequestParam String fcmToken){
+    public ResponseEntity<?> registerFcmToken(@RequestParam final String fcmToken){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         userService.updateFcmToken(email, fcmToken);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.FCM_TOKEN_UPDATE, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 본인 프로필 조회 api
-     */
     @GetMapping(USERS_FIND_BY_ID)
-    public ResponseEntity<?> findById(@PathVariable Long userId) {
+    public ResponseEntity<?> findById(@PathVariable final Long userId) {
         UserInformationResponse byId = userService.findById(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_RETRIEVE_SUCCESS, byId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 사용자 프로필 수정 API
-     */
     @PatchMapping(USERS_UPDATE)
-    public ResponseEntity<?> updateUser(@RequestBody UserProfileUpdateRequest userProfileUpdateRequest){
+    public ResponseEntity<?> updateUser(@RequestBody final UserProfileUpdateRequest userProfileUpdateRequest){
         userService.update(userProfileUpdateRequest);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 사용자 프로필 사진 수정 API
-     */
     @PatchMapping(USERS_IMAGE_UPDATE)
-    public ResponseEntity<?> updateUserImage(@PathVariable Long userId, @RequestPart(value = "image", required = false) MultipartFile image) {
+    public ResponseEntity<?> updateUserImage(@PathVariable final Long userId, @RequestPart(value = "image", required = false) final MultipartFile image) {
         userService.updateImage(userId, image);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.MY_PROFILE_UPDATE_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * jwt 로 자신의 userId 조회하기.
-     */
     @GetMapping(USERS_GET_MY_USER_ID)
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> getMyUserId(HttpServletRequest request) {
+    public ResponseEntity<?> getMyUserId(final HttpServletRequest request) {
         String accessToken  = jwtService.extractAccessToken(request).get();
         String email = jwtService.extractEmail(accessToken).get();
         Long userId = userService.findByEmail(email).getId();
@@ -119,13 +93,24 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    /**
-     * 다른 사용자가 프로필을 조회하는 api
-     */
     @GetMapping(USERS_GET_PROFILE)
-    public ResponseEntity<?> getUserProfile(@PathVariable Long userId) {
+    public ResponseEntity<?> getUserProfile(@PathVariable final Long userId) {
         UserProfileResponse userProfile = userService.getUserProfile(userId);
         SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.PROFILE_RETRIEVE_SUCCESS, userProfile);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping(USERS_FIND_BY_ID)
+    public ResponseEntity<?> deleteAccount(@PathVariable final Long userId){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        userService.delete(email, userId);
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.DELETE_ACCOUNT_SUCCESS, null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(USERS_RE_LOGIN)
+    public ResponseEntity<?> reLogin(){
+        SuccessResponse response = new SuccessResponse(true, SuccessUserMessages.SIGN_UP_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

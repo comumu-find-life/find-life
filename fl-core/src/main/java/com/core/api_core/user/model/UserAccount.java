@@ -29,11 +29,6 @@ public class UserAccount {
     private String depositorName;
 
     private String paypalInformation;
-//    private String swiftCode;
-//
-//    private String bsb;
-//
-//    private String accountNumber;
 
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PointHistory> chargeHistories;

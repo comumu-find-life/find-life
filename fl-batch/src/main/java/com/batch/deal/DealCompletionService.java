@@ -23,7 +23,7 @@ public class DealCompletionService {
     private final UserRepository userRepository;
     private final HomeRepository homeRepository;
 
-    public String completeDeal(ProtectedDeal protectedDeal) {
+    public String completeDeal(final ProtectedDeal protectedDeal) {
         UserAccount providerAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
         User provider = userRepository.findById(protectedDeal.getProviderId()).get();
         providerAccount.increasePoint(protectedDeal.getDeposit());
