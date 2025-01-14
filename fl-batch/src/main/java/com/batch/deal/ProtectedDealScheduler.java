@@ -5,6 +5,7 @@ import com.core.api_core.deal.repository.ProtectedDealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,15 +17,14 @@ public class ProtectedDealScheduler {
     private final DealCompletionService dealCompletionService;
     private final NotificationService notificationService;
 
-    /**
-     * 매일 아침 6시에 실행되어 오늘의 거래 정보를 처리합니다.
-     */
-    @Scheduled(cron = "0 0 6 * * ?")
+
+    @Scheduled(cron = "0 0 8 * * ?", zone = "Australia/Sydney")
+    @Transactional
     public void processTodayDeals() {
         List<ProtectedDeal> todayDeals = protectedDealRepository.findAll().stream()
                 .filter(ProtectedDeal::isDealToday)
                 .toList();
-
+        System.out.println(todayDeals.size());
         todayDeals.forEach(deal -> {
             try {
                 notificationService.sendCompleteDealNotification(deal);

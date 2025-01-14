@@ -43,6 +43,7 @@ public class ApiUrlConstants {
     public static final String CHARGE_POINT_SUCCESS_REDIRECT_URL = POINT_BASE_URL +"/paypal/success";
     public static final String CHARGE_POINT_CANCEL_REDIRECT_URL = POINT_BASE_URL +"/paypal/cancel";
     public static final String APPLY_WITH_DRAW_URL = POINT_BASE_URL + "/apply/with-draw";
+    public static final String CHAT_TOTAL_URL = BASE_API_URL + "/chat/total-information";
 }
 
 

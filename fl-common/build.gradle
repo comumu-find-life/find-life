@@ -3,9 +3,9 @@ buildscript {
         google()
         mavenCentral()
     }
-    dependencies {
-        classpath 'com.google.gms:google-services:4.3.15'  // google-services 플러그인 의존성 추가
-    }
+//    dependencies {
+//        classpath 'com.google.gms:google-services:4.3.15'  // google-services 플러그인 의존성 추가
+//    }
 }
 
 plugins {
@@ -39,6 +39,9 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    implementation 'org.springframework.data:spring-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     //jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -51,4 +54,4 @@ test {
     useJUnitPlatform()
 }
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

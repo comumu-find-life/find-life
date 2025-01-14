@@ -25,8 +25,8 @@
 ### ⚙ 기술 스택
 ----
 
-**Backend** : `Spring Boot`, `JPA`, `QueryDSL`  
-**Database** : `MySQL`, `MongoDB`, `Redis`
+**Backend** : `Spring Boot`, `JPA`, `QueryDSL`        
+**Database** : `MySQL`, `MongoDB`, `Redis`           
 **Frontend** : `Flutter`
 
 <br />
@@ -34,11 +34,11 @@
 ### 💁‍♂️ 참여 인원 && 기여도
 ----
 
-**Backend** : 2명(본인 포함)  
+**Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)          
 **Frontend** : 1명(본인 포함)
 
 **기여도**   
-**Backend** : 기여도(80%)  
+**Backend** : 기여도(90%)  
 **Front** : 기여도(100%)
 
 <br />
@@ -49,27 +49,48 @@
 
 
 <details>
-  <summary><b>📍 집 게시글 조회 기능 - 전체 보기</b></summary>
+  <summary><b>📍 메인화면 - 전체 보기</b></summary>
 
-|메인화면|집 리스트|맵 클러스터|필터링|주소 검색|
+|메인화면|찜 목록|지도 검색|채팅방|마이페이지|
 |:---:|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/93780742-9e11-4839-b258-6165eb578643" width="200"/>|<img src="https://github.com/user-attachments/assets/1bf1eca2-1cfa-45b3-b03d-5bc28be3fd39" width="200"/>|<img src="https://github.com/user-attachments/assets/d84937b8-fea5-48dd-8abf-37c0ab1c490c" width="200"/>|<img src="https://github.com/user-attachments/assets/b58e4d1b-7c9a-47a2-a41c-8b9ba64ac89f" width="200"/>|<img src="https://github.com/user-attachments/assets/01bb6b2b-4f2a-49b8-935c-7cfb34cdec7b" width="200"/>
+|<img src="https://github.com/user-attachments/assets/1b2dc5af-f4fd-47cd-8dbd-acac21fd71ea" width="200"/>|<img src="https://github.com/user-attachments/assets/ac0d39ac-b0c0-49f7-a125-5b1a8143ac9b" width="200"/>|<img src="https://github.com/user-attachments/assets/f643cf71-ecf1-4a2c-91fb-216a6bda2c8d" width="200"/>|<img src="https://github.com/user-attachments/assets/9348cc84-2562-46b4-b791-23eca3b9c3f9" width="200"/>|<img src="https://github.com/user-attachments/assets/599de358-24d9-43fc-886a-d47527c4e762" width="200"/>
 
 
-|상세 화면1|상세 화면2| 대화 전송|
-|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/bdb029f3-5edd-4314-a781-d640f49d6ce0" width="200"/>|<img src="https://github.com/user-attachments/assets/a9a2cb03-8075-4ca8-86b6-9e8bed7fa595" width="200"/>|<img src="https://github.com/user-attachments/assets/9ece2fab-65b9-499c-a156-0f39ac28723a" width="200"/>
 
 **기능 설명**
 ```
 메인화면 - 호주의 대도시를 리스트로 만들어 클릭시 해당 지역의 게시물을 조회한다.
-집 리스트 - 게시된 집 게시물을 조회한다.
-맵 클러스트 - Google Map 을 연동해 Cluster 기능을 구현했다. 줌인,아웃으로 집 조회가 가능한다.
-필터링 - 조회하고자 하는 집 정보를 필터링한다.
-주소 검색 - Google Map API 를 연동해 글자 이벤트가 발생하는 즉시 주소를 조회한다.
-상세 화면1 - 집 게시물의 상세 정보를 조회한다.
-상세 화면2 - 집 게시물의 상세 정보를 조회한다.
-대화 전송 - 하단의 Send Message 버튼을 눌러 임대인과의 대화를 시작한다.
+찜 목록 - 찜 목록을 관리한다.
+지도 검색 - Google Map 을 연동해 Cluster 기능을 구현했다. 줌인,아웃으로 집 조회가 가능하다.
+채팅방 - 자신의 채팅 목록을 조회한다.
+마이페이지 - 자신의 정보를 조회한다.
+
+```
+
+</details>
+
+
+<details>
+  <summary><b>📍 집 게시글 조회 - 전체 보기</b></summary>
+
+|맵 검색|필터링|주소 검색|리스트 목록|
+|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/5956f026-fa73-4dd2-a3e0-c11cc77ba4e8" width="200"/>|<img src="https://github.com/user-attachments/assets/1fb81c90-1810-4ca2-af96-4a14e9cc38d3" width="200"/>|<img src="https://github.com/user-attachments/assets/8d330cac-ec04-4165-ab6c-0d47b8e2fd61" width="200"/>|<img src="https://github.com/user-attachments/assets/f826885c-90b4-4cf7-9ede-bc57daa555bb" width="200"/>
+
+|집 정보1|집 정보2|집 정보3|
+|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/2dceb108-580a-4127-9e71-477c47ab6d83" width="200"/>|<img src="https://github.com/user-attachments/assets/616d291c-6c1e-4ecc-b2f3-b557a488bcd7" width="200"/>|<img src="https://github.com/user-attachments/assets/8a68555b-72fb-4a79-b54f-042cc42c273e" width="200"/>
+
+
+
+**기능 설명**
+```
+맵 검색 - Google Map 을 연동해 Cluster 기능을 구현했다. 줌인,아웃으로 집 조회가 가능하다.
+필터링 - 찾고자 하는 집 정보를 필터링한다.
+주소 검색 - Google Api 와 연동해 도시(city) 와 주(state)를 조회한다.
+리스트 목록 - 집 목록을 리스트 형식으로 조회한다.
+집 정보1~3 - 집 정보를 조회한다.
+
 ```
 
 </details>
@@ -107,57 +128,76 @@
 </details>
 
 <details>
-  <summary><b>📍 안전 거래 화면 - 전체 보기</b></summary>
+  <summary><b>📍 채팅 && 안전 거래 화면 - 전체 보기</b></summary>
 
-|거래생성1|거래생성2|거래생성3|거래생성4|
-|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/cfa2b75b-448f-4d30-8d4b-d99f4216cdf3" width="200"/>|<img src="https://github.com/user-attachments/assets/e9a48f22-1c4b-440d-8a3f-c30d7a928858" width="200"/>|<img src="https://github.com/user-attachments/assets/26da86c9-3cce-4732-b7c8-70d5597a04d7" width="200"/>|<img src="https://github.com/user-attachments/assets/1a2f78eb-fc00-4185-b24c-0c55dc341049" width="200"/>|
-
-|거래수락1|거래수락2|거래수락3|
-|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/75b6f83a-bec0-45f9-9822-ce2f68acd622" width="200"/>|<img src="https://github.com/user-attachments/assets/c9af18b7-8606-4b82-8fbf-75e45782ed4d" width="200"/>|<img src="https://github.com/user-attachments/assets/093afd8c-7ae9-4940-ae52-7044fcffa7ed" width="200"/>|
-
-|거래 완료1|거래 완료2|거래 완료3|거래 완료4|거래 목록|
+|임대인 채팅1|임대인 채팅2|거래 생성1|거래 생성2|거래 생성3|
 |:---:|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/e6d54231-827f-4edd-bc15-1e73701eca4b" width="200"/>|<img src="https://github.com/user-attachments/assets/1f51c1ae-a0cb-4185-9204-32770e59079d" width="200"/>|<img src="https://github.com/user-attachments/assets/efe08ef8-09be-4b74-b419-01d0f84a56eb" width="200"/>|<img src="https://github.com/user-attachments/assets/889b72fb-73bd-451e-8e85-c3dd5f115b98" width="200"/>|<img src="https://github.com/user-attachments/assets/c11676b9-016e-4e71-b2d9-d5f4bed6dea9" width="200"/>|
+|<img src="https://github.com/user-attachments/assets/c735bd21-8bb4-4a78-b65f-eee66ccb1d20" width="200"/>|<img src="https://github.com/user-attachments/assets/ba1c8683-2e7d-4346-b7a8-4f635b9a025a" width="200"/>|<img src="https://github.com/user-attachments/assets/2cae77eb-9bd1-4904-804f-3723e1c2c0aa" width="200"/>|<img src="https://github.com/user-attachments/assets/20ede429-f967-4836-85c3-6244bbf9e86d" width="200"/>|<img src="https://github.com/user-attachments/assets/807c5deb-8231-4708-98cd-a3f2bcd14740" width="200"/>|
 
 **기능 설명**
 ```
 [안전 거래 생성]
-  거래 생성1 - 임대인이 "Deal" 버튼을 눌러 안전거래를 생성한다.
-  거래 생성2 - 임대인이 "계약금"을 입력한다.
-  거래 생성3 - 안전거래 정보를 확인 후 생성한다.
-  거래 생성4 - 안전거래 생성이 완료되면 채팅 화면 위젯으로 나타난다.
+  임대인 채팅1 - 자신에게 온 채팅을 조회한다.
+  임대인 채팅2 - 상단에 있는 "Deal" 버튼을 눌러 안전거래를 생성한다.
+  거래 생성1 - 계약금(Deposit) 과 거래 날짜,시간을 지정한다.
+  거래 생성2 - 거래 정보를 확인 후 생성한다.
+  거래 생성3 - 안전거래 생성이 완료되면 채팅 화면 위젯으로 나타난다.
 ```
+
+|거래수락1|거래수락2|거래수락3|거래수락4|
+|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/422d245d-e375-40f3-8980-037783ca6bd6" width="200"/>|<img src="https://github.com/user-attachments/assets/fffd1f75-4a93-45cc-b072-bb765f40bc7c" width="200"/>|<img src="https://github.com/user-attachments/assets/ae2be066-964b-4f21-bfa8-48666705a8c3" width="200"/>|<img src="https://github.com/user-attachments/assets/a676ba01-b1c0-4e2b-bcf2-ca74059a85e1" width="200"/>
+
 ```
 [거래 수락]
   거래 수락1 - 임차인은 생성된 안전 거래를 조회한다.
-  거래 수락2 - 임차인은 거래 정보를 확인 후 수락한다.(임차인 포인트 차감)
-  거래 수락3 - 임차인이 거래를 수락하면 채팅 화면 위젯으로 나타난다.
+  거래 수락2 - 임차인은 거래 정보를 확인 한다.
+  거래 수락3 - 임차인은 거래 정보를 수락한다.(임차인 포인트 차감)
+  거래 수락4 - 임차인이 거래를 수락하면 채팅 화면 위젯으로 나타난다.
 ```
+
+|거래 완료1|거래 완료2|거래 완료3|거래 목록|거래 정보|
+|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/2d84b0a6-c1ef-4776-a3f3-567c6ebb6877" width="200"/>|<img src="https://github.com/user-attachments/assets/abcb4fb0-7140-44b6-8c16-1fefa323df50" width="200"/>|<img src="https://github.com/user-attachments/assets/783fedc3-31fe-42dd-be06-e878334aadde" width="200"/>|<img src="https://github.com/user-attachments/assets/839989d5-7750-4391-8d63-f2080c170344" width="200"/>|<img src="https://github.com/user-attachments/assets/f3efbdec-71dd-45fe-98ce-91358462cf66" width="200"/>|
+
+
 ```
 [거래 완료]
-  거래 완료1 - 진행중인 거래 위젯을 클릭한다.
-  거래 완료2 - 임차인과 임대인이 실제로 만나 거래가 성사되면, 임차인은 거래 완료 버튼을 누른다.(임대인 포인트 증가)
-  거래 완료3 - 완료된 거래 내역을 조회한다.
-  거래 완료4 - 거래 완료 위젯이 채팅 화면으로 나타난다.
-  거래 목록 - 마이페이지에서 완료된 거래 정보를 조회한다.
+  거래 완료1 - 임차인과 임대인이 실제로 만나 거래가 성사되면, 임차인은 거래 완료 버튼을 누른다.
+  거래 완료2 - 임차인은 거래 완료 버튼을 누른다.(임대인 포인트 증가)
+  거래 완료3 - 거래가 완료되면 채팅 위젯으로 나타난다.
+  거래 목록1 - 완료된 거래 내역은 마이페이지에서 조회가 가능하다.
+  거래 정보 - 거래 내역을 조회한다.
 ```
 </details>
 
 
 <details>
-  <summary><b>📍 포인트 충전 기능 - 전체 보기</b></summary>
+  <summary><b>📍 안전거래 가이드 - 전체 보기</b></summary>
 
-|계좌 등록|포인트 충전|입출금 내역|
-|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/f9e06a13-d5d3-4589-a194-9ac39b195d6b" width="200"/>|<img src="https://github.com/user-attachments/assets/0889bd2a-2e34-43af-89b9-4fa34bcc691e" width="200"/>|<img src="https://github.com/user-attachments/assets/bf230286-092f-42b4-9844-b65540d94052" width="200"/>|
+|안내 화면1|안내 화면2|안내 화면3|안내 화면1|
+|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/b46c33c7-9a77-43e6-9282-13a062b469d8" width="200"/>|<img src="https://github.com/user-attachments/assets/b92a0f22-680c-4e5c-a428-1bb4d6df9b46" width="200"/>|<img src="https://github.com/user-attachments/assets/0c091b3e-8e40-4df4-80b7-cf0a6f550f31" width="200"/>|<img src="https://github.com/user-attachments/assets/10704f16-2311-4a58-bbf4-b3fc90d6649b" width="200"/>
+
+
+
+</details>
+
+<details>
+  <summary><b>📍 포인트 관련 기능 - 전체 보기</b></summary>
+
+|포인트 내역|Paypal 정보 수정|포인트 충전|Paypal 정보 등록|Paypal WebView|출금|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/25f260cd-6200-4641-bc3b-ca557cf85610" width="200"/>|<img src="https://github.com/user-attachments/assets/e57ad6bc-7f78-4efe-8265-ab01b4d58295" width="200"/>|<img src="https://github.com/user-attachments/assets/9327ba01-7509-48a9-92c3-d0f250e1b1ae" width="200"/>|<img src="https://github.com/user-attachments/assets/4cb2262a-b72e-4b0d-89db-bb23d808c265" width="200"/>|<img src="https://github.com/user-attachments/assets/6033715f-af3e-4857-89e7-28ad22a7a30c" width="200"/>|<img src="https://github.com/user-attachments/assets/d28b2b89-ba0b-4dd3-9407-a0096024f731" width="200"/>
 
 ```
-[거래 완료]
-  계좌 등록 - 계좌 정보가 등록한다.
-  포인트 충전 - 포인트를 충전한다. (Paypal or 계좌이제)
-  입출금 내역 - 포인트 입출금 내역을 조회한다.
+[포인트]
+  포인트 내역 - 포인트 입,출금 내역을 조회한다.
+  Paypal 정보수정 - 자신의 Paypal 정보를 수정한다.
+  포인트 충전 - 포인트를 충전한다.
+  Paypal 정보 등록 - 자신의 Paypal 정보를 등록한다.
+  Paypal WebView - 포인트 충전은 Paypal 을 통해 진행된다
+  출금 - 자신이 보유한 포인트를 출금한다.
 ```
 
 </details>
@@ -167,13 +207,11 @@
 
 ### 🗂️ ERD
 ----
-<br />
+<img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
 
-### 🛠️ 프로젝트 아키텍쳐
-----
-![no-image](https://user-images.githubusercontent.com/80824750/208294567-738dd273-e137-4bbf-8307-aff64258fe03.png)
 
 <br />
+
 
 ### 📹 시연 영상
 ----

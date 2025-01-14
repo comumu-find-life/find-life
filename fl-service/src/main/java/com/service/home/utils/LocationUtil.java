@@ -10,9 +10,12 @@ public class LocationUtil {
         // 거리번호
         sb.append(addressDto.getStreetCode());
         //거리 이름
-        sb.append(addressDto.getStreetName().trim().replaceAll("\\s+", ""));
-        // todo 항상 street?
-        sb.append(",");
+
+
+
+//        sb.append(addressDto.getStreetName().trim().replaceAll("\\s+", ""));
+//        // todo 항상 street?
+//        sb.append(",");
         //city 이름
         //sb.append(addressDto.getCity()+",");
         // 주

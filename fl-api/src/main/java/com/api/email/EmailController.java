@@ -1,10 +1,8 @@
 package com.api.email;
 
-import com.api.user.SuccessUserMessages;
+import com.common.mail.service.EmailRedisService;
 import com.common.utils.SuccessResponse;
-import com.redis.user.service.EmailRedisService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

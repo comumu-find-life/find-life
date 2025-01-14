@@ -2,14 +2,12 @@ package com.core.api_core.deal.model;
 
 import com.core.base.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProtectedDeal extends BaseTimeEntity {

@@ -72,9 +72,13 @@ public class ProtectedDealService {
     /**
      * 안전거래 조회 메서드 by Getter
      */
-    public List<ProtectedDealResponse> findProtectedDeal(ProtectedDealFindRequest request) {
+    public List<ProtectedDealResponse> findProtectedDeal(Long getterId, Long providerId, Long homeId, Long dmId) {
+        System.out.println("getterId = " +getterId); //세입자
+        System.out.println("providerId = " +providerId);
+        System.out.println("homeId = " +homeId);
+        System.out.println("dmId = " +dmId);
         List<ProtectedDealResponse> responses = new ArrayList<>();
-        List<ProtectedDeal> protectedDeals = protectedDealRepository.findByMultipleParams(request.getGetterId(), request.getProviderId(), request.getHomeId(), request.getDmId());
+        List<ProtectedDeal> protectedDeals = protectedDealRepository.findByMultipleParams(getterId, providerId, homeId, dmId);
         protectedDeals.stream()
                 .forEach(protectedDeal -> {
                     Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);

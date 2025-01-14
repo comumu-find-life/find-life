@@ -4,7 +4,8 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+.env.prod
+.env
 # 민감한 파일 무시
 # 디렉토리와 내부 파일 모두 포함
 fl-core/src/main/resources/**
@@ -12,7 +13,6 @@ fl-admin/src/main/resources/**
 fl-api/src/main/resources/**
 fl-chatting/src/main/resources/**
 fl-common/src/main/resources/**
-fl-redis/src/main/resources/**
 fl-service/src/main/resources/**
 
 ### STS ###

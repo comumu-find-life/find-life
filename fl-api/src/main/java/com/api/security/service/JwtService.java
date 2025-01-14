@@ -53,7 +53,7 @@ public class JwtService {
      * AccessToken(Jwt) 생성 메소드
      * <p>
      * AccessToken 에는 날짜와 이메일을 페이로드에 담습니다.
-     * 사용할 알고리즘은 HMA512 알고리즘이고 application-core-dev.yml 에서 지정한 secret 키로 암호화
+     * 사용할 알고리즘은 HMA512 알고리즘이고 application-core-db.yml 에서 지정한 secret 키로 암호화
      */
     public String createAccessToken(String email) {
         Date now = new Date();

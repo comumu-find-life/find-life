@@ -27,11 +27,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
     implementation 'org.springframework.data:spring-data-redis'
     implementation 'org.projectlombok:lombok:1.18.20'
-
     implementation project(':fl-core')
-    implementation project(':fl-redis')
     implementation project(':fl-service')
-
     testImplementation project(':fl-core')
     testImplementation(testFixtures(project(":fl-core")))
     testImplementation(testFixtures(project(":fl-common")))

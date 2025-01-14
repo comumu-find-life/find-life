@@ -30,7 +30,7 @@ public class ProtectedDealController {
      */
     @PostMapping(DEALS_GETTER_READ)
     public ResponseEntity<?> findProtectedDealByGetter(@RequestBody final ProtectedDealFindRequest request) {
-        List<ProtectedDealResponse> protectedDealResponse = protectedDealService.findProtectedDeal( request);
+        List<ProtectedDealResponse> protectedDealResponse = protectedDealService.findProtectedDeal(request.getGetterId(), request.getProviderId(), request.getHomeId(), request.getDmId());
         SuccessResponse response = new SuccessResponse(true, SuccessProtectedDealMessages.DEAL_FETCHED, protectedDealResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

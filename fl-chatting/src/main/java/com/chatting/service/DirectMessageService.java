@@ -99,6 +99,7 @@ public class DirectMessageService {
 
 
     @Transactional
+    @Async
     public void checkReadMessages(final DirectMessageReadRequest directMessageReadRequest){
         dmRepository.markMessagesAsRead(directMessageReadRequest.getSenderId(), directMessageReadRequest.getReceiverId());
     }

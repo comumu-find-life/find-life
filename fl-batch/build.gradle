@@ -3,9 +3,6 @@ buildscript {
         google()
         mavenCentral()
     }
-    dependencies {
-        classpath 'com.google.gms:google-services:4.3.15'  // google-services 플러그인 의존성 추가
-    }
 }
 
 plugins {
@@ -43,4 +40,3 @@ test {
     useJUnitPlatform()
 }
 
-apply plugin: 'com.google.gms.google-services'

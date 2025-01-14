@@ -31,6 +31,7 @@ public class HomeQueryService {
     private final HomeMapper homeMapper;
 
 
+//    @Cacheable(value = "homeCache", key = "'home_' + #id")
     public HomeInformationResponse findById(final Long id) {
         Home entity = OptionalUtil.getOrElseThrow(homeRepository.findById(id), NOT_EXIST_HOME_ID);
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(entity.getUserIdx()), NOT_EXIT_USER_ID);
