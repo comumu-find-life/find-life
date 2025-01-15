@@ -6,13 +6,10 @@ networks:
 
 services:
   fl-api:
-    build:
-      context: ./fl-api
-      dockerfile: Dockerfile
+    image: minseok2000/fl-api:latest  # Docker Hub에서 이미지를 사용
     container_name: fl-api
     ports:
       - "8080:8080"
-
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - FL_CHAT_DB_URL=${FL_CHAT_DB_URL}
@@ -36,13 +33,10 @@ services:
       - fl-network
 
   fl-chatting:
-    build:
-      context: ./fl-chatting
-      dockerfile: Dockerfile
+    image: minseok2000/fl-chatting:latest  # Docker Hub에서 이미지를 사용
     container_name: fl-chatting
     ports:
       - "8082:8082"
-
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - FL_CHAT_DOMAIN_BASE_URL=${FL_CHAT_DOMAIN_BASE_URL}
