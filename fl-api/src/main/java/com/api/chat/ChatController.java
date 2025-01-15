@@ -35,7 +35,8 @@ public class ChatController {
 
     @PostMapping(CHAT_TOTAL_URL)
     public ResponseEntity<?> getDirectMessageTotalResponse(@RequestBody final DirectMessageTotalRequest directMessageTotalRequest) {
-        long startTime = System.currentTimeMillis(); // 시작 시간 기록
+        long startTime = System.currentTimeMillis(); // 시작 시간 기
+
 
         // senderReceiver 조회
         List<UserProfileResponse> senderReceiver = userService.findSenderReceiver(directMessageTotalRequest.getSenderId(), directMessageTotalRequest.getReceiverId());
