@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - fl-master
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
