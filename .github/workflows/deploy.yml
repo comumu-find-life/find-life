@@ -20,20 +20,26 @@ jobs:
 
       - name: Copy files to EC2
         run: |
-          # Ensure the SSH agent is being used correctly
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
-          # Disable StrictHostKeyChecking to avoid prompts
           echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-          
-          # Use scp with -o to disable host key checking
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./ ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/project
 
       - name: SSH to EC2 and deploy
+        env:
+          FL_CHAT_DB_URL: ${{ secrets.FL_CHAT_DB_URL }}
+          FL_CHAT_DB_USER_NAME: ${{ secrets.FL_CHAT_DB_USER_NAME }}
+          FL_RDS_DB_URL: ${{ secrets.FL_RDS_DB_URL }}
+          FL_RDS_USER_NAME: ${{ secrets.FL_RDS_USER_NAME }}
+          FL_RDS_PASSWORD: ${{ secrets.FL_RDS_PASSWORD }}
+          FL_MAP_API_KEY: ${{ secrets.FL_MAP_API_KEY }}
+          ANDROID_OAUTH_CLIENT_KEY: ${{ secrets.ANDROID_OAUTH_CLIENT_KEY }}
+          IOS_OAUTH_CLIENT_KEY: ${{ secrets.IOS_OAUTH_CLIENT_KEY }}
+          PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID }}
+          PAYPAL_CLIENT_SECRET: ${{ secrets.PAYPAL_CLIENT_SECRET }}
+          FL_CHAT_DOMAIN_BASE_URL: ${{ secrets.FL_CHAT_DOMAIN_BASE_URL }}
         run: |
-          # SSH into the EC2 instance and run deployment steps
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
             cd /home/ubuntu/project
             sudo docker-compose down
