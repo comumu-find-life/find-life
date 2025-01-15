@@ -57,5 +57,6 @@ jobs:
           script: |
             export PATH=$PATH:/usr/local/bin
             docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            ls -l /home/ubuntu/  # 디버깅을 위한 업로드된 파일 확인
             /usr/local/bin/docker-compose -f /home/ubuntu/docker-compose.yml pull
             /usr/local/bin/docker-compose -f /home/ubuntu/docker-compose.yml up -d --remove-orphans
