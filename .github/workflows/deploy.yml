@@ -3,39 +3,57 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - fl-master
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Copy files to EC2
+      - name: Generate .env file
         run: |
-          # Ensure the SSH agent is being used correctly
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo FL_CHAT_DB_URL=${{ secrets.FL_CHAT_DB_URL }} >> .env
+          echo FL_CHAT_DB_USER_NAME=${{ secrets.FL_CHAT_DB_USER_NAME }} >> .env
+          echo FL_RDS_DB_URL=${{ secrets.FL_RDS_DB_URL }} >> .env
+          echo FL_RDS_USER_NAME=${{ secrets.FL_RDS_USER_NAME }} >> .env
+          echo FL_RDS_PASSWORD=${{ secrets.FL_RDS_PASSWORD }} >> .env
+          echo FL_MAP_API_KEY=${{ secrets.FL_MAP_API_KEY }} >> .env
+          echo ANDROID_OAUTH_CLIENT_KEY=${{ secrets.ANDROID_OAUTH_CLIENT_KEY }} >> .env
+          echo IOS_OAUTH_CLIENT_KEY=${{ secrets.IOS_OAUTH_CLIENT_KEY }} >> .env
+          echo PAYPAL_CLIENT_ID=${{ secrets.PAYPAL_CLIENT_ID }} >> .env
+          echo PAYPAL_CLIENT_SECRET=${{ secrets.PAYPAL_CLIENT_SECRET }} >> .env
 
-          # Disable StrictHostKeyChecking to avoid prompts
-          echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-          
-          # Use scp with -o to disable host key checking
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./ ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/project
-
+      - name: Upload .env and Docker Compose to EC2
+        uses: appleboy/scp-action@v0.2.2
+        with:
+          host: ${{ secrets.EC2_PUBLIC_IP }}
+          username: ubuntu
+          port: 22
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          source: |
+            ./docker-compose.yml
+            ./.env
+          target: /home/ubuntu/
       - name: SSH to EC2 and deploy
-        run: |
-          # SSH into the EC2 instance and run deployment steps
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-            cd /home/ubuntu/project
-            sudo docker-compose down
-            sudo docker-compose up -d --build
-          EOF
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.EC2_PUBLIC_IP }}
+          username: ubuntu
+          port: 22
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            docker-compose -f /home/ubuntu/docker-compose.yml pull
+            docker-compose -f /home/ubuntu/docker-compose.yml up -d —remove-orphans
