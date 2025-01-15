@@ -1,0 +1,88 @@
+spring:
+  config:
+    import:
+      - 'classpath:/yaml/application-core-config.yml'
+      - 'classpath:/yaml/application-core-db.yml'
+      - 'classpath:/yaml/application-core-log.yml'
+
+## Spring Datasource Configuration
+#spring:
+#  jpa:
+#    defer-datasource-initialization: true
+#    properties:
+#      hibernate:
+#        show_sql: true
+#        format_sql: true
+#    hibernate:
+#      ddl-auto: none
+#    database-platform: org.hibernate.dialect.MySQLDialect
+#    sql:
+#      init:
+#        mode: always
+#  sql:
+#    init:
+#      mode: always
+#
+#  logging:
+#    level:
+#      me.selvernine: DEBUG
+#
+#
+#  data:
+#    mongodb:
+#      uri: ${FL_CHAT_DB_URL}
+#      database: ${FL_CHAT_DB_USER_NAME}
+#  datasource:
+#    initialization-mode: never
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: ${FL_DB_URL}
+#    username: ${FL_DB_USER_NAME}
+#    password: ${FL_DB_PASSWROD}
+#  redis:
+#    host : ${FL_REDIS_HOST}
+#    port : 6380
+
+#
+#map:
+#  api-url: https://maps.googleapis.com/maps/api/geocode/json
+#  api-key: ${FL_MAP_API_KEY}
+#
+#aws:
+#  access:
+#    key:
+#      id: ${AWS_ACCESS_KEY_ID}
+#  secret:
+#    access:
+#      key: ${AWS_SECRET_KEY}
+#  region : ap-southeast-2
+#  s3:
+#    bucket:
+#      name: cozyshare-s3-bucket
+#
+#
+#admin:
+#  token: sin981023@
+#
+#apple:
+#  key-url: https://appleid.apple.com/auth/keys
+#
+#oauth:
+#  android-client-id: ${ANDROID_OAUTH_CLIENT_KEY}
+#  ios-client-id: ${IOS_OAUTH_CLIENT_KEY}
+#
+#paypal:
+#  client-id: ${PAYPAL_CLIENT_ID}
+#  client-secret: ${PAYPAL_CLIENT_SECRET}
+#  mode : sandbox
+#
+#
+#server:
+#  port: 8082
+#
+#domain:
+#  base: ${FL_CHAT_DOMAIN_BASE_URL}
+#  chat:
+#    directMessage: /dm
+#    publish: /pub
+#    subscribe: /sub
+#

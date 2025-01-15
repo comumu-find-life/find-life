@@ -32,21 +32,41 @@ public class ChatController {
     private final ProtectedDealService protectedDealService;
 
     @PostMapping(CHAT_TOTAL_URL)
-    public ResponseEntity<?> getDirectMessageTotalResponse(@RequestBody final DirectMessageTotalRequest directMessageTotalRequest){
-        UserProfileResponse sender = userService.getUserProfile(directMessageTotalRequest.getSenderId());
-        UserProfileResponse receiver = userService.getUserProfile(directMessageTotalRequest.getReceiverId());
+    public ResponseEntity<?> getDirectMessageTotalResponse(@RequestBody final DirectMessageTotalRequest directMessageTotalRequest) {
+        long startTime = System.currentTimeMillis(); // 시작 시간 기록
+
+        // senderReceiver 조회
+        List<UserProfileResponse> senderReceiver = userService.findSenderReceiver(directMessageTotalRequest.getSenderId(), directMessageTotalRequest.getReceiverId());
+        long senderReceiverTime = System.currentTimeMillis(); // 종료 시간 기록
+        System.out.println("findSenderReceiver 실행 시간: " + (senderReceiverTime - startTime) + "ms");
+
+        UserProfileResponse sender = senderReceiver.get(0);
+        UserProfileResponse receiver = senderReceiver.get(1);
+
         HomeInformationResponse homeInformationResponse = homeQueryService.findById(directMessageTotalRequest.getHomeId());
+        long homeInfoTime = System.currentTimeMillis(); // 종료 시간 기록
+        System.out.println("findById 실행 시간: " + (homeInfoTime - senderReceiverTime) + "ms");
+
         Long getterId;
         Long providerId;
-        if(Long.valueOf(homeInformationResponse.getProviderId()) == sender.getId()){
+        if (Long.valueOf(homeInformationResponse.getProviderId()) == sender.getId()) {
             getterId = receiver.getId();
             providerId = sender.getId();
-        }else{
+        } else {
             providerId = receiver.getId();
             getterId = sender.getId();
         }
+
+        // isExistAccount 조회
         boolean isExist = userService.isExistAccount(sender.getId());
+        long isExistTime = System.currentTimeMillis(); // 종료 시간 기록
+        System.out.println("isExistAccount 실행 시간: " + (isExistTime - homeInfoTime) + "ms");
+
+        // protectedDeal 조회
         List<ProtectedDealResponse> protectedDeal = protectedDealService.findProtectedDeal(getterId, providerId, directMessageTotalRequest.getHomeId(), directMessageTotalRequest.getRoomId());
+        long protectedDealTime = System.currentTimeMillis(); // 종료 시간 기록
+        System.out.println("findProtectedDeal 실행 시간: " + (protectedDealTime - isExistTime) + "ms");
+
         DirectMessageTotalResponse directMessageTotalResponse = DirectMessageTotalResponse.builder()
                 .sender(sender)
                 .receiver(receiver)
@@ -56,6 +76,11 @@ public class ChatController {
                 .build();
 
         SuccessResponse response = new SuccessResponse(true, "채팅방 정보조회 성공", directMessageTotalResponse);
+
+        long endTime = System.currentTimeMillis(); // 최종 종료 시간
+        System.out.println("전체 처리 시간: " + (endTime - startTime) + "ms");
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 }

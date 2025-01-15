@@ -3,6 +3,8 @@ package com.core.api_core.deal.repository;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
 import com.core.api_core.deal.model.QProtectedDeal;
+import com.core.api_core.home.model.QHome;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,7 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
 
     private final JPAQueryFactory query;
     private final QProtectedDeal qProtectedDeal = QProtectedDeal.protectedDeal;
+    private final QHome qHome = QHome.home;
 
     @Override
     public List<ProtectedDeal> findAllByUserId(Long userId) {
@@ -26,8 +29,11 @@ public class CustomProtectedDealRepositoryImpl implements CustomProtectedDealRep
     }
 
     @Override
-    public List<ProtectedDeal> findByMultipleParams(Long getterId, Long providerId, Long homeId, Long dmId) {
-        return query.selectFrom(qProtectedDeal)
+    public List<Tuple> findByMultipleParams(Long getterId, Long providerId, Long homeId, Long dmId) {
+        return query.select(qProtectedDeal, qHome)
+                .from(qProtectedDeal)
+                .join(qHome).on(qProtectedDeal.homeId.eq(qHome.id))
+                .leftJoin(qProtectedDeal.protectedDealDateTime).fetchJoin()  // fetchJoin 추가
                 .where(qProtectedDeal.getterId.eq(getterId),
                         qProtectedDeal.providerId.eq(providerId),
                         qProtectedDeal.homeId.eq(homeId),

@@ -1,0 +1,45 @@
+server:
+  port: 8085
+
+map:
+  api-url: https://maps.googleapis.com/maps/api/geocode/json
+  api-key: ${FL_MAP_API_KEY}
+
+aws:
+  access:
+    key:
+      id: ${AWS_ACCESS_KEY_ID}
+  secret:
+    access:
+      key: ${AWS_SECRET_KEY}
+  region : ap-southeast-2
+  s3:
+    bucket:
+      name: cozyshare-s3-bucket
+
+admin:
+  token: sin981023@
+
+apple:
+  key-url: https://appleid.apple.com/auth/keys
+
+oauth:
+  android-client-id: ${ANDROID_OAUTH_CLIENT_KEY}
+  ios-client-id: ${IOS_OAUTH_CLIENT_KEY}
+
+paypal:
+  client-id: ${PAYPAL_CLIENT_ID}
+  client-secret: ${PAYPAL_CLIENT_SECRET}
+  mode : sandbox
+
+jwt:
+  secretKey: ${JWT_KEY}
+  access:
+    expiration: 3600000
+    header: Authorization
+  refresh:
+    expiration: 1209600000
+    header: Authorization-refresh
+
+domain:
+  chat: http://localhost:8082/api

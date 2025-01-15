@@ -1,0 +1,9 @@
+server:
+  port: 8085  # fl-admin 모듈의 포트를 8081로 설정
+
+spring:
+  config:
+    import:
+      - 'classpath:/yaml/application-core-db.yml'
+      - 'classpath:/yaml/application-core-log.yml'
+      - 'classpath:/yaml/application-core-config.yml'

@@ -3,6 +3,7 @@ package com.common.fcm;
 import com.core.exception.FcmException;
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +12,7 @@ public class FCMHelper {
 
     private final FirebaseMessaging firebaseMessaging;
 
+    @Async
     public void sendNotification(final FCMState fcmState, final String token, final String title, final String body) {
         try {
             Message message = createMessage(fcmState, token, title, body);

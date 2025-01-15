@@ -1,0 +1,31 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - fl-master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+
+      - name: Copy files to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} -r ./ ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/project
+
+      - name: SSH to EC2 and deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+            cd /home/ubuntu/project
+            sudo docker-compose down
+            sudo docker-compose up -d --build
+          EOF

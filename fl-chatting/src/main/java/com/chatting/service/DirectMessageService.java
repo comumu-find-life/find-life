@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.chatting.service.DirectMessageHelper.createDirectMessageRequest;
@@ -45,31 +46,30 @@ public class DirectMessageService {
         Long senderId = request.getSenderId();
         Long roomId = saveOrUpdateDirectMessageRoom(Math.min(senderId, receiverId), Math.max(senderId, receiverId), request);
         DirectMessageRequest directMessageRequest = createDirectMessageRequest(request.getMessage(), senderId, receiverId);
-        sendDM(directMessageRequest);
+        saveDirectMessageAndPushNotication(toDirectMessage(directMessageRequest)).join(); //비동기 끝나고 실행
         return roomId;
     }
 
-
-    public DirectMessageResponse sendDM(final DirectMessageRequest dmDto)  {
+    @Async
+    public CompletableFuture<DirectMessageResponse> saveDirectMessageAndPushNotication(final DirectMessage directMessage) {
         try {
-            DirectMessage directMessage = mapper.toDirectMessage(dmDto);
             DirectMessage save = dmRepository.save(directMessage);
-            User receiver = userRepository.findById(dmDto.getReceiverId()).get();
-            User sender = userRepository.findById(dmDto.getSenderId()).get();
+            User receiver = userRepository.findById(directMessage.getReceiverId()).get();
+            User sender = userRepository.findById(directMessage.getSenderId()).get();
             String fcmToken = receiver.getFcmToken();
-            fcmService.sendNotification(FCMState.NOT_SAVE, fcmToken, sender.getNickname(), dmDto.getMessage());
-            return mapper.toDirectMessageResponse(save);
+            fcmService.sendNotification(FCMState.NOT_SAVE, fcmToken, sender.getNickname(), directMessage.getMessage());
+            return CompletableFuture.completedFuture(mapper.toDirectMessageResponse(save));
         } catch (Exception e) {
             throw new FcmException(e.getMessage());
         }
     }
 
-    @Transactional
-    @Async
-    public void updateMessageReadStatus(final String messageId) {
-        DirectMessage message = OptionalUtil.getOrElseThrow(dmRepository.findById(messageId), "Message not found");
-        message.setRead(true);
-        dmRepository.save(message);
+    public DirectMessage toDirectMessage(final DirectMessageRequest dmDto){
+        return mapper.toDirectMessage(dmDto);
+    }
+
+    public DirectMessageResponse toDirectMessageResponse(final DirectMessage directMessage){
+        return mapper.toDirectMessageResponse(directMessage);
     }
 
     public DirectMessage getLastMessage(final Long user1Id, final Long user2Id) {

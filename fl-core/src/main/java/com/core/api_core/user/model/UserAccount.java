@@ -30,7 +30,7 @@ public class UserAccount {
 
     private String paypalInformation;
 
-    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PointHistory> chargeHistories;
 
     public void registerPointChargeHistory(double chargeAmount, ChargeType chargeType) {

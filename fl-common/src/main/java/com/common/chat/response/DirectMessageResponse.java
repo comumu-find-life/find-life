@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class DirectMessageResponse {
-    private String id;
     private Long senderId;
     private Long receiverId;
     private Long dealId;

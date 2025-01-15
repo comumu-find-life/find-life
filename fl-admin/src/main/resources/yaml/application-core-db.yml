@@ -1,0 +1,41 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: true
+  data:
+    mongodb:
+      uri: ${FL_CHAT_DB_URL}
+      database: ${FL_CHAT_DB_USER_NAME}
+  datasource:
+    initialization-mode: never
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${FL_DB_URL}
+    username: ${FL_DB_USER_NAME}
+    password: ${FL_DB_PASSWROD}
+
+  redis:
+    host: redis
+    port: 6379
+
+  sql:
+    mode: always
+    continue-on-error: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: simmim1768@gmail.com
+    password: vectgfslbunvlhoz
+
+    properties:
+      mail:
+        smtp:
+          auth: true # 5
+          timeout: 5000 # 6
+          starttls:
+            enable: true # 7

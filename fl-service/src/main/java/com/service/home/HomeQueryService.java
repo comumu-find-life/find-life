@@ -3,11 +3,15 @@ package com.service.home;
 import com.common.home.mapper.HomeMapper;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
+import com.common.home.response.HomeOverviewWrapper;
 import com.core.api_core.home.model.Home;
+import com.core.api_core.home.model.QHome;
 import com.core.api_core.home.repository.HomeRepository;
+import com.core.api_core.user.model.QUser;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.common.utils.OptionalUtil;
+import com.querydsl.core.Tuple;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,30 +34,30 @@ public class HomeQueryService {
     private final UserRepository userRepository;
     private final HomeMapper homeMapper;
 
-
-//    @Cacheable(value = "homeCache", key = "'home_' + #id")
     public HomeInformationResponse findById(final Long id) {
-        Home entity = OptionalUtil.getOrElseThrow(homeRepository.findById(id), NOT_EXIST_HOME_ID);
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(entity.getUserIdx()), NOT_EXIT_USER_ID);
-        return homeMapper.toHomeInformation(entity, user);
+        Tuple result = OptionalUtil.getOrElseThrow(homeRepository.findHomeAndUserById(id),NOT_EXIST_HOME_ID);
+        Home home = result.get(0, Home.class);
+        User user = result.get(1, User.class);
+        return homeMapper.toHomeInformation(home, user);
     }
 
     /**
      * 모든 집 게시글 조회
      */
     @Cacheable(value = "homeOverviewCache", key = "'allHomes'")
-    public List<HomeOverviewResponse> findAllHomes() {
-        List<Home> homes = homeRepository.findAllSellHome();
-        return homes.stream()
-                .map(home -> {
-                    Optional<User> optionalUser = userRepository.findById(home.getUserIdx());
-                    return optionalUser.map(user -> homeMapper.toSimpleHomeDto(home, user)); // User가 있으면 매핑
+    public HomeOverviewWrapper findAllHomes() {
+        List<Tuple> tuples = homeRepository.findAllSellHome();  // 데이터베이스에서 결과 가져오기
+        System.out.println("tuples -- " + tuples.size());
+        List<HomeOverviewResponse> homeOverviewResponses  = tuples.stream()
+                .map(tuple -> {
+                    Home home = tuple.get(QHome.home);
+                    User user = tuple.get(QUser.user);
+                    return homeMapper.toSimpleHomeDto(home, user);  // DTO로 변환
                 })
-                .filter(Optional::isPresent) // Optional이 비어 있지 않은 경우만 필터링
-                .map(Optional::get) // Optional에서 값 추출
-                .collect(Collectors.toList());
-    }
+                .toList();
 
+        return new HomeOverviewWrapper(homeOverviewResponses);
+    }
     /**
      * 특정 사용자의 집 게시물 모두 조회
      */
@@ -71,17 +75,28 @@ public class HomeQueryService {
      * 찜 목록 게시글 조회
      */
     public List<HomeOverviewResponse> findFavoriteHomes(final List<Long> homeIds) {
-        return homeIds.stream()
-                .map(homeRepository::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .flatMap(home -> {
-                    Optional<User> optionalUser = userRepository.findById(home.getUserIdx());
-                    return optionalUser
-                            .map(user -> Stream.of(homeMapper.toSimpleHomeDto(home, user))) // User가 존재하면 매핑
-                            .orElseGet(Stream::empty); // User가 없으면 빈 Stream 반환
+        List<Tuple> favoriteHomes = homeRepository.findFavoriteHomes(homeIds);
+        System.out.println("homeIdsss");
+        System.out.println(homeIds.size());
+        System.out.println(favoriteHomes.size());
+        return favoriteHomes.stream()
+                .map(tuple -> {
+                    Home home = tuple.get(0, Home.class);
+                    User user = tuple.get(1, User.class);
+                    return homeMapper.toSimpleHomeDto(home, user);
                 })
                 .collect(Collectors.toList());
+//        return homeIds.stream()
+//                .map(homeRepository::findById)
+//                .filter(Optional::isPresent)
+//                .map(Optional::get)
+//                .flatMap(home -> {
+//                    Optional<User> optionalUser = userRepository.findById(home.getUserIdx());
+//                    return optionalUser
+//                            .map(user -> Stream.of(homeMapper.toSimpleHomeDto(home, user))) // User가 존재하면 매핑
+//                            .orElseGet(Stream::empty); // User가 없으면 빈 Stream 반환
+//                })
+//                .collect(Collectors.toList());
     }
 
 

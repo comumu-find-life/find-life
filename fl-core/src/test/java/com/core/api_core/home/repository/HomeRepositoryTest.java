@@ -2,6 +2,7 @@ package com.core.api_core.home.repository;
 
 import com.core.api_core.home.model.Home;
 import com.core.config.TestConfig;
+import com.querydsl.core.Tuple;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class HomeRepositoryTest {
             homeRepository.save(generateHome());
         }
         //when
-        List<Home> allSellHome = homeRepository.findAllSellHome();
+        List<Tuple> allSellHome = homeRepository.findAllSellHome();
 
         //then
         Assertions.assertThat(allSellHome.size()).isEqualTo(3);

@@ -13,7 +13,6 @@ import lombok.Getter;
 public class DirectMessageRequest {
     private Long senderId;
     private Long roomId;
-//    private String roomId;
     private Long receiverId;
     private String message;
     @JsonProperty("isDeal")

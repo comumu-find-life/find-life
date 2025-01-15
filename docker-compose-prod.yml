@@ -1,5 +1,9 @@
 version: '3.8'
 
+networks:
+  fl-network: # 사용자 정의 네트워크
+    driver: bridge
+
 services:
   fl-api:
     build:
@@ -22,14 +26,15 @@ services:
       - IOS_OAUTH_CLIENT_KEY=${IOS_OAUTH_CLIENT_KEY}
       - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
       - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
-      - FL_DOMAIN_BASE=http://localhost:8081
+      - FL_DOMAIN_BASE=http://host.docker.internal:8080 # 안드로이드 에뮬레이터 호환
       - FL_CHAT_DIRECT_MESSAGE=/dm
       - FL_CHAT_PUBLISH=/pub
       - FL_CHAT_SUBSCRIBE=/sub
     depends_on:
       - mysql
       - redis
-
+    networks:
+      - fl-network
 
   fl-chatting:
     build:
@@ -53,13 +58,16 @@ services:
       - IOS_OAUTH_CLIENT_KEY=${IOS_OAUTH_CLIENT_KEY}
       - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
       - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
-      - FL_DOMAIN_BASE=http://localhost:8081
+      - FL_DOMAIN_BASE=http://host.docker.internal:8082 # 안드로이드 에뮬레이터 호환
       - FL_CHAT_DIRECT_MESSAGE=/dm
       - FL_CHAT_PUBLISH=/pub
       - FL_CHAT_SUBSCRIBE=/sub
     depends_on:
       - mysql
       - redis
+    networks:
+      - fl-network
+
   mysql:
     image: mysql:8.0
     container_name: mysql-db
@@ -70,15 +78,17 @@ services:
       - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-
+    networks:
+      - fl-network
 
   redis:
     image: redis:7.0
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - fl-network
+
 volumes:
   mysql-data:
     driver: local
-
-

@@ -5,9 +5,11 @@ import com.chatting.service.DirectMessageService;
 import com.chatting.service.WebSocketSessionManager;
 import com.common.chat.request.DirectMessageRequest;
 import com.common.chat.response.DirectMessageResponse;
+import com.core.api_core.chat.model.DirectMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 
 
@@ -15,19 +17,14 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class DirectMessageController {
 
-    private final WebSocketSessionManager sessionManager;
     private final SimpMessagingTemplate template;
     private final DirectMessageService dmService;
 
-
     @MessageMapping(value = "/chat/message")
     public void message(final DirectMessageRequest dmDto)  {
-        DirectMessageResponse response = dmService.sendDM(dmDto);
-        boolean isReceiverInRoom = sessionManager.isUserInRoom(dmDto.getRoomId(), dmDto.getReceiverId());
-        if(isReceiverInRoom) {
-            dmService.updateMessageReadStatus(response.getId());
-        }
-        template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), response);
+        DirectMessage directMessage = dmService.toDirectMessage(dmDto);
+        DirectMessageResponse directMessageResponse = dmService.toDirectMessageResponse(directMessage);
+        dmService.saveDirectMessageAndPushNotication(directMessage);
+        template.convertAndSend("/sub/chat/room/" + dmDto.getRoomId(), directMessageResponse);
     }
-
 }

@@ -24,7 +24,7 @@ public class Home extends BaseTimeEntity {
     private Long userIdx;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "home", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "home", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<HomeImage> images;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -38,9 +38,6 @@ public class Home extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private HomeStatus homeStatus;
 
-    public boolean canSell(){
-        return HomeStatus.FOR_SALE == this.homeStatus;
-    }
 
     public void setLatLng(double lat, double lng) {
         homeAddress.setLatLnd(lat, lng);

@@ -9,15 +9,18 @@ import com.common.fcm.FCMHelper;
 import com.common.fcm.FCMState;
 import com.core.api_core.deal.model.DealState;
 import com.core.api_core.deal.model.ProtectedDeal;
+import com.core.api_core.deal.model.QProtectedDeal;
 import com.core.api_core.deal.repository.ProtectedDealRepository;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeStatus;
+import com.core.api_core.home.model.QHome;
 import com.core.api_core.home.repository.HomeRepository;
 import com.common.utils.OptionalUtil;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -49,8 +52,6 @@ public class ProtectedDealService {
     public ProtectedDealGeneratorResponse saveProtectedDeal(ProtectedDealGeneratorRequest request) {
         ProtectedDeal deal = mapper.toEntity(request);
         Long dealId = protectedDealRepository.save(deal).getId();
-        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(request.getHomeId()), NOT_EXIST_HOME_ID);
-//        home.setHomeStatus(HomeStatus.DURING_SELL);
         ProtectedDealGeneratorResponse protectedDealGeneratorResponse = mapper.toGeneratorResponse(dealId);
         return protectedDealGeneratorResponse;
     }
@@ -73,15 +74,12 @@ public class ProtectedDealService {
      * 안전거래 조회 메서드 by Getter
      */
     public List<ProtectedDealResponse> findProtectedDeal(Long getterId, Long providerId, Long homeId, Long dmId) {
-        System.out.println("getterId = " +getterId); //세입자
-        System.out.println("providerId = " +providerId);
-        System.out.println("homeId = " +homeId);
-        System.out.println("dmId = " +dmId);
         List<ProtectedDealResponse> responses = new ArrayList<>();
-        List<ProtectedDeal> protectedDeals = protectedDealRepository.findByMultipleParams(getterId, providerId, homeId, dmId);
+        List<Tuple> protectedDeals = protectedDealRepository.findByMultipleParams(getterId, providerId, homeId, dmId);
         protectedDeals.stream()
-                .forEach(protectedDeal -> {
-                    Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
+                .forEach(tuple -> {
+                    ProtectedDeal protectedDeal= tuple.get(QProtectedDeal.protectedDeal);
+                    Home home = tuple.get(QHome.home);
                     responses.add(mapper.toResponse(protectedDeal, home));
                 });
         return responses;

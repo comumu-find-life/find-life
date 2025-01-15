@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>출금 신청 내역</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>출금 신청 내역</h1>
+
+    <table class="withdraw-table">
+        <thead>
+        <tr>
+            <th>예금주</th>
+            <th>페이팔 입금 정보</th>
+            <th>출금 금액</th>
+            <th>출금 유형</th>
+            <th>출금 신청 일시</th>
+            <th>작업</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="withdraw : ${withdraws}">
+            <td th:text="${withdraw.depositorName}"></td>
+            <td th:text="${withdraw.paypalInformation}"></td>
+            <td th:text="${withdraw.chargeAmount}"></td>
+            <td th:text="${withdraw.chargeType}"></td>
+            <td th:text="${withdraw.historyDateTime}"></td>
+            <!-- 환전 완료 버튼 -->
+            <td>
+                <form th:action="@{/account/complete}" method="post" style="display: inline;">
+                    <input type="hidden" name="userAccountId" th:value="${withdraw.userAccountId}">
+                    <input type="hidden" name="pointHistoryId" th:value="${withdraw.pointHistoryId}">
+                    <input type="text" name="token" placeholder="토큰 입력" required>
+                    <button type="submit">환전 완료</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

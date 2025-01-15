@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQLDialect
+    sql:
+      init:
+        mode: always
+  sql:
+    init:
+      mode: always
+
+  logging:
+    level:
+      me.selvernine: DEBUG

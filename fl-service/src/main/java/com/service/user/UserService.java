@@ -27,8 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.service.user.UserMessages.*;
@@ -47,10 +46,32 @@ public class UserService {
     @Value("${admin.token}")
     private String secretToken;
 
+    /**
+     * 회원가입 메서드
+     */
     public Long signUp(UserSignupRequest userSignupRequest,String encodePassword, MultipartFile image) throws Exception {
         validation.validateSignUp(userSignupRequest.getEmail(), userSignupRequest.getNickname());
         User user = createUser(userSignupRequest, encodePassword, image);
         return userRepository.save(user).getId();
+    }
+
+    public List<UserProfileResponse> findSenderReceiver(final Long senderId, final  Long receiverId){
+        List<User> users = userRepository.findSenderAndReceiver(senderId, receiverId);
+        Map<Long, User> userMap = users.stream()
+                .collect(Collectors.toMap(User::getId, user -> user));
+        User senderUser = userMap.get(senderId);
+        User receiverUser = userMap.get(receiverId);
+        return Arrays.asList(userMapper.toProfile(senderUser), userMapper.toProfile(receiverUser));
+    }
+
+
+
+    /**
+     * 사용자 프로필 조회 메서드 by userId
+     */
+    public UserProfileResponse getUserProfile(Long id) {
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
+        return userMapper.toProfile(user);
     }
 
     /**
@@ -77,13 +98,7 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-    /**
-     * 사용자 프로필 조회 메서드 by userId
-     */
-    public UserProfileResponse getUserProfile(Long id) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
-        return userMapper.toProfile(user);
-    }
+
 
     /**
      * 사용자 프로필 수정

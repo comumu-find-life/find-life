@@ -1,10 +1,13 @@
 package com.chatting.service;
 
+import com.common.chat.mapper.DirectMessageMapper;
 import com.common.chat.request.DirectMessageRequest;
+import com.core.api_core.chat.model.DirectMessage;
 import com.core.api_core.chat.model.DirectMessageRoom;
 import com.core.api_core.user.model.User;
 
 public class DirectMessageHelper {
+
 
     public static DirectMessageRequest createDirectMessageRequest(final String message, final Long senderId, final Long receiverId){
         return  DirectMessageRequest.builder()

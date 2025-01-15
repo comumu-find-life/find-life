@@ -3,6 +3,7 @@ package com.api.home;
 import com.common.home.request.*;
 import com.common.home.response.HomeInformationResponse;
 import com.common.home.response.HomeOverviewResponse;
+import com.common.home.response.HomeOverviewWrapper;
 import com.common.utils.SuccessResponse;
 import com.service.home.HomeQueryService;
 import com.service.home.HomeService;
@@ -89,8 +90,8 @@ public class HomeController {
 
     @GetMapping(HOMES_FIND_ALL)
     public ResponseEntity<?> findAll() {
-        List<HomeOverviewResponse> allHomes = homeQueryService.findAllHomes();
-        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.ALL_HOMES_RETRIEVE_SUCCESS, allHomes);
+        HomeOverviewWrapper allHomes = homeQueryService.findAllHomes();
+        SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.ALL_HOMES_RETRIEVE_SUCCESS, allHomes.getHomes());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
