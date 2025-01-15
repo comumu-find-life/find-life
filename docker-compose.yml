@@ -22,6 +22,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+
       - name: Generate .env file
         run: |
           echo FL_CHAT_DB_URL=${{ secrets.FL_CHAT_DB_URL }} >> .env
