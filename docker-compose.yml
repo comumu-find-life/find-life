@@ -1,60 +1,92 @@
-name: Deploy to EC2
+version: '3.8'
 
-on:
-  push:
-    branches:
-      - main
+networks:
+  fl-network: # 사용자 정의 네트워크
+    driver: bridge
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+services:
+  fl-api:
+    build:
+      context: ./fl-api
+      dockerfile: Dockerfile
+    container_name: fl-api
+    ports:
+      - "8080:8080"
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - FL_CHAT_DB_URL=${FL_CHAT_DB_URL}
+      - FL_CHAT_DB_USER_NAME=${FL_CHAT_DB_USER_NAME}
+      - FL_DB_URL=${FL_RDS_DB_URL}
+      - FL_DB_USER_NAME=${FL_RDS_USER_NAME}
+      - FL_DB_PASSWROD=${FL_RDS_PASSWORD}
+      - FL_MAP_API_KEY=${FL_MAP_API_KEY}
+      - ANDROID_OAUTH_CLIENT_KEY=${ANDROID_OAUTH_CLIENT_KEY}
+      - IOS_OAUTH_CLIENT_KEY=${IOS_OAUTH_CLIENT_KEY}
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
+      - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
+      - FL_DOMAIN_BASE=http://host.docker.internal:8080 # 안드로이드 에뮬레이터 호환
+      - FL_CHAT_DIRECT_MESSAGE=/dm
+      - FL_CHAT_PUBLISH=/pub
+      - FL_CHAT_SUBSCRIBE=/sub
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - fl-network
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
+  fl-chatting:
+    build:
+      context: ./fl-chatting
+      dockerfile: Dockerfile
+    container_name: fl-chatting
+    ports:
+      - "8082:8082"
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - FL_CHAT_DOMAIN_BASE_URL=${FL_CHAT_DOMAIN_BASE_URL}
+      - FL_DB_URL=${FL_RDS_DB_URL}
+      - FL_CHAT_DB_URL=${FL_CHAT_DB_URL}
+      - FL_CHAT_DB_USER_NAME=${FL_CHAT_DB_USER_NAME}
+      - FL_DB_USER_NAME=${FL_RDS_USER_NAME}
+      - FL_DB_PASSWROD=${FL_RDS_PASSWORD}
+      - FL_MAP_API_KEY=${FL_MAP_API_KEY}
+      - ANDROID_OAUTH_CLIENT_KEY=${ANDROID_OAUTH_CLIENT_KEY}
+      - IOS_OAUTH_CLIENT_KEY=${IOS_OAUTH_CLIENT_KEY}
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
+      - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
+      - FL_DOMAIN_BASE=http://host.docker.internal:8082 # 안드로이드 에뮬레이터 호환
+      - FL_CHAT_DIRECT_MESSAGE=/dm
+      - FL_CHAT_PUBLISH=/pub
+      - FL_CHAT_SUBSCRIBE=/sub
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - fl-network
 
-      - name: Generate .env file
-        run: |
-          echo FL_CHAT_DB_URL=${{ secrets.FL_CHAT_DB_URL }} >> .env
-          echo FL_CHAT_DB_USER_NAME=${{ secrets.FL_CHAT_DB_USER_NAME }} >> .env
-          echo FL_RDS_DB_URL=${{ secrets.FL_RDS_DB_URL }} >> .env
-          echo FL_RDS_USER_NAME=${{ secrets.FL_RDS_USER_NAME }} >> .env
-          echo FL_RDS_PASSWORD=${{ secrets.FL_RDS_PASSWORD }} >> .env
-          echo FL_MAP_API_KEY=${{ secrets.FL_MAP_API_KEY }} >> .env
-          echo ANDROID_OAUTH_CLIENT_KEY=${{ secrets.ANDROID_OAUTH_CLIENT_KEY }} >> .env
-          echo IOS_OAUTH_CLIENT_KEY=${{ secrets.IOS_OAUTH_CLIENT_KEY }} >> .env
-          echo PAYPAL_CLIENT_ID=${{ secrets.PAYPAL_CLIENT_ID }} >> .env
-          echo PAYPAL_CLIENT_SECRET=${{ secrets.PAYPAL_CLIENT_SECRET }} >> .env
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: cozyshare_database
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - fl-network
 
-      - name: Upload .env and Docker Compose to EC2
-        uses: appleboy/scp-action@v0.2.2
-        with:
-          host: ${{ secrets.EC2_PUBLIC_IP }}
-          username: ubuntu
-          port: 22
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          source: |
-            ./docker-compose.yml
-            ./.env
-          target: /home/ubuntu/
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - fl-network
 
-      - name: SSH to EC2 and deploy
-        uses: appleboy/ssh-action@v0.1.8
-        with:
-          host: ${{ secrets.EC2_PUBLIC_IP }}
-          username: ubuntu
-          port: 22
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          script: |
-            docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-            docker-compose -f /home/ubuntu/docker-compose.yml pull
-            docker-compose -f /home/ubuntu/docker-compose.yml up -d —remove-orphans
+volumes:
+  mysql-data:
+    driver: local
