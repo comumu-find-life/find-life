@@ -1,8 +1,8 @@
-version: '3.8'
-
-networks:
-  fl-network: # 사용자 정의 네트워크
-    driver: bridge
+#version: '3.8'
+#
+#networks:
+#  fl-network: # 사용자 정의 네트워크
+#    driver: bridge
 
 #services:
 #  fl-api:
