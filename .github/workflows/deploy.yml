@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - fl-master
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -27,8 +28,8 @@ jobs:
           # Disable StrictHostKeyChecking to avoid prompts
           echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
           
-          # Copy files using SCP
-          scp -r ./ ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/project
+          # Use scp with -o to disable host key checking
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./ ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/project
 
       - name: SSH to EC2 and deploy
         run: |
