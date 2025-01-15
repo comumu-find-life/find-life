@@ -31,6 +31,8 @@ public class ChatController {
     private final HomeQueryService homeQueryService;
     private final ProtectedDealService protectedDealService;
 
+
+
     @PostMapping(CHAT_TOTAL_URL)
     public ResponseEntity<?> getDirectMessageTotalResponse(@RequestBody final DirectMessageTotalRequest directMessageTotalRequest) {
         long startTime = System.currentTimeMillis(); // 시작 시간 기록
