@@ -55,6 +55,7 @@ jobs:
           port: 22
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
+            export PATH=$PATH:/usr/local/bin
             docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-            docker-compose -f /home/ubuntu/docker-compose.yml pull
-            docker-compose -f /home/ubuntu/docker-compose.yml up -d --remove-orphans
+            /usr/local/bin/docker-compose -f /home/ubuntu/docker-compose.yml pull
+            /usr/local/bin/docker-compose -f /home/ubuntu/docker-compose.yml up -d --remove-orphans
