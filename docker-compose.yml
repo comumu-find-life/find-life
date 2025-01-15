@@ -6,7 +6,7 @@ networks:
 
 services:
   fl-api:
-    image: minseok2000/fl-api  # Docker Hub에서 이미지를 사용
+#    image: minseok2000/fl-api  # Docker Hub에서 이미지를 사용
     container_name: fl-api
     ports:
       - "8080:8080"
@@ -33,7 +33,7 @@ services:
       - fl-network
 
   fl-chatting:
-    image: minseok2000/fl-chatting  # Docker Hub에서 이미지를 사용
+#    image: minseok2000/fl-chatting  # Docker Hub에서 이미지를 사용
     container_name: fl-chatting
     ports:
       - "8082:8082"
