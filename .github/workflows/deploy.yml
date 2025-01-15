@@ -47,17 +47,7 @@ jobs:
             ./.env
           target: /home/ubuntu/
 
-      - name: Upload .env and Docker Compose to EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_PUBLIC_IP }}
-          username: ubuntu
-          port: 22
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          source: |
-            ./docker-compose.yml
-            ./.env
-          target: /home/ubuntu/
+
 
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@master
@@ -70,6 +60,6 @@ jobs:
             ls -l /home/ubuntu/  # 업로드된 파일들 확인
             export PATH=$PATH:/usr/local/bin
             docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-            /usr/local/bin/docker-compose -f /home/ubuntu/docker-compose.yml pull
-            /usr/local/bin/docker-compose -f /home/ubuntu/docker-compose.yml up -d --remove-orphans
+            /usr/local/bin/docker-compose -f /home/ubuntu/project/docker-compose.yml pull
+            /usr/local/bin/docker-compose -f /home/ubuntu/project/docker-compose.yml up -d --remove-orphans
       
