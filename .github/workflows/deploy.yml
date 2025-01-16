@@ -52,6 +52,10 @@ jobs:
           target: /home/ubuntu/
           debug: true
 
+      - name: Check files existence
+          run: |
+            ls -la ./docker-compose.yml
+            ls -la ./.env
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
