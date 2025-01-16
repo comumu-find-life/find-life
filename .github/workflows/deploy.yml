@@ -61,9 +61,9 @@ jobs:
           port: 22
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           source: |
-            .docker-compose.yml
-            .env
-          target: /
+            docker-compose.yml
+            ./.env
+          target:
           debug: true
 
       # 6. EC2에서 파일 확인 (디버깅용)
