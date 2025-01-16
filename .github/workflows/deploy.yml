@@ -50,6 +50,7 @@ jobs:
             ./docker-compose.yml
             ./.env
           target: /home/ubuntu/
+          debug: true
 
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@master
