@@ -57,8 +57,10 @@ jobs:
           debug: true
           protocol: tcp
           timeout: 30s
-          tar_exec: false # tar 압축 비활성화
-
+          command_timeout: 10m
+          tar_exec: tar
+          proxy_port: 22
+          proxy_timeout: 30s
 
       - name: Upload docker-compose.yml to EC2
         uses: appleboy/scp-action@master
