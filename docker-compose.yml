@@ -10,10 +10,19 @@ services:
     container_name: fl-api
     ports:
       - "8080:8080"
-    env_file:
-      - /home/ubuntu/.env
+
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - FL_CHAT_DB_URL=${FL_CHAT_DB_URL}
+      - FL_CHAT_DB_USER_NAME=${FL_CHAT_DB_USER_NAME}
+      - FL_DB_URL=${FL_RDS_DB_URL}
+      - FL_DB_USER_NAME=${FL_RDS_USER_NAME}
+      - FL_DB_PASSWROD=${FL_RDS_PASSWORD}
+      - FL_MAP_API_KEY=${FL_MAP_API_KEY}
+      - ANDROID_OAUTH_CLIENT_KEY=${ANDROID_OAUTH_CLIENT_KEY}
+      - IOS_OAUTH_CLIENT_KEY=${IOS_OAUTH_CLIENT_KEY}
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
+      - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
       - FL_DOMAIN_BASE=http://host.docker.internal:8080 # 안드로이드 에뮬레이터 호환
       - FL_CHAT_DIRECT_MESSAGE=/dm
       - FL_CHAT_PUBLISH=/pub
@@ -30,10 +39,20 @@ services:
 
     ports:
       - "8082:8082"
-    env_file:
-      - /home/ubuntu/.env
+
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - FL_CHAT_DOMAIN_BASE_URL=${FL_CHAT_DOMAIN_BASE_URL}
+      - FL_DB_URL=${FL_RDS_DB_URL}
+      - FL_CHAT_DB_URL=${FL_CHAT_DB_URL}
+      - FL_CHAT_DB_USER_NAME=${FL_CHAT_DB_USER_NAME}
+      - FL_DB_USER_NAME=${FL_RDS_USER_NAME}
+      - FL_DB_PASSWROD=${FL_RDS_PASSWORD}
+      - FL_MAP_API_KEY=${FL_MAP_API_KEY}
+      - ANDROID_OAUTH_CLIENT_KEY=${ANDROID_OAUTH_CLIENT_KEY}
+      - IOS_OAUTH_CLIENT_KEY=${IOS_OAUTH_CLIENT_KEY}
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
+      - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
       - FL_DOMAIN_BASE=http://host.docker.internal:8082 # 안드로이드 에뮬레이터 호환
       - FL_CHAT_DIRECT_MESSAGE=/dm
       - FL_CHAT_PUBLISH=/pub
