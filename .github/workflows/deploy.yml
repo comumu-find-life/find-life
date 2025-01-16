@@ -43,6 +43,7 @@ jobs:
           echo "PAYPAL_CLIENT_ID=${{ secrets.PAYPAL_CLIENT_ID }}" >> .env
           echo "PAYPAL_CLIENT_SECRET=${{ secrets.PAYPAL_CLIENT_SECRET }}" >> .env
           echo "JWT_KEY=${{ secrets.JWT_KEY }}" >> .env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" > .env
 
       - name: Check if .env and docker-compose.yml exist
         run: |
