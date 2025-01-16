@@ -54,7 +54,6 @@ jobs:
           ls -la ./docker-compose.yml
           ls -la ./.env
 
-
       - name: Upload .env to EC2
         uses: appleboy/scp-action@master
         with:
