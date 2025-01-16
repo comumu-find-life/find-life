@@ -22,6 +22,9 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Create .env file from GitHub secret
+        run: |
+          echo "$ENV_VARS" > .env
 
       - name: Upload .env and Docker Compose to EC2
         uses: appleboy/ssh-action@master
@@ -34,7 +37,6 @@ jobs:
             ./docker-compose.yml
             ./.env
           target: /home/ubuntu/
-
 
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@master
@@ -57,7 +59,6 @@ jobs:
             sudo docker ps -q --filter "name=cozy-api" | grep -q . && sudo docker stop cozy-api && sudo docker rm -f cozy-api || true
             sudo docker stop cozy-chatting
             sudo docker rm -f cozy-chatting
-            
             
             # 최신 fl-chatting 이미지 다운로드 및 실행
             sudo docker pull minseok2000/cozy-chatting:latest
