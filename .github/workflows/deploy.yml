@@ -41,12 +41,13 @@ jobs:
           echo "PAYPAL_CLIENT_ID=${{ secrets.PAYPAL_CLIENT_ID }}" >> .env
           echo "PAYPAL_CLIENT_SECRET=${{ secrets.PAYPAL_CLIENT_SECRET }}" >> .env
           echo "JWT_KEY=${{ secrets.JWT_KEY }}" >> .env
-          cat .env
+
       - name: Check if .env and docker-compose.yml exist
         run: |
           ls -la .env
           cat .env  # .env 파일 내용 확인
           ls -la docker-compose.yml
+
       - name: Check files in workspace
         run: |
           ls -la .
@@ -63,7 +64,7 @@ jobs:
           source: |
             ./docker-compose.yml
             ./.env
-          target: /home/ubuntu/
+          target: /usr/bin/bash/home/ubuntu/
           debug: true
 
 
