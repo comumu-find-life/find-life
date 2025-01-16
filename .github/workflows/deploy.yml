@@ -44,6 +44,7 @@ jobs:
           host: ${{ secrets.EC2_PUBLIC_IP }}
           username: ubuntu
           port: 22
+
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           source: |
             ./docker-compose.yml
