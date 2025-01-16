@@ -47,6 +47,11 @@ jobs:
           ls -la .env
           cat .env  # .env 파일 내용 확인
           ls -la docker-compose.yml
+      - name: Check files in workspace
+        run: |
+          ls -la /github/workspace
+          ls -la /github/workspace/docker-compose.yml
+          ls -la /github/workspace/.env
       # 5. .env 파일과 docker-compose.yml 파일을 EC2에 업로드
       - name: Upload .env and Docker Compose to EC2
         uses: appleboy/scp-action@master
