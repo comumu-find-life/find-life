@@ -89,7 +89,6 @@ jobs:
 
 
 
-      # 7. EC2에 SSH로 접속하여 Docker 컨테이너 배포
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
@@ -99,14 +98,14 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
             export PATH=$PATH:/usr/local/bin
-            
+
             # Docker 로그인
             sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-            
+
             # 기존 컨테이너들 중지 및 제거
             sudo docker ps -q --filter "name=cozy-chatting" | grep -q . && sudo docker stop cozy-chatting && sudo docker rm -f cozy-chatting || true
             sudo docker ps -q --filter "name=cozy-api" | grep -q . && sudo docker stop cozy-api && sudo docker rm -f cozy-api || true
-            
+
             # 최신 fl-chatting 이미지 다운로드 및 실행
             sudo docker pull minseok2000/cozy-chatting:latest
             sudo docker run -d \
@@ -124,3 +123,4 @@ jobs:
               -p 8080:8080 \
               --env-file /home/ubuntu/.env \
               minseok2000/cozy-api:latest
+      
