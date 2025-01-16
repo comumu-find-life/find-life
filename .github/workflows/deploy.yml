@@ -62,8 +62,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           source: |
             docker-compose.yml
-            ./.env
-          target: /home/ubuntu
+            .env
+          target: /home/ubuntu/
           debug: true
 
       # 6. EC2에서 파일 확인 (디버깅용)
