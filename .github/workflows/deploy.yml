@@ -60,19 +60,19 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
             export PATH=$PATH:/usr/local/bin
-
+            
             # Docker 로그인
-            docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
+            sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            
             # 실행 중인 컨테이너 중지 및 제거
-            docker ps -q --filter "name=my-app" | grep -q . && docker stop my-app && docker rm my-app || true
-
+            sudo docker ps -q --filter "name=my-app" | grep -q . && sudo docker stop my-app && sudo docker rm my-app || true
+            
             # 최신 이미지 다운로드
-            docker pull my-dockerhub-repo/my-app:latest
-
+            sudo docker pull my-dockerhub-repo/my-app:latest
+            
             # 컨테이너 실행
-            docker run -d \
+            sudo docker run -d \
               --name my-app \
-              -p 80:80 \ # 포트 매핑 (필요에 따라 수정)
-              -e ENV_VARIABLE=value \ # 환경 변수 (필요에 따라 추가)
+              -p 80:80 \
+              -e ENV_VARIABLE=value \
               my-dockerhub-repo/my-app:latest
