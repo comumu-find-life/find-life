@@ -61,29 +61,29 @@ jobs:
             sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
             
             # fl-chatting 컨테이너 중지 및 제거
-            sudo docker ps -q --filter "name=fl-chatting" | grep -q . && sudo docker stop fl-chatting && sudo docker rm -f fl-chatting || true
-            sudo docker stop fl-api
-            sudo docker rm -f fl-api
+            sudo docker ps -q --filter "name=cozy-chatting" | grep -q . && sudo docker stop cozy-chatting && sudo docker rm -f cozy-chatting || true
+            sudo docker stop cozy-api
+            sudo docker rm -f cozy-api
             # fl-api 컨테이너 중지 및 제거
-            sudo docker ps -q --filter "name=fl-api" | grep -q . && sudo docker stop fl-api && sudo docker rm -f fl-api || true
-            sudo docker stop fl-chatting
-            sudo docker rm -f fl-chatting
+            sudo docker ps -q --filter "name=cozy-api" | grep -q . && sudo docker stop cozy-api && sudo docker rm -f cozy-api || true
+            sudo docker stop cozy-chatting
+            sudo docker rm -f cozy-chatting
             
             
             # 최신 fl-chatting 이미지 다운로드 및 실행
-            sudo docker pull minseok2000/fl-chatting:latest
+            sudo docker pull minseok2000/cozy-chatting:latest
             sudo docker run -d \
-              --name fl-chatting \
+              --name cozy-chatting \
               --platform linux/amd64 \
               -p 8082:8082 \
               -e ENV_VARIABLE=value \
-              minseok2000/fl-chatting:latest
+              minseok2000/cozy-chatting:latest
 
             # 최신 fl-api 이미지 다운로드 및 실행
-            sudo docker pull minseok2000/fl-api:latest
+            sudo docker pull minseok2000/cozy-api:latest
             sudo docker run -d \
-              --name fl-api \
+              --name cozy-api \
               --platform linux/amd64 \
               -p 8080:8080 \
               -e ENV_VARIABLE=value \
-              minseok2000/fl-api:latest
+              minseok2000/cozy-api:latest
