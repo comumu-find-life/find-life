@@ -60,11 +60,9 @@ jobs:
           username: ubuntu
           port: 22
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          source: |
-            ./docker-compose.yml
+          source: | 
             ./.env
           target: /home/ubuntu/
-          strip_components: 1
           debug: true
           protocol: tcp
           timeout: 30s
