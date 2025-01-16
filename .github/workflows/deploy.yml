@@ -46,7 +46,7 @@ jobs:
 
 
       - name: Upload .env to EC2
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.EC2_PUBLIC_IP }}
           username: ubuntu
@@ -57,10 +57,8 @@ jobs:
           debug: true
           protocol: tcp
           timeout: 30s
-          command_timeout: 10m
-          tar_exec: tar
-          proxy_port: 22
-          proxy_timeout: 30s
+          tar_exec: false # tar 압축 비활성화
+
 
       - name: Upload docker-compose.yml to EC2
         uses: appleboy/scp-action@master
