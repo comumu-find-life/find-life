@@ -103,8 +103,8 @@ jobs:
             sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
             # 기존 컨테이너들 중지 및 제거
-            sudo docker ps -q --filter "name=cozy-chatting" | grep -q . && sudo docker stop cozy-chatting && sudo docker rm -f cozy-chatting || true
-            sudo docker ps -q --filter "name=cozy-api" | grep -q . && sudo docker stop cozy-api && sudo docker rm -f cozy-api || true
+            sudo docker ps -a --filter "name=cozy-chatting" -q | grep -q . && sudo docker stop cozy-chatting && sudo docker rm -f cozy-chatting || true
+            sudo docker ps -a --filter "name=cozy-api" -q | grep -q . && sudo docker stop cozy-api && sudo docker rm -f cozy-api || true
 
             # 최신 fl-chatting 이미지 다운로드 및 실행
             sudo docker pull minseok2000/cozy-chatting:latest
