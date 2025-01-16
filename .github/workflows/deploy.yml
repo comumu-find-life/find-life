@@ -80,4 +80,3 @@ jobs:
               -p 80:80 \ # 포트 매핑 (필요에 따라 수정)
               -e ENV_VARIABLE=value \ # 환경 변수 (필요에 따라 추가)
               my-dockerhub-repo/my-app:latest
-      
