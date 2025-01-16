@@ -64,6 +64,7 @@ jobs:
             ./docker-compose.yml
             ./.env
           target: /home/ubuntu/
+          strip_components: 1
           debug: true
           protocol: tcp
           timeout: 30s
