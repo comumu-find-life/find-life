@@ -51,6 +51,7 @@ jobs:
             ./.env
           target: /home/ubuntu/
 
+
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
