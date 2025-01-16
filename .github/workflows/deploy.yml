@@ -61,10 +61,11 @@ jobs:
             sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
             
             # fl-chatting 컨테이너 중지 및 제거
-            sudo docker ps -q --filter "name=fl-chatting" | grep -q . && sudo docker stop fl-chatting && sudo docker rm fl-chatting || true
-            
+            sudo docker ps -q --filter "name=fl-chatting" | grep -q . && sudo docker stop fl-chatting && sudo docker rm -f fl-chatting || true
             # fl-api 컨테이너 중지 및 제거
-            sudo docker ps -q --filter "name=fl-api" | grep -q . && sudo docker stop fl-api && sudo docker rm fl-api || true
+            sudo docker ps -q --filter "name=fl-api" | grep -q . && sudo docker stop fl-api && sudo docker rm -f fl-api || true
+            
+            
             
             # 최신 fl-chatting 이미지 다운로드 및 실행
             sudo docker pull minseok2000/fl-chatting:latest
