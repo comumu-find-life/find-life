@@ -47,7 +47,6 @@ jobs:
           ls -la .env
           cat .env  # .env 파일 내용 확인
           ls -la docker-compose.yml
-
       - name: Check files in workspace
         run: |
           ls -la .
@@ -64,7 +63,7 @@ jobs:
           source: |
             ./docker-compose.yml
             ./.env
-          target: /usr/bin/bash/home/ubuntu/
+          target: /home/ubuntu/
           debug: true
 
 
