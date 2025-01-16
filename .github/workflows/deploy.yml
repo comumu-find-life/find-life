@@ -35,7 +35,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           source: |
             ./docker-compose.yml
-            ./.env
           target: /home/ubuntu/
 
       - name: SSH to EC2 and deploy
