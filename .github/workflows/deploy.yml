@@ -28,7 +28,6 @@ jobs:
       # 4. .env 파일 생성
       - name: Create .env file from GitHub secret
         run: |
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" > .env
           echo "FL_DB_URL=${{ secrets.FL_RDS_DB_URL }}" > .env
           echo "FL_DB_URL=${{ secrets.FL_RDS_DB_URL }}" > .env
           echo "FL_DB_USER_NAME=${{ secrets.FL_DB_USER_NAME }}" >> .env
