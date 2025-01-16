@@ -45,16 +45,6 @@ jobs:
           echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
 
 
-      - name: Check if .env and docker-compose.yml exist
-        run: |
-          ls -la .env
-          cat .env  # .env 파일 내용 확인
-          ls -la docker-compose.yml
-      - name: Check files in workspace
-        run: |
-          ls -la .
-          ls -la ./docker-compose.yml
-          ls -la ./.env
       - name: Upload .env to EC2
         uses: appleboy/scp-action@master
         with:
