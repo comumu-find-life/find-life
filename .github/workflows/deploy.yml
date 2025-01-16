@@ -73,7 +73,6 @@ jobs:
             sudo docker stop cozy-chatting
             sudo docker rm -f cozy-chatting
             
-            
             # 최신 fl-chatting 이미지 다운로드 및 실행
             sudo docker pull minseok2000/cozy-chatting:latest
             sudo docker run -d \
