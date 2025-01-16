@@ -13,8 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-
-
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
 
@@ -49,8 +47,6 @@ jobs:
             ./.env
           target: /home/ubuntu/
 
-
-
       - name: SSH to EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
@@ -64,15 +60,24 @@ jobs:
             # Docker 로그인
             sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
             
-            # 실행 중인 컨테이너 중지 및 제거
-            sudo docker ps -q --filter "name=my-app" | grep -q . && sudo docker stop my-app && sudo docker rm my-app || true
+            # fl-chatting 컨테이너 중지 및 제거
+            sudo docker ps -q --filter "name=fl-chatting" | grep -q . && sudo docker stop fl-chatting && sudo docker rm fl-chatting || true
             
-            # 최신 이미지 다운로드
-            sudo docker pull my-dockerhub-repo/my-app:latest
+            # fl-api 컨테이너 중지 및 제거
+            sudo docker ps -q --filter "name=fl-api" | grep -q . && sudo docker stop fl-api && sudo docker rm fl-api || true
             
-            # 컨테이너 실행
+            # 최신 fl-chatting 이미지 다운로드 및 실행
+            sudo docker pull minseok2000/fl-chatting:latest
             sudo docker run -d \
-              --name my-app \
-              -p 80:80 \
+              --name fl-chatting \
+              -p 8082:8082 \
               -e ENV_VARIABLE=value \
-              my-dockerhub-repo/my-app:latest
+              minseok2000/fl-chatting:latest
+
+            # 최신 fl-api 이미지 다운로드 및 실행
+            sudo docker pull minseok2000/fl-api:latest
+            sudo docker run -d \
+              --name fl-api \
+              -p 8080:8080 \
+              -e ENV_VARIABLE=value \
+              minseok2000/fl-api:latest
