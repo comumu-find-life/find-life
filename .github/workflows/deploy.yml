@@ -52,6 +52,7 @@ jobs:
           ls -la .
           ls -la ./docker-compose.yml
           ls -la ./.env
+
       - name: Upload .env and Docker Compose to EC2
         uses: appleboy/scp-action@master
         with:
@@ -62,7 +63,7 @@ jobs:
           source: |
             .docker-compose.yml
             .env
-          target: /home/ubuntu/
+          target: /
           debug: true
 
       # 6. EC2에서 파일 확인 (디버깅용)
