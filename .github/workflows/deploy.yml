@@ -81,7 +81,7 @@ jobs:
               --name cozy-chatting \
               --platform linux/amd64 \
               -p 8082:8082 \
-              -e ENV_VARIABLE=value \
+              --env-file /home/ubuntu/.env \
               minseok2000/cozy-chatting:latest
 
             # 최신 fl-api 이미지 다운로드 및 실행
@@ -90,5 +90,5 @@ jobs:
               --name cozy-api \
               --platform linux/amd64 \
               -p 8080:8080 \
-              -e ENV_VARIABLE=value \
+              --env-file /home/ubuntu/.env \
               minseok2000/cozy-api:latest
