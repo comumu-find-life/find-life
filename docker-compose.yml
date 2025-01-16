@@ -48,7 +48,7 @@ services:
     image: mysql:8.0
     container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: sin981023
+      MYSQL_ROOT_PASSWORD: rootPassword
       MYSQL_DATABASE: cozyshare_database
     ports:
       - "3307:3306"
