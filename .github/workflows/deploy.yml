@@ -47,8 +47,6 @@ jobs:
             ./.env
           target: /home/ubuntu/
 
-
-
       - name: SSH to EC2 and deploy
           uses: appleboy/ssh-action@master
           with:
@@ -58,9 +56,6 @@ jobs:
             key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
             script: |
               export PATH=$PATH:/usr/local/bin
-              
-              # Docker 그룹에 사용자 추가 (필요 시)
-              sudo usermod -aG docker ubuntu
               
               # Docker 로그인
               sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
