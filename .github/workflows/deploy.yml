@@ -70,6 +70,7 @@ jobs:
             sudo docker pull minseok2000/fl-chatting:latest
             sudo docker run -d \
               --name fl-chatting \
+              --platform linux/amd64 \
               -p 8082:8082 \
               -e ENV_VARIABLE=value \
               minseok2000/fl-chatting:latest
@@ -78,6 +79,7 @@ jobs:
             sudo docker pull minseok2000/fl-api:latest
             sudo docker run -d \
               --name fl-api \
+              --platform linux/amd64 \
               -p 8080:8080 \
               -e ENV_VARIABLE=value \
               minseok2000/fl-api:latest
