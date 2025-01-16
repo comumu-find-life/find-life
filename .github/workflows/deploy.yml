@@ -62,9 +62,12 @@ jobs:
             
             # fl-chatting 컨테이너 중지 및 제거
             sudo docker ps -q --filter "name=fl-chatting" | grep -q . && sudo docker stop fl-chatting && sudo docker rm -f fl-chatting || true
+            sudo docker stop fl-api
+            sudo docker rm -f fl-api
             # fl-api 컨테이너 중지 및 제거
             sudo docker ps -q --filter "name=fl-api" | grep -q . && sudo docker stop fl-api && sudo docker rm -f fl-api || true
-            
+            sudo docker stop fl-chatting
+            sudo docker rm -f fl-chatting
             
             
             # 최신 fl-chatting 이미지 다운로드 및 실행
