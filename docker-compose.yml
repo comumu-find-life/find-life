@@ -11,7 +11,7 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - /home/.env
+      - /home/ubuntu/.env
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - FL_DOMAIN_BASE=http://host.docker.internal:8080 # 안드로이드 에뮬레이터 호환
@@ -31,7 +31,7 @@ services:
     ports:
       - "8082:8082"
     env_file:
-      - /home/.env
+      - /home/ubuntu/.env
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - FL_DOMAIN_BASE=http://host.docker.internal:8082 # 안드로이드 에뮬레이터 호환

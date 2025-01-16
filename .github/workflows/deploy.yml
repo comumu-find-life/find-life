@@ -32,7 +32,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           source: |
             ./docker-compose.yml
-            ./.env
+            ./home/ubuntu/.env
           target: /home/ubuntu/
 
 
