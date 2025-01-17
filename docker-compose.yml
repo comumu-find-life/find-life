@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   fl-api:
-    image: minseok2000/cozy-api  # Docker Hub에서 이미지를 사용
+    image: minseok2000/cozy-api
     container_name: fl-api
     expose:
       - "8080"
@@ -12,8 +12,11 @@ services:
       - /home/ubuntu/.env
     depends_on:
       - redis
+    networks:
+      - app-network
+
   fl-chatting:
-    image:  minseok2000/cozy-chatting  # Docker Hub에서 이미지를 사용
+    image: minseok2000/cozy-chatting
     container_name: fl-chatting
     expose:
       - "8082"
@@ -23,17 +26,17 @@ services:
       - /home/ubuntu/.env
     depends_on:
       - redis
-
+    networks:
+      - app-network
 
   redis:
-    expose:
-      - "6379"
     image: redis:7.0
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - app-network
 
-
-volumes:
-  mysql-data:
-    driver: local
+networks:
+  app-network:
+    driver: bridge
