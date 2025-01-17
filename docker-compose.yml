@@ -16,6 +16,7 @@ services:
     networks:
       - app-network
 
+
   fl-chatting:
     image: minseok2000/cozy-chatting
     container_name: fl-chatting
