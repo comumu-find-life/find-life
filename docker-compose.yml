@@ -10,7 +10,8 @@ services:
       - "8080:8080"
     env_file:
       - /home/ubuntu/.env
-
+    depends_on:
+      - redis
   fl-chatting:
     image:  minseok2000/cozy-chatting  # Docker Hub에서 이미지를 사용
     container_name: fl-chatting
@@ -20,3 +21,19 @@ services:
       - "8082:8082"
     env_file:
       - /home/ubuntu/.env
+    depends_on:
+      - redis
+
+
+  redis:
+    expose:
+      - "6379"
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+
+volumes:
+  mysql-data:
+    driver: local
