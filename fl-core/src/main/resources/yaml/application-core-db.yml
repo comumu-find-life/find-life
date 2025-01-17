@@ -20,9 +20,8 @@ spring:
     url: ${FL_DB_URL}
     username: ${FL_DB_USER_NAME}
     password: ${FL_DB_PASSWROD}
-#  redis    localhost
   redis:
-    host: redis
+    host: 52.65.105.204
     port: 6379
 
   sql:

@@ -3,6 +3,7 @@ spring:
     mongodb:
       uri: ${FL_CHAT_DB_URL}
       database: ${FL_CHAT_DB_USER_NAME}
+
   datasource:
     initialization-mode: never
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -10,7 +11,7 @@ spring:
     username: ${FL_DB_USER_NAME}
     password: ${FL_DB_PASSWROD}
   redis:
-    host: redis
+    host: 52.65.105.204
     port: 6379
   mail:
     host: smtp.gmail.com
