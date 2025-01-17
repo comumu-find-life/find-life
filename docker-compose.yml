@@ -12,6 +12,7 @@ services:
       - /home/ubuntu/.env
     depends_on:
       - redis  # 단순 의존성만 지정
+    command: ["./wait-for-it.sh", "redis:6379", "--", "java", "-jar", "app.jar"]
     networks:
       - app-network
 
