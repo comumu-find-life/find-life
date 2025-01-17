@@ -14,12 +14,7 @@ services:
       - "8080:8080"
     env_file:
       - /home/ubuntu/.env
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - FL_DOMAIN_BASE=http://host.docker.internal:8080 # 안드로이드 에뮬레이터 호환
-      - FL_CHAT_DIRECT_MESSAGE=/dm
-      - FL_CHAT_PUBLISH=/pub
-      - FL_CHAT_SUBSCRIBE=/sub
+
     depends_on:
       - mysql
       - redis
@@ -35,43 +30,38 @@ services:
       - "8082:8082"
     env_file:
       - /home/ubuntu/.env
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - FL_DOMAIN_BASE=http://host.docker.internal:8082 # 안드로이드 에뮬레이터 호환
-      - FL_CHAT_DIRECT_MESSAGE=/dm
-      - FL_CHAT_PUBLISH=/pub
-      - FL_CHAT_SUBSCRIBE=/sub
+
     depends_on:
       - mysql
       - redis
     networks:
       - fl-network
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql-db
-    environment:
-      MYSQL_ROOT_PASSWORD: rootPassword
-      MYSQL_DATABASE: cozyshare_database
-    expose:
-      - "3306"
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - fl-network
-
-  redis:
-    expose:
-      - "6379"
-    image: redis:7.0
-    container_name: redis
-    ports:
-      - "6379:6379"
-    networks:
-      - fl-network
-
-volumes:
-  mysql-data:
-    driver: local
+#  mysql:
+#    image: mysql:8.0
+#    container_name: mysql-db
+#    environment:
+#      MYSQL_ROOT_PASSWORD: rootPassword
+#      MYSQL_DATABASE: cozyshare_database
+#    expose:
+#      - "3306"
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - mysql-data:/var/lib/mysql
+#    networks:
+#      - fl-network
+#
+#  redis:
+#    expose:
+#      - "6379"
+#    image: redis:7.0
+#    container_name: redis
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - fl-network
+#
+#volumes:
+#  mysql-data:
+#    driver: local

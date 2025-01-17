@@ -82,7 +82,7 @@ jobs:
           proxy_port: 22
           proxy_timeout: 30s
 
-      - name: SSH to EC2 and deploy
+      - name: SSH to EC2 and deploy using docker-compose
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_PUBLIC_IP }}
@@ -90,25 +90,10 @@ jobs:
           port: 22
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
-            export PATH=$PATH:/usr/local/bin
-            # Docker 로그인
-            sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-            # 기존 컨테이너들 중지 및 제거
-            sudo docker ps -a --filter "name=cozy-chatting" -q | grep -q . && sudo docker stop cozy-chatting && sudo docker rm -f cozy-chatting || true
-            sudo docker ps -a --filter "name=cozy-api" -q | grep -q . && sudo docker stop cozy-api && sudo docker rm -f cozy-api || true
-            # 최신 fl-chatting 이미지 다운로드 및 실행
-            sudo docker pull minseok2000/cozy-chatting:latest
-            sudo docker run -d \
-              --name cozy-chatting \
-              --platform linux/amd64 \
-              -p 8082:8082 \
-              --env-file /home/ubuntu/.env \
-              minseok2000/cozy-chatting:latest
-            # 최신 fl-api 이미지 다운로드 및 실행
-            sudo docker pull minseok2000/cozy-api:latest
-            sudo docker run -d \
-              --name cozy-api \
-              --platform linux/amd64 \
-              -p 8080:8080 \
-              --env-file /home/ubuntu/.env \
-              minseok2000/cozy-api:latest
+            cd /home/ubuntu/
+            # 기존 실행 중인 컨테이너 중지 및 제거
+            sudo docker-compose down
+            # 최신 이미지 가져오기
+            sudo docker-compose pull
+            # docker-compose로 모든 컨테이너 실행
+            sudo docker-compose up -d
