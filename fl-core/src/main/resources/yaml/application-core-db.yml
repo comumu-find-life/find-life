@@ -21,7 +21,7 @@ spring:
     username: ${FL_DB_USER_NAME}
     password: ${FL_DB_PASSWROD}
   redis:
-    host: localhost
+    host: redis
     port: 6379
 
 
