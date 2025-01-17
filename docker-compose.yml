@@ -8,6 +8,8 @@ services:
   fl-api:
     image: minseok2000/cozy-api  # Docker Hub에서 이미지를 사용
     container_name: fl-api
+    expose:
+      - "8080"
     ports:
       - "8080:8080"
     env_file:
@@ -27,7 +29,8 @@ services:
   fl-chatting:
     image:  minseok2000/cozy-chatting  # Docker Hub에서 이미지를 사용
     container_name: fl-chatting
-
+    expose:
+      - "8082"
     ports:
       - "8082:8082"
     env_file:
@@ -50,6 +53,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootPassword
       MYSQL_DATABASE: cozyshare_database
+    expose:
+      - "3306"
     ports:
       - "3307:3306"
     volumes:
@@ -58,6 +63,8 @@ services:
       - fl-network
 
   redis:
+    expose:
+      - "6379"
     image: redis:7.0
     container_name: redis
     ports:
