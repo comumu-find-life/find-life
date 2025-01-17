@@ -1,9 +1,5 @@
 version: '3.8'
 
-networks:
-  fl-network: # 사용자 정의 네트워크
-    driver: bridge
-
 services:
   fl-api:
     image: minseok2000/cozy-api  # Docker Hub에서 이미지를 사용
@@ -15,12 +11,6 @@ services:
     env_file:
       - /home/ubuntu/.env
 
-    depends_on:
-      - mysql
-      - redis
-    networks:
-      - fl-network
-
   fl-chatting:
     image:  minseok2000/cozy-chatting  # Docker Hub에서 이미지를 사용
     container_name: fl-chatting
@@ -30,38 +20,3 @@ services:
       - "8082:8082"
     env_file:
       - /home/ubuntu/.env
-
-    depends_on:
-      - mysql
-      - redis
-    networks:
-      - fl-network
-
-#  mysql:
-#    image: mysql:8.0
-#    container_name: mysql-db
-#    environment:
-#      MYSQL_ROOT_PASSWORD: rootPassword
-#      MYSQL_DATABASE: cozyshare_database
-#    expose:
-#      - "3306"
-#    ports:
-#      - "3307:3306"
-#    volumes:
-#      - mysql-data:/var/lib/mysql
-#    networks:
-#      - fl-network
-#
-#  redis:
-#    expose:
-#      - "6379"
-#    image: redis:7.0
-#    container_name: redis
-#    ports:
-#      - "6379:6379"
-#    networks:
-#      - fl-network
-#
-#volumes:
-#  mysql-data:
-#    driver: local
