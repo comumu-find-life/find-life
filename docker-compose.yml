@@ -29,6 +29,7 @@ services:
     networks:
       - app-network
 
+
   redis:
     image: redis:7.0
     container_name: redis
