@@ -12,6 +12,8 @@ services:
       - /home/ubuntu/.env
     depends_on:
       - redis
+    networks:
+      - app-network
 
   fl-chatting:
     image: minseok2000/cozy-chatting
@@ -24,7 +26,8 @@ services:
       - /home/ubuntu/.env
     depends_on:
       - redis
-
+    networks:
+      - app-network
 
   redis:
     image: redis:7.0
@@ -36,3 +39,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app-network
+networks:
+  app-network:
