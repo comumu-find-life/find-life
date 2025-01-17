@@ -10,10 +10,6 @@ services:
       - "8080:8080"
     env_file:
       - /home/ubuntu/.env
-    depends_on:
-      - redis  # 단순 의존성만 지정
-    networks:
-      - app-network
 
   fl-chatting:
     image: minseok2000/cozy-chatting
@@ -24,23 +20,3 @@ services:
       - "8082:8082"
     env_file:
       - /home/ubuntu/.env
-    depends_on:
-      - redis  # 단순 의존성만 지정
-    networks:
-      - app-network
-
-  redis:
-    image: redis:7.0
-    container_name: redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - app-network
-
-networks:
-  app-network:
