@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  fl-api:
+    build:
+      context: ./fl-api
+      dockerfile: Dockerfile-local
+    container_name: local-api
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+
+  fl-chatting:
+    build:
+      context: ./fl-chatting
+      dockerfile: Dockerfile-local
+    container_name: local-chatting
+    ports:
+      - "8082:8082"
+    env_file:
+      - .env
+    depends_on:
+      - redis
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+

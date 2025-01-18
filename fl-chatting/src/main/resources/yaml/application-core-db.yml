@@ -5,7 +5,7 @@ spring:
       database: ${FL_CHAT_DB_USER_NAME}
 
   datasource:
-    initialization-mode: never
+    initialization-mode: always
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${FL_DB_URL}
     username: ${FL_DB_USER_NAME}

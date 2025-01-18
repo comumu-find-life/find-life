@@ -125,7 +125,7 @@ public class UserService {
     @Transactional
     public void updateImage(Long userId, MultipartFile image){
         User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID);
-        if(!user.getProfileUrl().isEmpty()){
+        if (user.isExist()) {
             fileService.deleteFile(user.getProfileUrl());
         }
         String profileUrl = uploadProfileImage(image);

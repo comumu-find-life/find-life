@@ -14,8 +14,6 @@ aws:
   s3:
     bucket:
       name: cozyshare-s3-bucket
-
-
 admin:
   token: sin981023@
 

@@ -51,6 +51,10 @@ public class User extends BaseTimeEntity {
 
     private String refreshToken;
 
+    public boolean isExist(){
+        return profileUrl != null;
+    }
+
     public void passwordEncode(String encodePassword) {
         this.password = encodePassword;
     }
