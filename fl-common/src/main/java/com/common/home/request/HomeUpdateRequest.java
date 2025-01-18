@@ -15,6 +15,7 @@ public class HomeUpdateRequest {
     private Integer bathRoomCount;
     private boolean dealSavable;
     private Integer bedroomCount;
+    private Integer bathroomType;
     private Integer bond;
     private Gender gender;
     private HomeType type;
@@ -22,4 +23,5 @@ public class HomeUpdateRequest {
     private Integer bill;
     private Integer rent;
     private String options;
+    private boolean canParking;
 }
