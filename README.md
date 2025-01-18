@@ -11,7 +11,7 @@
 ----
 
 ```
-호주에서 집 렌트시 발생하는 계약금 사기 빈도가 점진적으로 증가하고 있다. 이는 기존에 존재하는 "FlateMate", "호주나라"와 같은
+호주에서 집 렌트시 발생하는 계약금 사기 빈도가 점진적으로 증가하고 있습니다. 이는 기존에 존재하는 "FlateMate", "호주나라"와 같은
 서비스가 임대인, 임차인을 매칭해주는 역할까지만 수행하기 때문에 발생하는 문제로 보여집니다.
 
 계약금을 관리해주는 중계인 역할인 "안전 거래" 기능을 도입한다면 위와 같은 문제를 해결할 수 있다 판단했습니다. "안전 거래" 는 실제 계약이 성사된 후 계약금을
@@ -27,19 +27,21 @@
 
 **Backend** : `Spring Boot`, `JPA`, `QueryDSL`        
 **Database** : `MySQL`, `MongoDB`, `Redis`           
-**Frontend** : `Flutter`
+**Frontend** : `Flutter`  
+**Devops** : `Docker`, `GitAction`, `Aws Ec2`, `Aws RDS`, `Aws S3`
 
 <br />
 
 ### 💁‍♂️ 참여 인원 && 기여도
 ----
-
-**Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)          
-**Frontend** : 1명(본인 포함)
+**[참여 인원]**  
+**Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)        
+**Frontend** : 1명(본인 포함)  
 
 **기여도**   
 **Backend** : 기여도(90%)  
-**Front** : 기여도(100%)
+**Devops** : 기여도(90%)  
+**Front** : 기여도(100%)  
 
 <br />
 
@@ -208,7 +210,6 @@
 ### 🗂️ ERD
 ----
 <img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
-
 
 <br />
 
