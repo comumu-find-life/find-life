@@ -27,7 +27,7 @@
 
 **Backend** : `Spring Boot`, `JPA`, `QueryDSL`        
 **Database** : `MySQL`, `MongoDB`, `Redis`           
-**Frontend** : `Flutter`
+**Frontend** : `Flutter`  
 **Devops** : `Docker`, `GitAction`, `Aws Ec2`, `Aws RDS`, `Aws S3`
 
 <br />
