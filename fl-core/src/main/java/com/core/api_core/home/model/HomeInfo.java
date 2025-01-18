@@ -44,6 +44,7 @@ public class HomeInfo {
     private Integer bill;
 
     private Integer rent;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 

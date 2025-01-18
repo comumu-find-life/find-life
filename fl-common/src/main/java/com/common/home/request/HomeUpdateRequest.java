@@ -23,5 +23,6 @@ public class HomeUpdateRequest {
     private Integer bill;
     private Integer rent;
     private String options;
+    private Integer residentCount;
     private boolean canParking;
 }

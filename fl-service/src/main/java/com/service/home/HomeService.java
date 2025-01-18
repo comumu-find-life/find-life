@@ -61,12 +61,17 @@ public class HomeService {
     public Long update(HomeUpdateRequest homeUpdateDto) {
         Home home = homeRepository.findById(homeUpdateDto.getHomeId())
                 .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_HOME));
+        System.out.println("UPDATEEEEE");
+        System.out.println(homeUpdateDto.getType());
+        System.out.println(homeUpdateDto.isCanParking());
+        System.out.println(homeUpdateDto.getResidentCount());
         homeMapper.updateHomeFromDto(homeUpdateDto, home.getHomeInfo());
         HomeAddress homeAddress = home.getHomeAddress();
         homeMapper.updateAddressFromDto(homeUpdateDto.getHomeAddress(), homeAddress);
         homeRepository.save(home);
         return home.getId();
     }
+
 
     /**
      * 새로운 집 이미지 추가
