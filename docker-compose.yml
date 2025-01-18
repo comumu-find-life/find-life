@@ -11,8 +11,7 @@ services:
     env_file:
       - /home/ubuntu/.env
     depends_on:
-      - redis  # 단순 의존성만 지정
-
+      - redis
     networks:
       - app-network
 
@@ -26,9 +25,10 @@ services:
     env_file:
       - /home/ubuntu/.env
     depends_on:
-      - redis  # 단순 의존성만 지정
+      - redis
     networks:
       - app-network
+
 
 
   redis:

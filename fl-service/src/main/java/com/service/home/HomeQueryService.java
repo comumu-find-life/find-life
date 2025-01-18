@@ -47,7 +47,6 @@ public class HomeQueryService {
     @Cacheable(value = "homeOverviewCache", key = "'allHomes'")
     public HomeOverviewWrapper findAllHomes() {
         List<Tuple> tuples = homeRepository.findAllSellHome();  // 데이터베이스에서 결과 가져오기
-        System.out.println("tuples -- " + tuples.size());
         List<HomeOverviewResponse> homeOverviewResponses  = tuples.stream()
                 .map(tuple -> {
                     Home home = tuple.get(QHome.home);
