@@ -45,8 +45,20 @@
 
 <br />
 
+### 🗂️ ERD
+----
+<img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
 
-### 기능 소개
+<br />
+
+### ⚙️ 시스템 아키텍처
+
+<img src="https://github.com/user-attachments/assets/d4102567-8653-4e38-abc1-91b7382a3135" width="650" height="550"/>
+
+<br />
+
+
+### 서비스 화면, 기능 소개
 ----
 
 
@@ -204,12 +216,6 @@
 
 </details>
 
-
-<br />
-
-### 🗂️ ERD
-----
-<img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
 
 <br />
 
