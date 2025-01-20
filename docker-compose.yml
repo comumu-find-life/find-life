@@ -33,6 +33,38 @@ services:
     networks:
       - app-network
 
+  fl-admin:
+    image: minseok2000/cozy-admin
+    container_name: fl-admin
+    expose:
+      - "8085"
+    ports:
+      - "8085:8085"
+    env_file:
+      - /home/ubuntu/.env
+    environment:
+      - TZ=Australia/Sydney
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  fl-batch:
+    image: minseok2000/cozy-batch
+    container_name: fl-batch
+    expose:
+      - "8084"
+    ports:
+      - "8084:8084"
+    env_file:
+      - /home/ubuntu/.env
+    environment:
+      - TZ=Australia/Sydney
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
   redis:
     image: redis:7.0
     container_name: redis
