@@ -24,7 +24,7 @@
 
 <details>
 <summary><b>⚒️ 기술 스택</b></summary>
-
+<br />
 **Backend** : `Spring Boot`, `JPA`, `QueryDSL`  
 **Database** : `MySQL`, `MongoDB`, `Redis`  
 **Frontend** : `Flutter`  
@@ -34,12 +34,13 @@
 
 <details>
 <summary><b>💁‍♂️ 참여 인원 && 기여도</b></summary>
-
+<br />
 **참여 인원**  
 **Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)  
 **Frontend** : 1명(본인 포함)  
 
 **기여도**  
+<br />
 **Backend** : 기여도(90%)  
 **Devops** : 기여도(100%)  
 **Front** : 기여도(100%)  
@@ -48,7 +49,7 @@
 
 <details>
 <summary><b>🗂️ ERD</b></summary>
-
+<br />
 <img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
 
 </details>
