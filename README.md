@@ -53,7 +53,7 @@
 
 ### ⚙️ 시스템 아키텍처
 
-<img src="https://github.com/user-attachments/assets/d4102567-8653-4e38-abc1-91b7382a3135" width="650" height="1050"/>
+<img src="https://github.com/user-attachments/assets/d4102567-8653-4e38-abc1-91b7382a3135" width="1150" height="550"/>
 
 <br />
 
