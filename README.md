@@ -23,7 +23,7 @@
 <br />
 
 <details>
-<summary><b>⚒️ 기술 스택**</b></summary>
+<summary><b>⚒️ 기술 스택</b></summary>
 
 **Backend** : `Spring Boot`, `JPA`, `QueryDSL`  
 **Database** : `MySQL`, `MongoDB`, `Redis`  
