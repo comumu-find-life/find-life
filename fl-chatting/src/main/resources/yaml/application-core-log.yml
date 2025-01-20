@@ -1,19 +1,12 @@
 spring:
-  jpa:
-    defer-datasource-initialization: true
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-    hibernate:
-      ddl-auto: none
-    database-platform: org.hibernate.dialect.MySQLDialect
-    sql:
-      init:
-        mode: always
-  sql:
-    init:
-      mode: always
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+
 
   logging:
     level:

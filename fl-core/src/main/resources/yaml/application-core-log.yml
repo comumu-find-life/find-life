@@ -9,6 +9,6 @@ spring:
 
   logging:
     level:
-      me.selvernine: DEBUG
-      com.google.firebase: DEBUG
-      com.google.api: DEBUG
+      me.selvernine: ERROR
+      com.google.firebase: ERROR
+      com.google.api: ERROR
