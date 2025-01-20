@@ -22,40 +22,43 @@
 
 <br />
 
-### ⚙ 기술 스택
-----
+<details>
+<summary>### ⚙ 기술 스택</summary>
 
-**Backend** : `Spring Boot`, `JPA`, `QueryDSL`        
-**Database** : `MySQL`, `MongoDB`, `Redis`           
+**Backend** : `Spring Boot`, `JPA`, `QueryDSL`  
+**Database** : `MySQL`, `MongoDB`, `Redis`  
 **Frontend** : `Flutter`  
-**Devops** : `Docker`, `GitAction`, `Aws Ec2`, `Aws RDS`, `Aws S3`
+**Devops** : `Docker`, `GitAction`, `Aws Ec2`, `Aws RDS`, `Aws S3`  
 
-<br />
+</details>
 
-### 💁‍♂️ 참여 인원 && 기여도
-----
+<details>
+<summary>### 💁‍♂️ 참여 인원 && 기여도</summary>
+
 **참여 인원**  
-**Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)        
+**Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)  
 **Frontend** : 1명(본인 포함)  
 
-**기여도**   
+**기여도**  
 **Backend** : 기여도(90%)  
-**Devops** : 기여도(90%)  
+**Devops** : 기여도(100%)  
 **Front** : 기여도(100%)  
 
-<br />
+</details>
 
-### 🗂️ ERD
-----
+<details>
+<summary>### 🗂️ ERD</summary>
+
 <img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
 
-<br />
+</details>
 
-### ⚙️ 시스템 아키텍처
+<details>
+<summary>### ⚙️ 시스템 아키텍처</summary>
 
 <img src="https://github.com/user-attachments/assets/d4102567-8653-4e38-abc1-91b7382a3135" width="1250" height="500"/>
 
-<br />
+</details>
 
 
 ### 서비스 화면, 기능 소개
