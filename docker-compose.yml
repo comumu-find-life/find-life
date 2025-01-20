@@ -10,6 +10,8 @@ services:
       - "8080:8080"
     env_file:
       - /home/ubuntu/.env
+    environment:
+      - TZ=Australia/Sydney
     depends_on:
       - redis
     networks:
@@ -24,6 +26,8 @@ services:
       - "8082:8082"
     env_file:
       - /home/ubuntu/.env
+    environment:
+      - TZ=Australia/Sydney
     depends_on:
       - redis
     networks:
@@ -40,6 +44,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    environment:
+      - TZ=Australia/Sydney
     networks:
       - app-network
 
