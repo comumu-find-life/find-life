@@ -23,7 +23,7 @@
 <br />
 
 <details>
-<summary>### ⚙ 기술 스택</summary>
+<summary> ###⚙ 기술 스택</summary>
 
 **Backend** : `Spring Boot`, `JPA`, `QueryDSL`  
 **Database** : `MySQL`, `MongoDB`, `Redis`  
@@ -33,7 +33,7 @@
 </details>
 
 <details>
-<summary>### 💁‍♂️ 참여 인원 && 기여도</summary>
+<summary> ###💁‍♂️ 참여 인원 && 기여도</summary>
 
 **참여 인원**  
 **Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)  
@@ -47,7 +47,7 @@
 </details>
 
 <details>
-<summary>### 🗂️ ERD</summary>
+<summary> ###🗂️ ERD</summary>
 
 <img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
 
