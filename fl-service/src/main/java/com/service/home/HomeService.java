@@ -53,7 +53,8 @@ public class HomeService {
         home.setLatLng(latLng.getLat(), latLng.getLng());
         return homeRepository.save(home).getId();
     }
-    
+
+
     /**
      * 집 게시글 수정
      */
