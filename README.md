@@ -70,6 +70,60 @@
 
 </details>
 
+<details>
+<summary><b>⚙️ 개발 기록</b></summary>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/149" target="_blank" style="color: #007bff; text-decoration: none;">Docker EC2 CI/CD 구축</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/150" target="_blank" style="color: #007bff; text-decoration: none;">Docker Redis 배포</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/148" target="_blank" style="color: #007bff; text-decoration: none;">역직렬화 트러블 슈팅</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/151" target="_blank" style="color: #007bff; text-decoration: none;">AWS EC2 CPU 트러블 슈팅</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/143" target="_blank" style="color: #007bff; text-decoration: none;">Redis 를 이용한 성능 개선</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/142" target="_blank" style="color: #007bff; text-decoration: none;">ConcurrentHashMap 이란?</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/141" target="_blank" style="color: #007bff; text-decoration: none;">웹소켓 채팅 기능 읽음/읽지않음 처리</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/127" target="_blank" style="color: #007bff; text-decoration: none;">멀티모듈 테스트 코드 given 줄이기</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/79" target="_blank" style="color: #007bff; text-decoration: none;">MapStruct 로 DTO <-> Entity 변환</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/76" target="_blank" style="color: #007bff; text-decoration: none;">JWT 회원가입/로그인 기능 구현</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/77" target="_blank" style="color: #007bff; text-decoration: none;">OAuth2.0 로그인 기능 구현</a></h4>
+  </div>
+
+</div>
+
+</details>
+
+
 ### 기능 소개
 ----
 
