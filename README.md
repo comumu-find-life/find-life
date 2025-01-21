@@ -71,7 +71,7 @@
 </details>
 
 <details>
-<summary><b>⚙️ 개발 기록</b></summary>
+<summary><b>📖 개발 기록</b></summary>
 
 <div style="display: flex; flex-wrap: wrap; gap: 20px;">
 
