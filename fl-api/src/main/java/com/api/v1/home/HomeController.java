@@ -1,4 +1,4 @@
-package com.api.home;
+package com.api.v1.home;
 
 import com.core.api_core.home.dto.*;
 import com.common.utils.SuccessResponse;
@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.api.config.ApiUrlConstants.*;
+import static com.api.v1.ApiUrlConstants.*;
 
 @Slf4j
 @RestController

@@ -1,4 +1,4 @@
-package com.api.home;
+package com.api.v1.home;
 
 public class SuccessHomeMessages {
     public static final String HOME_POST_SUCCESS = "집 게시글 등록 성공";

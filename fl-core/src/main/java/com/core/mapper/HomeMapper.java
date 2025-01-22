@@ -68,7 +68,6 @@ public interface HomeMapper {
     /**
      * Home 게시글을 보여줄 DTO 변환
      */
-
     @Mapping(target = "homeId", source = "home.id")
     @Mapping(target = "latitude", source = "home.homeAddress.latitude")
     @Mapping(target = "longitude", source = "home.homeAddress.longitude")

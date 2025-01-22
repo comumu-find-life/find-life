@@ -2,6 +2,7 @@ package com.core.api_core.home.repository;
 
 
 import com.core.api_core.home.dto.HomeInformationResponse;
+import com.core.api_core.home.dto.HomeOverviewResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.model.QHome;
@@ -14,10 +15,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -57,20 +56,27 @@ public class CustomHomeRepositoryImpl implements com.core.api_core.home.reposito
     }
 
     @Override
-    public List<Tuple> findFavoriteHomes(List<Long> homeIds) {
-        return query
+    public List<HomeOverviewResponse> findFavoriteHomes(List<Long> homeIds) {
+        List<Tuple> tuples = query
                 .select(qHome, qUser)
                 .from(qHome)
                 .leftJoin(qUser).on(qHome.userIdx.eq(qUser.id))
-                //.join(qHome.images, qHomeImage).fetchJoin()
                 .where(qHome.id.in(homeIds)) // Home ID 필터링
                 .fetch();
+
+        return tuples.stream()
+                .map(tuple -> {
+                    Home home = tuple.get(0, Home.class);
+                    User user = tuple.get(1, User.class);
+                    return HomeMapper.INSTANCE.toSimpleHomeDto(home, user);
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Tuple> findAllSellHome() {
+    public List<HomeOverviewResponse> findAllSellHome() {
         Set<Long> seenHomeIds = new HashSet<>();
-        List<Tuple> uniqueFetch = query.select(qHome, qUser)
+        List<Tuple> tuples = query.select(qHome, qUser)
                 .from(qHome)
                 .join(qUser).on(qHome.userIdx.eq(qUser.id))
                 .leftJoin(qHome.images, qHomeImage).fetchJoin()
@@ -83,10 +89,14 @@ public class CustomHomeRepositoryImpl implements com.core.api_core.home.reposito
                 })
                 .toList();
 
-        return uniqueFetch;
+        return tuples.stream()
+                .map(tuple -> {
+                    Home home = tuple.get(QHome.home);
+                    User user = tuple.get(QUser.user);
+                    return HomeMapper.INSTANCE.toSimpleHomeDto(home, user);
+                })
+                .toList();
     }
-
-
 
     @Override
     public List<Home> findByCity(String cityName) {
@@ -97,7 +107,4 @@ public class CustomHomeRepositoryImpl implements com.core.api_core.home.reposito
 
         return homes;
     }
-
-
-
 }

@@ -1,6 +1,5 @@
 package com.admin.user;
 
-import com.service.deal.ProtectedDealService;
 import com.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -15,19 +14,17 @@ public class AccountController {
 
     private final UserService userService;
 
-    // 리스트 페이지
     @GetMapping
-    public String list(HttpSession session, Model model) {
+    public String list(final HttpSession session, final Model model) {
         model.addAttribute("withdraws", userService.findWithDraws());
         return "withdraw/list";
     }
 
-    // 환전 완료 처리
     @PostMapping("/complete")
     public String completeWithdraw(
-            @RequestParam Long userAccountId,
-            @RequestParam Long pointHistoryId,
-            @RequestParam String token,
+            @RequestParam final Long userAccountId,
+            @RequestParam final Long pointHistoryId,
+            @RequestParam final String token,
             Model model) {
         try {
             userService.completeWithDraw(userAccountId, pointHistoryId, token);

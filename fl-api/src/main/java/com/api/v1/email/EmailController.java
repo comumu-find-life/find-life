@@ -1,4 +1,4 @@
-package com.api.email;
+package com.api.v1.email;
 
 import com.common.mail.service.EmailRedisService;
 import com.common.utils.SuccessResponse;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.api.config.ApiUrlConstants.SEND_EMAIL_URL;
-import static com.api.config.ApiUrlConstants.VERIFICATION_EMAIL_CODE_URL;
+import static com.api.v1.ApiUrlConstants.SEND_EMAIL_URL;
+import static com.api.v1.ApiUrlConstants.VERIFICATION_EMAIL_CODE_URL;
 
 @RestController
 @RequiredArgsConstructor

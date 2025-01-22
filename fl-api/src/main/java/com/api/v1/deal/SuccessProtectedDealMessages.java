@@ -1,4 +1,4 @@
-package com.api.deal;
+package com.api.v1.deal;
 
 
 public class SuccessProtectedDealMessages {

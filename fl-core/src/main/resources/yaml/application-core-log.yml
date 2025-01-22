@@ -8,7 +8,11 @@ spring:
       max-request-size: 1000MB
 
   logging:
+    file:
+      name: /var/log/myapp/application.log
     level:
+      root: error
+      com.api.exception: info
       me.selvernine: ERROR
       com.google.firebase: ERROR
       com.google.api: ERROR

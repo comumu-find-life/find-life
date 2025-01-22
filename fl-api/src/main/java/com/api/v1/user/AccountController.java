@@ -1,4 +1,4 @@
-package com.api.user;
+package com.api.v1.user;
 
 import com.core.api_core.user.dto.UserAccountRequest;
 import com.core.api_core.user.dto.UserAccountResponse;
@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import static com.api.config.ApiUrlConstants.USER_ACCOUNT_EXIST_URL;
-import static com.api.config.ApiUrlConstants.USER_ACCOUNT_REGISTER_URL;
+import static com.api.v1.ApiUrlConstants.USER_ACCOUNT_EXIST_URL;
+import static com.api.v1.ApiUrlConstants.USER_ACCOUNT_REGISTER_URL;
 
 @RestController
 @RequiredArgsConstructor

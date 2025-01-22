@@ -2,6 +2,7 @@ package com.core.base;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.core.api_core.base.BaseTimeEntity;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;

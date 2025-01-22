@@ -1,4 +1,4 @@
-package com.common.mail.entity;
+package com.common.mail.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

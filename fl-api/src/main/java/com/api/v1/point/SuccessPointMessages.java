@@ -1,4 +1,4 @@
-package com.api.point;
+package com.api.v1.point;
 
 public class SuccessPointMessages {
     public static final String CHARGE_SUCCESS = "충전 완료";
