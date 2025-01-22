@@ -18,7 +18,7 @@ aws:
       name: cozyshare-s3-bucket
 
 admin:
-  token: sin981023@
+  token: ${ADMIN_TOKEN}
 
 apple:
   key-url: https://appleid.apple.com/auth/keys

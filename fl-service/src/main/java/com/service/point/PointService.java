@@ -33,7 +33,7 @@ public class PointService {
     }
 
     //포인트 출금 신청
-    public void applyWithDraw(String email, Integer point) throws InsufficientPointsException {
+    public void applyWithDraw(String email, double point) throws InsufficientPointsException {
 
         User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
         UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);

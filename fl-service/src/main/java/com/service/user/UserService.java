@@ -1,15 +1,14 @@
 package com.service.user;
 
 import com.common.image.FileService;
-import com.common.user.mapper.UserMapper;
-import com.common.user.request.UserAccountRequest;
-import com.common.user.request.UserProfileUpdateRequest;
-import com.common.user.request.UserSignupRequest;
-import com.common.user.response.UserAccountResponse;
-import com.common.user.response.UserInformationResponse;
-import com.common.user.response.UserProfileResponse;
-import com.common.user.response.WithDrawHistoryResponse;
-import com.core.api_core.chat.model.DirectMessageRoom;
+import com.core.mapper.UserMapper;
+import com.core.api_core.user.dto.UserAccountRequest;
+import com.core.api_core.user.dto.UserProfileUpdateRequest;
+import com.core.api_core.user.dto.UserSignupRequest;
+import com.core.api_core.user.dto.UserAccountResponse;
+import com.core.api_core.user.dto.UserInformationResponse;
+import com.core.api_core.user.dto.UserProfileResponse;
+import com.core.api_core.user.dto.WithDrawHistoryResponse;
 import com.core.api_core.chat.repository.DirectMessageRoomRepository;
 import com.core.api_core.user.model.ChargeType;
 import com.core.api_core.user.model.PointHistory;

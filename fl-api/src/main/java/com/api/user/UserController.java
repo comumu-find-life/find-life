@@ -1,19 +1,16 @@
 package com.api.user;
 
 import com.api.security.service.JwtService;
-import com.common.user.request.UserAccountRequest;
-import com.common.user.request.UserProfileUpdateRequest;
-import com.common.user.request.UserSignupRequest;
-import com.common.user.response.UserAccountResponse;
-import com.common.user.response.UserInformationResponse;
-import com.common.user.response.UserProfileResponse;
+import com.core.api_core.user.dto.UserProfileUpdateRequest;
+import com.core.api_core.user.dto.UserSignupRequest;
+import com.core.api_core.user.dto.UserInformationResponse;
+import com.core.api_core.user.dto.UserProfileResponse;
 import com.service.user.UserService;
 import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -84,7 +81,6 @@ public class UserController {
     }
 
     @GetMapping(USERS_GET_MY_USER_ID)
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getMyUserId(final HttpServletRequest request) {
         String accessToken  = jwtService.extractAccessToken(request).get();
         String email = jwtService.extractEmail(accessToken).get();

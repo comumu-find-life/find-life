@@ -1,6 +1,6 @@
 package com.service.user;
 
-import com.common.user.request.GoogleAuthRequest;
+import com.core.api_core.user.dto.GoogleAuthRequest;
 import com.core.exception.InvalidOAuthTokenException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -9,7 +9,6 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

@@ -1,8 +1,8 @@
 package com.api.user;
 
 import com.api.security.service.JwtService;
-import com.common.login.response.LoginResponse;
-import com.common.user.request.GoogleAuthRequest;
+import com.core.api_core.user.model.LoginResponse;
+import com.core.api_core.user.dto.GoogleAuthRequest;
 import com.common.utils.SuccessResponse;
 import com.nimbusds.jose.JOSEException;
 import com.service.user.AppleAuthService;

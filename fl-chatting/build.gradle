@@ -51,8 +51,6 @@ dependencies {
     testImplementation 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-//    implementation 'com.google.firebase:firebase-admin:6.15.0' //firebase
-//    implementation 'com.google.firebase:firebase-admin:9.2.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
 }
 

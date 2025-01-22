@@ -1,15 +1,13 @@
 package com.api.chat;
 
-import com.api.deal.SuccessProtectedDealMessages;
-import com.common.chat.request.DirectMessageTotalRequest;
-import com.common.chat.response.DirectMessageTotalResponse;
-import com.common.deal.response.ProtectedDealResponse;
-import com.common.home.response.HomeInformationResponse;
-import com.common.user.response.UserProfileResponse;
+import com.core.api_core.chat.dto.DirectMessageTotalRequest;
+import com.core.api_core.chat.dto.DirectMessageTotalResponse;
+import com.core.api_core.deal.dto.ProtectedDealResponse;
+import com.core.api_core.home.dto.HomeInformationResponse;
+import com.core.api_core.user.dto.UserProfileResponse;
 import com.common.utils.SuccessResponse;
 import com.service.deal.ProtectedDealService;
 import com.service.home.HomeQueryService;
-import com.service.home.HomeService;
 import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

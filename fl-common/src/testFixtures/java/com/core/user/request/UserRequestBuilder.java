@@ -1,7 +1,7 @@
 package com.core.user.request;
 
-import com.common.user.request.UserProfileUpdateRequest;
-import com.common.user.request.UserSignupRequest;
+import com.core.api_core.user.dto.UserProfileUpdateRequest;
+import com.core.api_core.user.dto.UserSignupRequest;
 import com.core.api_core.user.model.Gender;
 import com.core.api_core.user.model.Role;
 

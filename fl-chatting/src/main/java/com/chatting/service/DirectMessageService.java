@@ -1,12 +1,12 @@
 package com.chatting.service;
 
-import com.common.chat.mapper.DirectMessageMapper;
-import com.common.chat.mapper.DirectMessageRoomMapper;
-import com.common.chat.request.DirectMessageApplicationRequest;
-import com.common.chat.request.DirectMessageReadRequest;
-import com.common.chat.request.DirectMessageRequest;
-import com.common.chat.response.DirectMessageResponse;
-import com.common.chat.response.DirectMessageRoomListResponse;
+import com.core.mapper.DirectMessageMapper;
+import com.core.mapper.DirectMessageRoomMapper;
+import com.core.api_core.chat.dto.DirectMessageApplicationRequest;
+import com.core.api_core.chat.dto.DirectMessageReadRequest;
+import com.core.api_core.chat.dto.DirectMessageRequest;
+import com.core.api_core.chat.dto.DirectMessageResponse;
+import com.core.api_core.chat.dto.DirectMessageRoomListResponse;
 import com.common.fcm.FCMHelper;
 import com.common.fcm.FCMState;
 import com.common.utils.OptionalUtil;

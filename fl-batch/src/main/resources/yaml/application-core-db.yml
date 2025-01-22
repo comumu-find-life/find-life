@@ -21,7 +21,7 @@ spring:
     password: ${FL_DB_PASSWROD}
 
   redis:
-    host: redis
+    host: ${REDIS_HOST}
     port: 6379
 
   sql:
@@ -30,8 +30,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: simmim1768@gmail.com
-    password: vectgfslbunvlhoz
+    username: ${MAIL_USER_NAME}
+    password: ${MAIL_PASSWORD}
 
     properties:
       mail:

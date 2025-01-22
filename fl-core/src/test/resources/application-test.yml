@@ -1,16 +1,18 @@
 spring:
-  datasource:
-    initialization-mode: never
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL  # MySQL 호환 모드 설정
-    username: sa
-    password:
-  sql:
-    init:
-      data-locations: classpath:data.sql
   jpa:
-    hibernate:
-      ddl-auto: update  # 스키마를 자동으로 생성하거나 업데이트
     properties:
       hibernate:
-        show_sql: true  # SQL 쿼리 로그 출력
+        default_batch_fetch_size: 100
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: true
+
+  datasource:
+    initialization-mode: never
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/fl_test?serverTimezone=Asia/Seoul
+    username: root
+    password: sin981023@

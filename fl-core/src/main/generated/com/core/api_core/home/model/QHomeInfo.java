@@ -21,8 +21,6 @@ public class QHomeInfo extends BeanPath<HomeInfo> {
 
     public final NumberPath<Integer> bathRoomCount = createNumber("bathRoomCount", Integer.class);
 
-    public final StringPath bathroomType = createString("bathroomType");
-
     public final NumberPath<Integer> bedroomCount = createNumber("bedroomCount", Integer.class);
 
     public final NumberPath<Integer> bill = createNumber("bill", Integer.class);
@@ -31,25 +29,15 @@ public class QHomeInfo extends BeanPath<HomeInfo> {
 
     public final BooleanPath canParking = createBoolean("canParking");
 
-    public final DatePath<java.time.LocalDate> date = createDate("date", java.time.LocalDate.class);
-
-    public final BooleanPath dealSavable = createBoolean("dealSavable");
-
     public final EnumPath<com.core.api_core.user.model.Gender> gender = createEnum("gender", com.core.api_core.user.model.Gender.class);
 
     public final StringPath introduce = createString("introduce");
-
-    public final StringPath isFurnished = createString("isFurnished");
-
-    public final StringPath minimumStay = createString("minimumStay");
 
     public final StringPath options = createString("options");
 
     public final NumberPath<Integer> rent = createNumber("rent", Integer.class);
 
     public final NumberPath<Integer> residentCount = createNumber("residentCount", Integer.class);
-
-    public final StringPath residentType = createString("residentType");
 
     public final EnumPath<HomeType> type = createEnum("type", HomeType.class);
 

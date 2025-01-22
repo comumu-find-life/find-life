@@ -36,9 +36,6 @@ public class ProtectedDeal extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private DealState dealState;
 
-    public void setDealState(DealState state) {
-        this.dealState = state;
-    }
 
     public double calculateTotalPrice() {
         return deposit + calculateFee();
@@ -54,5 +51,9 @@ public class ProtectedDeal extends BaseTimeEntity {
 
     public boolean isPossibleAutoComplete(){
         return protectedDealDateTime.isFiveDaysPassed() && (dealState.equals(DealState.ACCEPT_DEAL));
+    }
+
+    public void setDealState(DealState state) {
+        this.dealState = state;
     }
 }

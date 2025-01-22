@@ -1,5 +1,6 @@
 package com.core.api_core.home.repository;
 
+import com.core.api_core.home.dto.HomeInformationResponse;
 import com.core.api_core.home.model.Home;
 import com.querydsl.core.Tuple;
 
@@ -14,7 +15,7 @@ public interface CustomHomeRepository {
 
     List<Home> findByUserId(Long userId);
 
-    Optional<Tuple> findHomeAndUserById(Long homeId);
+    Optional<HomeInformationResponse> findHomeAndUserById(Long homeId);
 
     List<Tuple> findFavoriteHomes(final List<Long> homeIds);
 }
