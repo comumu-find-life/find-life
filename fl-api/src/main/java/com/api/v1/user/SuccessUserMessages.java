@@ -1,4 +1,4 @@
-package com.api.user;
+package com.api.v1.user;
 
 public class SuccessUserMessages {
     public static final String SIGN_UP_SUCCESS = "회원가입 성공";

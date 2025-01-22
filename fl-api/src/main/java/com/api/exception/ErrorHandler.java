@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -90,9 +91,9 @@ public class ErrorHandler {
 
     private void logError(String exceptionType, Exception e) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        Principal principal = request.getUserPrincipal();
 
-        String username = (principal != null) ? principal.getName() : "Anonymous";
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = (email != null) ? email : "Anonymous";
         String clientIp = request.getRemoteAddr();
         String requestUrl = request.getRequestURI();
 

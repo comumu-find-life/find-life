@@ -1,6 +1,7 @@
 package com.core.api_core.home.repository;
 
 import com.core.api_core.home.dto.HomeInformationResponse;
+import com.core.api_core.home.dto.HomeOverviewResponse;
 import com.core.api_core.home.model.Home;
 import com.querydsl.core.Tuple;
 
@@ -9,13 +10,13 @@ import java.util.Optional;
 
 public interface CustomHomeRepository {
 
-    List<Tuple> findAllSellHome();
+    List<HomeOverviewResponse> findAllSellHome();
 
-    List<Home> findByCity(String cityName);
+    List<Home> findByCity(final String cityName);
 
-    List<Home> findByUserId(Long userId);
+    List<Home> findByUserId(final Long userId);
 
-    Optional<HomeInformationResponse> findHomeAndUserById(Long homeId);
+    Optional<HomeInformationResponse> findHomeAndUserById(final Long homeId);
 
-    List<Tuple> findFavoriteHomes(final List<Long> homeIds);
+    List<HomeOverviewResponse> findFavoriteHomes(final List<Long> homeIds);
 }

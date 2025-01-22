@@ -1,4 +1,4 @@
-package com.api.user;
+package com.api.v1.user;
 
 import com.api.security.service.JwtService;
 import com.core.api_core.user.dto.UserProfileUpdateRequest;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.api.config.ApiUrlConstants.*;
+import static com.api.v1.ApiUrlConstants.*;
 
 
 @RestController

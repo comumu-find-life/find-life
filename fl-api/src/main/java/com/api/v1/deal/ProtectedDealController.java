@@ -1,4 +1,4 @@
-package com.api.deal;
+package com.api.v1.deal;
 
 import com.core.api_core.deal.dto.ProtectedDealFindRequest;
 import com.core.api_core.deal.dto.ProtectedDealGeneratorRequest;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.api.config.ApiUrlConstants.*;
+import static com.api.v1.ApiUrlConstants.*;
 
 /**
  * 클라이언트가 사용할 안전거래 API

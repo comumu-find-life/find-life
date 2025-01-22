@@ -1,6 +1,6 @@
 package com.core.api_core.deal.model;
 
-import com.core.base.BaseTimeEntity;
+import com.core.api_core.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

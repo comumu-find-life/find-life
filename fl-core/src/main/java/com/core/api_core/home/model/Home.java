@@ -1,6 +1,6 @@
 package com.core.api_core.home.model;
 
-import com.core.base.BaseTimeEntity;
+import com.core.api_core.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -1,7 +1,7 @@
 package com.common.mail.service;
 
 
-import com.common.mail.entity.VerificationCode;
+import com.common.mail.model.VerificationCode;
 import com.common.mail.repository.VerificationCodeRepository;
 import com.core.exception.InvalidDataException;
 import jakarta.mail.MessagingException;
@@ -43,7 +43,6 @@ public class EmailRedisService {
     private void sendEmail(String toEmail, String verificationCode) {
         String subject = "Cozy Share Sign-Up Verification Code Issuance";
         String body = "Verification Code:" + verificationCode;
-
 
         try {
             MimeMessage message = mailSender.createMimeMessage();

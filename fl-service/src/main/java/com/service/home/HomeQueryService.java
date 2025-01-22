@@ -41,17 +41,10 @@ public class HomeQueryService {
      */
     @Cacheable(value = "homeOverviewCache", key = "'allHomes'")
     public HomeOverviewWrapper findAllHomes() {
-        List<Tuple> tuples = homeRepository.findAllSellHome();  // 데이터베이스에서 결과 가져오기
-        List<HomeOverviewResponse> homeOverviewResponses  = tuples.stream()
-                .map(tuple -> {
-                    Home home = tuple.get(QHome.home);
-                    User user = tuple.get(QUser.user);
-                    return homeMapper.toSimpleHomeDto(home, user);  // DTO로 변환
-                })
-                .toList();
-
+        List<HomeOverviewResponse> homeOverviewResponses = homeRepository.findAllSellHome();  // 데이터베이스에서 결과 가져오기
         return new HomeOverviewWrapper(homeOverviewResponses);
     }
+
     /**
      * 특정 사용자의 집 게시물 모두 조회
      */
@@ -69,28 +62,7 @@ public class HomeQueryService {
      * 찜 목록 게시글 조회
      */
     public List<HomeOverviewResponse> findFavoriteHomes(final List<Long> homeIds) {
-        List<Tuple> favoriteHomes = homeRepository.findFavoriteHomes(homeIds);
-        System.out.println("homeIdsss");
-        System.out.println(homeIds.size());
-        System.out.println(favoriteHomes.size());
-        return favoriteHomes.stream()
-                .map(tuple -> {
-                    Home home = tuple.get(0, Home.class);
-                    User user = tuple.get(1, User.class);
-                    return homeMapper.toSimpleHomeDto(home, user);
-                })
-                .collect(Collectors.toList());
-//        return homeIds.stream()
-//                .map(homeRepository::findById)
-//                .filter(Optional::isPresent)
-//                .map(Optional::get)
-//                .flatMap(home -> {
-//                    Optional<User> optionalUser = userRepository.findById(home.getUserIdx());
-//                    return optionalUser
-//                            .map(user -> Stream.of(homeMapper.toSimpleHomeDto(home, user))) // User가 존재하면 매핑
-//                            .orElseGet(Stream::empty); // User가 없으면 빈 Stream 반환
-//                })
-//                .collect(Collectors.toList());
+        return homeRepository.findFavoriteHomes(homeIds);
     }
 
 

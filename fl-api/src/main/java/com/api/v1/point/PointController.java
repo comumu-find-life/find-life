@@ -1,4 +1,4 @@
-package com.api.point;
+package com.api.v1.point;
 
 import com.core.exception.InsufficientPointsException;
 import com.core.api_core.user.dto.PaymentRequest;
@@ -13,8 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import static com.api.config.ApiUrlConstants.*;
-import static com.api.point.SuccessPointMessages.*;
+import static com.api.v1.ApiUrlConstants.*;
+import static com.api.v1.point.SuccessPointMessages.*;
 
 @Slf4j
 @RestController

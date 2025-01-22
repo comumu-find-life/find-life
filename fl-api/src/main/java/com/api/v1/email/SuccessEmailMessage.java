@@ -1,4 +1,4 @@
-package com.api.email;
+package com.api.v1.email;
 
 public class SuccessEmailMessage {
     public static final String VERIFICATION_CODE_SENT_SUCCESS = "이메일로 인증 번호 전송 성공";
