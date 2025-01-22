@@ -1,9 +1,9 @@
 package com.api.deal;
 
-import com.common.deal.request.ProtectedDealFindRequest;
-import com.common.deal.request.ProtectedDealGeneratorRequest;
-import com.common.deal.response.ProtectedDealGeneratorResponse;
-import com.common.deal.response.ProtectedDealResponse;
+import com.core.api_core.deal.dto.ProtectedDealFindRequest;
+import com.core.api_core.deal.dto.ProtectedDealGeneratorRequest;
+import com.core.api_core.deal.dto.ProtectedDealGeneratorResponse;
+import com.core.api_core.deal.dto.ProtectedDealResponse;
 import com.common.utils.SuccessResponse;
 import com.service.deal.ProtectedDealService;
 import lombok.RequiredArgsConstructor;

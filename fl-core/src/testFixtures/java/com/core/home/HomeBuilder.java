@@ -34,14 +34,9 @@ public class HomeBuilder {
 
     private static HomeInfo createHomeInfo(){
         return HomeInfo.builder()
-                .bathroomType("bathroomType")
-                .minimumStay("10")
-                .residentType("12")
-                .isFurnished("12")
                 .canParking(true)
                 .bedroomCount(10)
                 .residentCount(10)
-                .dealSavable(true)
                 .options("options")
                 .bond(1000)
                 .introduce("inin")

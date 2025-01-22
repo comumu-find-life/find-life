@@ -15,7 +15,7 @@ aws:
     bucket:
       name: cozyshare-s3-bucket
 admin:
-  token: sin981023@
+  token: ${ADMIN_TOKEN}
 
 apple:
   key-url: https://appleid.apple.com/auth/keys
@@ -27,7 +27,7 @@ oauth:
 paypal:
   client-id: ${PAYPAL_CLIENT_ID}
   client-secret: ${PAYPAL_CLIENT_SECRET}
-  mode : sandbox
+  mode : live
 
 
 server:

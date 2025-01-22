@@ -1,11 +1,14 @@
 package com.core.api_core.home.repository;
 
 
+import com.core.api_core.home.dto.HomeInformationResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeStatus;
 import com.core.api_core.home.model.QHome;
 import com.core.api_core.home.model.QHomeImage;
 import com.core.api_core.user.model.QUser;
+import com.core.api_core.user.model.User;
+import com.core.mapper.HomeMapper;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +30,8 @@ public class CustomHomeRepositoryImpl implements com.core.api_core.home.reposito
 
 
     @Override
-    public Optional<Tuple> findHomeAndUserById(Long homeId) {
-        List<Tuple> fetch = query
+    public Optional<HomeInformationResponse> findHomeAndUserById(Long homeId) {
+        Tuple tuple = query
                 .select(qHome, qUser)
                 .distinct()
                 .from(qHome)
@@ -36,8 +39,13 @@ public class CustomHomeRepositoryImpl implements com.core.api_core.home.reposito
                 .join(qHome.images, qHomeImage).fetchJoin()
                 .distinct()
                 .where(qHome.id.eq(homeId))
-                .fetch();
-        return Optional.ofNullable(fetch.get(0));
+                .fetchFirst();
+        if (tuple == null) {
+            return Optional.empty();
+        }
+        Home home = tuple.get(0, Home.class);
+        User user = tuple.get(1, User.class);
+        return Optional.ofNullable(HomeMapper.INSTANCE.toHomeInformation(home, user));
     }
 
     @Override

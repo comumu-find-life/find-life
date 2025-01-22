@@ -7,7 +7,6 @@ spring:
       max-file-size: 1000MB
       max-request-size: 1000MB
 
-
   logging:
     level:
       me.selvernine: DEBUG

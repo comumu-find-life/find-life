@@ -1,10 +1,10 @@
 package com.service.home;
 
-import com.common.home.mapper.HomeMapper;
-import com.common.home.request.HomeGeneratorRequest;
-import com.common.home.request.HomeUpdateRequest;
+import com.core.mapper.HomeMapper;
+import com.core.api_core.home.dto.HomeGeneratorRequest;
+import com.core.api_core.home.dto.HomeUpdateRequest;
 import com.common.image.FileService;
-import com.common.user.response.UserInformationResponse;
+import com.core.api_core.user.dto.UserInformationResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
 import com.core.api_core.home.model.HomeImage;
@@ -91,8 +91,8 @@ public class HomeService {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(homeImage -> {
-                    homeImageRepository.delete(homeImage); // DB에서 삭제
-                    fileService.deleteFile(homeImage.getImageUrl()); // S3에서 삭제
+                    homeImageRepository.delete(homeImage);
+                    fileService.deleteFile(homeImage.getImageUrl());
                 });
     }
 

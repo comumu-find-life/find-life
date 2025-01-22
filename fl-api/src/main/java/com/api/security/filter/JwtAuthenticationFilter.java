@@ -49,13 +49,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Optional<String> refreshToken = jwtService.extractRefreshToken(request);
 
             if (refreshToken.isPresent()) {
-                System.out.println("refresh Token Not Empty");
                 checkRefreshTokenAndReIssueAccessToken(refreshToken.get(), request, response);
                 return;
             }
 
             if (refreshToken.isEmpty()) {
-                System.out.println("refresh Token Empty");
                 checkAccessTokenAndAuthentication(request, response, filterChain);
             }
 

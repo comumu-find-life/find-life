@@ -15,16 +15,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class HomeInfo {
 
-    private String bathroomType;
-
-    private String minimumStay;
-
-    private LocalDate date;
-
-    private String residentType;
-
-    private String isFurnished;
-
     private boolean canParking;
 
     private int bathRoomCount;
@@ -32,8 +22,6 @@ public class HomeInfo {
     private int bedroomCount;
 
     private Integer residentCount;
-
-    private boolean dealSavable;
 
     private String options;
 

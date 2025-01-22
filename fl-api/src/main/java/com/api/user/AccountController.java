@@ -1,7 +1,7 @@
 package com.api.user;
 
-import com.common.user.request.UserAccountRequest;
-import com.common.user.response.UserAccountResponse;
+import com.core.api_core.user.dto.UserAccountRequest;
+import com.core.api_core.user.dto.UserAccountResponse;
 import com.common.utils.SuccessResponse;
 import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;

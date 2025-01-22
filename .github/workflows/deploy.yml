@@ -46,6 +46,10 @@ jobs:
           echo "FL_CHAT_DIRECT_MESSAGE=${{ secrets.FL_CHAT_DIRECT_MESSAGE }}" >> .env
           echo "FL_CHAT_PUBLISH=${{ secrets.FL_CHAT_PUBLISH }}" >> .env
           echo "FL_CHAT_SUBSCRIBE=${{ secrets.FL_CHAT_SUBSCRIBE }}" >> .env
+          echo "ADMIN_TOKEN=${{ secrets.ADMIN_TOKEN }}" >> .env
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env
+          echo "MAIL_USER_NAME=${{ secrets.MAIL_USER_NAME }}" >> .env
+          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
 
       - name: Upload .env to EC2
         uses: appleboy/scp-action@master

@@ -1,32 +1,48 @@
 version: '3.8'
+
+networks:
+  fl-network: # 사용자 정의 네트워크
+    driver: bridge
+
 services:
   fl-api:
     build:
       context: ./fl-api
       dockerfile: Dockerfile-local
-    container_name: local-api
+    container_name: fl-api-local
     ports:
       - "8080:8080"
     env_file:
       - .env
+
     depends_on:
       - redis
-
+    networks:
+      - fl-network
 
   fl-chatting:
     build:
       context: ./fl-chatting
       dockerfile: Dockerfile-local
-    container_name: local-chatting
+    container_name: fl-chatting-local
     ports:
       - "8082:8082"
     env_file:
       - .env
+
     depends_on:
       - redis
+    networks:
+      - fl-network
+
   redis:
     image: redis:7.0
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - fl-network
 
+volumes:
+  mysql-data:
+    driver: local

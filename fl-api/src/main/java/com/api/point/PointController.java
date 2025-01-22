@@ -1,7 +1,7 @@
 package com.api.point;
 
 import com.core.exception.InsufficientPointsException;
-import com.common.point.request.PaymentRequest;
+import com.core.api_core.user.dto.PaymentRequest;
 import com.common.utils.SuccessResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.service.point.PaypalService;
@@ -39,25 +39,11 @@ public class PointController {
 
 
     @PostMapping(APPLY_WITH_DRAW_URL)
-    public ResponseEntity<?> applyWithDraw(@RequestParam final Integer price) throws InsufficientPointsException {
+    public ResponseEntity<?> applyWithDraw(@RequestParam final double price) throws InsufficientPointsException {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         pointService.applyWithDraw(email, price);
         SuccessResponse response = new SuccessResponse(true, APPLY_WITH_DRAW, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-//    @GetMapping(CHARGE_POINT_SUCCESS_REDIRECT_URL)
-//    public ResponseEntity<String> paymentSuccess(
-//            @RequestParam("paymentId") String paymentId,
-//            @RequestParam("PayerID") String payerID,
-//            @RequestParam("token") String token) {
-//
-//        return ResponseEntity.ok("Payment Successful!");
-//    }
-//
-//    @GetMapping(CHARGE_POINT_CANCEL_REDIRECT_URL)
-//    public ResponseEntity<String> paymentCancel() {
-//        return ResponseEntity.ok("Payment Cancelled!");
-//    }
 
 }

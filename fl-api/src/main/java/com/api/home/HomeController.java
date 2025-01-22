@@ -1,9 +1,6 @@
 package com.api.home;
 
-import com.common.home.request.*;
-import com.common.home.response.HomeInformationResponse;
-import com.common.home.response.HomeOverviewResponse;
-import com.common.home.response.HomeOverviewWrapper;
+import com.core.api_core.home.dto.*;
 import com.common.utils.SuccessResponse;
 import com.service.home.HomeQueryService;
 import com.service.home.HomeService;

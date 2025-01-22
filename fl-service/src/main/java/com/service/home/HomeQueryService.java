@@ -1,9 +1,9 @@
 package com.service.home;
 
-import com.common.home.mapper.HomeMapper;
-import com.common.home.response.HomeInformationResponse;
-import com.common.home.response.HomeOverviewResponse;
-import com.common.home.response.HomeOverviewWrapper;
+import com.core.mapper.HomeMapper;
+import com.core.api_core.home.dto.HomeInformationResponse;
+import com.core.api_core.home.dto.HomeOverviewResponse;
+import com.core.api_core.home.dto.HomeOverviewWrapper;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.QHome;
 import com.core.api_core.home.repository.HomeRepository;
@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
 import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
@@ -35,10 +33,7 @@ public class HomeQueryService {
     private final HomeMapper homeMapper;
 
     public HomeInformationResponse findById(final Long id) {
-        Tuple result = OptionalUtil.getOrElseThrow(homeRepository.findHomeAndUserById(id),NOT_EXIST_HOME_ID);
-        Home home = result.get(0, Home.class);
-        User user = result.get(1, User.class);
-        return homeMapper.toHomeInformation(home, user);
+        return OptionalUtil.getOrElseThrow(homeRepository.findHomeAndUserById(id),NOT_EXIST_HOME_ID);
     }
 
     /**
