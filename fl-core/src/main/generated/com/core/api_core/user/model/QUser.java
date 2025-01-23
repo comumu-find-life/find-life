@@ -19,7 +19,7 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
-    public final com.core.base.QBaseTimeEntity _super = new com.core.base.QBaseTimeEntity(this);
+    public final com.core.api_core.base.QBaseTimeEntity _super = new com.core.api_core.base.QBaseTimeEntity(this);
 
     public final NumberPath<Integer> brith = createNumber("brith", Integer.class);
 

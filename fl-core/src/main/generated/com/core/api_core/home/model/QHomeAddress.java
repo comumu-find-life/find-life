@@ -19,7 +19,7 @@ public class QHomeAddress extends EntityPathBase<HomeAddress> {
 
     public static final QHomeAddress homeAddress = new QHomeAddress("homeAddress");
 
-    public final com.core.base.QBaseTimeEntity _super = new com.core.base.QBaseTimeEntity(this);
+    public final com.core.api_core.base.QBaseTimeEntity _super = new com.core.api_core.base.QBaseTimeEntity(this);
 
     public final StringPath city = createString("city");
 

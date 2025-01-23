@@ -16,6 +16,12 @@ services:
       - redis
     networks:
       - app-network
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-api
 
   fl-chatting:
     image: minseok2000/cozy-chatting
@@ -32,6 +38,12 @@ services:
       - redis
     networks:
       - app-network
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-chatting
 
   fl-admin:
     image: minseok2000/cozy-admin
@@ -48,6 +60,12 @@ services:
       - redis
     networks:
       - app-network
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-admin
 
   fl-batch:
     image: minseok2000/cozy-batch
@@ -64,6 +82,12 @@ services:
       - redis
     networks:
       - app-network
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-batch
 
   redis:
     image: redis:7.0
@@ -80,6 +104,12 @@ services:
       - TZ=Australia/Sydney
     networks:
       - app-network
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: redis
 
 networks:
   app-network:
