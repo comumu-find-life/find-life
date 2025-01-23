@@ -22,7 +22,7 @@ public class QHome extends EntityPathBase<Home> {
 
     public static final QHome home = new QHome("home");
 
-    public final com.core.base.QBaseTimeEntity _super = new com.core.base.QBaseTimeEntity(this);
+    public final com.core.api_core.base.QBaseTimeEntity _super = new com.core.api_core.base.QBaseTimeEntity(this);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDateTime = _super.createDateTime;
