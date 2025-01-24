@@ -1,12 +1,14 @@
 package com.api.security.filter;
 
-import com.api.security.exception.InvalidTokenException;
+import com.api.exception.ErrorResponse;
 import com.api.security.service.JwtService;
 import com.api.security.service.TokenCustomService;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
+import com.core.exception.AuthException;
+import com.core.exception.ErrorResponseCode;
+import com.core.exception.NotFoundDataException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.common.utils.SuccessResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +22,8 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -46,17 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         try {
             Optional<String> refreshToken = jwtService.extractRefreshToken(request);
-
             if (refreshToken.isPresent()) {
                 checkRefreshTokenAndReIssueAccessToken(refreshToken.get(), request, response);
                 return;
             }
-
             if (refreshToken.isEmpty()) {
                 checkAccessTokenAndAuthentication(request, response, filterChain);
             }
-
-        } catch (InvalidTokenException ex) {
+        } catch (AuthException ex) {
             handleException(response, ex);
         }
     }
@@ -65,9 +62,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void checkRefreshTokenAndReIssueAccessToken(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
         try {
             tokenCustomService.processRefreshToken(refreshToken, response);
-        }catch (Exception e){
-            //todoexception
-            //throw new NotFoundDataException(e.getMessage());
+        } catch (Exception e) {
+            throw new NotFoundDataException(e.getMessage());
         }
     }
 
@@ -82,8 +78,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 .ifPresent(email -> userRepository.findByEmail(email)
                                         .ifPresent(this::saveAuthentication));
                     } catch (Exception e) {
-                        log.error("액세스 토큰 유효성 검사 실패: {}", e.getMessage());
-                        throw new InvalidTokenException("Access token is invalid");
+                        throw new AuthException(ErrorResponseCode.NOT_VALID_TOKEN, "유효하지 않는 토큰입니다.");
                     }
                 });
 
@@ -102,10 +97,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    private void handleException(HttpServletResponse response, InvalidTokenException ex) throws IOException {
-        // 401
+    private void handleException(HttpServletResponse response, AuthException ex) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(new SuccessResponse(false, "Access token is invalid", null)));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse(ex)));
     }
 }

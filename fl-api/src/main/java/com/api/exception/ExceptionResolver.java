@@ -33,20 +33,21 @@ public class ExceptionResolver {
     @ResponseBody
     public ErrorResponse handleServerException(HttpServletRequest request, Exception exception) {
         //서버 오류만 로그 기록
-        logException(request, exception);
+        logException(request, (ExceptionBase)exception);
         return new ErrorResponse((ExceptionBase) exception);
     }
 
-    private void logException(HttpServletRequest request, Exception exception) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = "Anonymous";
-        if (authentication != null && authentication.isAuthenticated()) {
-            username = authentication.getName();
-        }
-        logger.error("Request URL: {}, Method: {}, Username: {}, Exception Message: {}",
+    private void logException(HttpServletRequest request, ExceptionBase exception) {
+        String username = getAuthenticatedUsername();
+        logger.error("Request URL: {}, Method: {}, Username: {}, Exception: {}",
                 request.getRequestURL(),
                 request.getMethod(),
                 username,
-                exception.getMessage());
+                exception.getErrorMessage());
+    }
+
+    private String getAuthenticatedUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return (auth != null && auth.isAuthenticated()) ? auth.getName() : "Anonymous";
     }
 }
