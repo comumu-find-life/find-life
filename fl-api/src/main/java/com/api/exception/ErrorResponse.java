@@ -1,12 +1,15 @@
 package com.api.exception;
 
-import lombok.Getter;
-import lombok.AllArgsConstructor;
+import com.core.exception.ExceptionBase;
 
-@Getter
-@AllArgsConstructor
-public class ErrorResponse<T> {
-    private boolean success;
-    private T message;
-    private long code;
+import java.util.HashMap;
+
+public class ErrorResponse extends HashMap<String, Object> {
+    public ErrorResponse(ExceptionBase exception) {
+        super();
+        this.put("error", true);
+        this.put("http_status_code", exception.getStatusCode());
+        this.put("error_code", exception.getErrorCode().getCode());
+        this.put("error_message", exception.getErrorCode());
+    }
 }

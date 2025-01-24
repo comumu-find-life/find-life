@@ -5,7 +5,6 @@ import com.api.security.service.JwtService;
 import com.api.security.service.TokenCustomService;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
-import com.core.exception.NoDataException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.common.utils.SuccessResponse;
 import jakarta.servlet.FilterChain;
@@ -67,7 +66,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             tokenCustomService.processRefreshToken(refreshToken, response);
         }catch (Exception e){
-            throw new NoDataException(e.getMessage());
+            //todoexception
+            //throw new NotFoundDataException(e.getMessage());
         }
     }
 

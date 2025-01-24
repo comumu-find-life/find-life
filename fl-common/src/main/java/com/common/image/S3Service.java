@@ -2,7 +2,6 @@ package com.common.image;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.core.exception.NoDataException;
 import com.core.exception.S3UploadException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;

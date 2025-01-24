@@ -1,10 +1,19 @@
 package com.core.exception;
 
-import java.io.IOException;
+import com.mongodb.lang.Nullable;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-public class InsufficientPointsException extends IOException {
+@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+public class InsufficientPointsException extends ExceptionBase {
 
-    public InsufficientPointsException(String message) {
-        super(message);
+    public InsufficientPointsException(@Nullable String message) {
+        this.errorCode = ErrorResponseCode.POINT_INSUFFICIENT;
+        this.errorMessage = message;
+    }
+
+    @Override
+    public int getStatusCode() {
+        return HttpStatus.INTERNAL_SERVER_ERROR.value();
     }
 }
