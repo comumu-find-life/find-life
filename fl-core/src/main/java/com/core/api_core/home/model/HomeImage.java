@@ -1,6 +1,6 @@
 package com.core.api_core.home.model;
 
-import com.core.base.BaseTimeEntity;
+import com.core.api_core.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +24,4 @@ public class HomeImage extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "home_id")
     private Home home;
-
-
 }

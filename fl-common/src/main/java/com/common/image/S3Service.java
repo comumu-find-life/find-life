@@ -2,6 +2,7 @@ package com.common.image;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.core.exception.S3UploadException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -44,9 +45,8 @@ public class S3Service implements FileService{
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
             amazonS3.putObject(bucketName, fileName, inputStream, metadata);
-            System.out.println("Image uploaded successfully:" + fileName);
         } catch (IOException e) {
-            System.out.println("Failed to upload image: :"  + file.getOriginalFilename() + e);
+            throw new S3UploadException(e.getMessage());
         }
     }
 
@@ -55,9 +55,8 @@ public class S3Service implements FileService{
     public void deleteFile(final String fileName) {
         try {
             amazonS3.deleteObject(bucketName, fileName);
-            System.out.println("Image deleted successfully: " + fileName);
         } catch (Exception e) {
-            System.out.println("Failed to delete image: " + fileName + " " + e);
+            throw new S3UploadException(e.getMessage());
         }
     }
 }

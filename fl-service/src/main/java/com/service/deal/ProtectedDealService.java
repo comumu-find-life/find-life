@@ -1,10 +1,9 @@
 package com.service.deal;
 
-import com.common.deal.mapper.ProtectedDealMapper;
-import com.common.deal.request.ProtectedDealFindRequest;
-import com.common.deal.request.ProtectedDealGeneratorRequest;
-import com.common.deal.response.ProtectedDealGeneratorResponse;
-import com.common.deal.response.ProtectedDealResponse;
+import com.core.mapper.ProtectedDealMapper;
+import com.core.api_core.deal.dto.ProtectedDealGeneratorRequest;
+import com.core.api_core.deal.dto.ProtectedDealGeneratorResponse;
+import com.core.api_core.deal.dto.ProtectedDealResponse;
 import com.common.fcm.FCMHelper;
 import com.common.fcm.FCMState;
 import com.core.api_core.deal.model.DealState;
@@ -107,7 +106,7 @@ public class ProtectedDealService {
      */
     @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
     @Transactional
-    public void completeDeal(Long dealId) throws IllegalAccessException {
+    public void completeDeal(Long dealId) {
         ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
         User provider = userRepository.findById(protectedDeal.getProviderId()).get();
         UserAccount providerAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
@@ -144,7 +143,6 @@ public class ProtectedDealService {
         protectedDeal.getProtectedDealDateTime().setCancelAt(LocalDateTime.now());
         protectedDeal.setDealState(DealState.CANCEL_DURING_DEAL);
     }
-
 
 
     private void sendCompleteFCM(String fcmToken) {

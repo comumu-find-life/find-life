@@ -1,10 +1,10 @@
 package com.service.home;
 
-import com.common.home.mapper.HomeMapper;
-import com.common.home.request.HomeGeneratorRequest;
-import com.common.home.request.HomeUpdateRequest;
+import com.core.mapper.HomeMapper;
+import com.core.api_core.home.dto.HomeGeneratorRequest;
+import com.core.api_core.home.dto.HomeUpdateRequest;
 import com.common.image.FileService;
-import com.common.user.response.UserInformationResponse;
+import com.core.api_core.user.dto.UserInformationResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
 import com.core.api_core.home.model.HomeImage;
@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.service.home.HomeMessages.NOT_EXIST_HOME;
 import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
 
 @Slf4j
@@ -41,11 +40,8 @@ public class HomeService {
     private final HomeMapper homeMapper;
     private final HomeImageRepository homeImageRepository;
 
-    /**
-     * 집 게시글 등록
-     */
     @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
-    public Long save(HomeGeneratorRequest homeCreateDto, List<MultipartFile> files, LatLng latLng) {
+    public Long save(final HomeGeneratorRequest homeCreateDto, final List<MultipartFile> files, final LatLng latLng) {
         Home home = homeMapper.toEntity(homeCreateDto, getLoggedInUserId());
         if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
             home.setImages(uploadHomeImages(home, files));
@@ -55,13 +51,10 @@ public class HomeService {
     }
 
 
-    /**
-     * 집 게시글 수정
-     */
     @Transactional
-    public Long update(HomeUpdateRequest homeUpdateDto) {
+    public Long update(final HomeUpdateRequest homeUpdateDto) {
         Home home = homeRepository.findById(homeUpdateDto.getHomeId())
-                .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_HOME));
+                .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_HOME_ID));
         homeMapper.updateHomeFromDto(homeUpdateDto, home.getHomeInfo());
         HomeAddress homeAddress = home.getHomeAddress();
         homeMapper.updateAddressFromDto(homeUpdateDto.getHomeAddress(), homeAddress);
@@ -70,60 +63,42 @@ public class HomeService {
     }
 
 
-    /**
-     * 새로운 집 이미지 추가
-     */
     @Transactional
-    public void updateHomeImages(Long homeId, List<MultipartFile> files) {
-        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME);
+    public void updateHomeImages(final Long homeId, final List<MultipartFile> files) {
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME_ID);
         if (!files.isEmpty() && !files.get(0).getOriginalFilename().isEmpty()) {
             home.addImages(uploadHomeImages(home, files));
         }
     }
 
-    /**
-     * 집 이미지 삭제
-     */
     @Transactional
-    public void deleteHomeImage(List<String> imageUrls) {
+    public void deleteHomeImage(final List<String> imageUrls) {
         imageUrls.stream()
                 .map(imageUrl -> homeImageRepository.findByImageUrl(imageUrl))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(homeImage -> {
-                    homeImageRepository.delete(homeImage); // DB에서 삭제
-                    fileService.deleteFile(homeImage.getImageUrl()); // S3에서 삭제
+                    homeImageRepository.delete(homeImage);
+                    fileService.deleteFile(homeImage.getImageUrl());
                 });
     }
 
-
-    /**
-     * 집 게시글 삭제
-     * 캐시 무효화: 집 게시글이 삭제되면 전체 집 목록 캐시를 삭제
-     */
     @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
-    public void delete(Long homeId) {
-        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME);
+    public void delete(final Long homeId) {
+        Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME_ID);
         homeRepository.delete(home);
     }
 
 
-    /**
-     * 집 게시글 상태 변경 (판매 완료, 재판매)
-     * 캐시 무효화: 상태 변경 시 전체 집 목록 캐시를 삭제
-     */
     @Transactional
     @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
-    public void changeStatus(Long homeId, String status) {
+    public void changeStatus(final Long homeId, final String status) {
         HomeStatus homeStatus = HomeStatus.fromString(status);
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(homeId), NOT_EXIST_HOME_ID);
         home.setStatus(homeStatus);
     }
 
-    /**
-     * 집 게시물 url 생성 && 서버 업로드
-     */
-    private List<HomeImage> uploadHomeImages(Home home, List<MultipartFile> files) {
+    private List<HomeImage> uploadHomeImages(final Home home, final List<MultipartFile> files) {
         List<HomeImage> response = new ArrayList<>();
         for (MultipartFile file : files) {
             String url = fileService.toUrls(file);

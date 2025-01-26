@@ -18,7 +18,7 @@ aws:
       name: cozyshare-s3-bucket
 
 admin:
-  token: sin981023@
+  token: ${ADMIN_TOKEN}
 
 apple:
   key-url: https://appleid.apple.com/auth/keys
@@ -30,7 +30,7 @@ oauth:
 paypal:
   client-id: ${PAYPAL_CLIENT_ID}
   client-secret: ${PAYPAL_CLIENT_SECRET}
-  mode : sandbox
+  mode : live
 
 jwt:
   secretKey: ${JWT_KEY}
@@ -40,6 +40,3 @@ jwt:
   refresh:
     expiration: 1209600000
     header: Authorization-refresh
-
-domain:
-  chat: http://localhost:8082/api

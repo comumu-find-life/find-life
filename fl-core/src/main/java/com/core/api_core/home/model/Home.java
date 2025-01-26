@@ -1,6 +1,6 @@
 package com.core.api_core.home.model;
 
-import com.core.base.BaseTimeEntity;
+import com.core.api_core.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,10 +34,12 @@ public class Home extends BaseTimeEntity {
     @Embedded
     private HomeInfo homeInfo;
 
-    // 판매중 or 판매 완료
     @Enumerated(EnumType.STRING)
     private HomeStatus homeStatus;
 
+    public String getMainImage(){
+        return images.get(0).getImageUrl();
+    }
 
     public void setLatLng(double lat, double lng) {
         homeAddress.setLatLnd(lat, lng);
@@ -54,9 +56,4 @@ public class Home extends BaseTimeEntity {
     public void addImages(List<HomeImage> images){
         this.images.addAll(images);
     }
-
-    public String getMainImage(){
-        return images.get(0).getImageUrl();
-    }
-
 }

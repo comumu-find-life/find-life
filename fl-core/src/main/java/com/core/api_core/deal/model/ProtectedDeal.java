@@ -1,6 +1,6 @@
 package com.core.api_core.deal.model;
 
-import com.core.base.BaseTimeEntity;
+import com.core.api_core.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,9 +36,6 @@ public class ProtectedDeal extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private DealState dealState;
 
-    public void setDealState(DealState state) {
-        this.dealState = state;
-    }
 
     public double calculateTotalPrice() {
         return deposit + calculateFee();
@@ -54,5 +51,9 @@ public class ProtectedDeal extends BaseTimeEntity {
 
     public boolean isPossibleAutoComplete(){
         return protectedDealDateTime.isFiveDaysPassed() && (dealState.equals(DealState.ACCEPT_DEAL));
+    }
+
+    public void setDealState(DealState state) {
+        this.dealState = state;
     }
 }

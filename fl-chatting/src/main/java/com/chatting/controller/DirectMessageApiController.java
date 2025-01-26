@@ -1,11 +1,10 @@
 package com.chatting.controller;
 
 import com.chatting.service.DirectMessageService;
-import com.common.chat.request.DirectMessageApplicationRequest;
-import com.common.chat.request.DirectMessageReadRequest;
-import com.common.chat.response.DirectMessageResponse;
-import com.common.chat.response.DirectMessageRoomListResponse;
-import com.common.fcm.FCMHelper;
+import com.core.api_core.chat.dto.DirectMessageApplicationRequest;
+import com.core.api_core.chat.dto.DirectMessageReadRequest;
+import com.core.api_core.chat.dto.DirectMessageResponse;
+import com.core.api_core.chat.dto.DirectMessageRoomListResponse;
 import com.common.utils.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.chatting.config.ApiUrlConstants.*;

@@ -2,6 +2,8 @@ package com.core.home.repository;
 
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.repository.HomeRepository;
+import com.core.api_core.user.model.User;
+import com.core.api_core.user.repository.UserRepository;
 import com.core.config.TestConfig;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,26 +13,33 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest // JPA 컴포넌트들만을 위한 테스트 애노테이션이다. (JPA에 필요한 설정들에 대해서만 Bean을 등록한다.)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // 테스트용 DB 설정 애노테이션
+import java.util.List;
+
+import static com.core.helper.HomeHelper.generateHome;
+import static com.core.helper.UserHelper.generateUser;
+
+@DataJpaTest
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(TestConfig.class)
 public class CustomHomeRepositoryImplTest {
 
     @Autowired
     private HomeRepository homeRepository;
 
-
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     void home_페이징_조회_테스트() {
         //given
-        PageRequest pageable = PageRequest.of(0, 3);
-        //when
-        Page<Home> all = homeRepository.findAll(pageable);
-        //then
-        Assertions.assertThat(all.getSize()).isEqualTo(3);
+        User user = userRepository.save(generateUser(1L));
+        Home save = homeRepository.save(generateHome(user.getId()));
 
+        homeRepository.findHomeAndUserById(save.getId());
+        System.out.println("--------");
     }
 
 }

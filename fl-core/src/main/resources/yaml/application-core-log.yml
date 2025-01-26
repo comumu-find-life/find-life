@@ -9,6 +9,8 @@ spring:
 
   logging:
     level:
+      root: error
+      com.api.exception: error
       me.selvernine: ERROR
       com.google.firebase: ERROR
       com.google.api: ERROR

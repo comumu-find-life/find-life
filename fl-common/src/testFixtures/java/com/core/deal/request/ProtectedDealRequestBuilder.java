@@ -1,7 +1,7 @@
 package com.core.deal.request;
 
-import com.common.deal.request.ProtectedDealFindRequest;
-import com.common.deal.request.ProtectedDealGeneratorRequest;
+import com.core.api_core.deal.dto.ProtectedDealFindRequest;
+import com.core.api_core.deal.dto.ProtectedDealGeneratorRequest;
 
 public class ProtectedDealRequestBuilder {
 

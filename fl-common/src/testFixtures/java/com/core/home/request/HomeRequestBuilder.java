@@ -1,8 +1,8 @@
 package com.core.home.request;
 
-import com.common.home.request.HomeAddressGeneratorRequest;
-import com.common.home.request.HomeGeneratorRequest;
-import com.common.home.request.HomeUpdateRequest;
+import com.core.api_core.home.dto.HomeAddressGeneratorRequest;
+import com.core.api_core.home.dto.HomeGeneratorRequest;
+import com.core.api_core.home.dto.HomeUpdateRequest;
 import com.core.api_core.home.model.HomeType;
 import com.core.api_core.user.model.Gender;
 

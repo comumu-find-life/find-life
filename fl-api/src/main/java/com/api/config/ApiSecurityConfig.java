@@ -23,8 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
-import static com.api.config.AuthUrlPatterns.GET_AUTH_WHITELIST;
-import static com.api.config.AuthUrlPatterns.POST_AUTH_WHITELIST;
+import static com.api.v1.AuthUrlPatterns.GET_AUTH_WHITELIST;
+import static com.api.v1.AuthUrlPatterns.POST_AUTH_WHITELIST;
 
 
 @Configuration

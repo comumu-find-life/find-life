@@ -1,6 +1,6 @@
 package com.service.home.impl;
 
-import com.common.home.request.HomeAddressGeneratorRequest;
+import com.core.api_core.home.dto.HomeAddressGeneratorRequest;
 import com.core.exception.GoogleLocationException;
 import com.core.exception.InvalidDataException;
 import com.google.gson.JsonObject;
@@ -10,13 +10,11 @@ import com.service.home.utils.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import static com.service.home.utils.LocationUtil.toStringAddress;
 

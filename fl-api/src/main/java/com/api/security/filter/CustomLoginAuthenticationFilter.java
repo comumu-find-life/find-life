@@ -16,11 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 
-/**
- * 로그인 요청
- * AbstractAuthenticationProcessingFilter 는 SpringSecurity 에서 사용되는 필터다. 사용자 인증을 처리하는데 사용되는 필터다.
- * 사용자가 제출한 인증 요청(로그인 폼의 사용자 이름, 암호)를 수신해 이를 처리해 사용자를 인증하는 역할을 한다.
- */
 public class CustomLoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String DEFAULT_LOGIN_REQUEST_URL = "/v1/api/users/login";

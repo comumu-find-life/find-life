@@ -1,6 +1,6 @@
 package com.common.mail.repository;
 
-import com.common.mail.entity.VerificationCode;
+import com.common.mail.model.VerificationCode;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

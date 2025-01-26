@@ -2,7 +2,7 @@
 <div align="center">
 
 <!-- logo -->
-## 호주 집 렌트 사기 방지를 위한 서비스
+## 🦘 호주 쉐어하우스 보증금 사기 방지를 위한 서비스
 
 </div> 
 
@@ -11,42 +11,205 @@
 ----
 
 ```
-호주에서 집 렌트시 발생하는 계약금 사기 빈도가 점진적으로 증가하고 있습니다. 이는 기존에 존재하는 "FlateMate", "호주나라"와 같은
+호주에서 집을 렌트할때 발생하는 계약금 사기 빈도가 점진적으로 증가하고 있습니다. 이는 기존에 존재하는 "FlateMate", "호주나라"와 같은
 서비스가 임대인, 임차인을 매칭해주는 역할까지만 수행하기 때문에 발생하는 문제로 보여집니다.
 
 계약금을 관리해주는 중계인 역할인 "안전 거래" 기능을 도입한다면 위와 같은 문제를 해결할 수 있다 판단했습니다. "안전 거래" 는 실제 계약이 성사된 후 계약금을
 임대인에게 송금하는 기능으로써의 역할을 담당합니다.
 
-"안전 거래" 기능을 해당 서비스에서 중점적으로 구현하며, 이전보다 안전한 집 렌트 문화를 조성하는 것을 최종 목표로 귀결되기 위해 시작한 프로젝트입니다.
+"안전 거래" 기능을 해당 서비스에서 중점적으로 구현하여, "안전한 집 렌트 문화 조성"을 최종 목표로 귀결되기 위한 프로젝트입니다.
 ```
 
 <br />
 
-### ⚙ 기술 스택
-----
-
-**Backend** : `Spring Boot`, `JPA`, `QueryDSL`        
-**Database** : `MySQL`, `MongoDB`, `Redis`           
-**Frontend** : `Flutter`  
-**Devops** : `Docker`, `GitAction`, `Aws Ec2`, `Aws RDS`, `Aws S3`
+<details>
+<summary><b>⚒️ 기술 스택</b></summary>
 
 <br />
 
-### 💁‍♂️ 참여 인원 && 기여도
-----
-**[참여 인원]**  
-**Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)        
+**Backend** : `Spring Boot`, `JPA`, `QueryDSL`  
+**Database** : `MySQL`, `MongoDB`, `Redis`  
+**Frontend** : `Flutter`  
+**Devops** : `Docker`, `GitAction`, `Aws Ec2`, `Aws RDS`, `Aws S3`  
+
+</details>
+
+<details>
+<summary><b>💁‍♂️ 참여 인원 && 기여도</b></summary>
+  
+<br />
+  
+**참여 인원**  
+<br />
+**Backend** : 2명(본인 포함) - (팀원 중 한 명은 중간에 참여를 중단하게 되었다)  
 **Frontend** : 1명(본인 포함)  
 
-**기여도**   
+**기여도**  
+<br />
 **Backend** : 기여도(90%)  
-**Devops** : 기여도(90%)  
+**Devops** : 기여도(100%)  
 **Front** : 기여도(100%)  
 
+</details>
+
+<details>
+<summary><b>🗂️ ERD</b></summary>
+  
 <br />
+  
+<img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
+
+</details>
+
+<details>
+<summary><b>⚙️ 시스템 아키텍처</b></summary>
+  
+<br />
+  
+<img src="https://github.com/user-attachments/assets/d4102567-8653-4e38-abc1-91b7382a3135" width="1250" height="500"/>
+
+</details>
+
+<details>
+<summary><b>📖 개발 기록</b></summary>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/149" target="_blank" style="color: #007bff; text-decoration: none;">Docker EC2 CI/CD 구축</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/150" target="_blank" style="color: #007bff; text-decoration: none;">Docker Redis 배포</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/148" target="_blank" style="color: #007bff; text-decoration: none;">역직렬화 트러블 슈팅</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/151" target="_blank" style="color: #007bff; text-decoration: none;">AWS EC2 CPU 트러블 슈팅</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/143" target="_blank" style="color: #007bff; text-decoration: none;">Redis 를 이용한 성능 개선</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/142" target="_blank" style="color: #007bff; text-decoration: none;">ConcurrentHashMap 이란?</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/141" target="_blank" style="color: #007bff; text-decoration: none;">웹소켓 채팅 기능 읽음/읽지않음 처리</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/127" target="_blank" style="color: #007bff; text-decoration: none;">멀티모듈 테스트 코드 given 줄이기</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/79" target="_blank" style="color: #007bff; text-decoration: none;">MapStruct 로 DTO <-> Entity 변환</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/76" target="_blank" style="color: #007bff; text-decoration: none;">JWT 회원가입/로그인 기능 구현</a></h4>
+  </div>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 250px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h4><a href="https://comumu.tistory.com/77" target="_blank" style="color: #007bff; text-decoration: none;">OAuth2.0 로그인 기능 구현</a></h4>
+  </div>
+
+</div>
+
+</details>
+
+<details>
+<summary><b>📁 모듈 역할</b></summary>
+  
+<br />
+  
+### **`fl-admin`**
+- 관리자 페이지와 관련된 기능을 담당하는 모듈입니다.
+
+### **`fl-api`**
+- REST API를 제공하며, Spring Security를 포함한 인증/인가 관련 처리를 담당합니다.
+
+### **`fl-batch`**
+- 스케줄러 기능을 처리하는 모듈입니다.
+- 추후 구현될 배치 작업도 이 모듈에서 담당합니다.
+
+### **`fl-chatting`**
+- 채팅 서버와 관련된 기능을 관리하는 모듈입니다.
+
+### **`fl-common`**
+- 여러 모듈에서 공통적으로 사용할 수 있는 기능들을 제공합니다:
+  - Redis
+  - FCM (Firebase Cloud Messaging)
+  - 이메일 전송
+  - S3 파일 업로드 등
+
+### **`fl-core`**
+- 도메인 및 Repository를 관리합니다.
+- DTO 정의 및 DTO ↔ Entity 변환 기능을 담당합니다.
+
+### **`fl-service`**
+- 비즈니스 로직을 처리하는 모듈입니다.
+</details>
 
 
 ### 기능 소개
+----
+
+<details>
+<summary><b>회원가입, 로그인 기능</b></summary>  
+
+- 사용기술 : `Spring Security`, `OAuth2.0`, `Mail`  
+  
+```
+사용자는 Google, Apple 소셜로그인과 Email 인증을 통해 회원가입/로그인을 진행할 수 있습니다.  
+사용자 인증은 JWT 토큰을 통해 검증되며 회원가입을 진행한 사용자만이 서비스를 이용할 수 있습니다.  
+```
+
+</details>  
+
+<details>
+<summary><b>채팅 기능</b></summary>
+
+- 사용기술 : `Stomp websocket`  
+  
+```
+채팅 기능은 임대인과 임차인이 1:1 방식으로 연결되며 읽음/읽지 않음 처리는  
+WebSocketSessionManager(웹소켓 세션관리 클래스) 를 이용해 사용자의 연결 유무를 판단합니다.  
+또한 채팅 DB 스키마리스(schema-less) 방식의 데이터베이스인 MongoDB 를 사용했습니다.  
+추후 사진, 첨부파일 등의 기능이 추가될 상황을 고려해 유연하게 확장시키기 위해 채팅 DB 를 분리했습니다.  
+
+또한 MongoDB 는 쓰기 성능에 최적화 되어 있어, 대량의 메시지를 빠르게 저장하고 읽을 수 있기 때문에  
+채팅저리에 적합하다 판단했습니다.  
+
+```
+
+</details>  
+
+<details>
+<summary><b>게시글 조회 기능</b></summary>
+
+- 사용기술 : `JPA`, `QueryDsl`  
+  
+```
+채팅 기능은 임대인과 임차인이 1:1 방식으로 연결되며 읽음/읽지 않음 처리는  
+WebSocketSessionManager(웹소켓 세션관리 클래스) 를 이용해 사용자의 연결 유무를 판단합니다.  
+또한 채팅 DB 스키마리스(schema-less) 방식의 데이터베이스인 MongoDB 를 사용했습니다.  
+추후 사진, 첨부파일 등의 기능이 추가될 상황을 고려해 유연하게 확장시키기 위해 채팅 DB 를 분리했습니다.  
+
+또한 MongoDB 는 쓰기 성능에 최적화 되어 있어, 대량의 메시지를 빠르게 저장하고 읽을 수 있기 때문에  
+채팅저리에 적합하다 판단했습니다.  
+
+```
+
+</details>  
+
+
+### 서비스 화면
 ----
 
 
@@ -204,12 +367,6 @@
 
 </details>
 
-
-<br />
-
-### 🗂️ ERD
-----
-<img src="https://github.com/user-attachments/assets/3715eef0-e7a2-4d9c-9e96-e047de632c97" width="650" height="550"/>
 
 <br />
 

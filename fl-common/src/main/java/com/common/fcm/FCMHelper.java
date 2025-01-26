@@ -53,6 +53,4 @@ public class FCMHelper {
                 .putData("isSave", fcmState.getValue())
                 .build();
     }
-
-
 }
