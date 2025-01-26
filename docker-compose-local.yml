@@ -24,7 +24,6 @@ services:
         awslogs-stream: fl-api
         awslogs-create-group: "true"
 
-
   fl-chatting:
     image: minseok2000/cozy-chatting
     container_name: fl-chatting
