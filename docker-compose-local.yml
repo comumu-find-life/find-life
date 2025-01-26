@@ -89,7 +89,6 @@ services:
       - "awslogs-stream=fl-batch"
       - "awslogs-region=ap-southeast-2"
 
-
   redis:
     image: redis:7.0
     container_name: redis
