@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.core.api_core.user.model.LoginResponse;
 import com.core.api_core.user.repository.UserRepository;
+import com.core.exception.AuthException;
+import com.core.exception.ErrorResponseCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.common.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -78,10 +80,9 @@ public class JwtService {
             response.getWriter().flush();
             response.getWriter().close();
         } catch (IOException e) {
-            log.error("토큰을 응답 본문에 작성하는 동안 오류 발생: {}", e.getMessage());
+            throw new AuthException(ErrorResponseCode.FAIL_SEND_TOKEN, "토큰 전송 실패");
         }
 
-        log.info("Access Token, Refresh Token을 응답 본문에 설정 완료");
     }
 
 
@@ -107,16 +108,15 @@ public class JwtService {
                     .getClaim(EMAIL_CLAIM)
                     .asString());
         } catch (Exception e) {
-            log.error("액세스 토큰이 유효하지 않습니다.");
             return Optional.empty();
         }
     }
 
-    public void isTokenValid(String token) throws AuthenticationException {
+    public void isTokenValid(String token){
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
         } catch (Exception e) {
-            throw new AuthenticationException("유효하지 않은 토큰입니다.");
+            throw new AuthException(ErrorResponseCode.NOT_VALID_TOKEN ,"유효하지 않은 토큰입니다.");
         }
     }
 }

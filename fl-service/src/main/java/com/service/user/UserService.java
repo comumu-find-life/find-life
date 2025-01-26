@@ -1,6 +1,7 @@
 package com.service.user;
 
 import com.common.image.FileService;
+import com.core.exception.InvalidDataException;
 import com.core.mapper.UserMapper;
 import com.core.api_core.user.dto.UserAccountRequest;
 import com.core.api_core.user.dto.UserProfileUpdateRequest;
@@ -16,7 +17,6 @@ import com.core.api_core.user.model.User;
 import com.core.api_core.user.model.UserAccount;
 import com.core.api_core.user.repository.UserAccountRepository;
 import com.core.api_core.user.repository.UserRepository;
-import com.core.exception.InvalidDataException;
 import com.service.user.validation.UserServiceValidation;
 import com.common.utils.OptionalUtil;
 import lombok.RequiredArgsConstructor;

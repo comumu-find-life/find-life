@@ -34,7 +34,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         user.setRefreshToken(refreshToken);
     }
 
-
     private String extractUsername(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return userDetails.getUsername();
