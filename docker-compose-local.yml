@@ -17,12 +17,14 @@ services:
     networks:
       - app-network
     logging:
-      driver: awslogs
+      driver: awslogs  # CloudWatch로 로그 전송
       options:
         awslogs-region: ap-southeast-2
         awslogs-group: cozysharelogs
         awslogs-stream: fl-api
         awslogs-create-group: "true"
+
+
 
   fl-chatting:
     image: minseok2000/cozy-chatting
@@ -46,7 +48,6 @@ services:
         awslogs-group: cozysharelogs
         awslogs-stream: fl-chatting
         awslogs-create-group: "true"
-
 
   fl-admin:
     image: minseok2000/cozy-admin
