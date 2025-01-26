@@ -1,6 +1,5 @@
 package com.common.utils;
 
-
 import com.core.exception.NotFoundDataException;
 
 import java.util.Optional;

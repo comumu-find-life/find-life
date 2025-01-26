@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.api.v1.ApiUrlConstants.CHAT_TOTAL_URL;
+import static com.api.v1.constants.ApiUrlConstants.CHAT_TOTAL_URL;
+import static com.api.v1.constants.ResponseMessage.FIND_CHATTING_ROOM;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,7 +55,7 @@ public class ChatController {
                 .isExistAccount(isExist)
                 .protectedDealResponse(protectedDeal)
                 .build();
-        SuccessResponse response = new SuccessResponse(true, "채팅방 정보조회 성공", directMessageTotalResponse);
+        SuccessResponse response = new SuccessResponse(true, FIND_CHATTING_ROOM, directMessageTotalResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

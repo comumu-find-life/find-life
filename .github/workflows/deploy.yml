@@ -94,9 +94,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/
-            # 기존 실행 중인 컨테이너 중지 및 제거
             sudo docker-compose down
-            # 최신 이미지 가져오기
             sudo docker-compose pull
-            # docker-compose로 모든 컨테이너 실행
             sudo docker-compose up -d

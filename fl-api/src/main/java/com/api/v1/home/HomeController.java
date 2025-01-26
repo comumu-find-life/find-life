@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.api.v1.ApiUrlConstants.*;
+import static com.api.v1.constants.ApiUrlConstants.*;
 
 @Slf4j
 @RestController
@@ -85,7 +85,6 @@ public class HomeController {
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_SELL_SUCCESS, null);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
     @GetMapping(HOMES_FIND_ALL)
     public ResponseEntity<?> findAll() {

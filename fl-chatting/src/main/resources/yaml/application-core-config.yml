@@ -29,8 +29,6 @@ paypal:
   client-secret: ${PAYPAL_CLIENT_SECRET}
   mode : live
 
-
-
 server:
   port: 8082
 

@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import static com.api.v1.ApiUrlConstants.*;
+import static com.api.v1.constants.ApiUrlConstants.*;
 import static com.api.v1.point.SuccessPointMessages.*;
 
 @Slf4j

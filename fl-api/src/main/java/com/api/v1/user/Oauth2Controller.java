@@ -20,8 +20,10 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
 
-import static com.api.v1.ApiUrlConstants.APPLE_LOGIN_URL;
-import static com.api.v1.ApiUrlConstants.GOOGLE_LOGIN_URL;
+import static com.api.v1.constants.ApiUrlConstants.APPLE_LOGIN_URL;
+import static com.api.v1.constants.ApiUrlConstants.GOOGLE_LOGIN_URL;
+import static com.api.v1.constants.ResponseMessage.JWT_GENERATOR_MESSAGE;
+import static com.api.v1.constants.ResponseMessage.REQUEST_SIGN_UP_MESSAGE;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,10 +40,10 @@ public class Oauth2Controller {
     public ResponseEntity<?> authenticateWithGoogle(@RequestBody final GoogleAuthRequest request) throws GeneralSecurityException, IOException {
         String email = googleAuthService.getGoogleEmail(request);
         if (!userService.isExistAccountByEmail(email)) {
-            SuccessResponse successResponse = new SuccessResponse(false, SuccessUserMessages.REQUEST_SIGN_UP_MESSAGE, email);
+            SuccessResponse successResponse = new SuccessResponse(false, REQUEST_SIGN_UP_MESSAGE, email);
             return new ResponseEntity<>(successResponse, HttpStatus.OK);
         }
-        SuccessResponse successResponse = new SuccessResponse(true, SuccessUserMessages.JWT_GENERATOR_MESSAGE, createLoginResponse(email));
+        SuccessResponse successResponse = new SuccessResponse(true, JWT_GENERATOR_MESSAGE, createLoginResponse(email));
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
@@ -50,10 +52,10 @@ public class Oauth2Controller {
     public ResponseEntity<?> authenticateWithApple(@RequestBody final String identityToken) throws IOException, ParseException, JOSEException {
         String email = appleAuthService.getAppleEmail(identityToken);
         if (!userService.isExistAccountByEmail(email)) {
-            SuccessResponse successResponse = new SuccessResponse(false, SuccessUserMessages.REQUEST_SIGN_UP_MESSAGE, email);
+            SuccessResponse successResponse = new SuccessResponse(false, REQUEST_SIGN_UP_MESSAGE, email);
             return new ResponseEntity<>(successResponse, HttpStatus.OK);
         }
-        SuccessResponse successResponse = new SuccessResponse(true, SuccessUserMessages.JWT_GENERATOR_MESSAGE, createLoginResponse(email));
+        SuccessResponse successResponse = new SuccessResponse(true, JWT_GENERATOR_MESSAGE, createLoginResponse(email));
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 

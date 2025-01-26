@@ -3,7 +3,7 @@ package com.service.home;
 import com.core.mapper.HomeMapper;
 import com.core.api_core.home.dto.HomeGeneratorRequest;
 import com.core.api_core.home.dto.HomeUpdateRequest;
-import com.common.image.FileService;
+import com.common.file.FileService;
 import com.core.api_core.user.dto.UserInformationResponse;
 import com.core.api_core.home.model.Home;
 import com.core.api_core.home.model.HomeAddress;
@@ -27,7 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_HOME_ID;
+
 
 @Slf4j
 @Service

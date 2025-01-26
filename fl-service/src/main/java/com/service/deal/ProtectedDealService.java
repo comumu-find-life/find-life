@@ -29,9 +29,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.service.deal.ProtectedDealMessages.DEAL_NOT_FOUND;
-import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
-import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_DEAL_ID;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_HOME_ID;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_USER_ID;
 
 @Transactional
 @Service
@@ -91,8 +91,8 @@ public class ProtectedDealService {
     @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
     @Transactional
     public void acceptProtectedDeal(Long dealId) throws Exception {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
-        User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIT_USER_ID);
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), NOT_EXIST_DEAL_ID);
+        User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIST_USER_ID);
         UserAccount userAccount = userAccountRepository.findByUserId(getter.getId()).get();
         userAccount.validatePointsSufficiency(protectedDeal.calculateTotalPrice());
         userAccount.decreasePoint(protectedDeal.calculateTotalPrice());
@@ -107,7 +107,7 @@ public class ProtectedDealService {
     @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
     @Transactional
     public void completeDeal(Long dealId) {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), NOT_EXIST_DEAL_ID);
         User provider = userRepository.findById(protectedDeal.getProviderId()).get();
         UserAccount providerAccount = userAccountRepository.findByUserId(protectedDeal.getProviderId()).get();
         providerAccount.increasePoint(protectedDeal.getDeposit());
@@ -123,7 +123,7 @@ public class ProtectedDealService {
      */
     @Transactional
     public void cancelBeforeDeal(Long dealId) {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), NOT_EXIST_DEAL_ID);
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);
         home.setHomeStatus(HomeStatus.FOR_SALE);
         protectedDeal.getProtectedDealDateTime().setCancelAt(LocalDateTime.now());
@@ -135,7 +135,7 @@ public class ProtectedDealService {
      */
     @Transactional
     public void cancelAfterDeal(Long dealId) {
-        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), DEAL_NOT_FOUND);
+        ProtectedDeal protectedDeal = OptionalUtil.getOrElseThrow(protectedDealRepository.findById(dealId), NOT_EXIST_DEAL_ID);
         UserAccount getterAccount = userAccountRepository.findByUserId(protectedDeal.getGetterId()).get();
         getterAccount.increasePoint(protectedDeal.getDeposit());
         Home home = OptionalUtil.getOrElseThrow(homeRepository.findById(protectedDeal.getHomeId()), NOT_EXIST_HOME_ID);

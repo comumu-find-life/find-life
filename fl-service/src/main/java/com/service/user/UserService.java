@@ -1,6 +1,6 @@
 package com.service.user;
 
-import com.common.image.FileService;
+import com.common.file.FileService;
 import com.core.exception.InvalidDataException;
 import com.core.mapper.UserMapper;
 import com.core.api_core.user.dto.UserAccountRequest;
@@ -29,7 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.service.user.UserMessages.*;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_USER_EMAIL;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_USER_ID;
 
 @Service
 @Transactional
@@ -69,7 +70,7 @@ public class UserService {
      * 사용자 프로필 조회 메서드 by userId
      */
     public UserProfileResponse getUserProfile(Long id) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIST_USER_ID);
         return userMapper.toProfile(user);
     }
 
@@ -85,7 +86,7 @@ public class UserService {
      * 회원 조회 메서드 by userId
      */
     public UserInformationResponse findById(Long id) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIT_USER_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(id), NOT_EXIST_USER_ID);
         return userMapper.toDto(user);
     }
 
@@ -93,7 +94,7 @@ public class UserService {
      * 회원 조회 메서드 by email
      */
     public UserInformationResponse findByEmail(String email) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIST_USER_EMAIL);
         return userMapper.toDto(user);
     }
 
@@ -104,7 +105,7 @@ public class UserService {
      */
     @Transactional
     public void update(UserProfileUpdateRequest userProfileUpdateRequest){
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userProfileUpdateRequest.getUserId()), NOT_EXIT_USER_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userProfileUpdateRequest.getUserId()), NOT_EXIST_USER_ID);
         userMapper.updateUser(userProfileUpdateRequest, user);
         userRepository.save(user);
     }
@@ -113,8 +114,8 @@ public class UserService {
      * 사용자 계좌 정보 수정
      */
     public void updateAccount(UserAccountRequest userAccountRequest, String email) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
-        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIT_USER_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIST_USER_EMAIL);
+        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(user.getId()), NOT_EXIST_USER_ID);
         userMapper.updateUserAccount(userAccountRequest, userAccount);
     }
 
@@ -123,7 +124,7 @@ public class UserService {
      */
     @Transactional
     public void updateImage(Long userId, MultipartFile image){
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIST_USER_ID);
         if (user.isExist()) {
             fileService.deleteFile(user.getProfileUrl());
         }
@@ -137,7 +138,7 @@ public class UserService {
     @Transactional
     @CacheEvict(value = "homeOverviewCache", key = "'allHomes'", allEntries = true)
     public void delete(final String email, final Long id) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIST_USER_ID);
         Optional<UserAccount> userAccount = userAccountRepository.findByUserId(user.getId());
         if(userAccount.isPresent()){
             userAccountRepository.delete(userAccount.get());
@@ -155,7 +156,7 @@ public class UserService {
     }
 
     public void setUserAccount(final UserAccountRequest userAccountRequest, final Long userId) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIT_USER_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userId), NOT_EXIST_USER_ID);
         UserAccount userAccount = userMapper.toUserAccount(userAccountRequest, user.getId());
         userAccountRepository.save(userAccount);
     }
@@ -166,7 +167,7 @@ public class UserService {
     }
 
     public UserAccountResponse findUserAccountById(final Long userId) {
-        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIT_USER_ID);
+        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userId), NOT_EXIST_USER_ID);
         return userMapper.toUserAccountResponse(userAccount);
     }
 
@@ -193,7 +194,7 @@ public class UserService {
 
     @Transactional
     public void updateFcmToken(final String email, final String fcmToken) {
-        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIT_USER_EMAIL);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findByEmail(email), NOT_EXIST_USER_EMAIL);
         user.setFcmToken(fcmToken);
 
     }
@@ -225,7 +226,7 @@ public class UserService {
         if(!token.equals(secretToken)){
             throw new IllegalArgumentException("권한이 없습니다.");
         }
-        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userAccountId), NOT_EXIT_USER_ID);
+        UserAccount userAccount = OptionalUtil.getOrElseThrow(userAccountRepository.findByUserId(userAccountId), NOT_EXIST_USER_ID);
         PointHistory pointHistory = userAccount.getChargeHistories().stream()
                 .filter(history -> history.getId() == pointHistoryId)
                 .findFirst()

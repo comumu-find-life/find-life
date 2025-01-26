@@ -43,7 +43,6 @@ public class ExceptionResolver {
     private void logException(HttpServletRequest request, ExceptionBase exception) {
         String username = getAuthenticatedUsername();
         String requestBody = extractRequestBody(request);
-
         logger.error("Request URL: {}, Method: {}, Username: {}, Exception: {}, Request Body: {}",
                 request.getRequestURL(),
                 request.getMethod(),

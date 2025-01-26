@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.batch.deal.FcmMessages.*;
-import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_USER_ID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +19,8 @@ public class NotificationService {
     private final UserRepository userRepository;
 
     public void sendCompleteDealNotification(final ProtectedDeal protectedDeal)  {
-        User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIT_USER_ID);
-        User provider = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getProviderId()), NOT_EXIT_USER_ID);
+        User getter = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getGetterId()), NOT_EXIST_USER_ID);
+        User provider = OptionalUtil.getOrElseThrow(userRepository.findById(protectedDeal.getProviderId()), NOT_EXIST_USER_ID);
         sendNotification(getter);
         sendNotification(provider);
     }

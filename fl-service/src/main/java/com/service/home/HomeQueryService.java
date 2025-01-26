@@ -5,13 +5,10 @@ import com.core.api_core.home.dto.HomeInformationResponse;
 import com.core.api_core.home.dto.HomeOverviewResponse;
 import com.core.api_core.home.dto.HomeOverviewWrapper;
 import com.core.api_core.home.model.Home;
-import com.core.api_core.home.model.QHome;
 import com.core.api_core.home.repository.HomeRepository;
-import com.core.api_core.user.model.QUser;
 import com.core.api_core.user.model.User;
 import com.core.api_core.user.repository.UserRepository;
 import com.common.utils.OptionalUtil;
-import com.querydsl.core.Tuple;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.service.home.HomeMessages.NOT_EXIST_HOME_ID;
-import static com.service.user.UserMessages.NOT_EXIT_USER_ID;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_HOME_ID;
+import static com.core.exception.ExceptionMessages.NOT_EXIST_USER_ID;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +47,7 @@ public class HomeQueryService {
      */
     public List<HomeOverviewResponse> findByUserId(final Long userIdx) {
         List<HomeOverviewResponse> response = new ArrayList<>();
-        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), NOT_EXIT_USER_ID);
+        User user = OptionalUtil.getOrElseThrow(userRepository.findById(userIdx), NOT_EXIST_USER_ID);
         List<Home> homes = homeRepository.findByUserId(userIdx);
         homes.forEach(home -> {
             response.add(homeMapper.toSimpleHomeDto(home, user));
@@ -71,7 +68,7 @@ public class HomeQueryService {
         return homes.stream()
                 .map(home -> {
                     User user = userRepository.findById(home.getUserIdx())
-                            .orElseThrow(() -> new EntityNotFoundException(NOT_EXIT_USER_ID + home.getUserIdx()));
+                            .orElseThrow(() -> new EntityNotFoundException(NOT_EXIST_USER_ID + home.getUserIdx()));
                     return homeMapper.toSimpleHomeDto(home, user);
                 })
                 .collect(Collectors.toList());

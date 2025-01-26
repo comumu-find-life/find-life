@@ -15,9 +15,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
-/**
- * 캐시 설정 클래스
- */
 @Configuration
 @RequiredArgsConstructor
 @EnableCaching

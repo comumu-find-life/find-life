@@ -10,9 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
 
-/**
- * FCM 사용을 위한 설정
- */
+
 @Configuration
 public class FirebaseConfig {
 
@@ -31,8 +29,6 @@ public class FirebaseConfig {
         } else {
             app = FirebaseApp.getInstance();
         }
-
         return FirebaseMessaging.getInstance(app);
     }
-
 }
