@@ -17,11 +17,14 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=fl-api"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-api
+        awslogs-create-group: "true"
+        max-size: "10m"
+        max-file: "1"
 
   fl-chatting:
     image: minseok2000/cozy-chatting
@@ -39,11 +42,14 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=fl-chatting"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-chatting
+        awslogs-create-group: "true"
+        max-size: "10m"
+        max-file: "1"
 
   fl-admin:
     image: minseok2000/cozy-admin
@@ -61,11 +67,14 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=fl-admin"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-admin
+        awslogs-create-group: "true"
+        max-size: "10m"
+        max-file: "1"
 
   fl-batch:
     image: minseok2000/cozy-batch
@@ -83,11 +92,14 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=fl-batch"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-batch
+        awslogs-create-group: "true"
+        max-size: "10m"
+        max-file: "1"
 
   redis:
     image: redis:7.0
@@ -105,11 +117,14 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=redis"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: redis
+        awslogs-create-group: "true"
+        max-size: "10m"   # 로그 파일 하나의 최대 크기
+        max-file: "1"     # 로컬 로그 파일의 최대 수
 
 networks:
   app-network:
