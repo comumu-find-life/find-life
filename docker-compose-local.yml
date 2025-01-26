@@ -1,32 +1,116 @@
 version: '3.8'
+
 services:
   fl-api:
-    build:
-      context: ./fl-api
-      dockerfile: Dockerfile-local
-    container_name: local-api
+    image: minseok2000/cozy-api
+    container_name: fl-api
+    expose:
+      - "8080"
     ports:
       - "8080:8080"
     env_file:
-      - .env
+      - /home/ubuntu/.env
+    environment:
+      - TZ=Australia/Sydney
     depends_on:
       - redis
-
+    networks:
+      - app-network
+    logging:
+      driver: "none"  # Docker 로그 비활성화
+    labels:
+      - "awslogs-group=cozysharelogs"
+      - "awslogs-stream=fl-api"
+      - "awslogs-region=ap-southeast-2"
 
   fl-chatting:
-    build:
-      context: ./fl-chatting
-      dockerfile: Dockerfile-local
-    container_name: local-chatting
+    image: minseok2000/cozy-chatting
+    container_name: fl-chatting
+    expose:
+      - "8082"
     ports:
       - "8082:8082"
     env_file:
-      - .env
+      - /home/ubuntu/.env
+    environment:
+      - TZ=Australia/Sydney
     depends_on:
       - redis
+    networks:
+      - app-network
+    logging:
+      driver: "none"  # Docker 로그 비활성화
+    labels:
+      - "awslogs-group=cozysharelogs"
+      - "awslogs-stream=fl-chatting"
+      - "awslogs-region=ap-southeast-2"
+
+  fl-admin:
+    image: minseok2000/cozy-admin
+    container_name: fl-admin
+    expose:
+      - "8085"
+    ports:
+      - "8085:8085"
+    env_file:
+      - /home/ubuntu/.env
+    environment:
+      - TZ=Australia/Sydney
+    depends_on:
+      - redis
+    networks:
+      - app-network
+    logging:
+      driver: "none"  # Docker 로그 비활성화
+    labels:
+      - "awslogs-group=cozysharelogs"
+      - "awslogs-stream=fl-admin"
+      - "awslogs-region=ap-southeast-2"
+
+  fl-batch:
+    image: minseok2000/cozy-batch
+    container_name: fl-batch
+    expose:
+      - "8084"
+    ports:
+      - "8084:8084"
+    env_file:
+      - /home/ubuntu/.env
+    environment:
+      - TZ=Australia/Sydney
+    depends_on:
+      - redis
+    networks:
+      - app-network
+    logging:
+      driver: "none"  # Docker 로그 비활성화
+    labels:
+      - "awslogs-group=cozysharelogs"
+      - "awslogs-stream=fl-batch"
+      - "awslogs-region=ap-southeast-2"
+
+
   redis:
     image: redis:7.0
     container_name: redis
+    hostname: redis
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - TZ=Australia/Sydney
+    networks:
+      - app-network
+    logging:
+      driver: "none"  # Docker 로그 비활성화
+    labels:
+      - "awslogs-group=cozysharelogs"
+      - "awslogs-stream=redis"
+      - "awslogs-region=ap-southeast-2"
 
+networks:
+  app-network:
