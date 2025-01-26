@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+
+import java.nio.charset.StandardCharsets;
 
 @ControllerAdvice
 public class ExceptionResolver {
@@ -32,18 +35,31 @@ public class ExceptionResolver {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ErrorResponse handleServerException(HttpServletRequest request, Exception exception) {
-        //서버 오류만 로그 기록
-        logException(request, (ExceptionBase)exception);
+        // 서버 오류만 로그 기록
+        logException(request, (ExceptionBase) exception);
         return new ErrorResponse((ExceptionBase) exception);
     }
 
     private void logException(HttpServletRequest request, ExceptionBase exception) {
         String username = getAuthenticatedUsername();
-        logger.error("Request URL: {}, Method: {}, Username: {}, Exception: {}",
+        String requestBody = extractRequestBody(request);
+
+        logger.error("Request URL: {}, Method: {}, Username: {}, Exception: {}, Request Body: {}",
                 request.getRequestURL(),
                 request.getMethod(),
                 username,
-                exception.getErrorMessage());
+                exception.getErrorMessage(),
+                requestBody);
+    }
+
+    private String extractRequestBody(HttpServletRequest request) {
+        if (request instanceof ContentCachingRequestWrapper wrapper) {
+            byte[] content = wrapper.getContentAsByteArray();
+            if (content.length > 0) {
+                return new String(content, StandardCharsets.UTF_8);
+            }
+        }
+        return "N/A";
     }
 
     private String getAuthenticatedUsername() {
