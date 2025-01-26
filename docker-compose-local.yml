@@ -23,8 +23,6 @@ services:
         awslogs-group: cozysharelogs
         awslogs-stream: fl-api
         awslogs-create-group: "true"
-        max-size: "10m"
-        max-file: "1"
 
   fl-chatting:
     image: minseok2000/cozy-chatting
@@ -48,8 +46,6 @@ services:
         awslogs-group: cozysharelogs
         awslogs-stream: fl-chatting
         awslogs-create-group: "true"
-        max-size: "10m"
-        max-file: "1"
 
   fl-admin:
     image: minseok2000/cozy-admin
@@ -73,8 +69,6 @@ services:
         awslogs-group: cozysharelogs
         awslogs-stream: fl-admin
         awslogs-create-group: "true"
-        max-size: "10m"
-        max-file: "1"
 
   fl-batch:
     image: minseok2000/cozy-batch
@@ -98,8 +92,6 @@ services:
         awslogs-group: cozysharelogs
         awslogs-stream: fl-batch
         awslogs-create-group: "true"
-        max-size: "10m"
-        max-file: "1"
 
   redis:
     image: redis:7.0
@@ -123,8 +115,6 @@ services:
         awslogs-group: cozysharelogs
         awslogs-stream: redis
         awslogs-create-group: "true"
-        max-size: "10m"   # 로그 파일 하나의 최대 크기
-        max-file: "1"     # 로컬 로그 파일의 최대 수
 
 networks:
   app-network:
