@@ -17,11 +17,13 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=fl-api"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-api
+        awslogs-create-group: "true"
+
 
   fl-chatting:
     image: minseok2000/cozy-chatting
@@ -39,11 +41,13 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=fl-chatting"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-chatting
+        awslogs-create-group: "true"
+
 
   fl-admin:
     image: minseok2000/cozy-admin
@@ -61,11 +65,12 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=fl-admin"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-admin
+        awslogs-create-group: "true"
 
   fl-batch:
     image: minseok2000/cozy-batch
@@ -83,12 +88,12 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=fl-batch"
-      - "awslogs-region=ap-southeast-2"
-
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: fl-batch
+        awslogs-create-group: "true"
 
   redis:
     image: redis:7.0
@@ -106,11 +111,12 @@ services:
     networks:
       - app-network
     logging:
-      driver: "none"  # Docker 로그 비활성화
-    labels:
-      - "awslogs-group=cozysharelogs"
-      - "awslogs-stream=redis"
-      - "awslogs-region=ap-southeast-2"
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-2
+        awslogs-group: cozysharelogs
+        awslogs-stream: redis
+        awslogs-create-group: "true"
 
 networks:
   app-network:
