@@ -14,3 +14,4 @@ spring:
       me.selvernine: ERROR
       com.google.firebase: ERROR
       com.google.api: ERROR
+      org.hibernate: error
