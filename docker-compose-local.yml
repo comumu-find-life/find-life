@@ -47,6 +47,7 @@ services:
         awslogs-stream: fl-chatting
         awslogs-create-group: "true"
 
+
   fl-admin:
     image: minseok2000/cozy-admin
     container_name: fl-admin
