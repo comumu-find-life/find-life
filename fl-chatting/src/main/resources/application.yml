@@ -1,6 +1,20 @@
+#spring:
+#  config:
+#    import:
+#      - 'classpath:/yaml/application-core-config.yml'
+#      - 'classpath:/yaml/application-core-db.yml'
+#      - 'classpath:/yaml/application-core-log.yml'
+
 spring:
   config:
-    import:
-      - 'classpath:/yaml/application-core-config.yml'
-      - 'classpath:/yaml/application-core-db.yml'
-      - 'classpath:/yaml/application-core-log.yml'
+    import: classpath:application-common.yml
+
+server:
+  port: 8082
+
+domain:
+  base: ${FL_CHAT_DOMAIN_BASE_URL}
+  chat:
+    directMessage: /dm
+    publish: /pub
+    subscribe: /sub
