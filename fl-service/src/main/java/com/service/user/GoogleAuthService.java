@@ -1,6 +1,6 @@
 package com.service.user;
 
-import com.core.api_core.user.dto.GoogleAuthRequest;
+import com.core.domain.user.dto.GoogleAuthRequest;
 import com.core.exception.InvalidOAuthTokenException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;

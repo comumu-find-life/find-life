@@ -9,7 +9,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableCaching
 @EnableJpaAuditing
 @Configuration
-@ComponentScan(basePackages = {"com.api","com.service", "com.core", "com.redis", "com.chatting", "com.common"})
+@ComponentScan(basePackages = {"com.api","com.service", "com.core", "com.redis", "com.chatting", "com.infra"})
 @EnableRedisRepositories(basePackages = "com.redis.user.repository")
 public class ApiControllerConfig {
 }

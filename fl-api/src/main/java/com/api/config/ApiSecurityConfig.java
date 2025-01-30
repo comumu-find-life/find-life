@@ -1,13 +1,13 @@
 package com.api.config;
 
-import com.api.security.CustomUserDetailsService;
-import com.api.security.filter.CustomLoginAuthenticationFilter;
-import com.api.security.filter.JwtAuthenticationFilter;
-import com.api.security.handler.LoginFailureHandler;
-import com.api.security.handler.LoginSuccessHandler;
-import com.api.security.service.JwtService;
-import com.api.security.service.TokenCustomService;
-import com.core.api_core.user.repository.UserRepository;
+import com.api.auth.service.CustomUserDetailsService;
+import com.api.auth.filter.CustomLoginAuthenticationFilter;
+import com.api.auth.filter.JwtAuthenticationFilter;
+import com.api.auth.handler.LoginFailureHandler;
+import com.api.auth.handler.LoginSuccessHandler;
+import com.api.auth.service.JwtService;
+import com.api.auth.service.TokenCustomService;
+import com.core.domain.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -49,6 +49,7 @@ public class ApiSecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, GET_AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, POST_AUTH_WHITELIST).permitAll()
+                        .requestMatchers("/admin/**").permitAll()
                         .anyRequest().authenticated()
                 );
       

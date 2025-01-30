@@ -1,6 +1,6 @@
 package com.service.home.impl;
 
-import com.core.api_core.home.dto.HomeAddressGeneratorRequest;
+import com.core.domain.home.dto.HomeAddressGeneratorRequest;
 import com.core.exception.GoogleLocationException;
 import com.core.exception.InvalidDataException;
 import com.google.gson.JsonObject;

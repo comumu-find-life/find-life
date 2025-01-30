@@ -1,12 +1,12 @@
 package com.core.mapper;
 
-import com.core.api_core.deal.dto.ProtectedDealGeneratorRequest;
-import com.core.api_core.deal.dto.ProtectedDealGeneratorResponse;
-import com.core.api_core.deal.dto.ProtectedDealResponse;
-import com.core.api_core.deal.dto.ProtectedDealOverViewResponse;
-import com.core.api_core.deal.model.ProtectedDeal;
-import com.core.api_core.deal.model.ProtectedDealDateTime;
-import com.core.api_core.home.model.Home;
+import com.core.domain.deal.dto.ProtectedDealGeneratorRequest;
+import com.core.domain.deal.dto.ProtectedDealGeneratorResponse;
+import com.core.domain.deal.dto.ProtectedDealResponse;
+import com.core.domain.deal.dto.ProtectedDealOverViewResponse;
+import com.core.domain.deal.model.ProtectedDeal;
+import com.core.domain.deal.model.ProtectedDealDateTime;
+import com.core.domain.home.model.Home;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -20,7 +20,7 @@ public interface ProtectedDealMapper {
     ProtectedDealMapper INSTANCE = Mappers.getMapper(ProtectedDealMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "dealState", expression = "java(com.core.api_core.deal.model.DealState.REQUEST_DEAL)")
+    @Mapping(target = "dealState", expression = "java(com.core.domain.deal.model.DealState.REQUEST_DEAL)")
     @Mapping(target = "protectedDealDateTime", expression = "java(createProtectedDealDateTime(request.getDealAt()))") // Set current time
     ProtectedDeal toEntity(ProtectedDealGeneratorRequest request);
 

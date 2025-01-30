@@ -1,7 +1,7 @@
 package com.core.helper;
 
-import com.core.api_core.chat.model.DirectMessageRoom;
-import com.core.api_core.user.model.User;
+import com.core.domain.chat.model.DirectMessageRoom;
+import com.core.domain.user.model.User;
 
 public class DirectMessageRoomHelper {
 

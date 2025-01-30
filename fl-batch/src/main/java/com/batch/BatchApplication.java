@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.service","com.batch", "com.core", "com.common"})
+@ComponentScan(basePackages = {"com.service","com.batch", "com.core", "com.infra"})
 //@EnableJpaRepositories(basePackages = {"com.core.api_core.chat.repository", "com.core.api_core.user.repository"})
 //@EntityScan(basePackages = { "com.core.chat_core.chat.model", "com.core.api_core.chat.model", "com.core.api_core.user.model"})
 public class BatchApplication {

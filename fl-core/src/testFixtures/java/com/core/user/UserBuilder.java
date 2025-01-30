@@ -1,8 +1,8 @@
 package com.core.user;
 
-import com.core.api_core.user.model.Gender;
-import com.core.api_core.user.model.Role;
-import com.core.api_core.user.model.User;
+import com.core.domain.user.model.Gender;
+import com.core.domain.user.model.Role;
+import com.core.domain.user.model.User;
 
 public class UserBuilder {
     public static final String USER_EMAIL = "user";

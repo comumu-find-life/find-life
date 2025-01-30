@@ -1,21 +1,16 @@
 package com.core.home.repository;
 
-import com.core.api_core.home.model.Home;
-import com.core.api_core.home.repository.HomeRepository;
-import com.core.api_core.user.model.User;
-import com.core.api_core.user.repository.UserRepository;
+import com.core.domain.home.model.Home;
+import com.core.domain.home.repository.HomeRepository;
+import com.core.domain.user.model.User;
+import com.core.domain.user.repository.UserRepository;
 import com.core.config.TestConfig;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.List;
 
 import static com.core.helper.HomeHelper.generateHome;
 import static com.core.helper.UserHelper.generateUser;

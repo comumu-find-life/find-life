@@ -38,7 +38,7 @@ dependencies {
     implementation project(':fl-service')
     testImplementation project(':fl-core')
     testImplementation(testFixtures(project(":fl-core")))
-    testImplementation(testFixtures(project(":fl-common")))
+    testImplementation(testFixtures(project(":fl-infra")))
     testRuntimeOnly(testFixtures(project(":fl-core")))
 
     implementation 'org.springframework.data:spring-data-redis'
@@ -52,9 +52,9 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
     implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 test {

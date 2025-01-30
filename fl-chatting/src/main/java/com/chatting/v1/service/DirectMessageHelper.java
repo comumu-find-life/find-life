@@ -1,8 +1,8 @@
 package com.chatting.v1.service;
 
-import com.core.api_core.chat.dto.DirectMessageRequest;
-import com.core.api_core.chat.model.DirectMessageRoom;
-import com.core.api_core.user.model.User;
+import com.core.domain.chat.dto.DirectMessageRequest;
+import com.core.domain.chat.model.DirectMessageRoom;
+import com.core.domain.user.model.User;
 
 public class DirectMessageHelper {
 

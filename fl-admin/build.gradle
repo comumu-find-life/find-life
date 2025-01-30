@@ -43,7 +43,7 @@ dependencies {
     implementation project(':fl-service')
     testImplementation project(':fl-core')
     testImplementation(testFixtures(project(":fl-core")))
-    testImplementation(testFixtures(project(":fl-common")))
+    testImplementation(testFixtures(project(":fl-infra")))
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 

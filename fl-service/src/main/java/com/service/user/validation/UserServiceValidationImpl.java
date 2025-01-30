@@ -1,6 +1,6 @@
 package com.service.user.validation;
 
-import com.core.api_core.user.repository.UserRepository;
+import com.core.domain.user.repository.UserRepository;
 import com.core.exception.InvalidDataException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

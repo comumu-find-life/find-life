@@ -33,7 +33,7 @@ jar {
 dependencies {
     testImplementation project(':fl-core')
     testImplementation(testFixtures(project(":fl-core"))) // 공통된 코드를 사용하기 위한
-    testImplementation(testFixtures(project(":fl-common"))) // 공통된 코드를 사용하기 위한
+    testImplementation(testFixtures(project(":fl-infra"))) // 공통된 코드를 사용하기 위한
     testRuntimeOnly(testFixtures(project(":fl-core")))
 
     implementation 'org.springframework.boot:spring-boot-starter-websocket'

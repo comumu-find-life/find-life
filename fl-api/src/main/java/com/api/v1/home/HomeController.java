@@ -1,7 +1,7 @@
 package com.api.v1.home;
 
-import com.core.api_core.home.dto.*;
-import com.common.utils.SuccessResponse;
+import com.core.domain.home.dto.*;
+import com.infra.utils.SuccessResponse;
 import com.service.home.HomeQueryService;
 import com.service.home.HomeService;
 import com.service.home.LocationService;

@@ -1,11 +1,11 @@
 package com.api.v1.chat;
 
-import com.core.api_core.chat.dto.DirectMessageTotalRequest;
-import com.core.api_core.chat.dto.DirectMessageTotalResponse;
-import com.core.api_core.deal.dto.ProtectedDealResponse;
-import com.core.api_core.home.dto.HomeInformationResponse;
-import com.core.api_core.user.dto.UserProfileResponse;
-import com.common.utils.SuccessResponse;
+import com.core.domain.chat.dto.DirectMessageTotalRequest;
+import com.core.domain.chat.dto.DirectMessageTotalResponse;
+import com.core.domain.deal.dto.ProtectedDealResponse;
+import com.core.domain.home.dto.HomeInformationResponse;
+import com.core.domain.user.dto.UserProfileResponse;
+import com.infra.utils.SuccessResponse;
 import com.service.deal.ProtectedDealService;
 import com.service.home.HomeQueryService;
 import com.service.user.UserService;

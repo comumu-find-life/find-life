@@ -1,11 +1,11 @@
 package com.batch.deal;
 
-import com.common.fcm.FCMHelper;
-import com.common.fcm.FCMState;
-import com.common.utils.OptionalUtil;
-import com.core.api_core.deal.model.ProtectedDeal;
-import com.core.api_core.user.model.User;
-import com.core.api_core.user.repository.UserRepository;
+import com.infra.fcm.FCMHelper;
+import com.infra.fcm.FCMState;
+import com.infra.utils.OptionalUtil;
+import com.core.domain.deal.model.ProtectedDeal;
+import com.core.domain.user.model.User;
+import com.core.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

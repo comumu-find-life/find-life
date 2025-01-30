@@ -13,7 +13,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableJpaAuditing
 @Configuration
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@ComponentScan(basePackages = {"com.service","com.admin", "com.core", "com.redis", "com.common"})
+@ComponentScan(basePackages = {"com.service","com.admin", "com.core", "com.redis", "com.infra"})
 @EnableRedisRepositories(basePackages = "com.redis.user.repository")
 public class AdminApplication {
     public static void main(String[] args) {

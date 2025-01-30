@@ -1,9 +1,8 @@
 package com.core.helper;
 
-import com.core.api_core.home.model.*;
-import com.core.api_core.user.model.Gender;
+import com.core.domain.home.model.*;
+import com.core.domain.user.model.Gender;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

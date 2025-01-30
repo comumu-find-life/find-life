@@ -1,8 +1,8 @@
 package com.api.v1.user;
 
-import com.core.api_core.user.dto.UserAccountRequest;
-import com.core.api_core.user.dto.UserAccountResponse;
-import com.common.utils.SuccessResponse;
+import com.core.domain.user.dto.UserAccountRequest;
+import com.core.domain.user.dto.UserAccountResponse;
+import com.infra.utils.SuccessResponse;
 import com.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

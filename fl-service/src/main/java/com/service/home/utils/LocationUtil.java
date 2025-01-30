@@ -1,7 +1,7 @@
 package com.service.home.utils;
 
 
-import com.core.api_core.home.dto.HomeAddressGeneratorRequest;
+import com.core.domain.home.dto.HomeAddressGeneratorRequest;
 
 public class LocationUtil {
     static public String toStringAddress(HomeAddressGeneratorRequest addressDto){

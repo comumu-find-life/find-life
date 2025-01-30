@@ -1,6 +1,6 @@
 package com.core.helper;
 
-import com.core.api_core.chat.model.DirectMessage;
+import com.core.domain.chat.model.DirectMessage;
 
 import java.time.LocalDateTime;
 

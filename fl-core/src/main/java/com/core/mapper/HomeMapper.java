@@ -1,16 +1,16 @@
 package com.core.mapper;
 
 
-import com.core.api_core.home.dto.HomeAddressGeneratorRequest;
-import com.core.api_core.home.dto.HomeGeneratorRequest;
-import com.core.api_core.home.dto.HomeUpdateRequest;
-import com.core.api_core.home.dto.HomeInformationResponse;
-import com.core.api_core.home.dto.HomeOverviewResponse;
-import com.core.api_core.home.model.Home;
-import com.core.api_core.home.model.HomeAddress;
-import com.core.api_core.home.model.HomeImage;
-import com.core.api_core.home.model.HomeInfo;
-import com.core.api_core.user.model.User;
+import com.core.domain.home.dto.HomeAddressGeneratorRequest;
+import com.core.domain.home.dto.HomeGeneratorRequest;
+import com.core.domain.home.dto.HomeUpdateRequest;
+import com.core.domain.home.dto.HomeInformationResponse;
+import com.core.domain.home.dto.HomeOverviewResponse;
+import com.core.domain.home.model.Home;
+import com.core.domain.home.model.HomeAddress;
+import com.core.domain.home.model.HomeImage;
+import com.core.domain.home.model.HomeInfo;
+import com.core.domain.user.model.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -24,9 +24,9 @@ public interface HomeMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "images", ignore = true)
-    @Mapping(target = "homeStatus", expression = "java(com.core.api_core.home.model.HomeStatus.FOR_SALE)")
+    @Mapping(target = "homeStatus", expression = "java(com.core.domain.home.model.HomeStatus.FOR_SALE)")
     @Mapping(target = "userIdx", source = "userIdx")
-    @Mapping(target = "homeInfo", source = "homeDto", qualifiedByName = "mapHomeInfo") // HomeInfo 설정
+    @Mapping(target = "homeInfo", source = "homeDto", qualifiedByName = "mapHomeInfo")
     Home toEntity(HomeGeneratorRequest homeDto, Long userIdx);
 
     @Named("mapHomeInfo")
