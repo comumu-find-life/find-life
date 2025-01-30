@@ -3,7 +3,7 @@ package com.api.v1.user;
 import com.core.domain.user.dto.UserAccountRequest;
 import com.core.domain.user.dto.UserAccountResponse;
 import com.infra.utils.SuccessResponse;
-import com.service.user.UserService;
+import com.core.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

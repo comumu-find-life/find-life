@@ -1,6 +1,6 @@
 package com.api.exception;
 
-import com.core.exception.*;
+import com.infra.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

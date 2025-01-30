@@ -1,7 +1,7 @@
 package com.api.auth.handler;
 
-import com.core.exception.AuthException;
-import com.core.exception.ErrorResponseCode;
+import com.infra.exception.AuthException;
+import com.infra.exception.ErrorResponseCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

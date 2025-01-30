@@ -3,7 +3,7 @@ package com.infra.email.service;
 
 import com.infra.email.model.VerificationCode;
 import com.infra.email.repository.VerificationCodeRepository;
-import com.core.exception.InvalidDataException;
+import com.infra.exception.InvalidDataException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;

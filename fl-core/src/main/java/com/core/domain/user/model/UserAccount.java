@@ -1,6 +1,6 @@
 package com.core.domain.user.model;
 
-import com.core.exception.InsufficientPointsException;
+import com.infra.exception.InsufficientPointsException;
 import jakarta.persistence.*;
 import lombok.*;
 

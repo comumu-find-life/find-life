@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.batch.deal.FcmMessages.*;
-import static com.core.exception.ExceptionMessages.NOT_EXIST_USER_ID;
+import static com.infra.exception.ExceptionMessages.NOT_EXIST_USER_ID;
 
 @Service
 @RequiredArgsConstructor

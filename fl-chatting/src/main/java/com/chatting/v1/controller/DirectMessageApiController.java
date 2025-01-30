@@ -1,5 +1,6 @@
 package com.chatting.v1.controller;
 
+import com.chatting.v1.constants.SuccessDirectMessages;
 import com.chatting.v1.service.DirectMessageService;
 import com.core.domain.chat.dto.*;
 import com.infra.utils.SuccessResponse;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.chatting.v1.controller.ApiUrlConstants.*;
+import static com.chatting.v1.constants.ApiUrlConstants.*;
 
 @Slf4j
 @RestController
@@ -25,9 +26,6 @@ public class DirectMessageApiController {
     private final SimpMessagingTemplate template;
     private final DirectMessageService dmService;
 
-    /**
-     * 채팅 전송 요청
-     */
     @MessageMapping(value = "/chat/message")
     public void sendMessage(final DirectMessageRequest dmDto)  {
         DirectMessage directMessage = dmService.toDirectMessage(dmDto);

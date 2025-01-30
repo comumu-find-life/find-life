@@ -35,7 +35,6 @@ repositories {
 
 dependencies {
     implementation project(':fl-core')
-    implementation project(':fl-service')
     testImplementation project(':fl-core')
     testImplementation(testFixtures(project(":fl-core")))
     testImplementation(testFixtures(project(":fl-infra")))

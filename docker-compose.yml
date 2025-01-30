@@ -49,28 +49,6 @@ services:
         awslogs-create-group: "true"
 
 
-  fl-admin:
-    image: minseok2000/cozy-admin
-    container_name: fl-admin
-    expose:
-      - "8085"
-    ports:
-      - "8085:8085"
-    env_file:
-      - /home/ubuntu/.env
-    environment:
-      - TZ=Australia/Sydney
-    depends_on:
-      - redis
-    networks:
-      - app-network
-    logging:
-      driver: awslogs
-      options:
-        awslogs-region: ap-southeast-2
-        awslogs-group: cozysharelogs
-        awslogs-stream: fl-admin
-        awslogs-create-group: "true"
 
   fl-batch:
     image: minseok2000/cozy-batch

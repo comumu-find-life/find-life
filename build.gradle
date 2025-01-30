@@ -51,24 +51,15 @@ subprojects {
 project(':fl-api') {
     dependencies {
         implementation project(':fl-infra')
-        implementation project(':fl-service')
     }
 }
 
-
-project(':fl-admin') {
-    dependencies {
-        implementation project(':fl-infra')
-        implementation project(':fl-service')
-    }
-}
 
 
 project(':fl-batch') {
     dependencies {
         implementation project(':fl-infra')
         implementation project(':fl-core')
-        implementation project(':fl-service')
     }
 }
 
@@ -80,16 +71,11 @@ project(':fl-chatting') {
 }
 project(':fl-infra') {
     dependencies {
-        implementation project(':fl-core')
+
     }
 }
 project(':fl-core') {
     dependencies {
-    }
-}
-project(':fl-service') {
-    dependencies {
         implementation project(':fl-infra')
-        implementation project(':fl-core')
     }
 }

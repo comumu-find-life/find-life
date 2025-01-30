@@ -5,9 +5,9 @@ import com.api.auth.service.JwtService;
 import com.api.auth.service.TokenCustomService;
 import com.core.domain.user.model.User;
 import com.core.domain.user.repository.UserRepository;
-import com.core.exception.AuthException;
-import com.core.exception.ErrorResponseCode;
-import com.core.exception.NotFoundDataException;
+import com.infra.exception.AuthException;
+import com.infra.exception.ErrorResponseCode;
+import com.infra.exception.NotFoundDataException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -59,7 +59,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
 
-    // refreshToken 이 있을때 refreshToken, accessToken 둘다 재발급
     public void checkRefreshTokenAndReIssueAccessToken(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
         try {
             tokenCustomService.processRefreshToken(refreshToken, response);

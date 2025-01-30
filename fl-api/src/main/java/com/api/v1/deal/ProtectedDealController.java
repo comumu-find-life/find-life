@@ -5,7 +5,7 @@ import com.core.domain.deal.dto.ProtectedDealGeneratorRequest;
 import com.core.domain.deal.dto.ProtectedDealGeneratorResponse;
 import com.core.domain.deal.dto.ProtectedDealResponse;
 import com.infra.utils.SuccessResponse;
-import com.service.deal.ProtectedDealService;
+import com.core.domain.deal.service.ProtectedDealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

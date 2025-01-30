@@ -6,7 +6,7 @@ import com.core.domain.user.dto.UserProfileUpdateRequest;
 import com.core.domain.user.dto.UserSignupRequest;
 import com.core.domain.user.dto.UserInformationResponse;
 import com.core.domain.user.dto.UserProfileResponse;
-import com.service.user.UserService;
+import com.core.domain.user.service.UserService;
 import com.infra.utils.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

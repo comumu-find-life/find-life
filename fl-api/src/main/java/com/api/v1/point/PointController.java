@@ -2,10 +2,10 @@ package com.api.v1.point;
 
 import com.core.domain.user.dto.PaymentRequest;
 import com.infra.utils.SuccessResponse;
-import com.core.exception.InsufficientPointsException;
+import com.infra.exception.InsufficientPointsException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.service.deal.PaypalService;
-import com.service.deal.PointService;
+import com.core.domain.deal.service.PaypalService;
+import com.core.domain.deal.service.PointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

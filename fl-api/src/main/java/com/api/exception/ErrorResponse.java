@@ -1,6 +1,6 @@
 package com.api.exception;
 
-import com.core.exception.ExceptionBase;
+import com.infra.exception.ExceptionBase;
 
 import java.util.HashMap;
 

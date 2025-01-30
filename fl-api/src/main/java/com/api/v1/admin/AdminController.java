@@ -1,6 +1,6 @@
 package com.api.v1.admin;
 
-import com.service.user.UserService;
+import com.core.domain.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

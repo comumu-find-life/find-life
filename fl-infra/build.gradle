@@ -20,29 +20,21 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.360'  // AWS S3 SDK 의존성
-    implementation 'org.springframework.boot:spring-boot-starter-validation'  // 파일 검증을 위한 의존성
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.360'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
     implementation 'com.google.firebase:firebase-admin:9.2.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    testFixturesImplementation project(':fl-core')
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
-
-    //compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
-    //mapstruct
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     implementation 'org.springframework.data:spring-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-    //jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }

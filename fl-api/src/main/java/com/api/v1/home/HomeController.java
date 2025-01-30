@@ -1,11 +1,13 @@
 package com.api.v1.home;
 
 import com.core.domain.home.dto.*;
+import com.core.domain.user.dto.UserInformationResponse;
+import com.core.domain.user.service.UserService;
 import com.infra.utils.SuccessResponse;
-import com.service.home.HomeQueryService;
-import com.service.home.HomeService;
-import com.service.home.LocationService;
-import com.service.home.utils.LatLng;
+import com.core.domain.home.service.HomeQueryService;
+import com.core.domain.home.service.HomeService;
+import com.core.domain.home.service.LocationService;
+import com.core.domain.home.model.LatLng;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,12 +28,13 @@ public class HomeController {
     private final HomeQueryService homeQueryService;
     private final HomeService homeService;
     private final LocationService locationService;
+    private final UserService userService;
 
     @PostMapping(HOMES_BASE_URL)
     public ResponseEntity<?> saveHome(@RequestPart final HomeGeneratorRequest homeGeneratorRequest,
                                       @RequestPart("images") final List<MultipartFile> images) throws IllegalAccessException {
         LatLng location = locationService.getLatLngFromAddress(homeGeneratorRequest.getHomeAddress());
-        Long homeId = homeService.save(homeGeneratorRequest, images, location);
+        Long homeId = homeService.save(getLoggedInUserId(), homeGeneratorRequest, images, location);
         SuccessResponse response = new SuccessResponse(true, SuccessHomeMessages.HOME_POST_SUCCESS, homeId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -112,5 +115,11 @@ public class HomeController {
     public ResponseEntity<String> delete(@PathVariable final Long homeId) {
         homeService.delete(homeId);
         return ResponseEntity.ok(SuccessHomeMessages.HOME_DELETE_SUCCESS);
+    }
+
+    private Long getLoggedInUserId() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserInformationResponse user = userService.findByEmail(email);
+        return user.getId();
     }
 }
